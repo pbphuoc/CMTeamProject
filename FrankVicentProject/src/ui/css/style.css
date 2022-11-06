@@ -364,7 +364,7 @@ ul.btn li:last-child {
 .header {
      width: 100%;
      padding: 30px 30px;
-     background-image: linear-gradient(#c4c3d2,#c4c3d2);
+     background-image: linear-gradient(#c4c3d2,#b9d3d9);
      position: fixed;
      z-index: 999;
      float: top;
