@@ -328,14 +328,14 @@ ul.btn li:last-child {
 
 .navigation.navbar-dark .navbar-nav .nav-link:focus,
 .navigation.navbar-dark .navbar-nav .nav-link:hover {
-     color: #51fe44;
+     color: #000000;
 }
 
 .navigation.navbar-dark .navbar-nav .active>.nav-link,
 .navigation.navbar-dark .navbar-nav .nav-link.active,
 .navigation.navbar-dark .navbar-nav .nav-link.show,
 .navigation.navbar-dark .navbar-nav .show>.nav-link {
-     color: #51fe44;
+     color: #000000;
 }
 
 .navbar-expand-md .navbar-nav {
@@ -364,9 +364,10 @@ ul.btn li:last-child {
 .header {
      width: 100%;
      padding: 30px 30px;
-     background: transparent;
-     position: absolute;
+     background-image: linear-gradient(#c4c3d2,#c4c3d2);
+     position: fixed;
      z-index: 999;
+     float: top;
 }
 
 .logo a {
@@ -374,18 +375,24 @@ ul.btn li:last-child {
      font-weight: bold;
      text-transform: uppercase;
      color: #fff;
-     line-height: 40px;
-     
+     line-height: 40px;     
 }
 .logo a img{
-	width: 20%;
+	width: 100px;
 	border-radius: 1.5rem;
+}
+
+.search_bar .form_container form{
+	padding-top: 31px;
+}
+.fa-shopping-cart{
+	font-size: 30px;
 }
 
 /** banner section **/
 
 .banner_main {
-     background: url(../images/banner.jpg);
+         
      background-repeat: no-repeat;
      min-height: 900px;
      background-size: 100% 100%;
@@ -394,13 +401,14 @@ ul.btn li:last-child {
      align-content: center;
      align-items: center;
      position: relative;
+     
 }
 .banner_main::before {
      position: absolute;
      content: "";
      width:50px; 
      height:40px;
-     background: url(../images/cross.png);
+     background-color : fff;
      background-repeat: no-repeat;
      bottom: -38px;
      right: 38px;
@@ -410,7 +418,7 @@ ul.btn li:last-child {
      content: "";
      width:50px; 
      height:40px;
-     background: url(../images/cross.png);
+     background-color : fff;
      background-repeat: no-repeat;
      bottom: -38px;
      left: 38px;
@@ -420,7 +428,7 @@ ul.btn li:last-child {
 }
 
 .text-bg h1 {
-     color: #fff;
+     color: #000000;
      font-size: 81px;
      line-height: 80px;
      padding-bottom: 45px;
@@ -428,7 +436,7 @@ ul.btn li:last-child {
 }
 
 .text-bg span {
-     color: #fff;
+     color: #000000;
      font-size: 42px;
      line-height: 50px;
      font-weight: normal;
@@ -441,6 +449,7 @@ ul.btn li:last-child {
      font-weight: 500;
      padding-bottom: 60px;
      display: block;
+     color: #000000;
 }
 
 .text-bg figure img {
@@ -477,7 +486,7 @@ ul.btn li:last-child {
      width: 20px;
      height: 20px;
      border-radius: 20px;
-     background: #48ca95;
+     background: #000000;
      margin-right: 5px;
      margin-left: 5px;
 }
@@ -495,7 +504,7 @@ ul.btn li:last-child {
      font-size: 17px;
      background-color: transparent;
      border: #fff solid 2px;
-     color: #fff;
+     color: #000000;
      font-weight: 500;
      padding: 14px 0px;
      width: 100%;
