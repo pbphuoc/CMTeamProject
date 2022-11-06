@@ -375,8 +375,12 @@ ul.btn li:last-child {
      text-transform: uppercase;
      color: #fff;
      line-height: 40px;
+     
 }
-
+.logo a img{
+	width: 20%;
+	border-radius: 1.5rem;
+}
 
 /** banner section **/
 
