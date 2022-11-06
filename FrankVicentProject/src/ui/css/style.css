@@ -571,12 +571,18 @@ ul.btn li:last-child {
 }
 
 
-/** three_box section **/
+/** three_box section - category**/
 
 .three_box {
      background-color: #fff;
      padding-top: 90px;
 }
+
+.categoryIcon{
+	width: 100px;
+	height: 100px;
+}
+
 
 .box_text {
      background: #fff;
@@ -619,16 +625,45 @@ ul.btn li:last-child {
 
 .our_products {
      background-color: #fff;
-     padding: 90px 0;
+     padding: 40px 0;
 }
 
 .our_products .product_box {
      text-align: center;
+     height: 400px;
+     width: 320px;
+     margin-left: 15px;
+     margin-right: 15px;
      margin-bottom: 30px;
+/*      border: #48ca95 solid 1px; */
+/*      border-radius: 15px;      */
 }
 
 .our_products .product_box figure {
-     margin: 0;
+	margin:0;
+}
+
+.productThumbnail{
+	width: 200px;
+	height: 200px;	
+}
+
+.productDescription{
+	height: 100px;
+} 
+
+.productButton {
+	width: 130px;
+	height: 40px;
+	background-color: #303841;     
+    color: #fff;
+    font-size: 17px;    
+/*     margin: 0 auto;     */
+}
+
+.productButton:hover {
+    background-image: linear-gradient(#c4c3d2,#b9d3d9);  
+    transition: ease-in all 0.2s;     
 }
 
 .our_products .product_box h3 {
@@ -638,7 +673,7 @@ ul.btn li:last-child {
      line-height: 20px;
      background-color: #252525;
      font-weight: 500;
-     margin: 0 auto;
+/*      margin: 0 auto; */
      padding: 10px 0;
      margin-top: 40px;
      transition: ease-in all 0.5s;
@@ -661,7 +696,7 @@ ul.btn li:last-child {
      border: #48ca95 solid 2px;
      color: #48ca95 !important;
      max-width: 232px;
-     padding: 15px 0;
+     padding: 50px 0;
 }
 
 .our_products .read_more:hover {
@@ -1094,4 +1129,10 @@ ul.social_icon li a:hover {
 
 
 /** end laptop **/
+
+/** productCategory **/
+.categoryIcon{
+	width: 50px;
+	height: 50px;
+}
 
