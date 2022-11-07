@@ -385,7 +385,7 @@ ul.btn li:last-child {
 
 /** banner section **/
 .banner_main {
-	min-height: 900px;
+	min-height: 500px;
 	display: flex;
 	justify-content: center;
 	align-content: center;
@@ -463,6 +463,11 @@ ul.btn li:last-child {
 
 .carousel-caption {
 	position: inherit;
+}
+
+#banner1 {
+	margin-top: 250px;
+	margin-bottom: 50px;
 }
 
 #banner1 .carousel-inner {
@@ -562,7 +567,6 @@ ul.btn li:last-child {
 /** three_box section - category**/
 .three_box {
 	background-color: #fff;
-	padding-top: 90px;
 }
 
 .categoryIcon {
@@ -648,7 +652,7 @@ ul.btn li:last-child {
 	transition: ease-in all 0.2s;
 }
 
-.newPrice{
+.newPrice {
 	width: 200px;
 	color: #FFA007;
 	font-size: 25px;
@@ -661,20 +665,19 @@ ul.btn li:last-child {
 	/*      transition: ease-in all 0.5s; */
 }
 
-.oldPrice{
+.oldPrice {
 	color: #ce8100;
 	font-size: 15px;
-	height: 20px;
-	text-decoration: line-through;
+	height: 20px; text-decoration : line-through;
 	margin: 30px auto;
-	margin-bottom:0;
+	margin-bottom: 0;
+	text-decoration: line-through;
 }
 
 /* .our_products .product_box h3:hover { */
 /* 	background: #48ca95; */
 /* 	transition: ease-in all 0.5s; */
 /* } */
-
 .margin_bottom1 {
 	margin-bottom: 60px;
 }
