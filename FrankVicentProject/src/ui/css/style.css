@@ -1122,3 +1122,34 @@ ul.social_icon li a:hover {
 	width: 50px;
 	height: 50px;
 }
+
+/** Login Div **/
+.formTitle{
+	text-align: center;
+	padding-bottom: 60px;
+	margin-top: 200px;
+}
+
+.formTitle h2 {
+	font-size: 40px;
+	color: #090807;
+	line-height: 55px;
+	font-weight: bold;
+	padding: 0;
+	text-transform: uppercase;
+	border-bottom: #48ca95 solid 1px;
+	max-width: 315px;
+	margin: auto;
+}
+
+#loginDiv{
+	margin-bottom: 100px;
+}
+ 
+#loginDiv .input-group-text{
+	width: 120px;
+}
+
+#loginDiv .btn{
+	margin-left: 40%;
+}
