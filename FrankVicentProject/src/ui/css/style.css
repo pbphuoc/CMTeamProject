@@ -1141,6 +1141,9 @@ ul.social_icon li a:hover {
 	max-width: 315px;
 	margin: auto;
 }
+#register-intro-text h2{
+	max-width: 600px;
+}
 
 #loginDiv{
 	margin-bottom: 100px;
@@ -1153,3 +1156,13 @@ ul.social_icon li a:hover {
 #loginDiv .btn{
 	margin-left: 40%;
 }
+#create-intro .create-text{
+	font-size: 20px;
+	margin-left: 10%;
+}
+#registerDiv .btn-secondary{
+	margin-left: 35%;
+	margin-top: 20px;
+	margin-bottom: 100px;
+}
+
