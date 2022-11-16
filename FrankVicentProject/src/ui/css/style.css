@@ -895,6 +895,7 @@ ul.btn li:last-child {
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	padding-top: 115px;
+	margin-top: 100px;
 }
 
 .footer .titlepage {
@@ -1164,5 +1165,50 @@ ul.social_icon li a:hover {
 	margin-left: 35%;
 	margin-top: 20px;
 	margin-bottom: 100px;
+}
+/** product detail **/
+.productSection{
+	margin-top:300px;
+}
+.product-name{
+	font-size: 25px;
+	font-weight: bold;
+}
+.productImageContainer{
+	border-bottom: grey 1px solid;
+}
+.priceBox{
+	background-color: yellow;
+	border: black 1px solid;
+	max-width: 200px;
+	text-align: center;
+}
+.priceBox .price{
+	font-size: 20px;
+	font-family:fantasy;
+	color:#fc2803;
+}
+.addToCart-container{
+	margin-top:100px;
+	width: 100%;
+}
+
+.addToCart-button{
+	cursor: pointer;
+	padding: 0 35px;
+	justify-content: center;
+	height: 50px;
+	background-color: black;
+}
+.addToCart-text{
+	color: white;
+	font-size: 20px;
+}
+#iconCart{
+	color:white;
+	font-size: 20px;
+}
+.keyFeature{
+	margin-top: 50px;
 }
 
