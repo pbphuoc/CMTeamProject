@@ -1229,3 +1229,142 @@ ul.social_icon li a:hover {
 .keyFeature {
 	
 }
+
+/** cart**/
+.cart{
+	margin-top: 200px;
+	margin-bottom: 50px;
+	border-bottom: none;
+}
+.cartTitle{
+	display: flex;
+	justify-content: space-between;
+	font-size: 35px;
+	font-weight: bold;
+	
+}
+.cartTitle i{
+	font-size: 20px;
+	padding-right: 10px;	
+}
+table{
+	font-size: 20px;
+	width: 100%;
+}
+
+table td, table th{
+	border-top: none;
+	border-bottom: 1px solid grey;
+}
+table .cartQuantity{
+	text-align: center;
+}
+table .tableTotal{
+	text-align: right;
+}
+
+.cartItemWrapper{
+	border-bottom: 1px solid grey;
+}
+.itemTable{
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	width: 100%;
+	margin-bottom: 100px;
+}
+
+.cartCol1{
+	width: 70%;
+	max-width: 70%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+.cartCol1 .itemInfor{
+	font-size: 25px;
+}
+.cartCol1 img{
+	width: 60px;
+	height: 60px;
+}
+.cartCol1 .itemQuantity{
+	padding-right: 120px;
+	display:flex;
+	flex-direction: row;
+}
+.cartCol1 .itemQuantity h2{
+	padding: 0 10px;
+}
+.cartCol1 .itemQuantity button{
+	background-color: white;
+}
+.cartCol2{
+	width: 30%;
+	max-width: 30%;
+	display: flex;
+	align-items: center;
+	justify-content: right;
+	
+}
+.cartCol2 .itemPrice p {
+	font-size: 30px;
+	color: black;
+	font-weight: bold;
+	padding-left: 30px;
+}
+.cartCol2 .itemRemove button{
+	background-color: white;
+	font-size: 20px;
+	font-weight: bold;
+}
+.cartCol2 .itemRemove button i {
+	padding: 0 10px;
+	font-size: 20px;
+}
+
+.paymentWrapper{
+	display: flex;
+	flex-flow: column;
+	align-items: flex-end;
+}
+.paymentWrapper .subTotal{
+	font-size: 25px;
+	font-weight: bold;
+	color: black;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 50px 0;
+}
+.paymentWrapper .subTotal .itemPrice{
+	float: right;
+	text-align:center;
+	padding-left: 60px;
+	font-size: 30px;
+	font-weight: bold;
+	color: black;
+	
+}	
+.paymentWrapper .checkOutNow i{
+	padding-right: 15px;
+	font-size: 25px;
+}
+
+.paymentWrapper button{
+	cursor: pointer;
+	padding: 0 35px;
+	justify-content: center;
+	height: 50px;
+	background-color: #303841;
+	border-radius: 15px;
+	color: white;
+	font-size: 20px;
+}
+.paymentWrapper button:hover{
+	background-image: linear-gradient(#c4c3d2, #b9d3d9);
+	transition: ease-in all 0.2s;
+}
+
+
