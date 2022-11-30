@@ -1261,9 +1261,12 @@ table td, table th {
 	border-top: none;
 	border-bottom: 1px solid grey;
 }
-
-table .cartQuantity {
-	text-align: center;
+table .tableProduct{
+	width: 50%;
+}
+table .tableQuantity {
+	padding-left: 2rem;
+	width: 20%;
 }
 
 table .tableTotal {
@@ -1306,8 +1309,11 @@ table .tableTotal {
 	flex-direction: row;
 }
 
-.cartCol1 .itemQuantity h2 {
+.cartCol1 .itemQuantity span {
 	padding: 0 10px;
+	color: black;
+	font-size: 30px;
+	font-weight: bold;
 }
 
 .cartCol1 .itemQuantity button {
@@ -1319,16 +1325,27 @@ table .tableTotal {
 	max-width: 30%;
 	display: flex;
 	align-items: center;
-	justify-content: right;
+	justify-content: space-between;
+}
+.cartCol2 .unitPrice{
+	font-size: 30px;
+	color: black;
+	font-weight: bold;
+}
+.cartCol2 .totalPrice{
+	margin-top: 30px;
 }
 
-.cartCol2 .itemPrice p {
+.cartCol2 .itemPrice {
 	font-size: 30px;
 	color: black;
 	font-weight: bold;
 	padding-left: 30px;
 }
-
+.cartCol2 .itemRemove{
+	display:block;
+	text-align: right;
+}
 .cartCol2 .itemRemove button {
 	background-color: white;
 	font-size: 20px;
@@ -1356,7 +1373,7 @@ table .tableTotal {
 	margin: 50px 0;
 }
 
-.paymentWrapper .subTotal .itemPrice {
+.paymentWrapper .subTotal .subTotalPrice {
 	float: right;
 	text-align: center;
 	padding-left: 60px;

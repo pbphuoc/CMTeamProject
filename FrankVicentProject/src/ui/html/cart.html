@@ -118,8 +118,9 @@
 		<div class="tableWrapper">
 			<table class="tableInfor">
 				<tr>
-					<th colspan="3">Product</th>
-					<th class="cartQuantity" >Quantity</th>
+					<th class="tableProduct">Product</th>
+					<th  class="tableQuantity" >Quantity</th>
+					<th  class="tableUnitPrice" >Unit Price</th>
 					<th class="tableTotal">Total</th>
 				</tr>
 			</table>
@@ -134,21 +135,89 @@
 						<a href="product.html"> Apple MacBook Pro 13" M2 chip 512GB </a>
 					</div>
 					<div class="itemQuantity">
-						<button><i class="fa fa-plus"></i></button>
-						<h2>1</h2>
-						<button><i class="fa fa-minus"></i></button>
+						<button class="increment"><i class="fa fa-plus"></i></button>
+						<span>1</span>
+						<button class="decrement"><i class="fa fa-minus"></i></button>
 						
 					</div>
 				</div>
 				<div class="cartCol2">
-					<div class="itemRemove">
-						<button>
-							<i class="fa fa-trash-o"></i> Remove 
-						</button>
+					<div class="unitPrice">$3,200</div>
+					<div class="totalPrice">
+						<div class="itemPrice">
+							$3,200
+						</div>
+						<div class="itemRemove">
+							<button>
+								<i class="fa fa-trash-o"></i> <span class="cartDelete"> Remove</span>
+							</button>
+						</div>
 					</div>
-					<div class="itemPrice">
-						<p>$2000</p>
+
+
+				</div>
+			</div>
+			<div class="itemTable">
+				<div class="cartCol1">
+					<div class="itemInfor">
+						<a href="product.html"> <img
+							src="../images/product/product_iPadairgen5.png">
+						</a>
+						<a href="product.html"> iPad Air (5th gen) 256GB </a>
 					</div>
+					<div class="itemQuantity">
+						<button class="increment"><i class="fa fa-plus"></i></button>
+						<span>1</span>
+						<button class="decrement"><i class="fa fa-minus"></i></button>
+						
+					</div>
+					
+				</div>
+				<div class="cartCol2">
+					<div class="unitPrice">$985.50</div>
+					<div class="totalPrice">
+						<div class="itemPrice">
+							$985.50
+						</div>
+						<div class="itemRemove">
+							<button>
+								<i class="fa fa-trash-o"></i><span class="cartDelete"> Remove</span>
+							</button>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+			<div class="itemTable">
+				<div class="cartCol1">
+					<div class="itemInfor">
+						<a href="product.html"> <img
+							src="../images/product/product_iPhone14promax.jpg">
+						</a>
+						<a href="product.html"> iPhone 14 Pro Max 128GB </a>
+					</div>
+					<div class="itemQuantity">
+						<button class="increment"><i class="fa fa-plus"></i></button>
+						<span>1</span>
+						<button class="decrement"><i class="fa fa-minus"></i></button>
+						
+					</div>
+				</div>
+				<div class="cartCol2">
+					<div class="unitPrice">$1,850</div>
+					<div class="totalPrice">
+
+						<div class="itemPrice">
+							$1,850
+						</div>
+						<div class="itemRemove">
+							<button>
+								<i class="fa fa-trash-o"></i> <span class="cartDelete"> Remove</span>
+							</button>
+						</div>
+					</div>
+
 
 				</div>
 			</div>
@@ -159,7 +228,7 @@
 				<div class="summary">
 				Subtotal 
 				</div>
-				<p class="itemPrice">$2000</p>
+				<p class="subTotalPrice">$6,035.5</p>
 				</div>
 				<div class="checkOutNow">
 				<button><i class="fa-solid fa-dollar-sign"></i>Check Out Now</button>
@@ -233,6 +302,7 @@
 	<!-- sidebar -->
 	<script src="../js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="../js/custom.js"></script>
+	<script src="../js/cart.js"></script>
 </body>
 </html>
 
