@@ -1431,13 +1431,13 @@ table .tableTotal {
 	border-radius: 15px;
 }
 
-#priceFilter:hover {
+#priceFilterBtn:hover {
 	background-image: linear-gradient(#c4c3d2, #b9d3d9);
 	transition: ease-in all 0.2s;
 }
 
 
-#projectContainer{
+.projectContainer{
 	padding-left:70px;
 	padding-right:70px;
 	padding-top:220px;
@@ -1450,6 +1450,29 @@ table .tableTotal {
 }
 
 #sortSection{
-	margin-right: 0;
+	margin-right: 15%;
 	margin-left: auto;
+}
+
+#checkoutBody{
+	margin-left: 3%;
+	margin-right: 3%;
+}
+
+#checkoutGuest{
+	text-align: center;
+}
+#checkoutMember{
+	text-align: center;
+	border-left: 2px solid #000;
+ 	padding-right: 50px;
+}
+#checkoutLeft{
+	border-right: 2px solid #000;
+}
+#checkoutRight{
+	text-align: center;
+}
+#guestForm{
+	text-align: left;
 }
