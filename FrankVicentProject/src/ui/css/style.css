@@ -1455,24 +1455,28 @@ table .tableTotal {
 }
 
 #checkoutBody{
-	margin-left: 3%;
-	margin-right: 3%;
+	margin-left: 2%;
+	margin-right: 2%;
 }
 
-#checkoutGuest{
-	text-align: center;
-}
-#checkoutMember{
-	text-align: center;
-	border-left: 2px solid #000;
- 	padding-right: 50px;
-}
 #checkoutLeft{
-	border-right: 2px solid #000;
+	border-right: 1px solid #000;
+	padding-right: 50px;
+	text-align: center;
 }
 #checkoutRight{
 	text-align: center;
+	padding-left: 50px;
 }
-#guestForm{
-	text-align: left;
+.menuBarUserLi{
+	display: inline;
+	padding-left:30px;
+}
+.menuBarUsername{
+	display: inline;
+}
+.menuBarLoginBtn{
+	display: inline;
+	margin-left: 0px !important;
+	padding-left: 0px !important;	
 }

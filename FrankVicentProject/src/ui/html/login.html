@@ -88,7 +88,7 @@
 
 									<li class="nav-item d_none"><a class="nav-link" href="#"><i
 											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
-									<li class="nav-item d_none"><a class="nav-link" href="login.html">Login</a>
+									<li class="nav-item menuBarUserLi"><h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" href="#">Login</a>
 									</li>
 								</ul>
 							</div>
@@ -112,15 +112,15 @@
 				<div class="form_container" id="loginDiv">
 					<form>
 						<div class="input-group mb-3">
-							<input type="text" class="form-control" placeholder="Username"
-								aria-label="Username" aria-describedby="basic-addon1">
+							<input type="text" class="form-control" placeholder="Email Address"
+								id="emailLogin" aria-describedby="basic-addon1">
 						</div>
 						<div class="input-group mb-3">
 							<input type="password" class="form-control"
-								placeholder="Password" aria-label="Password"
+								placeholder="Password" id="passwordLogin"
 								aria-describedby="basic-addon1">
 						</div>
-						<button class="btn btn-primary" type="submit">Login</button>
+						<button class="btn btn-primary" type="button" id="loginBtn">Login</button>
 					</form>
 				</div>
 			</div>
@@ -208,6 +208,10 @@
 	<!-- sidebar -->
 	<script src="../js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="../js/custom.js"></script>
+	<script src="../js/projectJS.js"></script>
+	<script type="text/javascript">
+		document.onload = redirectLoggedInUser();
+	</script>		
 </body>
 </html>
 

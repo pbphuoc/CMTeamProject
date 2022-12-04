@@ -82,10 +82,9 @@
 									<li class="nav-item"><a class="nav-link"
 										href="product.html">Products</a></li>
 
-									<li class="nav-item d_none"><a class="nav-link" href="#"><i
+									<li class="nav-item d_none"><a class="nav-link" href="cart.html"><i
 											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
-									<li class="nav-item d_none"><a class="nav-link"
-										href="login.html">Login</a></li>
+									<li class="nav-item menuBarUserLi"><h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" href="#">Login</a>
 								</ul>
 							</div>
 						</nav>
@@ -380,6 +379,7 @@
 			$('select').selectpicker();
 		});
 		document.onload = loadSorter();		
+		document.onload = loadLoggedInUser();
 	</script>
 </body>
 </html>

@@ -72,6 +72,31 @@ function loadSorter(){
 	loadOptions(sort_options, '#sorter');
 }
 
+function loadChechOutForm(){
+	if (getCookie("username") != ""){
+		$('#checkoutMember').hide();
+		$('#guestCheckoutLabel').text('Check Out');
+		$('#guestEmail').val(getCookie("username"));
+	}else{
+		$('#checkoutMember').show();
+		$('#guestCheckoutLabel').text('Check Out As Guest');
+		$('#guestEmail').val("");
+	}
+}
+
+function redirectLoggedInUser(){
+	if (getCookie("username") != ""){
+		window.location.href = "index.html"
+	}
+}
+
+function loadLoggedInUser(){
+	if (getCookie("username") != ""){
+		$('.menuBarUsername').text("Welcome back " + getCookie("username") + ", ");
+		$('.menuBarLoginBtn').text("Logout");
+	}	
+}
+
 $('#deliveryOptions input').change(function(){
 	if($(this).attr('id') == 'optDeliveryLB')
 		$('#guestAddress').show();
@@ -79,6 +104,58 @@ $('#deliveryOptions input').change(function(){
 		$('#guestAddress').hide();
 });
 
+$('.menuBarLoginBtn').click(() => {
+	if (getCookie("username") != ""){
+		deleteCookie("username");
+		$('.menuBarUsername').text("");
+		$('.menuBarLoginBtn').text("Login");				
+	}else{
+		window.location.href = "login.html";
+	}
+});
+
+$('#checkoutLoginBtn').click(() => {
+	//AUTHENTICATION NEEDED BEFORE THIS POINT
+	const loginEmail = $('#checkoutEmailLogin').val();
+	setCookie("username", loginEmail, 0.5);
+	loadChechOutForm();
+});
+
+$('#loginBtn').click(() => {
+	//AUTHENTICATION NEEDED BEFORE THIS POINT
+	const loginEmail = $('#emailLogin').val();
+	setCookie("username", loginEmail, 0.5);
+	redirectLoggedInUser();
+});
+
+//cookies functions from https://www.w3schools.com/js/js_cookies.asp
+function setCookie(cname, cvalue, exdays) {
+	const d = new Date();
+	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	let expires = "expires=" + d.toUTCString();
+	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+	let name = cname + "=";
+	let ca = document.cookie.split(';');
+	for (let i = 0; i < ca.length; i++) {
+		let c = ca[i];
+		while (c.charAt(0) == ' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length, c.length);
+		}
+	}
+	return "";
+}
+
+function deleteCookie(cname) {
+	document.cookie = cname +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+//end cookies functions
 
 //$('#searchBar').change(function(){
 //	alert('test');
