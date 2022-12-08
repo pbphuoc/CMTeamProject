@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -264,9 +266,35 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12">
-					<div  class="our_products">
+					<div class="our_products">
 						<div id="productRowDiv" class="row">
-
+							<c:forEach var="product" items="${productList}">
+								<div class='col-md-4'>
+									<div class='product_box'>
+										<figure>
+											<img class="productThumbnail"
+												src='<c:out value="${pageContext.request.contextPath}${product.imgSrc}"></c:out>' />
+										</figure>
+										<p class="productDescription">
+											<c:out value="${product.name}"></c:out>
+										</p>
+										<h3 class="oldPrice">
+											<c:out value="${product.oldPrice}"></c:out>
+										</h3>
+										<h3 class="newPrice">
+											<c:out value="${product.newPrice }"></c:out>
+										</h3>
+										<div class="row">
+											<div class="col-md-6">
+												<a class="productButton" href="#">View</a>
+											</div>
+											<div class="col-md-6">
+												<a class="productButton" href="#">Add To Cart</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
@@ -342,7 +370,6 @@
 	<script src="${pageContext.request.contextPath}/js/projectJS.js"></script>
 	<script type="text/javascript">
 		document.onload = loadLoggedInUser();
-		document.onload = loadProducts();
 	</script>		
 </body>
 </html>
