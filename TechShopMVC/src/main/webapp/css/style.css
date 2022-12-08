@@ -1477,6 +1477,5 @@ table .tableTotal {
 	padding-left: 0px !important;	
 }
 #imageViewer{
-	width: 500px;
-	height: 500px;
+	margin-bottom: 100px;
 }

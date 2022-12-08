@@ -98,14 +98,14 @@
 	<!-- end header inner -->
 	<!-- end header -->
 	<!-- start product detail -->
-	<div id="product-container" class="container">
+	<div id="product-container" class="projectContainer">
 		<div class="row ">
 			<div class="col-md-6 ecommerce-gallery" data-mdb-zoom-effect="true"
 				data-mdb-auto-height="true">
 				<!-- 				<div class="productImageContainer">
 					<img src="../images/laptop.png" >
 				</div> -->
-				<div class="row">
+				<div class="row" id="productImageDiv">
 					<div class="col-12">
 						<div class="lightbox productImageContainer">
 							<img id="imageViewer"
@@ -114,45 +114,31 @@
 								class="ecommerce-gallery-main-img active w-100" />
 						</div>
 					</div>
-					<div class="col-3 mb-1">
-						<img src="../images/product/product_laptopapple1.jpg"
-							data-mdb-img="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/14a.webp"
-							alt="Gallery image 1" class="active w-100"
-							onclick="changeProductImage(this.src)" />
-					</div>
-					<div class="col-3 mb-1">
-						<img src="../images/product/product_laptopapple2.png"
-							data-mdb-img="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/12a.webp"
-							alt="Gallery image 2" class="w-100"
-							onclick="changeProductImage(this.src)" />
-					</div>
-					<div class="col-3 mb-1">
-						<img src="../images/product/product_laptopapple3.jpg"
-							data-mdb-img="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/12a.webp"
-							alt="Gallery image 2" class="w-100"
-							onclick="changeProductImage(this.src)" />
-					</div>
-					<div class="col-3 mb-1">
-						<img src="../images/product/product_laptopapple4.jpg"
-							data-mdb-img="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/12a.webp"
-							alt="Gallery image 2" class="w-100"
-							onclick="changeProductImage(this.src)" />
-					</div>
-					<div class="col-3 mb-1">
-						<img src="../images/product/product_laptopapple5.jpeg"
-							data-mdb-img="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/12a.webp"
-							alt="Gallery image 2" class="w-100"
-							onclick="changeProductImage(this.src)" />
-					</div>					
+<!-- 					<div class="col-3 mb-1"> -->
+<!-- 						<img src="../images/product/product_laptopapple1.jpg" -->
+<!-- 							data-mdb-img="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/14a.webp" -->
+<!-- 							alt="Gallery image 1" class="active w-100" -->
+<!-- 							onclick="changeProductImage(this.src)" /> -->
+<!-- 					</div> -->
+
+
+<!-- 					<div class="col-3 mb-1"> -->
+<!-- 						<img src="../images/product/product_laptopapple5.jpeg" -->
+<!-- 							data-mdb-img="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/12a.webp" -->
+<!-- 							alt="Gallery image 2" class="w-100" -->
+<!-- 							onclick="changeProductImage(this.src)" /> -->
+<!-- 					</div>					 -->
 				</div>
 			</div>
 			<div class="col-md-6 productSection ">
 				<div>
-					<h2 class="product-name">Apple MacBook Pro 13" M2 chip 512GB
-						Space Grey 2022 MNEJ3X/A</h2>
+					<h2 class="product-name" id="productName"></h2>
 				</div>
 				<div class="priceBox">
-					<span class="price">$2000</span>
+					<span class="oldPrice" id="productOldPrice"></span>
+				</div>				
+				<div class="priceBox">
+					<span class="newPrice" id="productnewPrice"></span>
 				</div>
 				<div class="addToCart-container">
 					<button type="button" class="addToCart-button">
@@ -162,15 +148,7 @@
 				</div>
 				<div class="product-desction">
 					<h2 class="keyFeature">Key features</h2>
-					<ul class="featureList">
-						<li>The 13-inch MacBook Pro laptop is a portable powerhouse.
-							Get more done faster with a next-generation 8-core CPU, 10-core
-							GPU and 8GB of unified memory.</li>
-						<li>Go all day and into the night, thanks to the
-							power-efficient performance of the Apple M2 chip*</li>
-						<li>Thanks to its active cooling system, the 13-inch MacBook
-							Pro can sustain pro levels of performance, so you can run CPU-
-							and GPU-intensive tasks for hours on end.</li>
+					<ul class="featureList" id="productDescription">
 					</ul>
 				</div>
 
@@ -247,8 +225,10 @@
 	<script src="../js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="../js/custom.js"></script>
 	<script src="../js/projectJS.js"></script>
+	<script src="../js/product.js"></script>	
 	<script type="text/javascript">
 		document.onload = loadLoggedInUser();
+		document.onload = loadCurrentProduct();
 	</script>
 </body>
 </html>

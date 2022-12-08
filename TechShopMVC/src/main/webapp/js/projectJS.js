@@ -1,6 +1,7 @@
 /**
  * 
  */
+ var pageContextPath;
  
  function changeProductImage(_src){
 	document.getElementById("imageViewer").src = _src;
@@ -165,7 +166,7 @@ const products = [
 		category: "laptop",
 		brand: "dell",
 		quantity: "0",
-		src: "../images/product/product_computerdell1.jpg"
+		src: pageContextPath + "/images/product/product_computerdell1.jpg"
 	},{
 		code: "prd2",
 		name: "Apple MacBook Pro 13 M2 chip 512GB Space Grey 2022 MNEJ3X/A",
@@ -175,7 +176,7 @@ const products = [
 		category: "laptop",
 		brand: "apple",
 		quantity: "0",
-		src: "../images/product/product_laptopapple1.jpg"		
+		src: pageContextPath + "/images/product/product_laptopapple1.jpg"		
 	},{
 		code: "prd3",
 		name: "iPhone 14 Pro Max 128GB",
@@ -185,7 +186,7 @@ const products = [
 		category: "cellphone",
 		brand: "apple",
 		quantity: "0",
-		src: "../images/product/product_iPhone14promax.jpg"		
+		src: pageContextPath + "/images/product/product_iPhone14promax.jpg"		
 	},
 	{
 		code: "prd4",
@@ -196,7 +197,7 @@ const products = [
 		category: "tablet",
 		brand: "apple",
 		quantity: "0",
-		src: "../images/product/product_iPadairgen51.jpg"		
+		src: pageContextPath + "/images/product/product_iPadairgen51.jpg"		
 	},	{
 		code: "prd5",
 		name: "Apple Watch Series 7 (GPS + Cellular) 45mm Blue Aluminium Case with Abyss Blue Sport Band",
@@ -206,7 +207,7 @@ const products = [
 		category: "smartwatch",
 		brand: "apple",
 		quantity: "0",
-		src: "../images/product/product_appleWatch71.jpg"		
+		src: pageContextPath + "/images/product/product_appleWatch71.jpg"		
 	},{
 		code: "prd6",
 		name: "iPhone 11 Pro Max Silicone",
@@ -216,7 +217,7 @@ const products = [
 		category: "accessory",
 		brand: "apple",
 		quantity: "0",
-		src: "../images/product/product_iPhonecase1.jpg"		
+		src: pageContextPath + "/images/product/product_iPhonecase1.jpg"		
 	}
 ];
 
@@ -264,7 +265,6 @@ $('#productRowDiv').on('click', 'button.viewProductBtn', function(){
 	const selectedProductCode = $(this).closest('.product_box').attr('value');
 	var product = products.find(x => x.code === selectedProductCode);
 	localStorage.setItem('selectedProduct', JSON.stringify(product));
-	window.location.href = "product.html";	
 });
 
 $('#productRowDiv').on('click', 'button.addToCartBtn', function(){
