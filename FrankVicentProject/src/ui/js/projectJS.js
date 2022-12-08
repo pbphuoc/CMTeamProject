@@ -258,7 +258,7 @@ function loadProducts(){
 			html: "Add To Cart",
 		}).appendTo(addBtnDiv);			
 	});
-}
+} 
 
 $('#productRowDiv').on('click', 'button.addToCartBtn', function(){
 	const selectedProductCode = $(this).closest('.product_box').attr('value');
@@ -269,8 +269,12 @@ $('#productRowDiv').on('click', 'button.addToCartBtn', function(){
 		carts = JSON.parse(localStorage.getItem('carts'));
 	carts.push(product);
 	alert(carts.length);
+	
 	localStorage.setItem('carts', JSON.stringify(carts));
+	console.log(localStorage.getItem('carts'));
+
 });
+
 
 function loadCurrentCart(){
 	var currentCarts = JSON.parse(localStorage.getItem('carts'));

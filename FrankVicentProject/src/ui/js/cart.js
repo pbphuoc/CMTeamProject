@@ -1,14 +1,56 @@
 //format currency
 
+let cartList = JSON.parse(localStorage.getItem('carts'));
+console.log(cartList[0]["newPrice"]);
+
+
 const formatter = new Intl.NumberFormat('en-Us',{
 	style: 'currency',
 	currency: 'USD',
 	minimumFractionDigits: 0
 })
 //increment button
-const increButton = document.querySelectorAll(".increment");
 
-console.log(increButton);
+//load data from list
+
+
+cartList.forEach(function(button, index){
+	let addProduct = document.createElement("div");
+	addProduct.className="itemTable";
+	let productContent = `<div class="cartCol1">
+					<div class="itemInfor">
+						<a href="product.html"> <img
+							src="`+cartList[index]["src"]+`">
+						</a>
+						<a href="product.html">`+cartList[index]["name"]+` </a>
+					</div>
+					<div class="itemQuantity">
+						<button class="increment"><i class="fa fa-plus"></i></button>
+						<span>`+cartList[index]["quantity"]+`</span>
+						<button class="decrement"><i class="fa fa-minus"></i></button>						
+					</div>
+				</div>
+				<div class="cartCol2">
+					<div class="unitPrice">`+cartList[index]["newPrice"]+`</div>
+					<div class="totalPrice">
+						<div class="itemPrice">
+							`+cartList[index]["newPrice"]+`
+						</div>
+						<div class="itemRemove">
+							<button>
+								<i class="fa fa-trash-o"></i> <span class="cartDelete"> Remove</span>
+							</button>
+						</div>
+					</div>
+				</div>`;
+	addProduct.innerHTML = productContent;
+	let itemWrapper = document.querySelector(".cartItemWrapper");
+	itemWrapper.append(addProduct);
+	console.log(itemWrapper);
+})
+
+
+const increButton = document.querySelectorAll(".increment");
 increButton.forEach(function(button, index) {
 	button.addEventListener("click", function(event) {
 		let btn = event.target;
@@ -73,6 +115,7 @@ function subTotal(button){
 	document.querySelector(".subTotalPrice").innerText = formatter.format(subTotalPrice);
 }
 
+document.onload = subTotal();
 
 
 
