@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import model.User;
 
@@ -12,12 +13,12 @@ public class UserDAO extends DAO{
 	
 	private static final String INSERT_USER_SQL = "INSERT INTO user (email, password, fullname, phone_number) VALUES (?,?,?,?);";
 	private static final String SELECT_USER_BY_EMAIL_SQL = "SELECT * FROM user WHERE email = ?;";
-	private static final String UPDATE_USER_BY_EMAIL_SQL = "UPDATE user SET fullname = ?, phone_number = ? WHERE email = ?;";
-	private static final String UPDATE_PASSWORD_SQL = "UPDATE user SET password = ? where id = ? AND password = ?;";
+//	private static final String UPDATE_USER_BY_EMAIL_SQL = "UPDATE user SET fullname = ?, phone_number = ? WHERE email = ?;";
+//	private static final String UPDATE_PASSWORD_SQL = "UPDATE user SET password = ? where id = ? AND password = ?;";
 	private static final String DELETE_USER_SQL = "DELETE FROM user where email = ?;";
 	
-	protected UserDAO(Connection connection) {
-		this.connection = connection;
+	protected UserDAO() {
+		this.connection = getConnection();
 	}
 	
 	public QueryResult insertUser(User user) {
@@ -69,5 +70,11 @@ public class UserDAO extends DAO{
 			return QueryResult.SUCCESSFUL;
 
 			return QueryResult.UNSUCCESSFUL;
+	}
+
+	@Override
+	public List<?> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 }

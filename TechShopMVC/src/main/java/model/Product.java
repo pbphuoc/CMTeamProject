@@ -1,39 +1,30 @@
 package model;
 
 public class Product {
-	private String code;
+	private String id;
 	private String name;
 	private String description;
 	private double oldPrice;
 	private double newPrice;
-	private Brand brand;
-	private Category category;
+	private String brandID;
+	private String categoryID;
 	private String imgSrc;
 	
-	public Product(String code, String name, String description, String oldPrice, String newPrice, Brand brand,
-			Category category, String imgSrc) {
-		this.code = code;
+	public Product(String id, String name, String description, double oldPrice, double newPrice, String brandID,
+			String categoryID, String imgSrc) {
+		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.oldPrice = convertPrice(oldPrice);
-		this.newPrice = convertPrice(oldPrice);
-		this.brand = brand;
-		this.category = category;
+		this.oldPrice = oldPrice;
+		this.newPrice = newPrice;
+		this.brandID = brandID;
+		this.categoryID = categoryID;
 		this.imgSrc = imgSrc;
 	}
 	
-	private double convertPrice(String price) {
-		try {
-			return Double.parseDouble(price);
-		}
-		catch (NumberFormatException e) {
-			e.printStackTrace();
-			return 0;
-		}
-	}
 
-	public String getCode() {
-		return code;
+	public String getID() {
+		return id;
 	}
 
 	public String getName() {
@@ -52,12 +43,12 @@ public class Product {
 		return newPrice;
 	}
 
-	public Brand getBrand() {
-		return brand;
+	public String getBrandID() {
+		return brandID;
 	}
 
-	public Category getCategory() {
-		return category;
+	public String getCategoryID() {
+		return categoryID;
 	}
 
 	public String getImgSrc() {
