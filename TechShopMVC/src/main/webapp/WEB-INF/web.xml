@@ -5,6 +5,6 @@
 	id="WebApp_ID" version="2.5">
 	<display-name>Techila</display-name>
 	<welcome-file-list>
-		<welcome-file>default</welcome-file>
+		<welcome-file>home</welcome-file>
 	</welcome-file-list>	
 </web-app>

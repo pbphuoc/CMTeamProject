@@ -22,10 +22,10 @@ public class Product {
 		this.imgSrc = imgSrc;
 	}
 	
-
-	public String getID() {
+	public String getId() {
 		return id;
 	}
+
 
 	public String getName() {
 		return name;

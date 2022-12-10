@@ -8,8 +8,7 @@ import java.util.List;
 
 import model.User;
 
-public class UserDAO extends DAO{
-	private Connection connection;
+public class UserDAO extends DAO<User>{
 	
 	private static final String INSERT_USER_SQL = "INSERT INTO user (email, password, fullname, phone_number) VALUES (?,?,?,?);";
 	private static final String SELECT_USER_BY_EMAIL_SQL = "SELECT * FROM user WHERE email = ?;";
@@ -17,15 +16,18 @@ public class UserDAO extends DAO{
 //	private static final String UPDATE_PASSWORD_SQL = "UPDATE user SET password = ? where id = ? AND password = ?;";
 	private static final String DELETE_USER_SQL = "DELETE FROM user where email = ?;";
 	
-	protected UserDAO() {
-		this.connection = getConnection();
-	}
+	private Connection connection;
+	
+	public UserDAO() {
+		super();
+		connection = getConnection();
+	}	
 	
 	public QueryResult insertUser(User user) {
 		try(
 				PreparedStatement insertStm = connection.prepareStatement(INSERT_USER_SQL);
 				){
-			if(selectUserByEmail(user.getEmail()) != null)
+			if(getRecordByID(user.getEmail()) != null)
 					return QueryResult.DUPLICATE;
 			insertStm.setString(1, user.getEmail());
 			insertStm.setString(2, user.getPassword());
@@ -39,15 +41,16 @@ public class UserDAO extends DAO{
 		return QueryResult.UNSUCCESSFUL;
 	}
 	
-	public User selectUserByEmail(String email) {
+	@Override
+	public User getRecordByID(String email) {
 		User user = null;
-		try(PreparedStatement selectStm = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL);){
+		try(PreparedStatement selectStm = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL);)
+		{
 			selectStm.setString(1, email);
 			ResultSet result = selectStm.executeQuery();
 			if(!result.next())
 				return user;
-			user = new User(result.getString("email"), result.getString("fullname"), result.getString("phone_number"));
-			
+			user = new User(result.getString("email"), result.getString("fullname"), result.getString("phone_number"));		
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -73,7 +76,7 @@ public class UserDAO extends DAO{
 	}
 
 	@Override
-	public List<?> getAll() {
+	public List<User> getAllRecords() {
 		// TODO Auto-generated method stub
 		return null;
 	}	

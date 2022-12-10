@@ -12,21 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Product;
 import service.DAO;
-import service.DAO.DAOType;
 import service.DAOService;
 import service.ProductDAO;
+import service.DAO.DAOType;
 
 /**
- * Servlet implementation class IndexServlet
+ * Servlet implementation class ProductDetailServlet
  */
-@WebServlet("/home")
-public class IndexServlet extends HttpServlet {
+@WebServlet("/ProductDetail")
+public class ProductDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public IndexServlet() {
+    public ProductDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,16 +37,8 @@ public class IndexServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		String action = request.getServletPath();
-		try {
-			switch(action) {
-				case "/home":
-					getIndexPage(request, response);
-			}
-		}catch (Exception e) {
-			// TODO: handle exception
-			throw new ServletException(e);
-		}
+		
+		getProductDetail(request, response);
 	}
 
 	/**
@@ -57,12 +49,15 @@ public class IndexServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	private void getIndexPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DAO<Product> productDAO = (ProductDAO)DAOService.getDAO(DAOType.PRODUCT);
-		List<Product> products = productDAO.getAllRecords();
-		request.setAttribute("productList", products);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-		dispatcher.forward(request, response);
-	}
+	private void getProductDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ProductDAO productDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
+		String id = request.getParameter("id");
+		Product product = productDAO.getRecordByID(id);
+		List<String> medias = productDAO.getAllMediaByProductID(id);
+		request.setAttribute("product", product);
+		request.setAttribute("medias", medias);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("product.jsp");
+		dispatcher.forward(request, response);		
+	}	
 
 }

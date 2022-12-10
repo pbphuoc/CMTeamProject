@@ -271,27 +271,34 @@
 							<c:forEach var="product" items="${productList}">
 								<div class='col-md-4'>
 									<div class='product_box'>
-										<figure>
-											<img class="productThumbnail"
-												src='<c:out value="${pageContext.request.contextPath}${product.imgSrc}"></c:out>' />
-										</figure>
-										<p class="productDescription">
-											<c:out value="${product.name}"></c:out>
-										</p>
-										<h3 class="oldPrice">
-											<c:out value="${product.oldPrice}"></c:out>
-										</h3>
-										<h3 class="newPrice">
-											<c:out value="${product.newPrice }"></c:out>
-										</h3>
-										<div class="row">
-											<div class="col-md-6">
-												<a class="productButton" href="#">View</a>
+										<form action="ProductDetail" method="post">
+											<input type="hidden" name="id" value="${product.id}" hidden>
+											<figure>
+												<img class="productThumbnail"
+													src='<c:out value="${pageContext.request.contextPath}${product.imgSrc}"></c:out>' />
+											</figure>
+											<p class="productDescription">
+												<c:out value="${product.name}"></c:out>
+											</p>
+											<h3 class="oldPrice">											
+												<c:choose>
+													<c:when test="${product.oldPrice > product.newPrice}">
+														<c:out value="$ ${product.oldPrice}"></c:out>
+													</c:when>
+												</c:choose>												
+											</h3>
+											<h3 class="newPrice">
+												<c:out value="$ ${product.newPrice }"></c:out>
+											</h3>
+											<div class="row">
+												<div class="col-md-6">
+													<button class="productButton" type="submit">View</button>
+												</div>
+												<div class="col-md-6">
+													<button class="productButton">Add To Cart</button>
+												</div>
 											</div>
-											<div class="col-md-6">
-												<a class="productButton" href="#">Add To Cart</a>
-											</div>
-										</div>
+										</form>
 									</div>
 								</div>
 							</c:forEach>

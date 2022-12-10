@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-public abstract class DAO {
+public abstract class DAO<T> {
 	
 	private static final String  dbURL = "jdbc:mysql://localhost:3306/cm_project";
 	private static final String dbUsername = "projectuser";
@@ -41,5 +41,8 @@ public abstract class DAO {
 	}
 
 	abstract
-	public List<?> getAll();
+	public List<T> getAllRecords();
+	
+	abstract
+	public T getRecordByID(String id);
 }
