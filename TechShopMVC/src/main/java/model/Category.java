@@ -1,9 +1,5 @@
 package model;
 
-public class Category extends GenericWrapper {
+public class Category {
 
-	public Category(String id) {
-		super(id);
-		// TODO Auto-generated constructor stub
-	}
 }
