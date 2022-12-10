@@ -80,7 +80,7 @@
 							<div class="collapse navbar-collapse" id="navbarsExample04">
 								<ul class="navbar-nav mr-auto">
 									<li class="nav-item "><a class="nav-link"
-										href="index.html">Home</a></li>
+										href="${pageContext.request.contextPath}/index.html">Home</a></li>
 
 									<li class="nav-item"><a class="nav-link"
 										href="product.html">Products</a></li>
