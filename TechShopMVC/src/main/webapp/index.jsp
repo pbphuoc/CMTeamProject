@@ -18,8 +18,6 @@
 <meta name="author" content="">
 <!-- bootstrap css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-<!-- style css -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <!-- our own css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/projectStyle.css">
 <!-- Responsive-->
@@ -34,6 +32,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
 	media="screen">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">	
 </head>
 <!-- body -->
 <body class="main-layout">
@@ -54,7 +53,7 @@
 						<div class="navbar-brand">
 							<div class="center-desk" class="d-inline-flex">
 								<div class="logo">
-									<a href="index.html"><img src="${pageContext.request.contextPath}/images/logo.png" alt="#" /></a>
+									<a href="${pageContext.request.contextPath}/Home"><img src="${pageContext.request.contextPath}/images/logo.png" alt="#" /></a>
 								</div>
 							</div>
 						</div>
@@ -80,12 +79,12 @@
 							<div class="collapse navbar-collapse" id="navbarsExample04">
 								<ul class="navbar-nav mr-auto">
 									<li class="nav-item "><a class="nav-link"
-										href="${pageContext.request.contextPath}/index.html">Home</a></li>
+										href="${pageContext.request.contextPath}/Home">Home</a></li>
 
-									<li class="nav-item"><a class="nav-link"
-										href="product.html">Products</a></li>
+<!-- 									<li class="nav-item"><a class="nav-link"
+										href="product.html">Products</a></li> -->
 
-									<li class="nav-item d_none"><a class="nav-link" href="cart.html"><i
+									<li class="nav-item d_none"><a class="nav-link" onclick="viewCart()"><i
 											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>																
 									<li class="nav-item menuBarUserLi"><h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" href="#">Login</a>
 									</li>
@@ -272,11 +271,11 @@
 								<div class='col-md-4'>
 									<div class='product_box'>
 										<form action="ProductDetail" method="post">
-											<input type="hidden" name="id" value="${product.id}" hidden>
-											<figure>
+											<input class="productID" type="hidden" name="id" value="${product.id}" hidden>
+											<div class="productThumbnailContainer">
 												<img class="productThumbnail"
-													src='<c:out value="${pageContext.request.contextPath}${product.imgSrc}"></c:out>' />
-											</figure>
+													src='${pageContext.request.contextPath}${product.imgSrc}' />
+											</div>
 											<p class="productDescription">
 												<c:out value="${product.name}"></c:out>
 											</p>
@@ -295,7 +294,7 @@
 													<button class="productButton" type="submit">View</button>
 												</div>
 												<div class="col-md-6">
-													<button class="productButton">Add To Cart</button>
+													<button class="productButton" type="button" onclick="addToCart(${product.id})">Add To Cart</button>
 												</div>
 											</div>
 										</form>

@@ -261,31 +261,52 @@ function loadProducts(){
 	});
 }
 
-$('#productRowDiv').on('click', 'button.viewProductBtn', function(){
-	const selectedProductCode = $(this).closest('.product_box').attr('value');
-	var product = products.find(x => x.code === selectedProductCode);
-	localStorage.setItem('selectedProduct', JSON.stringify(product));
-});
+//$('#productRowDiv').on('click', 'button.viewProductBtn', function(){
+//	const selectedProductCode = $(this).closest('.product_box').attr('value');
+//	var product = products.find(x => x.code === selectedProductCode);
+//	localStorage.setItem('selectedProduct', JSON.stringify(product));
+//});
+//
+//$('#productRowDiv').on('click', 'button.addToCartBtn', function(){
+//	const selectedProductCode = $(this).closest('.product_box').attr('value');
+//	var product = products.find(x => x.code === selectedProductCode);
+//	product.quantity += 1;
+//	var carts = [];
+//	if(localStorage.getItem("carts") !== null)
+//		carts = JSON.parse(localStorage.getItem('carts'));
+//	carts.push(product);
+//	alert(carts.length);
+//	localStorage.setItem('carts', JSON.stringify(carts));
+//});
 
-$('#productRowDiv').on('click', 'button.addToCartBtn', function(){
-	const selectedProductCode = $(this).closest('.product_box').attr('value');
-	var product = products.find(x => x.code === selectedProductCode);
-	product.quantity += 1;
+function addToCart(productID){
+	const selectedProductID = productID;
 	var carts = [];
 	if(localStorage.getItem("carts") !== null)
-		carts = JSON.parse(localStorage.getItem('carts'));
-	carts.push(product);
-	alert(carts.length);
-	localStorage.setItem('carts', JSON.stringify(carts));
-});
-
-function loadCurrentCart(){
-	var currentCarts = JSON.parse(localStorage.getItem('carts'));
+		carts = JSON.parse(localStorage.getItem('carts')).data;	
+    var product;
+    product = carts.find(x => x.id === selectedProductID);
+    if(product === undefined){
+		product = {id: selectedProductID, quantity: 1};
+		carts.push(product)
+	}
+	else{
+		product.quantity += 1;
+	}
+	localStorage.setItem('carts', JSON.stringify({lastUpdate: new Date().getTime(),data: carts}));
 }
 
 function formatNumberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+function viewCart(){
+	var carts = [];
+	if(localStorage.getItem("carts") !== null)
+		carts = JSON.parse(localStorage.getItem('carts')).data;		
+	alert('view cart button on progress');
+}
+
 //end cookies functions
 
 //$('#searchBar').change(function(){

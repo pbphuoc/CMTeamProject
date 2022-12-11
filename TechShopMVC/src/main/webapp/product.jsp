@@ -18,7 +18,6 @@
 <!-- bootstrap css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 <!-- style css -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <!-- our own css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/projectStyle.css">
 <!-- Responsive-->
@@ -33,6 +32,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
 	media="screen">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">	
 <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
@@ -56,7 +56,7 @@
 						<div class="navbar-brand">
 							<div class="center-desk" class="d-inline-flex">
 								<div class="logo">
-									<a href="index.html"><img src="${pageContext.request.contextPath}/images/logo.png" alt="#" /></a>
+									<a href="${pageContext.request.contextPath}/Home"><img src="${pageContext.request.contextPath}/images/logo.png" alt="#" /></a>
 								</div>
 							</div>
 						</div>
@@ -82,10 +82,10 @@
 							<div class="collapse navbar-collapse" id="navbarsExample04">
 								<ul class="navbar-nav mr-auto">
 									<li class="nav-item "><a class="nav-link"
-										href="index.html">Home</a></li>
+										href="${pageContext.request.contextPath}/Home">Home</a></li>
 
-									<li class="nav-item"><a class="nav-link"
-										href="product.html">Products</a></li>
+<!-- 									<li class="nav-item"><a class="nav-link" -->
+<!-- 										href="product.html">Products</a></li> -->
 
 									<li class="nav-item d_none"><a class="nav-link" href="cart.html"><i
 											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
@@ -106,45 +106,44 @@
 			<div class="col-md-6 ecommerce-gallery" data-mdb-zoom-effect="true"
 				data-mdb-auto-height="true">
 				<div class="row" id="productImageDiv">
-					<c:if test="${productList.size() > 0}">
+					<c:if test="${medias.size() > 0}">
 						<div class="col-12">
 							<div class="lightbox productImageContainer">
-								<img id="imageViewer"
-									src="${pageContext.request.contextPath}/images/product/product_laptopapple1.jpg"
-									alt="Gallery image 1"
-									class="ecommerce-gallery-main-img active w-100" />
+								<img id="imageViewer" src="${pageContext.request.contextPath}${medias[0]}" alt="Gallery image 1"
+									class="active" />
 							</div>
 						</div>
+						<c:forEach var="media" items="${medias}">
+							<div class="col-3 mb-1">
+								<img src="${pageContext.request.contextPath}${media}" class="active imgViewerItem"
+									onclick="changeProductImage(this.src)" />
+							</div>
+						</c:forEach>
 					</c:if>
-
-					<!-- 					<div class="col-3 mb-1"> -->
-<!-- 						<img src="../images/product/product_laptopapple1.jpg" -->
-<!-- 							data-mdb-img="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/14a.webp" -->
-<!-- 							alt="Gallery image 1" class="active w-100" -->
-<!-- 							onclick="changeProductImage(this.src)" /> -->
-<!-- 					</div> -->
-
-
-<!-- 					<div class="col-3 mb-1"> -->
-<!-- 						<img src="../images/product/product_laptopapple5.jpeg" -->
-<!-- 							data-mdb-img="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/12a.webp" -->
-<!-- 							alt="Gallery image 2" class="w-100" -->
-<!-- 							onclick="changeProductImage(this.src)" /> -->
-<!-- 					</div>					 -->
 				</div>
 			</div>
 			<div class="col-md-6 productSection ">
 				<div>
-					<h2 class="product-name" id="productName"></h2>
+					<h2 class="product-name" id="productName">
+						<c:out value="${product.name}"></c:out>
+					</h2>
 				</div>
 				<div class="priceBox">
-					<span class="oldPrice" id="productOldPrice"></span>
+					<span class="oldPrice" id="productOldPrice">
+						<c:choose>
+							<c:when test="${product.oldPrice > product.newPrice}">
+								<c:out value="$ ${product.oldPrice}"></c:out>
+							</c:when>
+						</c:choose>							
+					</span>
 				</div>				
 				<div class="priceBox">
-					<span class="newPrice" id="productnewPrice"></span>
+					<span class="newPrice" id="productnewPrice">
+						<c:out value="$ ${product.newPrice }"></c:out>
+					</span>
 				</div>
 				<div class="addToCart-container">
-					<button type="button" class="addToCart-button">
+					<button type="button" class="addToCart-button" onclick="addToCart(${product.id})">
 						<i id="iconCart" class="fa fa-shopping-cart"></i> <span
 							class="addToCart-text">Add to cart</span>
 					</button>
@@ -152,6 +151,7 @@
 				<div class="product-desction">
 					<h2 class="keyFeature">Key features</h2>
 					<ul class="featureList" id="productDescription">
+						<c:out value="$ ${product.description }"></c:out>					
 					</ul>
 				</div>
 
