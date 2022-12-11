@@ -61,7 +61,7 @@ public class IndexServlet extends HttpServlet {
 		DAO<Product> productDAO = (ProductDAO)DAOService.getDAO(DAOType.PRODUCT);
 		List<Product> products = productDAO.getAllRecords();
 		request.setAttribute("productList", products);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
 		dispatcher.forward(request, response);
 	}
 
