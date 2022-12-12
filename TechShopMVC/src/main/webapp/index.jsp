@@ -83,7 +83,7 @@
 <!-- 									<li class="nav-item"><a class="nav-link"
 										href="product.html">Products</a></li> -->
 
-									<li class="nav-item d_none"><a class="nav-link" onclick="viewCart()"><i
+									<li class="nav-item d_none cartBtnLi"><a class="nav-link" onclick="viewCart()"><i
 											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>																
 									<li class="nav-item menuBarUserLi"><h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" href="#">Login</a>
 									</li>
@@ -374,7 +374,7 @@
 	<script src="${pageContext.request.contextPath}/js/custom.js"></script>
 	<script src="${pageContext.request.contextPath}/js/projectJS.js"></script>
 	<script type="text/javascript">
-		document.onload = loadLoggedInUser();
+		document.onload = loadLoggedInUser();	
 	</script>		
 </body>
 </html>

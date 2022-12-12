@@ -304,7 +304,17 @@ function viewCart(){
 	var carts = [];
 	if(localStorage.getItem("carts") !== null)
 		carts = JSON.parse(localStorage.getItem('carts')).data;		
-	alert('view cart button on progress');
+		
+	var form = 	jQuery('<form>',{
+			action: 'Cart',
+			method: 'Post'
+		}).append(jQuery('<input>',{
+			type: 'hidden',
+			name: 'productIDs',
+			value: carts
+		}));
+		form.hide().appendTo("body").submit();
+	//alert($(form));
 }
 
 //end cookies functions
