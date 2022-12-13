@@ -38,17 +38,20 @@ public class CartServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 
 		String action = request.getServletPath();
-		try {
-			switch (action) {
-			case "/Cart": {
-				getCartPage(request,response);
-			}
-			default:
-				throw new IllegalArgumentException("Unexpected value: " + action);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		String productIds = request.getParameter("productIDs");
+		System.out.println(productIds);
+		
+//		try {
+//			switch (action) {
+//			case "/Cart": {
+//				getCartPage(request,response);
+//			}
+//			default:
+//				throw new IllegalArgumentException("Unexpected value: " + action);
+//			}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
 	}
 
 	/**

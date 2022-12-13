@@ -126,6 +126,10 @@
 				<div class="cartCol1">
 					<div class="itemInfor">
 						<a href="product.html"> 
+
+
+						<img src=<c:out value="item[imgSrc]"></c:out>>
+
 						</a>
 						<a href="product.html"> Apple MacBook Pro 13" M2 chip 512GB </a>
 					</div>
@@ -136,7 +140,7 @@
 					</div>
 				</div>
 				<div class="cartCol2">
-					<div class="unitPrice">${cartList["new_price"]}</div>
+					<div class="unitPrice">price</div>
 					<div class="totalPrice">
 						<div class="itemPrice">
 							$3,200
