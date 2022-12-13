@@ -17,7 +17,7 @@ import service.CartDAO;
 /**
  * Servlet implementation class CartServlet
  */
-@WebServlet("/cart.html")
+@WebServlet("/Cart")
 
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -40,7 +40,7 @@ public class CartServlet extends HttpServlet {
 		String action = request.getServletPath();
 		try {
 			switch (action) {
-			case "/cart.html": {
+			case "/Cart": {
 				getCartPage(request,response);
 			}
 			default:
