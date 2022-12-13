@@ -311,7 +311,7 @@ function viewCart(){
 		}).append(jQuery('<input>',{
 			type: 'hidden',
 			name: 'productIDs',
-			value: carts
+			value: JSON.stringify(carts)
 		}));
 		form.hide().appendTo("body").submit();
 	//alert($(form));

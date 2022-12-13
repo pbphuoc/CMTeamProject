@@ -35,6 +35,10 @@ public class LoginServlet extends HttpServlet {
 		String command = request.getParameter("command");
 		try {
 			switch(command) {
+				case "login":
+					String username = request.getParameter("emailLogin");
+					String password = request.getParameter("passwordLogin");
+					login(request, response, username, password);
 				default:
 					getLoginPage(request, response);
 					break;
@@ -52,6 +56,10 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	
+	private void login(HttpServletRequest request, HttpServletResponse response, String username, String password) throws ServletException, IOException {
+
+	}	
 	
 	private void getLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(getUsername(request).equalsIgnoreCase("")) {
