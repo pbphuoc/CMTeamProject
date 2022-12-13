@@ -105,29 +105,29 @@ $('#deliveryOptions input').change(function(){
 		$('#guestAddress').hide();
 });
 
-$('.menuBarLoginBtn').click(() => {
-	if (getCookie("username") != ""){
-		deleteCookie("username");
-		$('.menuBarUsername').text("");
-		$('.menuBarLoginBtn').text("Login");				
-	}else{
-		window.location.href = "login.html";
-	}
-});
-
-$('#checkoutLoginBtn').click(() => {
-	//AUTHENTICATION NEEDED BEFORE THIS POINT
-	const loginEmail = $('#checkoutEmailLogin').val();
-	setCookie("username", loginEmail, 0.5);
-	loadChechOutForm();
-});
-
-$('#loginBtn').click(() => {
-	//AUTHENTICATION NEEDED BEFORE THIS POINT
-	const loginEmail = $('#emailLogin').val();
-	setCookie("username", loginEmail, 0.5);
-	redirectLoggedInUser();
-});
+//$('.menuBarLoginBtn').click(() => {
+//	if (getCookie("username") != ""){
+//		deleteCookie("username");
+//		$('.menuBarUsername').text("");
+//		$('.menuBarLoginBtn').text("Login");				
+//	}else{
+//		window.location.href = "login.html";
+//	}
+//});
+//
+//$('#checkoutLoginBtn').click(() => {
+//	//AUTHENTICATION NEEDED BEFORE THIS POINT
+//	const loginEmail = $('#checkoutEmailLogin').val();
+//	setCookie("username", loginEmail, 0.5);
+//	loadChechOutForm();
+//});
+//
+//$('#loginBtn').click(() => {
+//	//AUTHENTICATION NEEDED BEFORE THIS POINT
+//	const loginEmail = $('#emailLogin').val();
+//	setCookie("username", loginEmail, 0.5);
+//	redirectLoggedInUser();
+//});
 
 //cookies functions from https://www.w3schools.com/js/js_cookies.asp
 function setCookie(cname, cvalue, exdays) {
@@ -315,6 +315,37 @@ function viewCart(){
 		}));
 		form.hide().appendTo("body").submit();
 	//alert($(form));
+}
+
+function login(){		
+	 var form = jQuery('<form>',{
+			action: 'Auth',
+			method: 'Post'
+		}).append(jQuery('<input>',{
+			type: 'hidden',
+			name: 'command',
+			value: 'getLoginForm'
+		}));
+	form.hide().appendTo("body").submit();	
+}
+
+function logout(username){		
+	alert(username);
+	var form= jQuery('<form>',{
+			action: 'Auth',
+			method: 'Post'
+		});
+	jQuery('<input>',{
+		type: 'hidden',
+		name: 'command',
+		value: 'logout'
+	}).appendTo(form);
+	jQuery('<input>',{
+		type: 'hidden',
+		name: 'emailLogin',
+		value: username
+	}).appendTo(form);	
+	form.hide().appendTo("body").submit();
 }
 
 //end cookies functions

@@ -125,7 +125,7 @@
 			<div class="itemTable">
 				<div class="cartCol1">
 					<div class="itemInfor">
-						<a href="product.html"> <img
+						<a href="product.html"> 
 						</a>
 						<a href="product.html"> Apple MacBook Pro 13" M2 chip 512GB </a>
 					</div>

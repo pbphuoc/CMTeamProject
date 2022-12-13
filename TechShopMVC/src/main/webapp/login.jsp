@@ -107,7 +107,7 @@
 		<div class="row">
 			<div class="col-md-4 m-auto">
 				<div class="form_container" id="loginDiv">
-					<form action="Login" method="Post">
+					<form action="Auth" method="Post">
 						<input type="hidden" name="command" value="login">
 						<div class="input-group mb-3">
 							<input type="text" class="form-control" placeholder="Email Address"
@@ -118,7 +118,7 @@
 								placeholder="Password" id="passwordLogin" name="passwordLogin"
 								aria-describedby="basic-addon1">
 						</div>
-						<button class="btn btn-primary" type="button" id="loginBtn">Login</button>
+						<button class="btn btn-primary" type="submit" id="loginBtn">Login</button>
 					</form>
 				</div>
 			</div>

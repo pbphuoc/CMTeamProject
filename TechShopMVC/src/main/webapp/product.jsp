@@ -130,11 +130,9 @@
 				</div>
 				<div class="priceBox">
 					<span class="oldPrice" id="productOldPrice">
-						<c:choose>
-							<c:when test="${product.oldPrice > product.newPrice}">
-								<c:out value="$ ${product.oldPrice}"></c:out>
-							</c:when>
-						</c:choose>							
+						<c:if test="${product.oldPrice > product.newPrice}">
+							<c:out value="$ ${product.oldPrice}"></c:out>
+						</c:if>						
 					</span>
 				</div>				
 				<div class="priceBox">
@@ -230,7 +228,6 @@
 	<script src="${pageContext.request.contextPath}/js/projectJS.js"></script>
 	<script src="${pageContext.request.contextPath}/js/product.js"></script>	
 	<script type="text/javascript">
-		document.onload = loadLoggedInUser();
 	</script>
 </body>
 </html>

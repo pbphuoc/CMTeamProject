@@ -85,7 +85,15 @@
 
 									<li class="nav-item d_none cartBtnLi"><a class="nav-link" onclick="viewCart()"><i
 											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>																
-									<li class="nav-item menuBarUserLi"><h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" href="#">Login</a>
+									<li class="nav-item menuBarUserLi">
+										<c:choose>
+											<c:when test="${sessionScope.user == ''}">
+												<h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" onclick="login()">Login</a>
+											</c:when>
+											<c:when test="${sessionScope.user != ''}">
+												<h3 class="menuBarUsername">Hi ${sessionScope.user},</h3><a class="nav-link menuBarLoginBtn" onclick="logout('${sessionScope.username}')">Logout</a>
+											</c:when>																						
+										</c:choose>
 									</li>
 								</ul>
 							</div>
@@ -270,7 +278,8 @@
 								<div class='col-md-4'>
 									<div class='product_box'>
 										<form action="ProductDetail" method="post">
-											<input class="productID" type="hidden" name="id" value="${product.id}" hidden>
+											<input class="productID" type="hidden" name="id"
+												value="${product.id}" hidden>
 											<div class="productThumbnailContainer">
 												<img class="productThumbnail"
 													src='${pageContext.request.contextPath}${product.imgSrc}' />
@@ -278,12 +287,10 @@
 											<p class="productDescription">
 												<c:out value="${product.name}"></c:out>
 											</p>
-											<h3 class="oldPrice">											
-												<c:choose>
-													<c:when test="${product.oldPrice > product.newPrice}">
-														<c:out value="$ ${product.oldPrice}"></c:out>
-													</c:when>
-												</c:choose>												
+											<h3 class="oldPrice">
+												<c:if test="${product.oldPrice > product.newPrice}">
+													<c:out value="$ ${product.oldPrice}"></c:out>
+												</c:if>
 											</h3>
 											<h3 class="newPrice">
 												<c:out value="$ ${product.newPrice }"></c:out>
@@ -293,7 +300,8 @@
 													<button class="productButton" type="submit">View</button>
 												</div>
 												<div class="col-md-6">
-													<button class="productButton" type="button" onclick="addToCart(${product.id})">Add To Cart</button>
+													<button class="productButton" type="button"
+														onclick="addToCart(${product.id})">Add To Cart</button>
 												</div>
 											</div>
 										</form>
@@ -374,7 +382,6 @@
 	<script src="${pageContext.request.contextPath}/js/custom.js"></script>
 	<script src="${pageContext.request.contextPath}/js/projectJS.js"></script>
 	<script type="text/javascript">
-		document.onload = loadLoggedInUser();	
 	</script>		
 </body>
 </html>

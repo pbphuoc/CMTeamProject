@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
+import service.DAO.QueryResult;
+
 
 public abstract class DAO<T> {
 	
@@ -39,6 +41,13 @@ public abstract class DAO<T> {
 	protected Connection getConnection() {
 		return connection;
 	}
+	
+	protected QueryResult getResultCode(int code) {
+		if (code > 0)
+			return QueryResult.SUCCESSFUL;
+
+			return QueryResult.UNSUCCESSFUL;
+	}	
 
 	abstract
 	public List<T> getAllRecords();
