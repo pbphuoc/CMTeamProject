@@ -84,12 +84,21 @@
 									<li class="nav-item "><a class="nav-link"
 										href="${pageContext.request.contextPath}/Home">Home</a></li>
 
-<!-- 									<li class="nav-item"><a class="nav-link" -->
-<!-- 										href="product.html">Products</a></li> -->
+<!-- 									<li class="nav-item"><a class="nav-link"
+										href="product.html">Products</a></li> -->
 
-									<li class="nav-item d_none"><a class="nav-link" onclick="viewCart()"><i
-											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
-									<li class="nav-item menuBarUserLi"><h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" href="#">Login</a>
+									<li class="nav-item d_none cartBtnLi"><a class="nav-link" onclick="viewCart()"><i
+											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>																
+									<li class="nav-item menuBarUserLi">
+										<c:choose>
+											<c:when test="${sessionScope.user == ''}">
+												<h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" onclick="login()">Login</a>
+											</c:when>
+											<c:when test="${sessionScope.user != ''}">
+												<h3 class="menuBarUsername">Hi ${sessionScope.user},</h3><a class="nav-link menuBarLoginBtn" onclick="logout('${sessionScope.username}')">Logout</a>
+											</c:when>																						
+										</c:choose>
+									</li>
 								</ul>
 							</div>
 						</nav>

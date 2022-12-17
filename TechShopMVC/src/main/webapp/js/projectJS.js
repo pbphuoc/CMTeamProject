@@ -156,74 +156,74 @@ function deleteCookie(cname) {
 	document.cookie = cname +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
-const products = [
-	{
-		code: "prd1",
-		name: "Dell 7040 SFF Bundle Desktop i7-6700 3.4GHz 16GB RAM 512GB NVMe SSD + 22 Monitor - Refurbished Grade A",
-		desc: "Dell 7040 SFF Bundle Desktop i7-6700 3.4GHz 16GB RAM 512GB NVMe SSD + 22 Monitor - Refurbished Grade A",
-		oldPrice: "2850.00",
-		newPrice: "2599.00",
-		category: "laptop",
-		brand: "dell",
-		quantity: "0",
-		src: pageContextPath + "/images/product/product_computerdell1.jpg"
-	},{
-		code: "prd2",
-		name: "Apple MacBook Pro 13 M2 chip 512GB Space Grey 2022 MNEJ3X/A",
-		desc: "The 13-inch MacBook Pro laptop is a portable powerhouse. Get more done faster with a next-generation 8-core CPU, 10-core GPU and 8GB of unified memory. Go all day and into the night, thanks to the power-efficient performance of the Apple M2 chip*Thanks to its active cooling system, the 13-inch MacBook Pro can sustain pro levels of performance, so you can run CPU- and GPU-intensive tasks for hours on end.",
-		oldPrice: "0",
-		newPrice: "3200.00",
-		category: "laptop",
-		brand: "apple",
-		quantity: "0",
-		src: pageContextPath + "/images/product/product_laptopapple1.jpg"		
-	},{
-		code: "prd3",
-		name: "iPhone 14 Pro Max 128GB",
-		desc: "iPhone 14 Pro Max 128GB",
-		oldPrice: "0",
-		newPrice: "1850.00",
-		category: "cellphone",
-		brand: "apple",
-		quantity: "0",
-		src: pageContextPath + "/images/product/product_iPhone14promax.jpg"		
-	},
-	{
-		code: "prd4",
-		name: "APPLE IPAD AIR (5 GEN) 10.9-INCH WI-FI+CELL 256GB STARLIGHT",
-		desc: "Apple iPad Air (5th Generation) 10.9-inch 256GB Wi-Fi + Cellular Starlight iPad Air. With an immersive 10.9-inch Liquid Retina display1. The breakthrough Apple M1 chip delivers faster performance, making iPad Air a creative and mobile gaming powerhouse. Featuring Touch ID, advanced cameras, blazing-fast 5G2 and Wi-Fi 6, USB-C, and support for Magic Keyboard and Apple Pencil (2nd generation)3.",
-		oldPrice: "1000.00",
-		newPrice: "985.50",
-		category: "tablet",
-		brand: "apple",
-		quantity: "0",
-		src: pageContextPath + "/images/product/product_iPadairgen51.jpg"		
-	},	{
-		code: "prd5",
-		name: "Apple Watch Series 7 (GPS + Cellular) 45mm Blue Aluminium Case with Abyss Blue Sport Band",
-		desc: "Originally released October 2021. S7 with 64-bit dual-core processor. Water resistant to 50 metres¹Always-On Retina LTPO OLED display (1,000 nits brightness). 802.11b/g/n 2.4GHz and 5GHz. Bluetooth 5.0. Built-in rechargeable lithium-ion battery (Up to 18 hours²). Third-generation optical heart sensor. Accelerometer: up to 32 g-forces with fall detection. Gyroscope. Ambient light sensor. Capacity 32GB. Ceramic and sapphire crystal back",
-		oldPrice: "750.00",
-		newPrice: "639.20",
-		category: "smartwatch",
-		brand: "apple",
-		quantity: "0",
-		src: pageContextPath + "/images/product/product_appleWatch71.jpg"		
-	},{
-		code: "prd6",
-		name: "iPhone 11 Pro Max Silicone",
-		desc: "Designed by Apple to complement iPhone 11 Pro Max, the form of the silicone case fits snugly over the volume buttons, side button and curves of your device without adding bulk. A soft microfibre lining on the inside helps protect your iPhone. On the outside, the silky, soft-touch finish of the silicone exterior feels great in your hand. And you can keep it on all the time, even when you’re charging wirelessly. Like every Apple-designed case, it undergoes thousands of hours of testing throughout the design and manufacturing process. So not only does it look great, it’s built to protect your iPhone from scratches and drops.",
-		oldPrice: "0",
-		newPrice: "65.00",
-		category: "accessory",
-		brand: "apple",
-		quantity: "0",
-		src: pageContextPath + "/images/product/product_iPhonecase1.jpg"		
-	}
-];
+//const products = [
+//	{
+//		code: "prd1",
+//		name: "Dell 7040 SFF Bundle Desktop i7-6700 3.4GHz 16GB RAM 512GB NVMe SSD + 22 Monitor - Refurbished Grade A",
+//		desc: "Dell 7040 SFF Bundle Desktop i7-6700 3.4GHz 16GB RAM 512GB NVMe SSD + 22 Monitor - Refurbished Grade A",
+//		oldPrice: "2850.00",
+//		newPrice: "2599.00",
+//		category: "laptop",
+//		brand: "dell",
+//		quantity: "0",
+//		src: pageContextPath + "/images/product/product_computerdell1.jpg"
+//	},{
+//		code: "prd2",
+//		name: "Apple MacBook Pro 13 M2 chip 512GB Space Grey 2022 MNEJ3X/A",
+//		desc: "The 13-inch MacBook Pro laptop is a portable powerhouse. Get more done faster with a next-generation 8-core CPU, 10-core GPU and 8GB of unified memory. Go all day and into the night, thanks to the power-efficient performance of the Apple M2 chip*Thanks to its active cooling system, the 13-inch MacBook Pro can sustain pro levels of performance, so you can run CPU- and GPU-intensive tasks for hours on end.",
+//		oldPrice: "0",
+//		newPrice: "3200.00",
+//		category: "laptop",
+//		brand: "apple",
+//		quantity: "0",
+//		src: pageContextPath + "/images/product/product_laptopapple1.jpg"		
+//	},{
+//		code: "prd3",
+//		name: "iPhone 14 Pro Max 128GB",
+//		desc: "iPhone 14 Pro Max 128GB",
+//		oldPrice: "0",
+//		newPrice: "1850.00",
+//		category: "cellphone",
+//		brand: "apple",
+//		quantity: "0",
+//		src: pageContextPath + "/images/product/product_iPhone14promax.jpg"		
+//	},
+//	{
+//		code: "prd4",
+//		name: "APPLE IPAD AIR (5 GEN) 10.9-INCH WI-FI+CELL 256GB STARLIGHT",
+//		desc: "Apple iPad Air (5th Generation) 10.9-inch 256GB Wi-Fi + Cellular Starlight iPad Air. With an immersive 10.9-inch Liquid Retina display1. The breakthrough Apple M1 chip delivers faster performance, making iPad Air a creative and mobile gaming powerhouse. Featuring Touch ID, advanced cameras, blazing-fast 5G2 and Wi-Fi 6, USB-C, and support for Magic Keyboard and Apple Pencil (2nd generation)3.",
+//		oldPrice: "1000.00",
+//		newPrice: "985.50",
+//		category: "tablet",
+//		brand: "apple",
+//		quantity: "0",
+//		src: pageContextPath + "/images/product/product_iPadairgen51.jpg"		
+//	},	{
+//		code: "prd5",
+//		name: "Apple Watch Series 7 (GPS + Cellular) 45mm Blue Aluminium Case with Abyss Blue Sport Band",
+//		desc: "Originally released October 2021. S7 with 64-bit dual-core processor. Water resistant to 50 metres¹Always-On Retina LTPO OLED display (1,000 nits brightness). 802.11b/g/n 2.4GHz and 5GHz. Bluetooth 5.0. Built-in rechargeable lithium-ion battery (Up to 18 hours²). Third-generation optical heart sensor. Accelerometer: up to 32 g-forces with fall detection. Gyroscope. Ambient light sensor. Capacity 32GB. Ceramic and sapphire crystal back",
+//		oldPrice: "750.00",
+//		newPrice: "639.20",
+//		category: "smartwatch",
+//		brand: "apple",
+//		quantity: "0",
+//		src: pageContextPath + "/images/product/product_appleWatch71.jpg"		
+//	},{
+//		code: "prd6",
+//		name: "iPhone 11 Pro Max Silicone",
+//		desc: "Designed by Apple to complement iPhone 11 Pro Max, the form of the silicone case fits snugly over the volume buttons, side button and curves of your device without adding bulk. A soft microfibre lining on the inside helps protect your iPhone. On the outside, the silky, soft-touch finish of the silicone exterior feels great in your hand. And you can keep it on all the time, even when you’re charging wirelessly. Like every Apple-designed case, it undergoes thousands of hours of testing throughout the design and manufacturing process. So not only does it look great, it’s built to protect your iPhone from scratches and drops.",
+//		oldPrice: "0",
+//		newPrice: "65.00",
+//		category: "accessory",
+//		brand: "apple",
+//		quantity: "0",
+//		src: pageContextPath + "/images/product/product_iPhonecase1.jpg"		
+//	}
+//];
 
-function loadProductsToLS(){
-	localStorage.setItem('products', JSON.stringify(products));
-}
+//function loadProductsToLS(){
+//	localStorage.setItem('products', JSON.stringify(products));
+//}
 
 function loadProducts(){	
 	$.each(products, function(){
@@ -279,42 +279,26 @@ function loadProducts(){
 //	localStorage.setItem('carts', JSON.stringify(carts));
 //});
 
-function addToCart(productID){
-	const selectedProductID = productID;
-	var carts = [];
-	if(localStorage.getItem("carts") !== null)
-		carts = JSON.parse(localStorage.getItem('carts')).data;	
-    var product;
-    product = carts.find(x => x.id === selectedProductID);
-    if(product === undefined){
-		product = {id: selectedProductID, quantity: 1};
-		carts.push(product)
-	}
-	else{
-		product.quantity += 1;
-	}
-	localStorage.setItem('carts', JSON.stringify({lastUpdate: new Date().getTime(),data: carts}));
-}
+//function addToCart(productID){
+//		
+//	const selectedProductID = productID;
+//	var carts = [];
+//	if(localStorage.getItem("carts") !== null)
+//		carts = JSON.parse(localStorage.getItem('carts')).data;	
+//    var product;
+//    product = carts.find(x => x.id === selectedProductID);
+//    if(product === undefined){
+//		product = {id: selectedProductID, quantity: 1};
+//		carts.push(product)
+//	}
+//	else{
+//		product.quantity += 1;
+//	}
+//	localStorage.setItem('carts', JSON.stringify({lastUpdate: new Date().getTime(),data: carts}));
+//}
 
 function formatNumberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-function viewCart(){
-	var carts = [];
-	if(localStorage.getItem("carts") !== null)
-		carts = JSON.parse(localStorage.getItem('carts')).data;		
-		
-	var form = 	jQuery('<form>',{
-			action: 'Cart',
-			method: 'Post'
-		}).append(jQuery('<input>',{
-			type: 'hidden',
-			name: 'productIDs',
-			value: JSON.stringify(carts)
-		}));
-		form.hide().appendTo("body").submit();
-	//alert($(form));
 }
 
 function login(){		
@@ -346,6 +330,42 @@ function logout(username){
 		value: username
 	}).appendTo(form);	
 	form.hide().appendTo("body").submit();
+}
+
+function requestToServlet(command, productID){
+	 var form = 
+	jQuery('<form>',{
+		action: 'Cart',
+		method: 'Post'
+	}).append(jQuery('<input>',{
+		type: 'hidden',
+		name: 'command',
+		value: command
+	}));
+	if(command != ''){
+		jQuery('<input>',{
+			type: 'hidden',
+			name: 'productID',
+			value: productID
+		}).appendTo(form);		
+	}
+	form.hide().appendTo("body").submit();		
+}
+
+function viewCart(){
+	requestToServlet('viewCart', '');	
+}
+
+function increase(productID){
+	requestToServlet('increase', productID);
+}
+
+function decrease(productID){	
+	requestToServlet('decrease', productID);	
+}
+
+function remove(productID){	
+	requestToServlet('remove', productID);
 }
 
 //end cookies functions

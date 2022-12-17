@@ -301,7 +301,7 @@
 												</div>
 												<div class="col-md-6">
 													<button class="productButton" type="button"
-														onclick="addToCart(${product.id})">Add To Cart</button>
+														onclick="increase(${product.id})">Add To Cart</button>
 												</div>
 											</div>
 										</form>

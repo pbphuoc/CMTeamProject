@@ -77,12 +77,16 @@ public class LoginServlet extends HttpServlet {
 	private void login(HttpServletRequest request, HttpServletResponse response, String email, String password) throws ServletException, IOException {
 		UserDAO userDAO = (UserDAO)DAOService.getDAO(DAOType.USER);
 		User user = userDAO.getUserByEmailAndPassword(email, password);
-		if(user != null) {
-			HttpSession session = request.getSession();
+		HttpSession session = request.getSession();
+		if(user != null) {			
 			session.setAttribute("user", user.getFullname());
 			session.setAttribute("username", email);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
 			dispatcher.forward(request, response);			
+		}else {
+			session.setAttribute("username", "invalid");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+			dispatcher.forward(request, response);				
 		}
 	}	
 	

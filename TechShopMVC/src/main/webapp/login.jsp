@@ -85,8 +85,6 @@
 
 									<li class="nav-item d_none cartBtnLi"><a class="nav-link" onclick="viewCart()"><i
 											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>																
-									<li class="nav-item menuBarUserLi"><h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" href="#">Login</a>
-									</li>
 								</ul>
 							</div>
 						</nav>
@@ -107,16 +105,44 @@
 		<div class="row">
 			<div class="col-md-4 m-auto">
 				<div class="form_container" id="loginDiv">
-					<form action="Auth" method="Post">
+				<c:choose>
+					<c:when test="${sessionScope.user == '' && sessionScope.username == 'invalid'}">
+						<form action="Auth" method="Post" class="needs-validation was-validated" novalidate>
+					</c:when>
+					<c:otherwise>
+						<form action="Auth" method="Post" class="needs-validation" novalidate>
+					</c:otherwise>
+				</c:choose>
+<!-- 					<form action="Auth" method="Post" class="needs-validation" novalidate> -->
 						<input type="hidden" name="command" value="login">
 						<div class="input-group mb-3">
-							<input type="text" class="form-control" placeholder="Email Address"
-								id="emailLogin" name="emailLogin" aria-describedby="basic-addon1">
+							<input type="email" class="form-control" placeholder="Email Address"
+								id="emailLogin" name="emailLogin" required>
+						    <div id="emailFeedback" class="invalid-feedback">
+						      	<c:choose>
+									<c:when test="${sessionScope.user == '' && sessionScope.username == 'invalid'}">
+										Incorrect Email or Password. Please try again
+									</c:when>
+									<c:otherwise>
+										
+									</c:otherwise>
+							</c:choose>
+						    </div>								
 						</div>
 						<div class="input-group mb-3">
 							<input type="password" class="form-control"
 								placeholder="Password" id="passwordLogin" name="passwordLogin"
-								aria-describedby="basic-addon1">
+								required>
+						    <div id="passwordFeedback" class="invalid-feedback">
+						      	<c:choose>
+									<c:when test="${sessionScope.user == '' && sessionScope.username == 'invalid'}">
+										Incorrect Email or Password. Please try again
+									</c:when>
+									<c:otherwise>
+										
+									</c:otherwise>
+								</c:choose>
+						    </div>																										
 						</div>
 						<button class="btn btn-primary" type="submit" id="loginBtn">Login</button>
 					</form>
@@ -208,7 +234,59 @@
 	<script src="${pageContext.request.contextPath}/js/custom.js"></script>
 	<script src="${pageContext.request.contextPath}/js/projectJS.js"></script>
 	<script type="text/javascript">
-		document.onload = redirectLoggedInUser();
+	(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		    var forms = document.getElementsByClassName('needs-validation');
+		    // Loop over them and prevent submission
+		    var validation = Array.prototype.filter.call(forms, function(form) {
+		      form.addEventListener('submit', function(event) {
+		        if (form.checkValidity() === false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }
+		        
+		        validateEmail();
+		        validatePassword()
+		        
+		        form.classList.add('was-validated');
+		      }, false);
+		    });
+		  }, false);
+		})();
+	function setErrorMessage(element, message){
+		$(element).html(message);
+		if(message != ''){
+			element.addClass('.is-valid');
+			element.removeClass('.is-invalid');
+		}else{
+			element.addClass('.is-invalid');
+			element.removeClass('.is-valid');			
+		}
+	}
+	function validateEmail(){
+		var emailFeedback = $('#emailFeedback') ;
+		var email = $('#emailLogin').val();
+		var emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		var isValidEmailFormat = new RegExp(emailPattern).test(email);
+		if(email == ''){
+			setErrorMessage(emailFeedback,'Email Address cannot be blank');
+		}else if(!isValidEmailFormat){
+			setErrorMessage(emailFeedback,'Please provide a correct email address, e.g test@gmail.com');
+		}else{
+			setErrorMessage(emailFeedback, '');
+		}
+	}
+	function validatePassword(){
+		var passwordFeedback =  $('#passwordFeedback') ;
+		var password =  $('#passwordLogin').val();	
+		if(password == ''){
+			setErrorMessage(passwordFeedback,'Password cannot be blank');
+		}else{
+			setErrorMessage(passwordFeedback, '');
+		}
+	}	
 	</script>		
 </body>
 </html>
