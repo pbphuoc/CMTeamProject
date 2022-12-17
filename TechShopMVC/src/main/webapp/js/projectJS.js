@@ -1,7 +1,6 @@
 /**
  * 
  */
- var pageContextPath;
  
  function changeProductImage(_src){
 	document.getElementById("imageViewer").src = _src;
@@ -304,7 +303,7 @@ function formatNumberWithCommas(x) {
 function login(){		
 	 var form = jQuery('<form>',{
 			action: 'Auth',
-			method: 'Post'
+			method: 'Get'
 		}).append(jQuery('<input>',{
 			type: 'hidden',
 			name: 'command',
@@ -366,6 +365,28 @@ function decrease(productID){
 
 function remove(productID){	
 	requestToServlet('remove', productID);
+}
+
+function setErrorMessage(element, feedback, message){
+	$(feedback).html(message);
+	if(message == ''){
+		element.addClass('is-valid');
+		element.removeClass('is-invalid');
+	}else{
+		element.addClass('is-invalid');
+		element.removeClass('is-valid');			
+	}
+}
+
+function isEmailFormatValid(email){
+	var emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	return new RegExp(emailPattern).test(email);
+}
+
+function isMobileFormatValid(mobile){
+	var ausMobilePattern = /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/;
+	alert(new RegExp(ausMobilePattern).test(mobile));
+	return new RegExp(ausMobilePattern).test(mobile);
 }
 
 //end cookies functions

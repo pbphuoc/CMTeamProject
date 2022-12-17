@@ -36,6 +36,8 @@ public class IndexServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("-----------------------------");
+		System.out.println("doGet Index Servlet called");		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String action = request.getServletPath();
 		try {
@@ -54,6 +56,8 @@ public class IndexServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("-----------------------------");
+		System.out.println("doPost Index Servlet called");
 		doGet(request, response);
 	}
 	

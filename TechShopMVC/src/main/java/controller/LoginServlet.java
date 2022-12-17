@@ -36,27 +36,27 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("-----------------------------");
+		System.out.println("doGet Login Servlet called");				
+		System.out.println("Current command: " + request.getParameter("command"));
+		System.out.println("Current User: " + getUsername(request));			
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-//		String action = request.getServletPath();
 		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
-		System.out.println(command);
-		String username,password;
 		try {
 			switch(command) {
 				case "login":
-					username = request.getParameter("emailLogin");
-					password = request.getParameter("passwordLogin");
-					login(request, response, username, password);
+					login(request, response);
 					break;
 				case "logout":
-					username = request.getParameter("emailLogin");
-					System.out.println(username);
-					logout(request, response, username);			
+					logout(request, response);			
 					break;
 				case "getLoginForm":
 					getLoginPage(request, response);
 					break;
-				default:
+				case "register":
+					getLoginPage(request, response);
+					break;					
+				case "":
 					getLoginPage(request, response);
 					break;					
 			}
@@ -71,31 +71,46 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("-----------------------------");
+		System.out.println("doPost Login Servlet called");	
 		doGet(request, response);
 	}
 	
-	private void login(HttpServletRequest request, HttpServletResponse response, String email, String password) throws ServletException, IOException {
+	private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+
+	}	
+	
+	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String email = request.getParameter("emailLogin");
+		String password = request.getParameter("passwordLogin");		
 		UserDAO userDAO = (UserDAO)DAOService.getDAO(DAOType.USER);
 		User user = userDAO.getUserByEmailAndPassword(email, password);
 		HttpSession session = request.getSession();
 		if(user != null) {			
-			session.setAttribute("user", user.getFullname());
-			session.setAttribute("username", email);
+			session.setAttribute("userfullname", user.getFullname());
+			session.setAttribute("useremail", email);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
 			dispatcher.forward(request, response);			
 		}else {
-			session.setAttribute("username", "invalid");
+			session.setAttribute("useremail", "invalid");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 			dispatcher.forward(request, response);				
 		}
 	}	
 	
-	private void logout(HttpServletRequest request, HttpServletResponse response, String email) throws ServletException, IOException {
+	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String email = request.getParameter("emailLogin");
 		HttpSession session = request.getSession();
-		session.setAttribute("user", "");
-		session.setAttribute("username", "");			
+		System.out.println("Email to logout " + email);
+		System.out.println("Current useremail: " + (String)session.getAttribute("useremail"));
+		if(((String)session.getAttribute("useremail")).equals(email)) {
+			session.setAttribute("userfullname", "");
+			session.setAttribute("useremail", "");				
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
-		dispatcher.forward(request, response);	
+		dispatcher.forward(request, response);
+			
 	}
 	
 	private void getLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -115,10 +130,10 @@ public class LoginServlet extends HttpServlet {
 	
 	private String getUsername(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		if(session.getAttribute("user") != null && session.getAttribute("user") != "")
-			return (String)session.getAttribute("user");
+		if(session.getAttribute("userfullname") != null && session.getAttribute("userfullname") != "")
+			return (String)session.getAttribute("userfullname");
 		else {
-			session.setAttribute("user", "");
+			session.setAttribute("userfullname", "");
 			return "";
 		}
 	}

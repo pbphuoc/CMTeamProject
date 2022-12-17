@@ -87,12 +87,12 @@
 											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>																
 									<li class="nav-item menuBarUserLi">
 										<c:choose>
-											<c:when test="${sessionScope.user == ''}">
+											<c:when test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
 												<h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" onclick="login()">Login</a>
 											</c:when>
-											<c:when test="${sessionScope.user != ''}">
-												<h3 class="menuBarUsername">Hi ${sessionScope.user},</h3><a class="nav-link menuBarLoginBtn" onclick="logout('${sessionScope.username}')">Logout</a>
-											</c:when>																						
+											<c:otherwise>
+												<h3 class="menuBarUsername">Hi ${sessionScope.userfullname},</h3><a class="nav-link menuBarLoginBtn" onclick="logout('${sessionScope.useremail}')">Logout</a>
+											</c:otherwise>																						
 										</c:choose>
 									</li>
 								</ul>
