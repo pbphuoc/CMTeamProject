@@ -134,14 +134,17 @@ public class CartServlet extends HttpServlet {
 
 		protected void increase(HttpServletRequest request, HttpServletResponse response, String productID)throws ServletException, IOException {
 			HttpSession session = request.getSession();
-			
+			System.out.println(productID);
 			//viet getAttribute(cartItemDetails) check null or 0 ko, dung if de check, neu ko null thi lay tu do, neu null thi cartItemDetails rong, tao session(tao List cartItemDetails) cho no
 			HashMap<String,Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-			if(cartItems.containsKey(productID) ) {
-				cartItems.put(productID, cartItems.get(productID) + 1);				
-			}
-			
-			if(cartItems.size() == 0 || cartItems == null ) {
+				
+				if(cartItems.containsKey(productID) ) {
+					cartItems.put(productID, cartItems.get(productID) + 1);				
+				}	
+				
+				if(cartItems == null  ||  cartItems.size() == 0) {
+					HashMap<String,Integer> cartList = new HashMap<String,Integer>();
+					cartItems = cartList;
 					cartItems.put(productID,1);
 				}
 				if(cartItems.size() > 0 && cartItems.containsKey(productID) == false) {
