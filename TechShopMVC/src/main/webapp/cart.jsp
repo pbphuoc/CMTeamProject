@@ -53,7 +53,7 @@
 						<div class="navbar-brand">
 							<div class="center-desk" class="d-inline-flex">
 								<div class="logo">
-									<a href="index.html"><img src="${pageContext.request.contextPath}/images/logo.png" alt="#" /></a>
+									<a href="${pageContext.request.contextPath}/Home"><img src="${pageContext.request.contextPath}/images/logo.png" alt="#" /></a>
 								</div>
 							</div>
 						</div>
@@ -79,15 +79,23 @@
 							<div class="collapse navbar-collapse" id="navbarsExample04">
 								<ul class="navbar-nav mr-auto">
 									<li class="nav-item "><a class="nav-link"
-										href="${pageContext.request.contextPath}/index.html">Home</a></li>
+										href="${pageContext.request.contextPath}/Home">Home</a></li>
 
-									<li class="nav-item"><a class="nav-link"
-										href="product.html">Products</a></li>
-
-									<li class="nav-item d_none"><a class="nav-link" href="cart.html"><i
+									<li class="nav-item d_none"><a class="nav-link" onclick="viewCart()"><i
 											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>																
-									<li class="nav-item menuBarUserLi"><h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" href="#">Login</a>
-									</li>
+									<li class="nav-item menuBarUserLi">
+									<c:choose>
+										<c:when test="${sessionScope.user == ''}">
+											<h3 class="menuBarUsername"></h3>
+											<a class="nav-link menuBarLoginBtn" onclick="login()">Login</a>
+										</c:when>
+										<c:when test="${sessionScope.user != ''}">
+											<h3 class="menuBarUsername"> Hi ${sessionScope.user},</h3>
+											<a class="nav-link menuBarLoginBtn" onclick="logout('${sessionScope.user}')">Logout</a>
+										</c:when>
+									</c:choose>
+									</li>	
+									
 								</ul>
 							</div>
 						</nav>
@@ -102,7 +110,7 @@
 			<div class="col-xl-12">
 				<div class="cart">
 					<h1 class="cartTitle">
-						My Shopping Cart <a href="index.html" class="btn"> <i
+						My Shopping Cart <a href="${pageContext.request.contextPath}/Home" class="btn"> <i
 							class="fa fa-shopping-cart " aria-hidden="true"></i> <span
 							class="backToShop">Back To Shop</span>
 						</a>
@@ -121,33 +129,38 @@
 			</table>
 		</div>
 		<div class="cartItemWrapper">
-		<c:forEach var="item" items="${cartList}">
+		<% double subTotal = 0; %>
+		
+		<c:forEach var="item" items="${cartItemDetails}">
 			<div class="itemTable">
 				<div class="cartCol1">
 					<div class="itemInfor">
 						<a href="product.html"> 
-
-
-						<img src=<c:out value="item[imgSrc]"></c:out>>
-
-						</a>
+					<img src="${pageContext.request.contextPath}<c:out value='${item.product.imgSrc}'/>">
+					</a>
 						<a href="product.html"> Apple MacBook Pro 13" M2 chip 512GB </a>
 					</div>
 					<div class="itemQuantity">
-						<button class="increment"><i class="fa fa-plus"></i></button>
-						<span>1</span>
-						<button class="decrement"><i class="fa fa-minus"></i></button>						
+						<button onclick="increase(${item.product.id})" class="increment">
+							<i class="fa fa-plus"></i>
+						</button>
+						<span class="quantity">
+							<c:out value="${item.quantity}"/>
+						</span>
+						<button class="decrement" onclick="decrease(${item.product.id})"><i class="fa fa-minus"></i><span class="itemId" hidden><c:out value="${item.product.id}"/></span></button>						
 					</div>
 				</div>
 				<div class="cartCol2">
-					<div class="unitPrice">price</div>
+					<div class="unitPrice">
+					<c:out value='${item.product.newPrice}'/>
+					</div>
 					<div class="totalPrice">
 						<div class="itemPrice">
-							$3,200
+						<c:out value='${item.product.newPrice * item.quantity}'/> 
 						</div>
 						<div class="itemRemove">
-							<button>
-								<i class="fa fa-trash-o"></i> <span class="cartDelete"> Remove</span>
+							<button onclick="remove(${item.product.id})">
+								<i class="fa fa-trash-o"></i> <span class="cartDelete"><span class="itemId" hidden><c:out value="${item.product.id}"/></span>  Remove</span>
 							</button>
 						</div>
 					</div>
@@ -155,7 +168,21 @@
 			</div>
 			</c:forEach>
 		</div>
-		
+		<div class="paymentWrapper">
+			<div class="subTotal">
+				<div class="summary">Subtotal</div>
+				<p class="subTotalPrice">
+			
+			</p>
+			</div>
+			<div class="checkOutNow">
+				<a href="checkout.html">
+					<button>
+						<i class="fa-solid fa-dollar-sign"></i>Check Out Now
+					</button>
+				</a>
+			</div>
+		</div>
 		
 	</div>
 
@@ -226,6 +253,7 @@
 	<script src="${pageContext.request.contextPath}/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/custom.js"></script>
 	<script src="${pageContext.request.contextPath}/js/projectJS.js"></script>
+	<script src="${pageContext.request.contextPath}/js/cart.js"></script>
 	<script type="text/javascript">
 		document.onload = loadLoggedInUser();
 	</script>		
