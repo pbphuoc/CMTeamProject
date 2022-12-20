@@ -1,106 +1,106 @@
 /**
  * 
  */
- 
- function changeProductImage(_src){
+
+function changeProductImage(_src) {
 	document.getElementById("imageViewer").src = _src;
 }
 
-$('#sorter').change( function(){
-//	var selectedSorter = $('#sorter').val();
+$('#sorter').change(function() {
+	//	var selectedSorter = $('#sorter').val();
 });
 
-$('#categorySelect').change(function(){
+$('#categorySelect').change(function() {
 	selectedCategories.innerHTML = '';
-	$('#categorySelect :selected').each(function(index){
-		if(index != 0)
+	$('#categorySelect :selected').each(function(index) {
+		if (index != 0)
 			selectedCategories.innerHTML += ', ';
-		if(index != 0 && index % 3  == 0)
+		if (index != 0 && index % 3 == 0)
 			selectedCategories.innerHTML += '<br/>';
 		selectedCategories.innerHTML += this.innerHTML;
-	});	
+	});
 });
 
-$('#brandSelect').change(function(){
+$('#brandSelect').change(function() {
 	selectedBrands.innerHTML = '';
-	$('#brandSelect :selected').each(function(index){
-		if(index != 0)
+	$('#brandSelect :selected').each(function(index) {
+		if (index != 0)
 			selectedBrands.innerHTML += ', ';
-		if(index != 0 && index % 3  == 0)
+		if (index != 0 && index % 3 == 0)
 			selectedBrands.innerHTML += '<br/>';
 		selectedBrands.innerHTML += this.innerHTML;
-	});	
+	});
 });
 
-$('#availabilitySelect').change(function(){
+$('#availabilitySelect').change(function() {
 	selectedAvailabilities.innerHTML = '';
-	$('#availabilitySelect :selected').each(function(index){
-		if(index != 0)
+	$('#availabilitySelect :selected').each(function(index) {
+		if (index != 0)
 			selectedAvailabilities.innerHTML += ', ';
-		if(index != 0 && index % 3  == 0)
+		if (index != 0 && index % 3 == 0)
 			selectedAvailabilities.innerHTML += '<br/>';
 		selectedAvailabilities.innerHTML += this.innerHTML;
-	});	
+	});
 });
 
-function loadOptions(opt_arr, select_id){	
-	$.each(opt_arr, function(){
-		jQuery('<option>',{
+function loadOptions(opt_arr, select_id) {
+	$.each(opt_arr, function() {
+		jQuery('<option>', {
 			value: Object.values(this)[0],
 			html: Object.values(this)[1]
 		}).appendTo(select_id);
 	});
 }
 
-function loadCountryCode(){	
+function loadCountryCode() {
 	const country_codes = [
-		{country: "vietnam", code: "+84"},
-		{country: "us", code: "+1"}
-		];
+		{ country: "vietnam", code: "+84" },
+		{ country: "us", code: "+1" }
+	];
 	loadOptions(country_codes, '#countryCodeList');
 }
 
-function loadSorter(){	
+function loadSorter() {
 	const sort_options = [
-		{sort_key: "pricelowtohigh", sort_value: "Price Low To High"},
-		{sort_key: "pricehightolow", sort_value: "Price High To Low"},
-		{sort_key: "nameatoz", sort_value: "Name A To Z"},
-		{sort_key: "nameztoa", sort_value: "Name Z To A"},
-		{sort_key: "oldtonew", sort_value: "Old To New"},
-		{sort_key: "newtoold", sort_value: "New To Old"},
-		];
+		{ sort_key: "pricelowtohigh", sort_value: "Price Low To High" },
+		{ sort_key: "pricehightolow", sort_value: "Price High To Low" },
+		{ sort_key: "nameatoz", sort_value: "Name A To Z" },
+		{ sort_key: "nameztoa", sort_value: "Name Z To A" },
+		{ sort_key: "oldtonew", sort_value: "Old To New" },
+		{ sort_key: "newtoold", sort_value: "New To Old" },
+	];
 	loadOptions(sort_options, '#sorter');
 }
 
-function loadChechOutForm(){
-	if (getCookie("username") != ""){
+function loadChechOutForm() {
+	if (getCookie("username") != "") {
 		$('#checkoutMember').hide();
 		$('#guestCheckoutLabel').text('Check Out');
 		$('#guestEmail').val(getCookie("username"));
-	}else{
+	} else {
 		$('#checkoutMember').show();
 		$('#guestCheckoutLabel').text('Check Out As Guest');
 		$('#guestEmail').val("");
 	}
 }
 
-function redirectLoggedInUser(){
-	if (getCookie("username") != ""){
+function redirectLoggedInUser() {
+	if (getCookie("username") != "") {
 		window.location.href = "index.html"
 	}
 }
 
-function loadLoggedInUser(){
-	if (getCookie("username") != ""){
+function loadLoggedInUser() {
+	if (getCookie("username") != "") {
 		$('.menuBarUsername').text("Welcome back " + getCookie("username") + ", ");
 		$('.menuBarLoginBtn').text("Logout");
-	}	
+	}
 }
 
-$('#deliveryOptions input').change(function(){
-	if($(this).attr('id') == 'optDeliveryLB')
+$('#deliveryOptions input').change(function() {
+	if ($(this).attr('id') == 'optDeliveryLB')
 		$('#guestAddress').show();
-	else if($(this).attr('id') == 'optCollectLB')
+	else if ($(this).attr('id') == 'optCollectLB')
 		$('#guestAddress').hide();
 });
 
@@ -152,7 +152,7 @@ function getCookie(cname) {
 }
 
 function deleteCookie(cname) {
-	document.cookie = cname +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	document.cookie = cname + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
 //const products = [
@@ -224,39 +224,39 @@ function deleteCookie(cname) {
 //	localStorage.setItem('products', JSON.stringify(products));
 //}
 
-function loadProducts(){	
-	$.each(products, function(){
-		var oneProductColumn = $("<div class='col-md-4'></div>").appendTo('#productRowDiv');	
+function loadProducts() {
+	$.each(products, function() {
+		var oneProductColumn = $("<div class='col-md-4'></div>").appendTo('#productRowDiv');
 		var productBoxDiv = $("<div class='product_box'></div>").appendTo(oneProductColumn);
 		productBoxDiv.attr("value", Object.values(this)[0]);
-		var figure = $("<figure></figure>").appendTo(productBoxDiv);		
-		jQuery('<img>',{
+		var figure = $("<figure></figure>").appendTo(productBoxDiv);
+		jQuery('<img>', {
 			class: "productThumbnail",
 			src: Object.values(this)[8]
 		}).appendTo(figure);
-		jQuery('<p>',{
+		jQuery('<p>', {
 			class: "productDescription",
 			html: Object.values(this)[1]
-		}).appendTo(productBoxDiv);	
-		jQuery('<h3>',{
+		}).appendTo(productBoxDiv);
+		jQuery('<h3>', {
 			class: "oldPrice",
 			html: (Object.values(this)[3] - Object.values(this)[4] > 0) ? "$" + formatNumberWithCommas(Object.values(this)[3]) : ""
 		}).appendTo(productBoxDiv);
-		jQuery('<h3>',{
+		jQuery('<h3>', {
 			class: "newPrice",
 			html: "$" + formatNumberWithCommas(Object.values(this)[4])
-		}).appendTo(productBoxDiv);		
+		}).appendTo(productBoxDiv);
 		var buttonRow = $("<div class='row'></div>").appendTo(productBoxDiv);
 		var viewBtnDiv = $("<div class='col-md-6'></div>").appendTo(buttonRow);
-		jQuery('<button>',{
+		jQuery('<button>', {
 			class: "productButton viewProductBtn",
 			html: "View",
-		}).appendTo(viewBtnDiv);			
+		}).appendTo(viewBtnDiv);
 		var addBtnDiv = $("<div class='col-md-6'></div>").appendTo(buttonRow);
-		jQuery('<button>',{
+		jQuery('<button>', {
 			class: "productButton addToCartBtn",
 			html: "Add To Cart",
-		}).appendTo(addBtnDiv);			
+		}).appendTo(addBtnDiv);
 	});
 }
 
@@ -297,7 +297,7 @@ function loadProducts(){
 //}
 
 function formatNumberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 //function login(){		
@@ -331,59 +331,63 @@ function formatNumberWithCommas(x) {
 //	form.hide().appendTo("body").submit();
 //}
 
-function requestToServlet(command, productID){
-	 var form = 
-	jQuery('<form>',{
-		action: 'Cart',
-		method: 'Post'
-	}).append(jQuery('<input>',{
-		type: 'hidden',
-		name: 'command',
-		value: command
-	}));
-	if(command != ''){
-		jQuery('<input>',{
+function requestToServlet(servlet, command, productID) {
+	var form =
+		jQuery('<form>', {
+			action: servlet,
+			method: 'Post'
+		}).append(jQuery('<input>', {
+			type: 'hidden',
+			name: 'command',
+			value: command
+		}));
+	if (command != '') {
+		jQuery('<input>', {
 			type: 'hidden',
 			name: 'productID',
 			value: productID
-		}).appendTo(form);		
+		}).appendTo(form);
 	}
-	form.hide().appendTo("body").submit();		
+	form.hide().appendTo("body").submit();
 }
 
-function viewCart(){
-	requestToServlet('viewCart', '');	
+function viewProductDetail(productID) {
+	requestToServlet('Product', 'viewProductDetail', productID);
 }
 
-function increase(productID){
-	requestToServlet('increase', productID);
+function viewCart() {
+	requestToServlet('Cart', 'viewCart', '');
 }
 
-function decrease(productID){	
-	requestToServlet('decrease', productID);	
+function increase(productID) {
+	requestToServlet('Cart', 'increase', productID);
 }
 
-function remove(productID){	
-	requestToServlet('remove', productID);
+function decrease(productID) {
+	requestToServlet('Cart', 'decrease', productID);
 }
 
-function setErrorMessage(element, feedback, message){
+function remove(productID) {
+	requestToServlet('Cart', 'remove', productID);
+}
+
+function setErrorMessage(element, feedback, message) {
 	$(feedback).html(message);
-	if(message == ''){
+	if (message == '') {
 		element.addClass('is-valid');
 		element.removeClass('is-invalid');
-	}else{
+	} else {
 		element.addClass('is-invalid');
-		element.removeClass('is-valid');			
+		element.removeClass('is-valid');
 	}
 }
 
-function isEmailFormatValid(email){
+function isEmailFormatValid(email) {
 	var emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 	return new RegExp(emailPattern).test(email);
 }
 
-function isMobileFormatValid(mobile){
+function isMobileFormatValid(mobile) {
 	var ausMobilePattern = /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/;
 	return new RegExp(ausMobilePattern).test(mobile);
 }
@@ -392,7 +396,7 @@ function isMobileFormatValid(mobile){
 
 //$('#searchBar').change(function(){
 //	alert('test');
-//	
+//
 //});
 
 

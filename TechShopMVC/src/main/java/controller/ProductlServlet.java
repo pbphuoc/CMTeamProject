@@ -19,14 +19,14 @@ import service.DAO.DAOType;
 /**
  * Servlet implementation class ProductDetailServlet
  */
-@WebServlet("/ProductDetail")
-public class ProductDetailServlet extends HttpServlet {
+@WebServlet("/Product")
+public class ProductlServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductDetailServlet() {
+    public ProductlServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,7 +38,21 @@ public class ProductDetailServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		getProductDetail(request, response);
+		
+		
+		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
+		try {
+			switch (command) {
+			case "viewProductDetail":
+				getProductDetail(request, response);
+				break;
+			case "":
+				break;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new ServletException(e);
+		}		
 	}
 
 	/**
@@ -51,7 +65,7 @@ public class ProductDetailServlet extends HttpServlet {
 	
 	private void getProductDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProductDAO productDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
-		String id = request.getParameter("id");
+		String id = request.getParameter("productID");
 		Product product = productDAO.getRecordByID(id);
 		List<String> medias = productDAO.getAllMediaByProductID(id);
 		request.setAttribute("product", product);
