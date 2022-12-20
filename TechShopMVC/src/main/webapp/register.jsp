@@ -136,7 +136,7 @@
 						</div>																		
 						<div class="form-group">
 							<label for="mobileRegister">Mobile Number</label>
-							<input type="tel" class="form-control"  pattern="/^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/" name="mobileRegister" id="mobileRegister" placeholder="Please enter your mobile number" aria-label="Mobile" aria-describedby="basic-addon1" required>
+							<input type="tel" class="form-control" name="mobileRegister" id="mobileRegister" placeholder="Please enter your mobile number" aria-label="Mobile" aria-describedby="basic-addon1" required>
 							<div id="mobileRegisterFeedback" class="invalid-feedback">
 							</div>															
 						</div>						
