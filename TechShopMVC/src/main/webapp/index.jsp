@@ -88,10 +88,10 @@
 									<li class="nav-item menuBarUserLi">
 										<c:choose>
 											<c:when test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
-												<h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" onclick="login()">Login</a>
+												<h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" href="Auth?command=getLoginForm" >Login</a>
 											</c:when>
 											<c:otherwise>
-												<h3 class="menuBarUsername">Hi ${sessionScope.userfullname},</h3><a class="nav-link menuBarLoginBtn" onclick="logout('${sessionScope.useremail}')">Logout</a>
+												<h3 class="menuBarUsername">Hi ${sessionScope.userfullname},</h3><a class="nav-link menuBarLoginBtn" href="Auth?command=logout">Logout</a>
 											</c:otherwise>																						
 										</c:choose>
 									</li>

@@ -25,17 +25,15 @@ public class UserDAO extends DAO<User>{
 	}	
 	
 	public QueryResult insertUser(User user) {
-		try(
-				PreparedStatement insertStm = connection.prepareStatement(INSERT_USER_SQL);
-				){
-			if(getRecordByID(user.getEmail()) != null)
-					return QueryResult.DUPLICATE;
+		try (PreparedStatement insertStm = connection.prepareStatement(INSERT_USER_SQL);) {
+			if (getRecordByID(user.getEmail()) != null)
+				return QueryResult.DUPLICATE;
 			insertStm.setString(1, user.getEmail());
 			insertStm.setString(2, user.getPassword());
 			insertStm.setString(3, user.getFullname());
-			insertStm.setString(4, user.getPhoneNumber());			
+			insertStm.setString(4, user.getPhoneNumber());
 			return getResultCode(insertStm.executeUpdate());
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			// TODO: handle exception
 		}

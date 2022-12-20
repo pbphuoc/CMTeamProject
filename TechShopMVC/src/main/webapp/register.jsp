@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,19 +112,19 @@
 						<input type="hidden" name="command" value="register">
 						<div class="form-group">
 							<label for="fullnameRegister">Full Name</label>
-							<input type="text" class="form-control" id="fullnameRegister" placeholder="Please enter your full name" required>
+							<input type="text" class="form-control" name="fullnameRegister" id="fullnameRegister" placeholder="Please enter your full name" required>
 							<div id="fullnameRegisterFeedback" class="invalid-feedback">
 							</div>								
 						</div>
 						<div class="form-group">
 							<label for="emailRegister">Email Address</label>
-							<input type="email" class="form-control" id="emailRegister" placeholder="Please enter your email address" aria-label="Username" aria-describedby="basic-addon1" required>
+							<input type="email" class="form-control" name="emailRegister" id="emailRegister" placeholder="Please enter your email address" aria-label="Username" aria-describedby="basic-addon1" required>
 							<div id="emailRegisterFeedback" class="invalid-feedback">
 							</div>							
 						</div>	
 						<div class="form-group">
 							<label for="passwordRegister">Password</label>
-							<input type="password" class="form-control" id="passwordRegister" placeholder="Please enter your password" aria-label="Password" aria-describedby="basic-addon1" required>
+							<input type="password" class="form-control" name="passwordRegister" id="passwordRegister" placeholder="Please enter your password" aria-label="Password" aria-describedby="basic-addon1" required>
 							<div id="passwordRegisterFeedback" class="invalid-feedback">
 							</div>															
 						</div>
@@ -136,7 +136,7 @@
 						</div>																		
 						<div class="form-group">
 							<label for="mobileRegister">Mobile Number</label>
-							<input type="tel" pattern="/^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/" class="form-control" id="mobileRegister" placeholder="Please enter your mobile number" aria-label="Mobile" aria-describedby="basic-addon1" required>
+							<input type="tel" class="form-control"  pattern="/^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/" name="mobileRegister" id="mobileRegister" placeholder="Please enter your mobile number" aria-label="Mobile" aria-describedby="basic-addon1" required>
 							<div id="mobileRegisterFeedback" class="invalid-feedback">
 							</div>															
 						</div>						
@@ -231,7 +231,7 @@
 			        validateConfirmPassword();
 			        validateMobile();	        
 			        
-// 			        form.classList.add('was-validated');
+			        form.classList.add('was-validated');
 			      }, false);
 			    });
 			  }, false);

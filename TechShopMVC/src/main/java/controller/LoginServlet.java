@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import model.User;
 import service.DAO.DAOType;
+import service.DAO.QueryResult;
 import service.DAOService;
 import service.UserDAO;
 
@@ -37,33 +38,57 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("-----------------------------");
-		System.out.println("doGet Login Servlet called");				
+		System.out.println("doGet Login Servlet called");
 		System.out.println("Current command: " + request.getParameter("command"));
-		System.out.println("Current User: " + getUsername(request));			
+		System.out.println("Current User: " + getCurrentUser(request));
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
 		try {
-			switch(command) {
-				case "login":
+			switch (command) {
+			case "login":
+				if (!getCurrentUser(request).equalsIgnoreCase(""))
+					redirectToHome(request, response);
+				else {
 					login(request, response);
-					break;
-				case "logout":
-					logout(request, response);			
-					break;
-				case "getLoginForm":
+				}
+				break;
+			case "logout":
+				logout(request, response);
+				break;
+			case "getLoginForm":
+				if (!getCurrentUser(request).equalsIgnoreCase(""))
+					redirectToHome(request, response);
+				else {
 					getLoginPage(request, response);
-					break;
-				case "register":
+				}
+				break;
+			case "getRegisterForm":
+				if (!getCurrentUser(request).equalsIgnoreCase(""))
+					redirectToHome(request, response);
+				else {
+					getRegisterPage(request, response);
+				}
+				break;
+			case "register":
+				if (!getCurrentUser(request).equalsIgnoreCase(""))
+					redirectToHome(request, response);
+				else {
+					register(request, response);
+				}
+				break;
+			case "":
+				if (!getCurrentUser(request).equalsIgnoreCase(""))
+					redirectToHome(request, response);
+				else {
 					getLoginPage(request, response);
-					break;					
-				case "":
-					getLoginPage(request, response);
-					break;					
+				}
+				break;
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			throw new ServletException(e);
-		}		
+		}
+		
 	}
 
 	/**
@@ -77,8 +102,25 @@ public class LoginServlet extends HttpServlet {
 	}
 	
 	private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-
+		String fullname = request.getParameter("fullnameRegister");
+		String email = request.getParameter("emailRegister");
+		String password = request.getParameter("passwordRegister");
+		String mobile = request.getParameter("mobileRegister");
+		UserDAO userDAO = (UserDAO)DAOService.getDAO(DAOType.USER);
+		User user = userDAO.getRecordByID(email);
+		if(user != null) {
+			
+		}else {
+			user = new User(email, password, fullname, mobile);
+			QueryResult queryResult = userDAO.insertUser(user);
+			if (queryResult == QueryResult.SUCCESSFUL) {
+				HttpSession session = request.getSession();
+				session.setAttribute("userfullname", fullname);
+				session.setAttribute("useremail", email);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
+				dispatcher.forward(request, response);					
+			}
+		}
 	}	
 	
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -100,35 +142,30 @@ public class LoginServlet extends HttpServlet {
 	}	
 	
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("emailLogin");
 		HttpSession session = request.getSession();
-		System.out.println("Email to logout " + email);
 		System.out.println("Current useremail: " + (String)session.getAttribute("useremail"));
-		if(((String)session.getAttribute("useremail")).equals(email)) {
-			session.setAttribute("userfullname", "");
-			session.setAttribute("useremail", "");				
-		}
+		session.setAttribute("userfullname", "");
+		session.setAttribute("useremail", "");						
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
 		dispatcher.forward(request, response);
 			
 	}
+	private void redirectToHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
+		dispatcher.forward(request, response);	
+	}
 	
-	private void getLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(getUsername(request).equalsIgnoreCase("")) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-			dispatcher.forward(request, response);			
-		}else {
-//			ProductDAO productDAO = (ProductDAO)DAOService.getDAO(DAOType.PRODUCT);
-//			List<Product> products = productDAO.getAllRecords();
-//			request.setAttribute("productList", products);
-//			RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-//			dispatcher.forward(request, response);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
-			dispatcher.forward(request, response);			
-		}
+	private void getRegisterPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
+		dispatcher.forward(request, response);			 
+	}		
+	
+	private void getLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+		dispatcher.forward(request, response);			
 	}	
 	
-	private String getUsername(HttpServletRequest request) {
+	private String getCurrentUser(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userfullname") != null && session.getAttribute("userfullname") != "")
 			return (String)session.getAttribute("userfullname");
