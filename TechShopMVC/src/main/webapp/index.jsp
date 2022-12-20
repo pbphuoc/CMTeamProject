@@ -277,12 +277,14 @@
 							<c:forEach var="product" items="${productList}">
 								<div class='col-md-4'>
 									<div class='product_box'>
-										<form action="ProductDetail" method="post">
-											<input class="productID" type="hidden" name="id"
-												value="${product.id}" hidden>
+										<form>
+<!-- 											<input class="productID" type="hidden" name="id" -->
+<%-- 												value="${product.id}" hidden> --%>
 											<div class="productThumbnailContainer">
+												<a href="Product?command=viewProductDetail&productID=${product.id}">
 												<img class="productThumbnail"
 													src='${pageContext.request.contextPath}${product.imgSrc}' />
+													</a>
 											</div>
 											<p class="productDescription">
 												<c:out value="${product.name}"></c:out>
@@ -297,7 +299,7 @@
 											</h3>
 											<div class="row">
 												<div class="col-md-6">
-													<button class="productButton" type="submit">View</button>
+													<a class="productButton" type="button" href="Product?command=viewProductDetail&productID=${product.id}">View</a>
 												</div>
 												<div class="col-md-6">
 													<button class="productButton" type="button"
