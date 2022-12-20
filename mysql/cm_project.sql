@@ -134,7 +134,7 @@ CREATE TABLE `user` (
   `phone_number` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,6 +143,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (13,'ff.pbphuoc@gmail.com','test','phuoc pham','0450028815'),(14,'phuocpham@gmail.com','test1','Ba Phuoc Pham','0450028815'),(15,'phuoc1@gmail.com','phuoc1','phuoc 1','04123456789'),(16,'phuoc2@gmail.com','phuoc2','phuoc 2','04999888777'),(17,'phuoc3@gmail.com','phuoc3','phuoc3','a');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -155,4 +156,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-12  1:10:39
+-- Dump completed on 2022-12-20 20:08:44
