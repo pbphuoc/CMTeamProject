@@ -144,7 +144,7 @@
 						<span class="create-text">Don't have account yet ? Join
 							with us now ! </span>
 					</div>
-					<a href="register.html">
+					<a href="Auth?command=getRegisterForm">
 						<button class="btn btn-secondary" type="button">Create an
 							account</button>
 					</a>
@@ -225,12 +225,6 @@
 	(function() {
 		  'use strict';
 		  window.addEventListener('load', function() {
-<%-- 			var username = '<%= session.getAttribute("username") %>'; --%>
-<%-- 			var user = '<%= session.getAttribute("user") %>'; --%>
-// 			if(user == '' && username = 'invalid'){
-// 				setErrorMessage($('#emailLogin'),$('#emailLoginFeedback'),'Incorrect Username or Password');
-// 				setErrorMessage($('#passwordLogin'),$('#passwordLoginFeedback'),'Incorrect Username or Password');
-// 			}
 		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
 		    var forms = document.getElementsByClassName('needs-validation');
 		    // Loop over them and prevent submission

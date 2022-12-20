@@ -6,15 +6,17 @@ public class User {
 	private String fullname;
 	private String phoneNumber;
 	
-	public User(String email, String fullname, String phoneNumber) {
+	public User(String email, String password, String fullname, String phoneNumber) {
 		this.email = email;
+		this.password = password;
 		this.fullname = fullname;
 		this.phoneNumber = phoneNumber;
 	}
 	
-
-	public void setPassword(String password) {
-		this.password = password;
+	public User(String email, String fullname, String phoneNumber) {
+		this.email = email;
+		this.fullname = fullname;
+		this.phoneNumber = phoneNumber;
 	}
 	
 	public String getEmail() {

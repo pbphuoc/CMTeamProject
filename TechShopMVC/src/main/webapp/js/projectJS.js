@@ -300,36 +300,36 @@ function formatNumberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function login(){		
-	 var form = jQuery('<form>',{
-			action: 'Auth',
-			method: 'Get'
-		}).append(jQuery('<input>',{
-			type: 'hidden',
-			name: 'command',
-			value: 'getLoginForm'
-		}));
-	form.hide().appendTo("body").submit();	
-}
+//function login(){		
+//	 var form = jQuery('<form>',{
+//			action: 'Auth',
+//			method: 'Get'
+//		}).append(jQuery('<input>',{
+//			type: 'hidden',
+//			name: 'command',
+//			value: 'getLoginForm'
+//		}));
+//	form.hide().appendTo("body").submit();	
+//}
 
-function logout(username){		
-	alert(username);
-	var form= jQuery('<form>',{
-			action: 'Auth',
-			method: 'Post'
-		});
-	jQuery('<input>',{
-		type: 'hidden',
-		name: 'command',
-		value: 'logout'
-	}).appendTo(form);
-	jQuery('<input>',{
-		type: 'hidden',
-		name: 'emailLogin',
-		value: username
-	}).appendTo(form);	
-	form.hide().appendTo("body").submit();
-}
+//function logout(username){		
+//	alert(username);
+//	var form= jQuery('<form>',{
+//			action: 'Auth',
+//			method: 'Post'
+//		});
+//	jQuery('<input>',{
+//		type: 'hidden',
+//		name: 'command',
+//		value: 'logout'
+//	}).appendTo(form);
+//	jQuery('<input>',{
+//		type: 'hidden',
+//		name: 'emailLogin',
+//		value: username
+//	}).appendTo(form);	
+//	form.hide().appendTo("body").submit();
+//}
 
 function requestToServlet(command, productID){
 	 var form = 
@@ -385,7 +385,6 @@ function isEmailFormatValid(email){
 
 function isMobileFormatValid(mobile){
 	var ausMobilePattern = /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/;
-	alert(new RegExp(ausMobilePattern).test(mobile));
 	return new RegExp(ausMobilePattern).test(mobile);
 }
 
