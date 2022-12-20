@@ -80,6 +80,7 @@ public class CartServlet extends HttpServlet {
 				case "viewCart":
 					//viewCart(request,response,productID);
 					getCartPage(request,response);
+					break;
 				
 				default:
 					getCartPage(request,response);

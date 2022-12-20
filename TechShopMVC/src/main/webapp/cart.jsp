@@ -84,16 +84,7 @@
 									<li class="nav-item d_none"><a class="nav-link" onclick="viewCart()"><i
 											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>																
 									<li class="nav-item menuBarUserLi">
-									<c:choose>
-										<c:when test="${sessionScope.user == ''}">
-											<h3 class="menuBarUsername"></h3>
-											<a class="nav-link menuBarLoginBtn" onclick="login()">Login</a>
-										</c:when>
-										<c:when test="${sessionScope.user != ''}">
-											<h3 class="menuBarUsername"> Hi ${sessionScope.user},</h3>
-											<a class="nav-link menuBarLoginBtn" onclick="logout('${sessionScope.user}')">Logout</a>
-										</c:when>
-									</c:choose>
+								
 									</li>	
 									
 								</ul>
