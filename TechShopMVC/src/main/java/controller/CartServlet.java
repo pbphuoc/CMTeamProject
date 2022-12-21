@@ -54,8 +54,7 @@ public class CartServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());	
+		// TODO Auto-generated method stub	
 		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
 		
 		String productID = request.getParameter("productID") != null ? request.getParameter("productID") : "";
@@ -66,15 +65,15 @@ public class CartServlet extends HttpServlet {
 			switch (command) {
 				case "increase":
 					increase(request,response,productID);
-					getCartPage(request,response);
+//					getCartPage(request,response);
 					break;
 				case "decrease":
 					decrease(request,response,productID);
-					getCartPage(request,response);
+//					getCartPage(request,response);
 					break;
 				case "remove":
 					remove(request,response,productID);
-					getCartPage(request,response);
+//					getCartPage(request,response);
 					break;
 				
 				case "viewCart":
@@ -131,6 +130,9 @@ public class CartServlet extends HttpServlet {
 		System.out.println(cartItems.size());
 		//set nguoc vo session de truyen ra getcartpage and jsp		
 		session.setAttribute("cartItems", cartItems);		
+		
+		//M coi có cần check decrease successful ko rồi trả về success
+		response.getWriter().append("success");				
 	}
 
 		protected void increase(HttpServletRequest request, HttpServletResponse response, String productID)throws ServletException, IOException {
@@ -161,6 +163,9 @@ public class CartServlet extends HttpServlet {
 					//truyen cartItems xuong DAO,tra ve gan vao day
 					
 			//set nguoc vo session de truyen ra getcartpage and jsp		
+					
+			//M coi có cần check decrease successful ko rồi trả về success
+			response.getWriter().append("success");					
 		}
 	
 		protected void decrease(HttpServletRequest request, HttpServletResponse response,String productID)throws ServletException, IOException {
@@ -185,5 +190,8 @@ public class CartServlet extends HttpServlet {
 			// truyen cartItems xuong DAO,tra ve gan vao day
 
 			// set nguoc vo session de truyen ra getcartpage and jsp
+			
+			//M coi có cần check decrease successful ko rồi trả về success
+			response.getWriter().append("success");		
 		}
 }

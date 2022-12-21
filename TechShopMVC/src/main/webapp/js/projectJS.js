@@ -359,16 +359,32 @@ function viewCart() {
 	requestToServlet('Cart', 'viewCart', '');
 }
 
+function ajaxToServlet(url, type, data, onSuccess) {
+	//requestToServlet('Cart', 'increase', productID);
+	$.ajax({
+		url: url,
+		type: type,
+		data: data,
+		success: function(response){
+			if(response == "success")
+				onSuccess();
+		}
+	});
+}
+
 function increase(productID) {
-	requestToServlet('Cart', 'increase', productID);
+	var onSuccess = function(){alert('increase success')};
+	ajaxToServlet('Cart', 'POST', {'command' : 'increase', 'productID' : productID}, onSuccess);
 }
 
 function decrease(productID) {
-	requestToServlet('Cart', 'decrease', productID);
+	var onSuccess = function(){alert('decrease success')};
+	ajaxToServlet('Cart', 'POST', {'command' : 'decrease', 'productID' : productID}, onSuccess);
 }
 
 function remove(productID) {
-	requestToServlet('Cart', 'remove', productID);
+	var onSuccess = function(){alert('remove success')};
+	ajaxToServlet('Cart', 'POST', {'command' : 'remove', 'productID' : productID}, onSuccess);
 }
 
 function setErrorMessage(element, feedback, message) {
