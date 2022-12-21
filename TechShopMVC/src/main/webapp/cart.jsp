@@ -53,7 +53,7 @@
 						<div class="navbar-brand">
 							<div class="center-desk" class="d-inline-flex">
 								<div class="logo">
-									<a href="${pageContext.request.contextPath}/Home"><img src="${pageContext.request.contextPath}/images/logo.png" alt="#" /></a>
+									<a href="Home"><img src="${pageContext.request.contextPath}/images/logo.png" alt="#" /></a>
 								</div>
 							</div>
 						</div>
@@ -79,21 +79,19 @@
 							<div class="collapse navbar-collapse" id="navbarsExample04">
 								<ul class="navbar-nav mr-auto">
 									<li class="nav-item "><a class="nav-link"
-										href="${pageContext.request.contextPath}/Home">Home</a></li>
+										href="Home">Home</a></li>
 
 									<li class="nav-item d_none"><a class="nav-link" onclick="viewCart()"><i
 											class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>																
 									<li class="nav-item menuBarUserLi">
-									<c:choose>
-										<c:when test="${sessionScope.user == ''}">
-											<h3 class="menuBarUsername"></h3>
-											<a class="nav-link menuBarLoginBtn" onclick="login()">Login</a>
-										</c:when>
-										<c:when test="${sessionScope.user != ''}">
-											<h3 class="menuBarUsername"> Hi ${sessionScope.user},</h3>
-											<a class="nav-link menuBarLoginBtn" onclick="logout('${sessionScope.user}')">Logout</a>
-										</c:when>
-									</c:choose>
+										<c:choose>
+											<c:when test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
+												<h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" href="Auth?command=getLoginForm" >Login</a>
+											</c:when>
+											<c:otherwise>
+												<h3 class="menuBarUsername">Hi ${sessionScope.userfullname},</h3><a class="nav-link menuBarLoginBtn" href="Auth?command=logout">Logout</a>
+											</c:otherwise>																						
+										</c:choose>
 									</li>	
 									
 								</ul>

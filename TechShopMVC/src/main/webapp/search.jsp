@@ -52,7 +52,7 @@
 						<div class="navbar-brand">
 							<div class="center-desk" class="d-inline-flex">
 								<div class="logo">
-									<a href="${pageContext.request.contextPath}/Home"><img src="${pageContext.request.contextPath}/images/logo.png" alt="#" /></a>
+									<a href="Home"><img src="${pageContext.request.contextPath}/images/logo.png" alt="#" /></a>
 								</div>
 							</div>
 						</div>
@@ -78,7 +78,7 @@
 							<div class="collapse navbar-collapse" id="navbarsExample04">
 								<ul class="navbar-nav mr-auto">
 									<li class="nav-item "><a class="nav-link"
-										href="${pageContext.request.contextPath}/Home">Home</a></li>
+										href="Home">Home</a></li>
 
 <!-- 									<li class="nav-item"><a class="nav-link"
 										href="product.html">Products</a></li> -->
