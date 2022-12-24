@@ -1495,3 +1495,16 @@ table .tableTotal {
 	max-width: 100%;
 	max-height: 100%;
 }
+
+/** check out **/
+
+.card-header{
+	background-color : white;
+}
+.card-body img {
+    width: 60px;
+    height: 60px;
+}
+.media {
+	align-items: center;
+}

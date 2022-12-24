@@ -26,11 +26,6 @@ import model.CartItem;
 import model.Product;
 import service.CartDAO;
 
-
-
-
-//request gui len tang la  command *increment* , command *decrement* , command *remove*, *viewCart*
-// request gui len co para (command, productID)
 /**
  * Servlet implementation class CartServlet
  */
@@ -60,24 +55,17 @@ public class CartServlet extends HttpServlet {
 		String productID = request.getParameter("productID") != null ? request.getParameter("productID") : "";
 		
 		try {
-			//swich case command (incre decre remove) viewCart default thi chay vo getcartpage
-			
 			switch (command) {
 				case "increase":
 					increase(request,response,productID);
-//					getCartPage(request,response);
 					break;
 				case "decrease":
 					decrease(request,response,productID);
-//					getCartPage(request,response);
 					break;
 				case "remove":
 					remove(request,response,productID);
-//					getCartPage(request,response);
-					break;
-				
-				case "viewCart":
-					//viewCart(request,response,productID);
+					break;				
+				case "viewCart":				
 					getCartPage(request,response);
 					break;
 				
@@ -104,17 +92,11 @@ public class CartServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		CartDAO cartDAO = new CartDAO();
 		HttpSession session = request.getSession();
-		//lay session, lay cartList
-			
-			HashMap<String,Integer> cartItems = (HashMap<String,Integer>) session.getAttribute("cartItems");
-			
-			
-			//check cartItems if null and size = 0 => empty jsp, else loop cartItems
+		HashMap<String,Integer> cartItems = (HashMap<String,Integer>) session.getAttribute("cartItems");
 			if(cartItems == null || cartItems.size() == 0) {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
 				dispatcher.forward(request, response);
 			} else {
-					//truyen cartItems xuong DAO,tra ve gan vao day
 					List<CartItemDetail> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
 					request.setAttribute("cartItemDetails", cartItemDetails);
 					RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
@@ -123,22 +105,18 @@ public class CartServlet extends HttpServlet {
 			}
 	}
 	protected void remove(HttpServletRequest request, HttpServletResponse response, String productID)throws ServletException, IOException {
+		
 		HttpSession session = request.getSession();	
 		HashMap<String,Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-		System.out.println(cartItems.size());
-				cartItems.remove(productID);				
-		System.out.println(cartItems.size());
-		//set nguoc vo session de truyen ra getcartpage and jsp		
-		session.setAttribute("cartItems", cartItems);		
-		
-		//M coi có cần check decrease successful ko rồi trả về success
+		cartItems.remove(productID);						
+		session.setAttribute("cartItems", cartItems);						
 		response.getWriter().append("success");				
 	}
 
 		protected void increase(HttpServletRequest request, HttpServletResponse response, String productID)throws ServletException, IOException {
+			CartDAO cartDAO = new CartDAO();
 			HttpSession session = request.getSession();
-			System.out.println(productID);
-			//viet getAttribute(cartItemDetails) check null or 0 ko, dung if de check, neu ko null thi lay tu do, neu null thi cartItemDetails rong, tao session(tao List cartItemDetails) cho no
+			System.out.println(productID);	
 			HashMap<String,Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 			HashMap<String,Integer> cartList = new HashMap<String,Integer>();
 				if(cartItems == null) {
@@ -150,30 +128,16 @@ public class CartServlet extends HttpServlet {
 				if(cartItems.size() == 0) {
 					cartItems.put(productID,1);
 				}
-					
-				
+	
 				if(cartItems.size() > 0 && cartItems.containsKey(productID) == false) {
 					cartItems.put(productID,1);
 				}
-				
-					
-			//tim productID truyen len co trong cartList chua, neu co roi loop qua check, dat bien boolean, neu false thi tao cai moi =>true, neu true => add		
-				
 					session.setAttribute("cartItems", cartItems);
-					//truyen cartItems xuong DAO,tra ve gan vao day
-					
-			//set nguoc vo session de truyen ra getcartpage and jsp		
-					
-			//M coi có cần check decrease successful ko rồi trả về success
-			response.getWriter().append("success");					
+					response.getWriter().append("success");					
 		}
 	
 		protected void decrease(HttpServletRequest request, HttpServletResponse response,String productID)throws ServletException, IOException {
-			HttpSession session = request.getSession();
-
-			// viet getAttribute(cartItemDetails) check null or 0 ko, dung if de check, neu
-			// ko null thi lay tu do, neu null thi cartItemDetails rong, tao session(tao
-			// List cartItemDetails) cho no
+			HttpSession session = request.getSession();	
 			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 			
 			if(cartItems.containsKey(productID) ) {
@@ -181,17 +145,8 @@ public class CartServlet extends HttpServlet {
 			}
 			if(cartItems.get(productID) == 0) {
 				cartItems.remove(productID);
-			}
-
-			// tim productID truyen len co trong cartList chua, neu co roi loop qua check,
-			// dat bien boolean, neu false thi tao cai moi =>true, neu true => add
-			
+			}	
 			session.setAttribute("cartItems", cartItems);
-			// truyen cartItems xuong DAO,tra ve gan vao day
-
-			// set nguoc vo session de truyen ra getcartpage and jsp
-			
-			//M coi có cần check decrease successful ko rồi trả về success
 			response.getWriter().append("success");		
 		}
 }

@@ -90,7 +90,7 @@
 									<li class="nav-item "><a class="nav-link"
 										href="${pageContext.request.contextPath}/Home">Home</a></li>
 
-									<!-- 									<li class="nav-item"><a class="nav-link"
+									<!-- <li class="nav-item"><a class="nav-link"
 										href="product.html">Products</a></li> -->
 
 									<li class="nav-item d_none cartBtnLi"><a class="nav-link"
@@ -139,7 +139,7 @@
 							<form>
 								<div class="form-row mb-3">
 									<div class="col-md-6">
-										<!-- 										<label for="guestEmail">Contact</label>  -->
+										<!-- <label for="guestEmail">Contact</label>  -->
 										<input type="email" class="form-control"
 											placeholder="Email Address" aria-describedby="basic-addon1"
 											id="guestEmail">
@@ -198,10 +198,86 @@
 			<div id="checkoutRight" class="col-md-5">
 				<h1>Order Detail</h1>
 
-			</div>
-		</div>
-	</div>
 
+				<div class="card-header card-1">
+					<p class="card-text text-muted mt-md-4  mb-2 space">
+					<a href="${pageContext.request.contextPath}/Cart">
+						<span class=" small text-muted ml-2 cursor-pointer">EDIT SHOPPING BAG</span>
+					</a>
+					</p>
+					
+				</div>
+				<div class="card-body pt-0">
+				
+				
+				<c:forEach var="item" items="${CartItemDetails}">				
+					<div class="row  justify-content-between">
+						<div class="col-auto col-md-7">
+							<div class="media flex-column flex-sm-row">
+								<img class="img-fluid"
+									src="${pageContext.request.contextPath}<c:out value='${item.product.imgSrc}'/>">
+								<p class="mb-0">
+									<b><c:out value="${item.product.name}"/></b>
+								</p>
+							</div>
+						</div>
+					
+							
+						<div class=" pl-0 flex-sm-col col-auto  my-auto">
+							<p class="boxed-1"><c:out value="${item.quantity}"/></p>
+						</div>
+						<div class=" pl-0 flex-sm-col col-auto  my-auto ">
+							<p class="rowPrice">
+								<b><c:out value="${item.product.newPrice * item.quantity }"/></b>
+							</p>
+						</div>
+					</div>
+				</c:forEach>
+					<hr class="my-2">
+					<div class="row ">
+						<div class="col">
+							<div class="row justify-content-between">
+								<div class="col-4">
+									<p class="mb-1 ">
+										<b>Subtotal</b>
+									</p>
+								</div>
+								<div class="flex-sm-col col-auto">
+									<p class="mb-1 subTotalPrice">
+										<b>0</b>
+									</p>
+								</div>
+							</div>
+							
+							<div class="row justify-content-between">
+								<div class="col-4">
+									<p>
+										<b>Total</b>
+									</p>
+								</div>
+								<div class="flex-sm-col col-auto">
+									<p class="mb-1 subTotalPrice">
+										<b>0</b>
+									</p>
+								</div>
+							</div>
+							<hr class="my-0">
+						</div>
+					</div>
+					<div class="row mb-5 mt-4 ">
+						<div class="col-md-7 col-lg-6 mx-auto">
+							<button type="button"
+								class="btn btn-block btn-outline-primary btn-lg">ADD
+								GIFT CODE</button>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+            </div>
+        </div>
+	
 	<!-- end footer -->
 	<!-- Javascript files-->
 	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
@@ -214,6 +290,7 @@
 		src="${pageContext.request.contextPath}/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/custom.js"></script>
 	<script src="${pageContext.request.contextPath}/js/projectJS.js"></script>
+	<script src="${pageContext.request.contextPath}/js/checkout.js"></script>
 
 </body>
 </html>

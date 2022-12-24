@@ -136,7 +136,7 @@
 						<a href="product.html"> 
 					<img src="${pageContext.request.contextPath}<c:out value='${item.product.imgSrc}'/>">
 					</a>
-						<a href="product.html"> Apple MacBook Pro 13" M2 chip 512GB </a>
+						<a href="product.html"> <c:out value="${item.product.name }"/> </a>
 					</div>
 					<div class="itemQuantity">
 						<button onclick="increase(${item.product.id})" class="increment">
@@ -174,7 +174,7 @@
 			</p>
 			</div>
 			<div class="checkOutNow">
-				<a href="checkout.html">
+				<a href="Checkout">
 					<button>
 						<i class="fa-solid fa-dollar-sign"></i>Check Out Now
 					</button>
