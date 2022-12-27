@@ -15,23 +15,22 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
-<!-- bootstrap css -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-<!-- our own css -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/projectStyle.css">
-<!-- Responsive-->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/responsive.css">
 <!-- fevicon -->
-<link rel="icon" href="${pageContext.request.contextPath}/images/fevicon.png" type="image/gif" />
-<!-- Scrollbar Custom CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.mCustomScrollbar.min.css">
+<link rel="icon" href="${pageContext.request.contextPath}/images/logo.png" type="image/gif" />
 <!-- Tweaks for older IEs-->
 <link rel="stylesheet"
 	href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
 	media="screen">
+<!-- bootstrap css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">	
+<!-- Responsive-->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/responsive.css">	
+<!-- Scrollbar Custom CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.mCustomScrollbar.min.css">	
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />	
 </head>
 <!-- body -->
 <body class="main-layout">
@@ -60,10 +59,8 @@
 					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
 						<div class="search_bar ">
 							<div class="form_container">
-								<form action="searchResult.html" method="post">
-									<input id="searchBar" class="form-control me-2" type="search"
-										placeholder="Search" aria-label="Search">
-								</form>
+								<input id="searchBar" class="form-control me-2" type="search"
+									placeholder="Search" onkeyup="searchProduct(this)">
 							</div>
 						</div>
 					</div>
@@ -106,96 +103,96 @@
 	<!-- end header inner -->
 	<!-- end header -->
 	<!-- banner -->
-	<section class="banner_main">
-		<div id="banner1" class="carousel slide" data-ride="carousel">
-			<ol class="carousel-indicators">
-				<li data-target="#banner1" data-slide-to="0" class="active"></li>
-				<li data-target="#banner1" data-slide-to="1"></li>
-				<li data-target="#banner1" data-slide-to="2"></li>
-			</ol>
-			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<div class="container">
-						<div class="carousel-caption">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="text-bg">
-										<span>Computer And Laptop</span>
-										<h1>Accessories</h1>
-										<p>We have a wide range of computers, laptops, cellphones,
-											smart watches and accessories.</p>
-										<a href="#">Buy Now </a> <a href="contact.html">Contact </a>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="text_img">
-										<figure>
-											<img src="${pageContext.request.contextPath}/images/pct.png" alt="#" />
-										</figure>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="container">
-						<div class="carousel-caption">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="text-bg">
-										<span>Computer And Laptop</span>
-										<h1>Accessories</h1>
-										<p>We have a wide range of computers, laptops, cellphones,
-											smart watches and accessories.</p>
-										<a href="#">Buy Now </a> <a href="contact.html">Contact </a>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="text_img">
-										<figure>
-											<img src="${pageContext.request.contextPath}/images/pct.png" alt="#" />
-										</figure>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="container">
-						<div class="carousel-caption">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="text-bg">
-										<span>Computer And Laptop</span>
-										<h1>Accessories</h1>
-										<p>We have a wide range of computers, laptops, cellphones,
-											smart watches and accessories.</p>
-										<a href="#">Buy Now </a> <a href="contact.html">Contact </a>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="text_img">
-										<figure>
-											<img src="${pageContext.request.contextPath}/images/pct.png" alt="#" />
-										</figure>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<a class="carousel-control-prev" href="#banner1" role="button"
-				data-slide="prev"> <i class="fa fa-chevron-left"
-				aria-hidden="true"></i>
-			</a> <a class="carousel-control-next" href="#banner1" role="button"
-				data-slide="next"> <i class="fa fa-chevron-right"
-				aria-hidden="true"></i>
-			</a>
-		</div>
-	</section>
+<!-- 	<section class="banner_main"> -->
+<!-- 		<div id="banner1" class="carousel slide" data-ride="carousel"> -->
+<!-- 			<ol class="carousel-indicators"> -->
+<!-- 				<li data-target="#banner1" data-slide-to="0" class="active"></li> -->
+<!-- 				<li data-target="#banner1" data-slide-to="1"></li> -->
+<!-- 				<li data-target="#banner1" data-slide-to="2"></li> -->
+<!-- 			</ol> -->
+<!-- 			<div class="carousel-inner"> -->
+<!-- 				<div class="carousel-item active"> -->
+<!-- 					<div class="container"> -->
+<!-- 						<div class="carousel-caption"> -->
+<!-- 							<div class="row"> -->
+<!-- 								<div class="col-md-6"> -->
+<!-- 									<div class="text-bg"> -->
+<!-- 										<span>Computer And Laptop</span> -->
+<!-- 										<h1>Accessories</h1> -->
+<!-- 										<p>We have a wide range of computers, laptops, cellphones, -->
+<!-- 											smart watches and accessories.</p> -->
+<!-- 										<a href="#">Buy Now </a> <a href="contact.html">Contact </a> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 								<div class="col-md-6"> -->
+<!-- 									<div class="text_img"> -->
+<!-- 										<figure> -->
+<%-- 											<img src="${pageContext.request.contextPath}/images/pct.png" alt="#" /> --%>
+<!-- 										</figure> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 				<div class="carousel-item"> -->
+<!-- 					<div class="container"> -->
+<!-- 						<div class="carousel-caption"> -->
+<!-- 							<div class="row"> -->
+<!-- 								<div class="col-md-6"> -->
+<!-- 									<div class="text-bg"> -->
+<!-- 										<span>Computer And Laptop</span> -->
+<!-- 										<h1>Accessories</h1> -->
+<!-- 										<p>We have a wide range of computers, laptops, cellphones, -->
+<!-- 											smart watches and accessories.</p> -->
+<!-- 										<a href="#">Buy Now </a> <a href="contact.html">Contact </a> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 								<div class="col-md-6"> -->
+<!-- 									<div class="text_img"> -->
+<!-- 										<figure> -->
+<%-- 											<img src="${pageContext.request.contextPath}/images/pct.png" alt="#" /> --%>
+<!-- 										</figure> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 				<div class="carousel-item"> -->
+<!-- 					<div class="container"> -->
+<!-- 						<div class="carousel-caption"> -->
+<!-- 							<div class="row"> -->
+<!-- 								<div class="col-md-6"> -->
+<!-- 									<div class="text-bg"> -->
+<!-- 										<span>Computer And Laptop</span> -->
+<!-- 										<h1>Accessories</h1> -->
+<!-- 										<p>We have a wide range of computers, laptops, cellphones, -->
+<!-- 											smart watches and accessories.</p> -->
+<!-- 										<a href="#">Buy Now </a> <a href="contact.html">Contact </a> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 								<div class="col-md-6"> -->
+<!-- 									<div class="text_img"> -->
+<!-- 										<figure> -->
+<%-- 											<img src="${pageContext.request.contextPath}/images/pct.png" alt="#" /> --%>
+<!-- 										</figure> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<a class="carousel-control-prev" href="#banner1" role="button" -->
+<!-- 				data-slide="prev"> <i class="fa fa-chevron-left" -->
+<!-- 				aria-hidden="true"></i> -->
+<!-- 			</a> <a class="carousel-control-next" href="#banner1" role="button" -->
+<!-- 				data-slide="next"> <i class="fa fa-chevron-right" -->
+<!-- 				aria-hidden="true"></i> -->
+<!-- 			</a> -->
+<!-- 		</div> -->
+<!-- 	</section> -->
 
 	<div class="projectContainer">
 		<div class="row">
@@ -206,9 +203,14 @@
 						<p class="selectedFilter" id="selectedBrands"></p>
 						<select id="brandSelect" multiple data-live-search="true"
 							title="Filtered By Brand">
-							<option>Apple</option>
-							<option>Samsung</option>
-							<option>Google</option>
+							<c:forEach var="key" items="${brandFilters.keySet()}">
+								<option>
+								${brandFilters.get(key).getName()}
+								<c:if test="${brandFilters.get(key).getStock() > 0}">
+									(${brandFilters.get(key).getStock()})
+								</c:if>
+								</option>
+							</c:forEach>
 						</select>
 					</div>
 				</div>
@@ -219,12 +221,14 @@
 							<p class="selectedFilter" id="selectedCategories"></p>
 							<select id="categorySelect" multiple data-live-search="true"
 								title="Filtered By Category">
-								<option value="computer">Computer</option>
-								<option value="laptop">Laptop</option>
-								<option value="tablet">Tablet</option>
-								<option value="phone">Phone</option>
-								<option value="accessory">Accessory</option>
-								<option value="smartwatch">Smart Watch</option>
+								<c:forEach var="key" items="${categoryFilters.keySet()}">
+									<option>
+									${categoryFilters.get(key).getName()}
+									<c:if test="${categoryFilters.get(key).getStock() > 0}">
+										(${categoryFilters.get(key).getStock()})
+									</c:if>
+									</option>
+								</c:forEach>
 							</select>
 						</div>
 					</div>
@@ -252,8 +256,14 @@
 							<p class="selectedFilter" id="selectedAvailabilities"></p>
 							<select id="availabilitySelect" multiple data-live-search="true"
 								title="Filtered By Availability">
-								<option value="inStock">In Stock</option>
-								<option value="outOfStock">Out Of Stock</option>
+								<c:forEach var="key" items="${availabilityFilters.keySet()}">
+									<option>
+									${key}
+									<c:if test="${availabilityFilters.get(key) > 0}">
+										(${availabilityFilters.get(key)})
+									</c:if>
+									</option>
+								</c:forEach>
 							</select>
 						</div>
 					</div>
@@ -263,7 +273,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div id="numberOfResult">
-							<p>6 results matched</p>
+							<p><c:out value="${products.size()}"></c:out> result(s) matched</p>
 						</div>
 					</div>
 				</div>
@@ -280,27 +290,49 @@
 					<div class="col-md-12">
 						<div class="our_products">
 							<div class="row">
-								<div class="col-md-4">
-									<div class="product_box">
-										<figure>
-											<img class="productThumbnail"
-												src="../images/product/product_computerdell1.jpg" alt="#" />
-										</figure>
-										<p class="productDescription">Dell 7040 SFF Bundle Desktop
-											i7-6700 3.4GHz 16GB RAM 512GB NVMe SSD + 22" Monitor -
-											Refurbished Grade A</p>
-										<h3 class="oldPrice">$2,850.00</h3>
-										<h3 class="newPrice">$2,599.00</h3>
-										<div class="row">
-											<div class="col-md-6">
-												<a class="productButton" href="#">View</a>
-											</div>
-											<div class="col-md-6">
-												<a class="productButton" href="#">Add To Cart</a>
-											</div>
+								<c:forEach var="product" items="${products}">
+									<div class="col-md-4">
+										<div class="product_box">
+											<form>
+												<div class="productThumbnailContainer">
+													<a
+														href="Product?command=viewProductDetail&productID=${product.id}">
+														<img class="productThumbnail"
+														src='${pageContext.request.contextPath}${product.imgSrc}' />
+													</a>
+												</div>
+												<p class="productDescription">
+													<c:out value="${product.name}"></c:out>
+												</p>
+												<h3 class="oldPrice">
+													<c:if test="${product.oldPrice > product.newPrice}">
+														<c:out value="$ ${product.oldPrice}"></c:out>
+													</c:if>
+												</h3>
+												<h3 class="newPrice">
+													<c:out value="$ ${product.newPrice }"></c:out>
+												</h3>
+												<div class="row">
+													<div class="col-md-6">
+														<a class="productButton" type="button"
+															href="Product?command=viewProductDetail&productID=${product.id}">View</a>
+													</div>
+													<div class="col-md-6">
+													<c:choose>
+														<c:when test="${product.getStock() > 0}">
+															<button class="productButton" type="button"
+																onclick="increase(${product.id})">Add To Cart</button>														
+														</c:when>
+														<c:otherwise>
+															<button class="productButton" type="button" disabled>${product.getStockStatus()}</button>
+														</c:otherwise>
+													</c:choose>														
+													</div>
+												</div>
+											</form>
 										</div>
 									</div>
-								</div>								
+								</c:forEach>
 							</div>
 						</div>
 					</div>
@@ -370,11 +402,18 @@
 	<!-- Javascript files-->
 	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/jquery-3.0.0.min.js"></script>
 	<!-- sidebar -->
 	<script src="${pageContext.request.contextPath}/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/custom.js"></script>
 	<script src="${pageContext.request.contextPath}/js/projectJS.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>	
+	<script type="text/javascript">
+		$(function() {
+			$('select').selectpicker();
+		});
+		document.onload = loadSorter();	
+	</script>		
 </body>
 </html>

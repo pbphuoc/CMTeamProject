@@ -58,7 +58,7 @@ public class CartDAO  {
 				ps.setString(1, (String) cI.getKey());
 				rs = ps.executeQuery();
 				while(rs.next()) {
-					product = new Product(rs.getString("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("old_price"), rs.getDouble("new_price"), rs.getString("brand_id"), rs.getString("category_id"), rs.getString("img_src"));
+					product = new Product(rs.getString("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("old_price"), rs.getDouble("new_price"), rs.getString("brand_id"), rs.getString("category_id"), rs.getString("img_src"),rs.getInt("stock"));
 					cartList.add(new CartItemDetail(product, (int) cI.getValue()));
 			}	
 			}

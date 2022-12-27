@@ -56,7 +56,7 @@
 						<div class="navbar-brand">
 							<div class="center-desk" class="d-inline-flex">
 								<div class="logo">
-									<aHome"><img src="${pageContext.request.contextPath}/images/logo.png" alt="#" /></a>
+									<a href="Home"><img src="${pageContext.request.contextPath}/images/logo.png" alt="#" /></a>
 								</div>
 							</div>
 						</div>
@@ -64,10 +64,8 @@
 					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
 						<div class="search_bar ">
 							<div class="form_container">
-								<form action="searchResult.html" method="post">
-									<input id="searchBar" class="form-control me-2" type="search"
-										placeholder="Search" aria-label="Search">
-								</form>
+								<input id="searchBar" class="form-control me-2" type="search"
+									placeholder="Search" onkeyup="searchProduct(this)">
 							</div>
 						</div>
 					</div>
@@ -150,10 +148,19 @@
 					</span>
 				</div>
 				<div class="addToCart-container">
-					<button type="button" class="addToCart-button" onclick="increase(${product.id})">
-						<i id="iconCart" class="fa fa-shopping-cart"></i> <span
-							class="addToCart-text">Add to cart</span>
-					</button>
+					<c:choose>
+						<c:when test="${product.getStock() > 0}">
+							<button type="button" class="addToCart-button" onclick="increase(${product.id})">
+								<i id="iconCart" class="fa fa-shopping-cart"></i> <span
+									class="addToCart-text">Add to cart</span>
+							</button>													
+						</c:when>
+						<c:otherwise>
+							<button type="button" class="addToCart-button" disabled>
+								<span class="addToCart-text">${product.getStockStatus()}</span>
+							</button>
+						</c:otherwise>
+					</c:choose>											
 				</div>
 				<div class="product-desction">
 					<h2 class="keyFeature">Key features</h2>

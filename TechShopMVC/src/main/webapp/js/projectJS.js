@@ -331,7 +331,7 @@ function formatNumberWithCommas(x) {
 //	form.hide().appendTo("body").submit();
 //}
 
-function requestToServlet(servlet, command, productID) {
+function requestToServlet(servlet, command, paramName, paramValue) {
 	var form =
 		jQuery('<form>', {
 			action: servlet,
@@ -344,19 +344,25 @@ function requestToServlet(servlet, command, productID) {
 	if (command != '') {
 		jQuery('<input>', {
 			type: 'hidden',
-			name: 'productID',
-			value: productID
+			name: paramName,
+			value: paramValue
 		}).appendTo(form);
 	}
 	form.hide().appendTo("body").submit();
 }
 
+function searchProduct(e){
+	if (event.key === 'Enter') {
+		requestToServlet('Product', 'searchProduct', 'searchKeywords', $(e).val());		
+    }
+}
+
 function viewProductDetail(productID) {
-	requestToServlet('Product', 'viewProductDetail', productID);
+	requestToServlet('Product', 'viewProductDetail', 'productID', productID);
 }
 
 function viewCart() {
-	requestToServlet('Cart', 'viewCart', '');
+	requestToServlet('Cart', 'viewCart', 'productID', '');
 }
 
 function ajaxToServlet(url, type, data, onSuccess) {
@@ -373,17 +379,17 @@ function ajaxToServlet(url, type, data, onSuccess) {
 }
 
 function increase(productID) {
-	var onSuccess = function(){alert('increase success')};
+	var onSuccess = function(){console.log('increase success')};
 	ajaxToServlet('Cart', 'POST', {'command' : 'increase', 'productID' : productID}, onSuccess);
 }
 
 function decrease(productID) {
-	var onSuccess = function(){alert('decrease success')};
+	var onSuccess = function(){console.log('decrease success')};
 	ajaxToServlet('Cart', 'POST', {'command' : 'decrease', 'productID' : productID}, onSuccess);
 }
 
 function remove(productID) {
-	var onSuccess = function(){alert('remove success')};
+	var onSuccess = function(){console.log('remove success')};
 	ajaxToServlet('Cart', 'POST', {'command' : 'remove', 'productID' : productID}, onSuccess);
 }
 

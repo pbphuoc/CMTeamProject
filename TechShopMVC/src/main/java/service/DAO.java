@@ -10,9 +10,9 @@ import service.DAO.QueryResult;
 
 public abstract class DAO<T> {
 	
-	private static final String  dbURL = "jdbc:mysql://localhost:3306/cm_project";
-	private static final String dbUsername = "projectuser";
-	private static final String dbPassword = "codingmentor";
+	private static final String  DB_URL = "jdbc:mysql://localhost:3306/cm_project";
+	private static final String DB_USERNAME = "projectuser";
+	private static final String DB_PASSWORD = "codingmentor";
 	private Connection connection;
 	public enum DAOType{
 		USER,
@@ -28,7 +28,7 @@ public abstract class DAO<T> {
 	protected DAO() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
+			connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

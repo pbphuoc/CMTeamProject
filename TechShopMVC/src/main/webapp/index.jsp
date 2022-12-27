@@ -60,10 +60,8 @@
 					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
 						<div class="search_bar ">
 							<div class="form_container">
-								<form action="searchResult.html" method="post">
-									<input id="searchBar" class="form-control me-2" type="search"
-										placeholder="Search" aria-label="Search">
-								</form>
+								<input id="searchBar" class="form-control me-2" type="search"
+									placeholder="Search" onkeyup="searchProduct(this)">
 							</div>
 						</div>
 					</div>
@@ -301,9 +299,16 @@
 												<div class="col-md-6">
 													<a class="productButton" type="button" href="Product?command=viewProductDetail&productID=${product.id}">View</a>
 												</div>
-												<div class="col-md-6">
-													<button class="productButton" type="button"
-														onclick="increase(${product.id})">Add To Cart</button>
+												<div class="col-md-6">										
+													<c:choose>
+														<c:when test="${product.getStock() > 0}">
+															<button class="productButton" type="button"
+																onclick="increase(${product.id})">Add To Cart</button>														
+														</c:when>
+														<c:otherwise>
+															<button class="productButton" type="button" disabled>${product.getStockStatus()}</button>
+														</c:otherwise>
+													</c:choose>															
 												</div>
 											</div>
 										</form>
