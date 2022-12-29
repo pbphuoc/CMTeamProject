@@ -200,70 +200,85 @@
 				<div class="row filterSection">
 					<div class="col-md-12">
 						<h3>Brand</h3>
-						<p class="selectedFilter" id="selectedBrands"></p>
+						<p class="selectedFilter" id="selectedBrands">
+							<ul>
+								<c:forEach var="key" items="${brandFilters.keySet()}">									
+									<c:if test='${!brandFilters.get(key).getSelected().equalsIgnoreCase("")}'>
+										<li>${brandFilters.get(key).getName()}</li>
+									</c:if>
+								</c:forEach>	
+							</ul>					
+						</p>
 						<select id="brandSelect" multiple data-live-search="true"
-							title="Filtered By Brand">
+							title="Filtered By Brand" class="queryFilter">
 							<c:forEach var="key" items="${brandFilters.keySet()}">
-								<option>
-								${brandFilters.get(key).getName()}
-								<c:if test="${brandFilters.get(key).getStock() > 0}">
-									(${brandFilters.get(key).getStock()})
-								</c:if>
+								<option value="${brandFilters.get(key).getId()}" ${brandFilters.get(key).getSelected()}>
+								${brandFilters.get(key).getName()}(${brandFilters.get(key).getStock()})
 								</option>
 							</c:forEach>
 						</select>
 					</div>
 				</div>
-				<div class="row mt-2 filterSection">
+				<div class="row mt-1 filterSection">
 					<div class="row">
 						<div class="col-md-12">
 							<h3>Category</h3>
-							<p class="selectedFilter" id="selectedCategories"></p>
+							<p class="selectedFilter" id="selectedCategories">
+								<ul>
+									<c:forEach var="key" items="${categoryFilters.keySet()}">
+										<c:if test='${!categoryFilters.get(key).getSelected().equalsIgnoreCase("")}'>
+											<li>${categoryFilters.get(key).getName()}</li>
+										</c:if>
+									</c:forEach>
+								</ul>							
+							</p>
 							<select id="categorySelect" multiple data-live-search="true"
-								title="Filtered By Category">
+								title="Filtered By Category" class="queryFilter">
 								<c:forEach var="key" items="${categoryFilters.keySet()}">
-									<option>
-									${categoryFilters.get(key).getName()}
-									<c:if test="${categoryFilters.get(key).getStock() > 0}">
-										(${categoryFilters.get(key).getStock()})
-									</c:if>
+									<option value="${categoryFilters.get(key).getId()}" ${categoryFilters.get(key).getSelected()}>
+									${categoryFilters.get(key).getName()}(${categoryFilters.get(key).getStock()})
 									</option>
 								</c:forEach>
 							</select>
 						</div>
 					</div>
 				</div>
-				<div class="row mt-2 filterSection">
+				<div class="row mt-1 filterSection">
 					<div class="col-md-12">
 						<h3>Price</h3>
 						<div class="row">
 							<input type="number" class="form-control" id="priceFrom"
-								placeholder="From Price">
+								placeholder="From Price" value="${priceMin}">
 						</div>
 						<div class="row mt-2">
 							<input type="number" class="form-control" id="priceTo"
-								placeholder="To Price">
+								placeholder="To Price" value="${priceMax}">
 						</div>
 						<div class="row mt-3">
-							<button id="priceFilterBtn">Apply</button>
+							<button id="priceFilterBtn" onclick="searchProductWithFilters()">Apply</button>
 						</div>
 					</div>
 				</div>
-				<div class="row mt-2 filterSection">
+				<div class="row mt-1 filterSection">
 					<div class="row">
 						<div class="col-md-12">
 							<h3>Availability</h3>
-							<p class="selectedFilter" id="selectedAvailabilities"></p>
+							<p class="selectedFilter" id="selectedAvailabilities">
+								<ul>
+									<c:forEach var="key" items="${availabilityFilters.keySet()}">
+										<c:if test='${!availabilityFilters.get(key).getSelected().equalsIgnoreCase("")}'>
+											<li>${availabilityFilters.get(key).getName()}</li>
+										</c:if>
+									</c:forEach>
+								</ul>							
+							</p>
 							<select id="availabilitySelect" multiple data-live-search="true"
-								title="Filtered By Availability">
+								title="Filtered By Availability" class="queryFilter">
 								<c:forEach var="key" items="${availabilityFilters.keySet()}">
-									<option>
-									${key}
-									<c:if test="${availabilityFilters.get(key) > 0}">
-										(${availabilityFilters.get(key)})
-									</c:if>
+									<option value="${availabilityFilters.get(key).getId()}" ${availabilityFilters.get(key).getSelected()}>
+									${availabilityFilters.get(key).getName()}(${availabilityFilters.get(key).getStock()})
 									</option>
-								</c:forEach>
+								</c:forEach>								
 							</select>
 						</div>
 					</div>
@@ -273,16 +288,20 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div id="numberOfResult">
-							<p><c:out value="${products.size()}"></c:out> result(s) matched</p>
+							<p>${products.size()} result(s) matched for <span id="searchKeyword">${keyword}</span></p>
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div id="sortSection">
 						<h3>Sort By</h3>
-						<select id="sorter" class="form-select"
-							aria-label="Default select example">
-							<option value="relevancy" selected>Relevancy</option>
+						<select id="sorter" class="form-select queryFilter"
+							aria-label="Default select example" class="queryFilter">
+							<c:forEach var="key" items="${sorters.keySet()}">
+								<option value="${sorters.get(key).getId()}" ${sorters.get(key).getSelected()}>
+								${sorters.get(key).getName()}
+								</option>
+							</c:forEach>							
 						</select>
 					</div>
 				</div>
@@ -324,7 +343,7 @@
 																onclick="increase(${product.id})">Add To Cart</button>														
 														</c:when>
 														<c:otherwise>
-															<button class="productButton" type="button" disabled>${product.getStockStatus()}</button>
+															<button class="productButton" type="button" disabled>${product.getAvailabilityMap().get(product.getStockStatus())}</button>
 														</c:otherwise>
 													</c:choose>														
 													</div>
@@ -413,7 +432,7 @@
 		$(function() {
 			$('select').selectpicker();
 		});
-		document.onload = loadSorter();	
+//		document.onload = loadSorter();	
 	</script>		
 </body>
 </html>

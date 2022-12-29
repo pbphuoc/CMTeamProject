@@ -1530,3 +1530,9 @@ table .tableTotal {
 .media {
 	align-items: center;
 }
+
+#searchKeyword{
+	font-size: 30px;
+	line-height: 22px;
+	font-weight: bold;
+}

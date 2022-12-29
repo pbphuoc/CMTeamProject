@@ -306,7 +306,7 @@
 																onclick="increase(${product.id})">Add To Cart</button>														
 														</c:when>
 														<c:otherwise>
-															<button class="productButton" type="button" disabled>${product.getStockStatus()}</button>
+															<button class="productButton" type="button" disabled>${product.getAvailabilityMap().get(product.getStockStatus())}</button>
 														</c:otherwise>
 													</c:choose>															
 												</div>

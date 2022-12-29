@@ -10,38 +10,38 @@ $('#sorter').change(function() {
 	//	var selectedSorter = $('#sorter').val();
 });
 
-$('#categorySelect').change(function() {
-	selectedCategories.innerHTML = '';
-	$('#categorySelect :selected').each(function(index) {
-		if (index != 0)
-			selectedCategories.innerHTML += ', ';
-		if (index != 0 && index % 3 == 0)
-			selectedCategories.innerHTML += '<br/>';
-		selectedCategories.innerHTML += this.innerHTML;
-	});
-});
-
-$('#brandSelect').change(function() {
-	selectedBrands.innerHTML = '';
-	$('#brandSelect :selected').each(function(index) {
-		if (index != 0)
-			selectedBrands.innerHTML += ', ';
-		if (index != 0 && index % 3 == 0)
-			selectedBrands.innerHTML += '<br/>';
-		selectedBrands.innerHTML += this.innerHTML;
-	});
-});
-
-$('#availabilitySelect').change(function() {
-	selectedAvailabilities.innerHTML = '';
-	$('#availabilitySelect :selected').each(function(index) {
-		if (index != 0)
-			selectedAvailabilities.innerHTML += ', ';
-		if (index != 0 && index % 3 == 0)
-			selectedAvailabilities.innerHTML += '<br/>';
-		selectedAvailabilities.innerHTML += this.innerHTML;
-	});
-});
+//$('#categorySelect').change(function() {
+//	selectedCategories.innerHTML = '';
+//	$('#categorySelect :selected').each(function(index) {
+//		if (index != 0)
+//			selectedCategories.innerHTML += ', ';
+//		if (index != 0 && index % 3 == 0)
+//			selectedCategories.innerHTML += '<br/>';
+//		selectedCategories.innerHTML += this.innerHTML.substring(0,this.innerHTML.length-3);		
+//	});
+//});
+//
+//$('#brandSelect').change(function() {
+//	selectedBrands.innerHTML = '';
+//	$('#brandSelect :selected').each(function(index) {
+//		if (index != 0)
+//			selectedBrands.innerHTML += ', ';
+//		if (index != 0 && index % 3 == 0)
+//			selectedBrands.innerHTML += '<br/>';
+//		selectedBrands.innerHTML += this.innerHTML.substring(0,this.innerHTML.length-3);
+//	});
+//});
+//
+//$('#availabilitySelect').change(function() {
+//	selectedAvailabilities.innerHTML = '';
+//	$('#availabilitySelect :selected').each(function(index) {
+//		if (index != 0)
+//			selectedAvailabilities.innerHTML += ', ';
+//		if (index != 0 && index % 3 == 0)
+//			selectedAvailabilities.innerHTML += '<br/>';
+//		selectedAvailabilities.innerHTML += this.innerHTML.substring(0,this.innerHTML.length-3);		
+//	});
+//});
 
 function loadOptions(opt_arr, select_id) {
 	$.each(opt_arr, function() {
@@ -353,9 +353,42 @@ function requestToServlet(servlet, command, paramName, paramValue) {
 
 function searchProduct(e){
 	if (event.key === 'Enter') {
-		requestToServlet('Product', 'searchProduct', 'searchKeywords', $(e).val());		
+		//requestToServlet('Product', 'searchProduct', 'searchKeywords', $(e).val());	
+		window.location.replace("Product?command=search&keywords="+$(e).val());	
     }
 }
+
+function searchProductWithFilters(){
+	window.location.replace("Product?command=search&keywords=" + $('#searchKeyword').text() + getAllSelectedParams());	    
+}
+
+function getAllSelectedParams(){
+	var params = "";
+	
+	$('#brandSelect option:selected').map(function() {
+		params += "&brand=" + this.value;
+	});
+	
+	$('#categorySelect option:selected').map(function() {
+		params += "&category=" + this.value;
+	});
+	
+	$('#availabilitySelect option:selected').map(function() {
+		params += "&availability=" + this.value;
+	});	
+	
+	if($('#priceFrom').val() != '')
+		params += "&priceMin=" + $('#priceFrom').val();
+	if($('#priceTo').val() != '')
+		params += "&priceMax=" + $('#priceTo').val();	
+	
+	params += "&sortBy=" + $('#sorter option:selected').val();	
+	return params;	
+}
+
+$('.queryFilter').change(function() {
+	searchProductWithFilters();
+});
 
 function viewProductDetail(productID) {
 	requestToServlet('Product', 'viewProductDetail', 'productID', productID);

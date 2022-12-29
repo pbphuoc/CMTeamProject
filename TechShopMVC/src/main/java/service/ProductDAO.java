@@ -8,16 +8,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import model.AvailabilityDTO;
 import model.BrandDTO;
 import model.CategoryDTO;
 import model.Product;
+import model.SorterDTO;
 
 public class ProductDAO extends DAO<Product> {
 	
 	private static final String SELECT_ALL_PRODUCT_SQL = "SELECT * FROM product;";
 	private static final String SELECT_PRODUCT_BY_ID_SQL = "SELECT * FROM product where id=?";
-	private static final String SEARCH_PRODUCT_BY_ID_SQL = "SELECT * FROM product where name like ?";
+	private static final String SEARCH_PRODUCT_BY_NAME_SQL = "SELECT * FROM product where name like ?";
 	private static final String SELECT_ALL_BRAND_SQL = "SELECT * FROM brand;";
 	private static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM category;";
 	private static final String SELECT_MEDIA_BY_PRODUCT_ID_SQL = "SELECT * FROM media where product_id = ?";
@@ -54,6 +57,22 @@ public class ProductDAO extends DAO<Product> {
 		return products;
 	}
 	
+	public Map<String, AvailabilityDTO> getAllAvailabilityFilter() {	
+		Map<String, AvailabilityDTO> availabilities = new HashMap<String, AvailabilityDTO>();		
+		for(Entry entry: Product.AVAILABILITY_MAP.entrySet()) {
+			availabilities.put((String)entry.getKey(), new AvailabilityDTO((String)entry.getKey(), (String)entry.getValue()));
+		}
+		return availabilities;
+	}
+	
+	public Map<String, SorterDTO> getAllSorter() {	
+		Map<String, SorterDTO> sorters = new HashMap<String, SorterDTO>();		
+		for(Entry entry: SorterDTO.SORTBY_MAP.entrySet()) {
+			sorters.put((String)entry.getKey(), new SorterDTO((String)entry.getKey(), (String)entry.getValue()));
+		}
+		return sorters;
+	}	
+	
 	public Map<String, BrandDTO> getAllBrandFilter() {	
 		Map<String, BrandDTO> brands = new HashMap<String, BrandDTO>();		
 		try(PreparedStatement selectStm = connection.prepareStatement(SELECT_ALL_BRAND_SQL);)
@@ -88,17 +107,74 @@ public class ProductDAO extends DAO<Product> {
 			e.printStackTrace();
 		}
 		return categories;
+	}
+	
+	public String getBrandStatment(String[] brands) {
+		String brandStm = "";
+		if(brands.length == 1)
+			brandStm = " and brand_id = ?";
+		else if (brands.length > 1) {
+			brandStm = " and brand_id in (";
+			for(int i = 0; i < brands.length; i++) {
+				brandStm += "?";
+				if(i != brands.length - 1)
+					brandStm += ",";	
+			}
+			brandStm += ")";
+		}
+		return brandStm;
+	}
+	
+	public String getCategoryStatement(String[] categories) {
+		String categoryStm = "";
+		if(categories.length == 1)
+			categoryStm = " and category_id = ?";
+		else if (categories.length > 1) {
+			categoryStm = " and category_id in (";
+			for(int i = 0; i < categories.length; i++) {
+				categoryStm += "?";
+				if(i != categories.length - 1)
+					categoryStm += ",";	
+			}
+			categoryStm += ")";
+		}
+		return categoryStm;
+	}
+	
+	public String getAvailabilityStatement(String[] availabilities) {
+		String availabilityStm = "";
+		if(availabilities.length == 1 && availabilities[0].equalsIgnoreCase("1"))
+			availabilityStm = "and stock > 0";
+		else if(availabilities.length == 1 && availabilities[0].equalsIgnoreCase("0"))
+			availabilityStm = "and stock = 0";
+			
+		return availabilityStm;
+	}
+	
+	public String getSorterStatment(String sorter) {
+		String sorterStm = "";
+		int sortBy = Integer.parseInt(sorter);
+		if(sortBy > 0)
+			sorterStm = " order by ? ";
+		else if(sortBy < 0)
+			sorterStm = " order by ? desc";
+		return sorterStm;
 	}	
 	
-	public Object[] searchProductByID(String[] keywords) {
+	public Object[] searchProductByName(String[] keywords) {
 		List<Product> products = new ArrayList<Product>();	
-		Map<String,BrandDTO> brandFilters = getAllBrandFilter(); 
-		Map<String,CategoryDTO> categoryFilters = getAllCategoryFilter(); 
-		Map<String,Integer> availabilityFilters = new HashMap<String,Integer>();
-		availabilityFilters.put(Product.STATUS_IN_STOCK, 0);
-		availabilityFilters.put(Product.STATUS_OUT_OF_STOCK, 0);
-		try(PreparedStatement selectStm = connection.prepareStatement(SEARCH_PRODUCT_BY_ID_SQL);){
-			selectStm.setString(1, "%" + keywords[0] + "%");
+		Map<String,BrandDTO> allBrandFilters = getAllBrandFilter(); 
+		Map<String,BrandDTO> brandFilters = new HashMap<String,BrandDTO>();
+		Map<String,CategoryDTO> allCategoryFilters = getAllCategoryFilter();
+		Map<String,CategoryDTO> categoryFilters = new HashMap<String,CategoryDTO>();
+		Map<String,AvailabilityDTO> allAvailabilityFilters = getAllAvailabilityFilter();		
+		Map<String,AvailabilityDTO> availabilityFilters = new HashMap<String,AvailabilityDTO>();
+		Map<String,SorterDTO> allSorters = getAllSorter();
+		String keyword = keywords[0];
+		int currentParam = 0;	
+		
+		try(PreparedStatement selectStm = connection.prepareStatement(SEARCH_PRODUCT_BY_NAME_SQL);){
+			selectStm.setString(++currentParam, "%" + keyword + "%");			
 			System.out.println("Query: " + selectStm.toString());
 			ResultSet result = selectStm.executeQuery();
 			while(result.next()) {
@@ -113,14 +189,81 @@ public class ProductDAO extends DAO<Product> {
 				int stock = result.getInt("stock");	
 				Product product = new Product(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock);
 				products.add(product);
-				updateBrandFilter(brandFilters, brandID);
-				updateCategoryFilter(categoryFilters, categoryID);
-				updateAvailabilityFilter(availabilityFilters, product.getStockStatus());
+				updateBrandFilter(brandFilters, allBrandFilters, brandID);
+				updateCategoryFilter(categoryFilters, allCategoryFilters, categoryID);
+				updateAvailabilityFilter(availabilityFilters,allAvailabilityFilters ,product.getStockStatus());
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}		
-		return new Object[]{products, brandFilters, categoryFilters, availabilityFilters};
+		return new Object[]{products, brandFilters, categoryFilters, availabilityFilters, allSorters};
+	}	
+	
+	public Object[] searchProductByNameWithFilters(String[] keywords, String[] selectedBrands, String[] selectedCategories, String priceMin, String priceMax, String[] selectedAvailabilities, String selectedSorter, String perPage, String page) {
+		Object[] originalSearchResultAndFilter = searchProductByName(keywords);
+		Map<String,BrandDTO> brandFilters = (Map<String, BrandDTO>) originalSearchResultAndFilter[1];
+		Map<String,CategoryDTO> categoryFilters = (Map<String, CategoryDTO>) originalSearchResultAndFilter[2];
+		Map<String,AvailabilityDTO> availabilityFilters = (Map<String, AvailabilityDTO>) originalSearchResultAndFilter[3];		
+		Map<String,SorterDTO> allSorters = (Map<String, SorterDTO>) originalSearchResultAndFilter[4];
+		List<Product> products = new ArrayList<Product>();	
+		String keyword = keywords[0];
+		int currentParam = 0;
+		
+		checkSelectedBrandFilter(brandFilters, selectedBrands);
+		checkSelectedCategoryFilter(categoryFilters, selectedCategories);
+		checkSelectedAvailabilityFilter(availabilityFilters, selectedAvailabilities);
+		checkSelectedSorter(allSorters, selectedSorter);
+		
+		String searchProductSQL = SEARCH_PRODUCT_BY_NAME_SQL + getBrandStatment(selectedBrands) + getCategoryStatement(selectedCategories) + getAvailabilityStatement(selectedAvailabilities);	
+		if(!priceMin.equalsIgnoreCase(""))
+			searchProductSQL += " and new_price >= ?";
+		if(!priceMax.equalsIgnoreCase(""))
+			searchProductSQL += " and new_price <= ?";
+		searchProductSQL+= getSorterStatment(selectedSorter);	
+		if(!perPage.equalsIgnoreCase(""))
+			searchProductSQL += " limit ? ";
+		if(!page.equalsIgnoreCase(""))
+			searchProductSQL += " offset ? ";		
+		
+		try(PreparedStatement selectStm = connection.prepareStatement(searchProductSQL);){
+			selectStm.setString(++currentParam, "%" + keyword + "%");
+			for(String brand: selectedBrands) {
+				selectStm.setString(++currentParam, brand);
+			}
+			for(String category: selectedCategories) {
+				selectStm.setString(++currentParam, category);
+			}
+			if(!priceMin.equalsIgnoreCase(""))
+				selectStm.setInt(++currentParam, Integer.parseInt(priceMin));
+			if(!priceMax.equalsIgnoreCase(""))
+				selectStm.setInt(++currentParam, Integer.parseInt(priceMax));
+			if(!selectedSorter.equalsIgnoreCase("")) {
+				int sortBy = (Integer.parseInt(selectedSorter) > 0) ? Integer.parseInt(selectedSorter) : -1*Integer.parseInt(selectedSorter); 
+				selectStm.setInt(++currentParam, sortBy);
+			}
+			if(!perPage.equalsIgnoreCase(""))
+				selectStm.setInt(++currentParam, Integer.parseInt(perPage));
+			if(!page.equalsIgnoreCase(""))
+				selectStm.setInt(++currentParam, Integer.parseInt(page));				
+			System.out.println("Query: " + selectStm.toString());
+			ResultSet result = selectStm.executeQuery();
+			while(result.next()) {
+				String id = result.getInt("id") + "";
+				String name = result.getString("name");
+				String description = result.getString("description");
+				double oldPrice = result.getDouble("old_price");
+				double newPrice = result.getDouble("new_price");
+				String brandID = result.getString("brand_id");
+				String categoryID = result.getString("category_id");
+				String imgSrc = result.getString("img_src");
+				int stock = result.getInt("stock");	
+				Product product = new Product(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock);
+				products.add(product);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return new Object[]{products, brandFilters, categoryFilters, availabilityFilters, allSorters};		
 	}
 
 	@Override
@@ -161,19 +304,47 @@ public class ProductDAO extends DAO<Product> {
 		return medias;
 	}
 	
-	private void updateBrandFilter(Map<String, BrandDTO> brandFilter, String brandID) {
-		if(brandFilter.containsKey(brandID))
-			brandFilter.get(brandID).setStock(brandFilter.get(brandID).getStock() + 1);
+	private void updateBrandFilter(Map<String, BrandDTO> brandFilter, Map<String, BrandDTO> allBrandFilter, String brandID) {
+		if(!brandFilter.containsKey(brandID))
+			brandFilter.put(brandID, allBrandFilter.get(brandID));	
+		brandFilter.get(brandID).setStock(brandFilter.get(brandID).getStock() + 1);		
 	}
 	
-	private void updateCategoryFilter(Map<String, CategoryDTO> categoryFilter, String categoryID) {
-		if(categoryFilter.containsKey(categoryID))
-			categoryFilter.get(categoryID).setStock(categoryFilter.get(categoryID).getStock() + 1);
+	private void updateCategoryFilter(Map<String, CategoryDTO> categoryFilter, Map<String, CategoryDTO> allCategoryFilter, String categoryID) {
+		if(!categoryFilter.containsKey(categoryID))
+			categoryFilter.put(categoryID, allCategoryFilter.get(categoryID));
+		categoryFilter.get(categoryID).setStock(categoryFilter.get(categoryID).getStock() + 1);			
 	}
 	
-	private void updateAvailabilityFilter(Map<String, Integer> availabilityFilter, String stockStatus) {
-		if(availabilityFilter.containsKey(stockStatus))
-			availabilityFilter.put(stockStatus, availabilityFilter.get(stockStatus) + 1);
+	private void updateAvailabilityFilter(Map<String, AvailabilityDTO> availabilityFilter,Map<String, AvailabilityDTO> allAvailabilityFilter, String stockStatus) {		
+		if(!availabilityFilter.containsKey(stockStatus))
+			availabilityFilter.put(stockStatus, allAvailabilityFilter.get(stockStatus));
+		availabilityFilter.get(stockStatus).setStock(availabilityFilter.get(stockStatus).getStock() + 1);				
+	}
+	
+	private void checkSelectedBrandFilter(Map<String,BrandDTO> brandFilters, String[] selectedBrandFilters) {
+		for(String selectedBrandFilter: selectedBrandFilters) {
+			if(brandFilters.containsKey(selectedBrandFilter))
+				brandFilters.get(selectedBrandFilter).setSelected("selected");
+		}
+	}
+	
+	private void checkSelectedCategoryFilter(Map<String,CategoryDTO> categoryFilters, String[] selectedCategoryFilters) {
+		for(String selectedCategoryFilter: selectedCategoryFilters) {
+			if(categoryFilters.containsKey(selectedCategoryFilter))
+				categoryFilters.get(selectedCategoryFilter).setSelected("selected");
+		}
+	}	
+	
+	private void checkSelectedAvailabilityFilter(Map<String,AvailabilityDTO> availabilityFilters, String[] selectedAvailabilityFilters) {
+		for(String selectedAvailabilityFilter: selectedAvailabilityFilters) {
+			if(availabilityFilters.containsKey(selectedAvailabilityFilter))
+				availabilityFilters.get(selectedAvailabilityFilter).setSelected("selected");
+		}
+	}	
+	
+	private void checkSelectedSorter(Map<String,SorterDTO> sorters, String selectedSorter) {
+		sorters.get(selectedSorter).setSelected("selected");		
 	}	
 
 }

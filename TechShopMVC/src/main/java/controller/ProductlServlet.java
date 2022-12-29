@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,9 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.AvailabilityDTO;
 import model.BrandDTO;
 import model.CategoryDTO;
 import model.Product;
+import model.SorterDTO;
 import service.DAOService;
 import service.ProductDAO;
 import service.DAO.DAOType;
@@ -42,14 +43,18 @@ public class ProductlServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
+		System.out.println("Count Params: " + request.getParameterMap().size());
 		try {
 			switch (command) {
 			case "viewProductDetail":
 				getProductDetail(request, response);
 				break;
-			case "searchProduct":
-				searchProduct(request, response);
-				break;				
+			case "search":
+				if(request.getParameterMap().size() == 2)
+					searchProduct(request, response);
+				else if(request.getParameterMap().size() > 2)
+					searchProductWithFilter(request, response);
+				break;	
 			case "":
 				break;
 			}
@@ -81,16 +86,48 @@ public class ProductlServlet extends HttpServlet {
 
 	private void searchProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProductDAO productDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
-		String[] searchKeywords = request.getParameter("searchKeywords").split(" ");
-		Object[] listOfProductAndFilters = productDAO.searchProductByID(searchKeywords);
+		String[] searchKeywords = request.getParameter("keywords").split(" ");
+		Object[] listOfProductAndFilters = productDAO.searchProductByName(searchKeywords);
 		List<Product> products = (List<Product>) listOfProductAndFilters[0];
 		Map<String,BrandDTO> brandFilters = (Map<String, BrandDTO>) listOfProductAndFilters[1];
 		Map<String,CategoryDTO> categoryFilters = (Map<String, CategoryDTO>) listOfProductAndFilters[2];
-		Map<String,Integer> availabilityFilters = (Map<String, Integer>) listOfProductAndFilters[3];
+		Map<String,AvailabilityDTO> availabilityFilters = (Map<String, AvailabilityDTO>) listOfProductAndFilters[3];
+		Map<String,SorterDTO> sorters = (Map<String, SorterDTO>) listOfProductAndFilters[4];
+		request.setAttribute("keyword", request.getParameter("keywords"));
 		request.setAttribute("products", products);
 		request.setAttribute("brandFilters", brandFilters);
 		request.setAttribute("categoryFilters", categoryFilters);
 		request.setAttribute("availabilityFilters", availabilityFilters);
+		request.setAttribute("sorters", sorters);				
+		RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
+		dispatcher.forward(request, response);		
+	}
+	
+	private void searchProductWithFilter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ProductDAO productDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
+		String[] searchKeywords = request.getParameter("keywords").split(" ");
+		String[] brands = (request.getParameterValues("brand") != null) ? request.getParameterValues("brand") : new String[0];
+		String[] categories = (request.getParameterValues("category") != null) ? request.getParameterValues("category") : new String[0];
+		String priceMin = (request.getParameter("priceMin") != null) ? request.getParameter("priceMin") : "";
+		String priceMax = (request.getParameter("priceMax") != null) ? request.getParameter("priceMax") : "";
+		String[] availabilities = (request.getParameterValues("availability") != null) ? request.getParameterValues("availability") : new String[0];
+		String sortBy = (request.getParameter("sortBy") != null) ? request.getParameter("sortBy") : "";
+		String perPage = (request.getParameter("perPage") != null) ? request.getParameter("perPage") : "";
+		String page = (request.getParameter("page") != null) ? request.getParameter("page") : "" ;
+		Object[] listOfProductAndFilters = productDAO.searchProductByNameWithFilters(searchKeywords,brands,categories,priceMin,priceMax,availabilities,sortBy,perPage,page);
+		List<Product> products = (List<Product>) listOfProductAndFilters[0];
+		Map<String,BrandDTO> brandFilters = (Map<String, BrandDTO>) listOfProductAndFilters[1];
+		Map<String,CategoryDTO> categoryFilters = (Map<String, CategoryDTO>) listOfProductAndFilters[2];
+		Map<String,AvailabilityDTO> availabilityFilters = (Map<String, AvailabilityDTO>) listOfProductAndFilters[3];		
+		Map<String,SorterDTO> sorters = (Map<String, SorterDTO>) listOfProductAndFilters[4];		
+		request.setAttribute("keyword", request.getParameter("keywords"));
+		request.setAttribute("products", products);
+		request.setAttribute("brandFilters", brandFilters);
+		request.setAttribute("categoryFilters", categoryFilters);
+		request.setAttribute("availabilityFilters", availabilityFilters);
+		request.setAttribute("sorters", sorters);
+		request.setAttribute("priceMin", priceMin);
+		request.setAttribute("priceMax", priceMax);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
 		dispatcher.forward(request, response);		
 	}	
