@@ -211,7 +211,7 @@
 				
 				
 				<c:forEach var="item" items="${CartItemDetails}">				
-					<div class="row  justify-content-between">
+					<div class="row justify-content-between">
 						<div class="col-auto col-md-7">
 							<div class="media flex-column flex-sm-row">
 								<img class="img-fluid"

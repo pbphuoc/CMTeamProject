@@ -133,10 +133,16 @@
 			<div class="itemTable">
 				<div class="cartCol1">
 					<div class="itemInfor">
-						<a href="product.html"> 
+					<div class="imageContainer">
+					<a href="product.html"> 
 					<img src="${pageContext.request.contextPath}<c:out value='${item.product.imgSrc}'/>">
 					</a>
-						<a href="product.html"> <c:out value="${item.product.name }"/> </a>
+					</div>
+					<div>
+					<a href="product.html"> <c:out value="${item.product.name }"/> </a>
+					</div>
+						
+						
 					</div>
 					<div class="itemQuantity">
 						<button onclick="increase(${item.product.id})" class="increment">

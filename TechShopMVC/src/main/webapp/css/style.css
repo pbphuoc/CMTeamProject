@@ -1322,6 +1322,10 @@ table .tableTotal {
 
 .cartCol1 .itemInfor {
 	font-size: 25px;
+	display:flex;
+}
+.cartCol1 .itemInfor .imageContainer{
+	margin-right: 1.5rem;
 }
 
 .cartCol1 img {
@@ -1523,13 +1527,20 @@ table .tableTotal {
 .card-header{
 	background-color : white;
 }
+
 .card-body img {
     width: 60px;
     height: 60px;
+    margin-right: 1.5rem;
 }
 .media {
 	align-items: center;
+	display: flex;
+	justify-content: space-between;
 }
+.media .mb-0{
+	width:100%;
+	}
 
 #searchKeyword{
 	font-size: 30px;
