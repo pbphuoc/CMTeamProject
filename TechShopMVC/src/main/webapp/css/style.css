@@ -1523,6 +1523,10 @@ table .tableTotal {
 }
 
 /** check out **/
+.row{
+	margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
 
 .card-header{
 	background-color : white;
