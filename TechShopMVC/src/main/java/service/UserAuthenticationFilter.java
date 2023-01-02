@@ -15,13 +15,13 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class AdminAuthenticationFIlter
  */
-@WebFilter(urlPatterns = {"/Home","/Product","/Cart","/Checkout"})
-public class AdminAuthenticationFIlter implements Filter {
+@WebFilter(urlPatterns = {"/Auth","/Logout"})
+public class UserAuthenticationFilter implements Filter {
 
     /**
      * Default constructor. 
      */
-    public AdminAuthenticationFIlter() {
+    public UserAuthenticationFilter() {
         // TODO Auto-generated constructor stub
     }
 
@@ -47,12 +47,13 @@ public class AdminAuthenticationFIlter implements Filter {
 		if(isLoggedIn && (isLoginRequest || isLoginPage)) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
 			dispatcher.forward(request, response);
-		}else if(isLoginRequest || isLoginPage) {
-			
+		}else if(isLoggedIn || isLoginRequest) {
+			// pass the request along the filter chain
+			chain.doFilter(request, response);
+		}else {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Auth");
+			dispatcher.forward(request, response);
 		}
-		
-		// pass the request along the filter chain
-		chain.doFilter(request, response);
 	}
 
 	/**

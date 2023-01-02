@@ -44,46 +44,63 @@ public class LoginServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
 		try {
-			switch (command) {
-			case "login":
-				if (!getCurrentUser(request).equalsIgnoreCase(""))
-					redirectToHome(request, response);
-				else {
+//			switch (command) {
+//				case "login":
+//					if (!getCurrentUser(request).equalsIgnoreCase(""))
+//						redirectToHome(request, response);
+//					else {
+//						login(request, response);
+//					}
+//					break;
+//				case "logout":
+//					logout(request, response);
+//					break;
+//				case "getLoginForm":
+//					if (!getCurrentUser(request).equalsIgnoreCase(""))
+//						redirectToHome(request, response);
+//					else {
+//						getLoginPage(request, response);
+//					}
+//					break;
+//				case "getRegisterForm":
+//					if (!getCurrentUser(request).equalsIgnoreCase(""))
+//						redirectToHome(request, response);
+//					else {
+//						getRegisterPage(request, response);
+//					}
+//					break;
+//				case "register":
+//					if (!getCurrentUser(request).equalsIgnoreCase(""))
+//						redirectToHome(request, response);
+//					else {
+//						register(request, response);
+//					}
+//					break;
+//				case "":
+//					if (!getCurrentUser(request).equalsIgnoreCase(""))
+//						redirectToHome(request, response);
+//					else {
+//						getLoginPage(request, response);
+//					}
+//					break;
+//			}
+				switch (command) {
+				case "login":			
 					login(request, response);
-				}
-				break;
-			case "logout":
-				logout(request, response);
-				break;
-			case "getLoginForm":
-				if (!getCurrentUser(request).equalsIgnoreCase(""))
-					redirectToHome(request, response);
-				else {
-					getLoginPage(request, response);
-				}
-				break;
-			case "getRegisterForm":
-				if (!getCurrentUser(request).equalsIgnoreCase(""))
-					redirectToHome(request, response);
-				else {
+					break;
+				case "getLoginForm":
+					getLoginPage(request, response);	
+					break;
+				case "getRegisterForm":
 					getRegisterPage(request, response);
-				}
-				break;
-			case "register":
-				if (!getCurrentUser(request).equalsIgnoreCase(""))
-					redirectToHome(request, response);
-				else {
+					break;
+				case "register":
 					register(request, response);
-				}
-				break;
-			case "":
-				if (!getCurrentUser(request).equalsIgnoreCase(""))
-					redirectToHome(request, response);
-				else {
+					break;
+				case "":
 					getLoginPage(request, response);
-				}
-				break;
-			}
+					break;
+			}			
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw new ServletException(e);
@@ -141,15 +158,6 @@ public class LoginServlet extends HttpServlet {
 		}
 	}	
 	
-	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		System.out.println("Current useremail: " + (String)session.getAttribute("useremail"));
-		session.setAttribute("userfullname", "");
-		session.setAttribute("useremail", "");						
-		RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
-		dispatcher.forward(request, response);
-			
-	}
 	private void redirectToHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
 		dispatcher.forward(request, response);	

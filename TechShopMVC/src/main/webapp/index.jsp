@@ -89,7 +89,7 @@
 												<h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" href="Auth?command=getLoginForm" >Login</a>
 											</c:when>
 											<c:otherwise>
-												<h3 class="menuBarUsername">Hi ${sessionScope.userfullname},</h3><a class="nav-link menuBarLoginBtn" href="Auth?command=logout">Logout</a>
+												<h3 class="menuBarUsername">Hi ${sessionScope.userfullname},</h3><a class="nav-link menuBarLoginBtn" href=Logout>Logout</a>
 											</c:otherwise>																						
 										</c:choose>
 									</li>

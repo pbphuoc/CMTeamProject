@@ -88,7 +88,7 @@
 												<h3 class="menuBarUsername"></h3><a class="nav-link menuBarLoginBtn" href="Auth?command=getLoginForm" >Login</a>
 											</c:when>
 											<c:otherwise>
-												<h3 class="menuBarUsername">Hi ${sessionScope.userfullname},</h3><a class="nav-link menuBarLoginBtn" href="Auth?command=logout">Logout</a>
+												<h3 class="menuBarUsername">Hi ${sessionScope.userfullname},</h3><a class="nav-link menuBarLoginBtn" href="Logout">Logout</a>
 											</c:otherwise>																						
 										</c:choose>
 									</li>
@@ -100,99 +100,6 @@
 			</div>
 		</div>
 	</header>
-	<!-- end header inner -->
-	<!-- end header -->
-	<!-- banner -->
-<!-- 	<section class="banner_main"> -->
-<!-- 		<div id="banner1" class="carousel slide" data-ride="carousel"> -->
-<!-- 			<ol class="carousel-indicators"> -->
-<!-- 				<li data-target="#banner1" data-slide-to="0" class="active"></li> -->
-<!-- 				<li data-target="#banner1" data-slide-to="1"></li> -->
-<!-- 				<li data-target="#banner1" data-slide-to="2"></li> -->
-<!-- 			</ol> -->
-<!-- 			<div class="carousel-inner"> -->
-<!-- 				<div class="carousel-item active"> -->
-<!-- 					<div class="container"> -->
-<!-- 						<div class="carousel-caption"> -->
-<!-- 							<div class="row"> -->
-<!-- 								<div class="col-md-6"> -->
-<!-- 									<div class="text-bg"> -->
-<!-- 										<span>Computer And Laptop</span> -->
-<!-- 										<h1>Accessories</h1> -->
-<!-- 										<p>We have a wide range of computers, laptops, cellphones, -->
-<!-- 											smart watches and accessories.</p> -->
-<!-- 										<a href="#">Buy Now </a> <a href="contact.html">Contact </a> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="col-md-6"> -->
-<!-- 									<div class="text_img"> -->
-<!-- 										<figure> -->
-<%-- 											<img src="${pageContext.request.contextPath}/images/pct.png" alt="#" /> --%>
-<!-- 										</figure> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="carousel-item"> -->
-<!-- 					<div class="container"> -->
-<!-- 						<div class="carousel-caption"> -->
-<!-- 							<div class="row"> -->
-<!-- 								<div class="col-md-6"> -->
-<!-- 									<div class="text-bg"> -->
-<!-- 										<span>Computer And Laptop</span> -->
-<!-- 										<h1>Accessories</h1> -->
-<!-- 										<p>We have a wide range of computers, laptops, cellphones, -->
-<!-- 											smart watches and accessories.</p> -->
-<!-- 										<a href="#">Buy Now </a> <a href="contact.html">Contact </a> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="col-md-6"> -->
-<!-- 									<div class="text_img"> -->
-<!-- 										<figure> -->
-<%-- 											<img src="${pageContext.request.contextPath}/images/pct.png" alt="#" /> --%>
-<!-- 										</figure> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="carousel-item"> -->
-<!-- 					<div class="container"> -->
-<!-- 						<div class="carousel-caption"> -->
-<!-- 							<div class="row"> -->
-<!-- 								<div class="col-md-6"> -->
-<!-- 									<div class="text-bg"> -->
-<!-- 										<span>Computer And Laptop</span> -->
-<!-- 										<h1>Accessories</h1> -->
-<!-- 										<p>We have a wide range of computers, laptops, cellphones, -->
-<!-- 											smart watches and accessories.</p> -->
-<!-- 										<a href="#">Buy Now </a> <a href="contact.html">Contact </a> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="col-md-6"> -->
-<!-- 									<div class="text_img"> -->
-<!-- 										<figure> -->
-<%-- 											<img src="${pageContext.request.contextPath}/images/pct.png" alt="#" /> --%>
-<!-- 										</figure> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 			<a class="carousel-control-prev" href="#banner1" role="button" -->
-<!-- 				data-slide="prev"> <i class="fa fa-chevron-left" -->
-<!-- 				aria-hidden="true"></i> -->
-<!-- 			</a> <a class="carousel-control-next" href="#banner1" role="button" -->
-<!-- 				data-slide="next"> <i class="fa fa-chevron-right" -->
-<!-- 				aria-hidden="true"></i> -->
-<!-- 			</a> -->
-<!-- 		</div> -->
-<!-- 	</section> -->
 
 	<div class="projectContainer">
 		<div class="row">
