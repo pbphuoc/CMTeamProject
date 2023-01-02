@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,7 +24,7 @@ public class ProductDAO extends DAO<Product> {
 	private static final String SEARCH_PRODUCT_BY_NAME_SQL = "SELECT * FROM product where name like ?";
 	private static final String SELECT_ALL_BRAND_SQL = "SELECT * FROM brand;";
 	private static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM category;";
-	private static final String SELECT_MEDIA_BY_PRODUCT_ID_SQL = "SELECT * FROM media where product_id = ?";
+	private static final String SELECT_MEDIA_BY_PRODUCT_ID_SQL = "SELECT * FROM media where product_id = ?";	
 	
 	private Connection connection;
 	
@@ -66,7 +67,7 @@ public class ProductDAO extends DAO<Product> {
 	}
 	
 	public Map<String, SorterDTO> getAllSorter() {	
-		Map<String, SorterDTO> sorters = new HashMap<String, SorterDTO>();		
+		Map<String, SorterDTO> sorters = new LinkedHashMap<String, SorterDTO>();		
 		for(Entry entry: SorterDTO.SORTBY_MAP.entrySet()) {
 			sorters.put((String)entry.getKey(), new SorterDTO((String)entry.getKey(), (String)entry.getValue()));
 		}
@@ -109,12 +110,43 @@ public class ProductDAO extends DAO<Product> {
 		return categories;
 	}
 	
-	public String getBrandStatment(String[] brands) {
+	public String getWhereClause(String[] statements) {
+		String whereClause = "";
+		boolean inWhereClause = false;
+		for(String statement: statements) {				
+			if(!statement.equalsIgnoreCase("")) {
+				if (!inWhereClause){
+					inWhereClause = true;
+					whereClause += WHERE_QUERY + statement;							
+				}else {
+					whereClause += AND_QUERY + statement;		
+				}
+			}			
+		}
+		return whereClause;
+	}	
+	
+	public String getNameCondition(String[] keywords) {
+		String nameStm = "(";
+		if(keywords.length == 1)
+			nameStm += SEARCH_PRODUCT_BY_NAME_SQL;
+		else if (keywords.length > 1) {
+			for(int i = 0; i < keywords.length; i++) {
+				nameStm += SEARCH_PRODUCT_BY_NAME_SQL;
+				if(i != keywords.length - 1)
+					nameStm += " union ";	
+			}
+		}
+		nameStm += ") as resultByKeyWords";
+		return nameStm;
+	}	
+	
+	public String getBrandCondition(String[] brands) {
 		String brandStm = "";
 		if(brands.length == 1)
-			brandStm = " and brand_id = ?";
+			brandStm = "brand_id = ?";
 		else if (brands.length > 1) {
-			brandStm = " and brand_id in (";
+			brandStm = "brand_id in (";
 			for(int i = 0; i < brands.length; i++) {
 				brandStm += "?";
 				if(i != brands.length - 1)
@@ -125,12 +157,12 @@ public class ProductDAO extends DAO<Product> {
 		return brandStm;
 	}
 	
-	public String getCategoryStatement(String[] categories) {
+	public String getCategoryCondition(String[] categories) {
 		String categoryStm = "";
 		if(categories.length == 1)
-			categoryStm = " and category_id = ?";
+			categoryStm = "category_id = ?";
 		else if (categories.length > 1) {
-			categoryStm = " and category_id in (";
+			categoryStm = "category_id in (";
 			for(int i = 0; i < categories.length; i++) {
 				categoryStm += "?";
 				if(i != categories.length - 1)
@@ -141,23 +173,24 @@ public class ProductDAO extends DAO<Product> {
 		return categoryStm;
 	}
 	
-	public String getAvailabilityStatement(String[] availabilities) {
+	public String getAvailabilityCondition(String[] availabilities) {
 		String availabilityStm = "";
 		if(availabilities.length == 1 && availabilities[0].equalsIgnoreCase("1"))
-			availabilityStm = "and stock > 0";
+			availabilityStm = "stock > 0";
 		else if(availabilities.length == 1 && availabilities[0].equalsIgnoreCase("0"))
-			availabilityStm = "and stock = 0";
+			availabilityStm = "stock = 0";
 			
 		return availabilityStm;
 	}
 	
-	public String getSorterStatment(String sorter) {
+	public String getSortCondition(String sorter) {
 		String sorterStm = "";
 		int sortBy = Integer.parseInt(sorter);
 		if(sortBy > 0)
 			sorterStm = " order by ? ";
 		else if(sortBy < 0)
 			sorterStm = " order by ? desc";
+			
 		return sorterStm;
 	}	
 	
@@ -170,11 +203,14 @@ public class ProductDAO extends DAO<Product> {
 		Map<String,AvailabilityDTO> allAvailabilityFilters = getAllAvailabilityFilter();		
 		Map<String,AvailabilityDTO> availabilityFilters = new HashMap<String,AvailabilityDTO>();
 		Map<String,SorterDTO> allSorters = getAllSorter();
-		String keyword = keywords[0];
+		String[] newKeywords = getAllPossibleMatchedKeywords(keywords);
 		int currentParam = 0;	
+		String searchProductSQL = DAO.SELECT_FROM_SUB_QUERY + getNameCondition(newKeywords);
 		
-		try(PreparedStatement selectStm = connection.prepareStatement(SEARCH_PRODUCT_BY_NAME_SQL);){
-			selectStm.setString(++currentParam, "%" + keyword + "%");			
+		try(PreparedStatement selectStm = connection.prepareStatement(searchProductSQL);){
+			for(String keyword: newKeywords) {
+				selectStm.setString(++currentParam, "%" + keyword + "%");
+			}					
 			System.out.println("Query: " + selectStm.toString());
 			ResultSet result = selectStm.executeQuery();
 			while(result.next()) {
@@ -205,28 +241,35 @@ public class ProductDAO extends DAO<Product> {
 		Map<String,CategoryDTO> categoryFilters = (Map<String, CategoryDTO>) originalSearchResultAndFilter[2];
 		Map<String,AvailabilityDTO> availabilityFilters = (Map<String, AvailabilityDTO>) originalSearchResultAndFilter[3];		
 		Map<String,SorterDTO> allSorters = (Map<String, SorterDTO>) originalSearchResultAndFilter[4];
-		List<Product> products = new ArrayList<Product>();	
-		String keyword = keywords[0];
+		List<Product> products = new ArrayList<Product>();	 
+		String[] newKeywords = getAllPossibleMatchedKeywords(keywords);
 		int currentParam = 0;
+		
 		
 		checkSelectedBrandFilter(brandFilters, selectedBrands);
 		checkSelectedCategoryFilter(categoryFilters, selectedCategories);
 		checkSelectedAvailabilityFilter(availabilityFilters, selectedAvailabilities);
 		checkSelectedSorter(allSorters, selectedSorter);
 		
-		String searchProductSQL = SEARCH_PRODUCT_BY_NAME_SQL + getBrandStatment(selectedBrands) + getCategoryStatement(selectedCategories) + getAvailabilityStatement(selectedAvailabilities);	
+		String priceMinCondition = "";
+		String priceMaxCondition = "";
 		if(!priceMin.equalsIgnoreCase(""))
-			searchProductSQL += " and new_price >= ?";
+			priceMinCondition = "new_price >= ?";
 		if(!priceMax.equalsIgnoreCase(""))
-			searchProductSQL += " and new_price <= ?";
-		searchProductSQL+= getSorterStatment(selectedSorter);	
+			priceMaxCondition = "new_price <= ?";		
+		
+		String searchProductSQL = DAO.SELECT_FROM_SUB_QUERY + getNameCondition(newKeywords) + getWhereClause(new String[] {getBrandCondition(selectedBrands),getCategoryCondition(selectedCategories),getAvailabilityCondition(selectedAvailabilities),priceMinCondition,priceMaxCondition});
+
+		searchProductSQL+= getSortCondition(selectedSorter);	
 		if(!perPage.equalsIgnoreCase(""))
 			searchProductSQL += " limit ? ";
 		if(!page.equalsIgnoreCase(""))
 			searchProductSQL += " offset ? ";		
 		
 		try(PreparedStatement selectStm = connection.prepareStatement(searchProductSQL);){
-			selectStm.setString(++currentParam, "%" + keyword + "%");
+			for(String keyword: newKeywords) {
+				selectStm.setString(++currentParam, "%" + keyword + "%");
+			}
 			for(String brand: selectedBrands) {
 				selectStm.setString(++currentParam, brand);
 			}
@@ -237,7 +280,7 @@ public class ProductDAO extends DAO<Product> {
 				selectStm.setInt(++currentParam, Integer.parseInt(priceMin));
 			if(!priceMax.equalsIgnoreCase(""))
 				selectStm.setInt(++currentParam, Integer.parseInt(priceMax));
-			if(!selectedSorter.equalsIgnoreCase("")) {
+			if(!selectedSorter.equalsIgnoreCase("") && Integer.parseInt(selectedSorter) != 0) {
 				int sortBy = (Integer.parseInt(selectedSorter) > 0) ? Integer.parseInt(selectedSorter) : -1*Integer.parseInt(selectedSorter); 
 				selectStm.setInt(++currentParam, sortBy);
 			}
@@ -346,5 +389,39 @@ public class ProductDAO extends DAO<Product> {
 	private void checkSelectedSorter(Map<String,SorterDTO> sorters, String selectedSorter) {
 		sorters.get(selectedSorter).setSelected("selected");		
 	}	
+	
+	private String[] getAllPossibleMatchedKeywords(String[] keywords) {
+		List<String> newKeywords = new ArrayList<String>();
+		String combinedKeyword = "";
+		int currentCombinedWordLength = keywords.length;
+		int startIndex = 0;
+		int currentIndex = startIndex;
+		while(currentCombinedWordLength > 1) {
+			while(startIndex + currentCombinedWordLength <= keywords.length) {
+				while(currentIndex < startIndex + currentCombinedWordLength){
+					combinedKeyword += keywords[currentIndex] + " ";
+					++currentIndex;
+				}
+				newKeywords.add(combinedKeyword.substring(0, combinedKeyword.length()-1));
+				combinedKeyword = "";
+				++startIndex;
+				currentIndex = startIndex;
+			}
+			combinedKeyword = "";
+			startIndex = 0;
+			currentIndex = startIndex;
+			--currentCombinedWordLength;
+		}
+		
+		for(String keyword: keywords) {
+			newKeywords.add(keyword);
+		}
+		
+		for(String keyword: newKeywords) {
+			System.out.println(keyword);
+		}
+		
+		return (String[])newKeywords.toArray(new String[0]);
+	}
 
 }

@@ -167,7 +167,7 @@ public class LoginServlet extends HttpServlet {
 	
 	private String getCurrentUser(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		if(session.getAttribute("userfullname") != null && session.getAttribute("userfullname") != "")
+		if(session.getAttribute("userfullname") != null && !((String)session.getAttribute("userfullname")).equalsIgnoreCase(""))
 			return (String)session.getAttribute("userfullname");
 		else {
 			session.setAttribute("userfullname", "");

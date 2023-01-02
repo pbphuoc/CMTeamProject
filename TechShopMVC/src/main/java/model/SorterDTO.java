@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SorterDTO extends DTO{
@@ -8,7 +9,8 @@ public class SorterDTO extends DTO{
 	public SorterDTO(String id, String name) {
 		super(id, name);
 	}
-	public static final Map<String, String> SORTBY_MAP = new HashMap<String, String>(){{
+	public static final Map<String, String> SORTBY_MAP = new LinkedHashMap<String, String>(){{
+		put("0", "Relevancy");
 		put("5", "Price Low To High");
 		put("-5", "Price High To Low");
 		put("2", "Name A To Z");

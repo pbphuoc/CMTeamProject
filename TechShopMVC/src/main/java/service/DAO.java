@@ -14,6 +14,12 @@ public abstract class DAO<T> {
 	private static final String DB_USERNAME = "projectuser";
 	private static final String DB_PASSWORD = "codingmentor";
 	private Connection connection;
+	
+	protected static final String SELECT_FROM_SUB_QUERY = "SELECT * FROM";
+	protected static final String AND_QUERY = " AND ";
+	protected static final String OR_QUERY = " OR ";
+	protected static final String WHERE_QUERY = " WHERE ";
+	
 	public enum DAOType{
 		USER,
 		PRODUCT
