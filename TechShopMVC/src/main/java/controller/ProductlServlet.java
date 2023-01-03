@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.DAOService;
+import dao.ProductDAO;
+import dao.DAO.DAOType;
 import model.AvailabilityDTO;
 import model.BrandDTO;
 import model.CategoryDTO;
 import model.Product;
 import model.SorterDTO;
-import service.DAOService;
-import service.ProductDAO;
-import service.DAO.DAOType;
 
 /**
  * Servlet implementation class ProductDetailServlet

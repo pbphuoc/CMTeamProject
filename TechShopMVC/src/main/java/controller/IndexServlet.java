@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.DAO;
+import dao.DAOService;
+import dao.ProductDAO;
+import dao.DAO.DAOType;
 import model.Product;
-import service.DAO;
-import service.DAO.DAOType;
-import service.DAOService;
-import service.ProductDAO;
 
 /**
  * Servlet implementation class IndexServlet

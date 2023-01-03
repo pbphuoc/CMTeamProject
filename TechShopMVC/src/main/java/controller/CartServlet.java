@@ -21,19 +21,15 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mysql.cj.Session;
 
+import dao.CartDAO;
 import model.CartItemDetail;
 import model.CartItem;
 import model.Product;
-import service.CartDAO;
 
 /**
  * Servlet implementation class CartServlet
  */
 @WebServlet("/Cart")
-
-
-
-
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.DAOService;
+import dao.UserDAO;
+import dao.DAO.DAOType;
+import dao.DAO.QueryResult;
 import model.User;
-import service.DAO.DAOType;
-import service.DAO.QueryResult;
-import service.DAOService;
-import service.UserDAO;
 
 
 /**
