@@ -60,17 +60,17 @@ function loadCountryCode() {
 	loadOptions(country_codes, '#countryCodeList');
 }
 
-function loadSorter() {
-	const sort_options = [
-		{ sort_key: "pricelowtohigh", sort_value: "Price Low To High" },
-		{ sort_key: "pricehightolow", sort_value: "Price High To Low" },
-		{ sort_key: "nameatoz", sort_value: "Name A To Z" },
-		{ sort_key: "nameztoa", sort_value: "Name Z To A" },
-		{ sort_key: "oldtonew", sort_value: "Old To New" },
-		{ sort_key: "newtoold", sort_value: "New To Old" },
-	];
-	loadOptions(sort_options, '#sorter');
-}
+//function loadSorter() {
+//	const sort_options = [
+//		{ sort_key: "pricelowtohigh", sort_value: "Price Low To High" },
+//		{ sort_key: "pricehightolow", sort_value: "Price High To Low" },
+//		{ sort_key: "nameatoz", sort_value: "Name A To Z" },
+//		{ sort_key: "nameztoa", sort_value: "Name Z To A" },
+//		{ sort_key: "oldtonew", sort_value: "Old To New" },
+//		{ sort_key: "newtoold", sort_value: "New To Old" },
+//	];
+//	loadOptions(sort_options, '#sorter');
+//}
 
 function loadChechOutForm() {
 	if (getCookie("username") != "") {
