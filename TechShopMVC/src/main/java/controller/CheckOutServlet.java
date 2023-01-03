@@ -18,7 +18,6 @@ import model.CartItemDetail;
 /**
  * Servlet implementation class CheckOutServlet
  */
-@WebServlet("/Checkout")
 public class CheckOutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

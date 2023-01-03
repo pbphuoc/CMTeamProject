@@ -23,7 +23,6 @@ import model.SorterDTO;
 /**
  * Servlet implementation class ProductDetailServlet
  */
-@WebServlet("/Product")
 public class ProductlServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

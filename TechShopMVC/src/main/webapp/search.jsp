@@ -23,14 +23,13 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
 	media="screen">
-<!-- bootstrap css -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">	
 <!-- Responsive-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/responsive.css">	
 <!-- Scrollbar Custom CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.mCustomScrollbar.min.css">	
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />	
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">	
 </head>
 <!-- body -->
 <body class="main-layout">

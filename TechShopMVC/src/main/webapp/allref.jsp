@@ -6,7 +6,7 @@
 <!-- Responsive-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/responsive.css">
 <!-- fevicon -->
-<link rel="icon" href="${pageContext.request.contextPath}/images/fevicon.png" type="image/gif" />
+<link rel="icon" href="${pageContext.request.contextPath}/images/logo.png" type="image/x-icon" />
 <!-- Scrollbar Custom CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.mCustomScrollbar.min.css">
 <!-- Tweaks for older IEs-->

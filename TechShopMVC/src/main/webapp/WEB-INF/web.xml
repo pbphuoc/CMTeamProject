@@ -6,6 +6,54 @@
 	<display-name>Techila</display-name>
 	<welcome-file-list>
 		<welcome-file>Home</welcome-file>
-	</welcome-file-list>									
+	</welcome-file-list>							
+	<servlet>
+	    <servlet-name>IndexServlet</servlet-name>
+	    <servlet-class>controller.IndexServlet</servlet-class>
+	</servlet>	
+	<servlet>
+	    <servlet-name>CartServlet</servlet-name>
+	    <servlet-class>controller.CartServlet</servlet-class>
+	</servlet>
+	<servlet>
+	    <servlet-name>LoginServlet</servlet-name>
+	    <servlet-class>controller.LoginServlet</servlet-class>
+	</servlet>
+	<servlet>
+	    <servlet-name>LogoutServlet</servlet-name>
+	    <servlet-class>controller.LogoutServlet</servlet-class>
+	</servlet>		
+	<servlet>
+	    <servlet-name>ProductlServlet</servlet-name>
+	    <servlet-class>controller.ProductlServlet</servlet-class>
+	</servlet>
+	<servlet>
+	    <servlet-name>CheckOutServlet</servlet-name>
+	    <servlet-class>controller.CheckOutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>IndexServlet</servlet-name>
+	    <url-pattern>/Home</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>LoginServlet</servlet-name>
+	    <url-pattern>/Auth</url-pattern>
+	</servlet-mapping>	
+	<servlet-mapping>
+	    <servlet-name>ProductlServlet</servlet-name>
+	    <url-pattern>/Product</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>CheckOutServlet</servlet-name>
+	    <url-pattern>/Checkout</url-pattern>
+	</servlet-mapping>			
+	<servlet-mapping>
+	    <servlet-name>CartServlet</servlet-name>
+	    <url-pattern>/Cart</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>LogoutServlet</servlet-name>
+	    <url-pattern>/Logout</url-pattern>
+	</servlet-mapping>					
 	<session-timeout>30</session-timeout>
 </web-app>
