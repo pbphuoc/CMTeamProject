@@ -6,7 +6,6 @@
 	<display-name>Techila</display-name>
 	<welcome-file-list>
 		<welcome-file>Home</welcome-file>
-		<welcome-file>Index</welcome-file>
-		<welcome-file>Index.html</welcome-file>
 	</welcome-file-list>	
+	<session-timeout>30</session-timeout>
 </web-app>
