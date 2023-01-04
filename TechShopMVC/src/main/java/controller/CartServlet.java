@@ -62,8 +62,7 @@ public class CartServlet extends HttpServlet {
 					break;				
 				case "viewCart":				
 					getCartPage(request,response);
-					break;
-				
+					break;	
 				default:
 					getCartPage(request,response);
 					break;

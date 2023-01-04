@@ -16,7 +16,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <!-- fevicon -->
-<link rel="icon" href="${pageContext.request.contextPath}/images/logo.png" type="image/gif" />
+<link rel="icon" href="../images/logo.png" type="image/gif" />
 <!-- Tweaks for older IEs-->
 <link rel="stylesheet"
 	href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
@@ -24,12 +24,12 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
 	media="screen">
 <!-- Responsive-->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/responsive.css">	
+<link rel="stylesheet" href="../css/responsive.css">	
 <!-- Scrollbar Custom CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.mCustomScrollbar.min.css">	
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.min.css">	
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />	
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">	
+<link rel="stylesheet" href="../css/style.css">	
 </head>
 <!-- body -->
 <body class="main-layout">
@@ -157,7 +157,7 @@
 													<a
 														href="Product?command=viewProductDetail&productID=${product.id}">
 														<img class="productThumbnail"
-														src='${pageContext.request.contextPath}${product.imgSrc}' />
+														src='..${product.imgSrc}' />
 													</a>
 												</div>
 												<p class="productDescription">
@@ -201,11 +201,11 @@
 	</div>
 
 	<jsp:include page="footer.jsp"></jsp:include>	
-	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/custom.js"></script>
-	<script src="${pageContext.request.contextPath}/js/projectJS.js"></script>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/popper.min.js"></script>
+	<script src="../js/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="../js/custom.js"></script>
+	<script src="../js/projectJS.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>

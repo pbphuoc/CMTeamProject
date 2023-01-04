@@ -43,7 +43,7 @@
 								<div class="col-md-6">
 									<div class="text_img">
 										<figure>
-											<img src="${pageContext.request.contextPath}/images/pct.png" alt="#" />
+											<img src="../images/pct.png" alt="#" />
 										</figure>
 									</div>
 								</div>
@@ -67,7 +67,7 @@
 								<div class="col-md-6">
 									<div class="text_img">
 										<figure>
-											<img src="${pageContext.request.contextPath}/images/pct.png" alt="#" />
+											<img src="../images/pct.png" alt="#" />
 										</figure>
 									</div>
 								</div>
@@ -91,7 +91,7 @@
 								<div class="col-md-6">
 									<div class="text_img">
 										<figure>
-											<img src="${pageContext.request.contextPath}/images/pct.png" alt="#" />
+											<img src="../images/pct.png" alt="#" />
 										</figure>
 									</div>
 								</div>
@@ -124,7 +124,7 @@
 				<div class="col-md-4 mb-4">
 					<div class="box_text">
 						<i><img class="categoryIcon"
-							src="${pageContext.request.contextPath}/images/category/category_computer.png" alt="#" /></i>
+							src="../images/category/category_computer.png" alt="#" /></i>
 						<h3>Computer</h3>
 						<p>We have computers</p>
 					</div>
@@ -132,7 +132,7 @@
 				<div class="col-md-4 mb-4">
 					<div class="box_text">
 						<i><img class="categoryIcon"
-							src="${pageContext.request.contextPath}/images/category/category_laptop.png" alt="#" /></i>
+							src="../images/category/category_laptop.png" alt="#" /></i>
 						<h3>Laptop</h3>
 						<p>We have laptops</p>
 					</div>
@@ -140,7 +140,7 @@
 				<div class="col-md-4 mb-4">
 					<div class="box_text">
 						<i><img class="categoryIcon"
-							src="${pageContext.request.contextPath}/images/category/category_tablet.png" alt="#" /></i>
+							src="../images/category/category_tablet.png" alt="#" /></i>
 						<h3>Tablet</h3>
 						<p>We have tablets</p>
 					</div>
@@ -148,7 +148,7 @@
 				<div class="col-md-4 mb-4">
 					<div class="box_text">
 						<i><img class="categoryIcon"
-							src="${pageContext.request.contextPath}/images/category/category_cellphone.png" alt="#" /></i>
+							src="../images/category/category_cellphone.png" alt="#" /></i>
 						<h3>Cellphone</h3>
 						<p>We have cellphones</p>
 					</div>
@@ -156,7 +156,7 @@
 				<div class="col-md-4 mb-4">
 					<div class="box_text">
 						<i><img class="categoryIcon"
-							src="${pageContext.request.contextPath}/images/category/category_accessory.png" alt="#" /></i>
+							src="../images/category/category_accessory.png" alt="#" /></i>
 						<h3>Accessory</h3>
 						<p>We have device accessories</p>
 					</div>
@@ -164,7 +164,7 @@
 				<div class="col-md-4 mb-4">
 					<div class="box_text">
 						<i><img class="categoryIcon"
-							src="${pageContext.request.contextPath}/images/category/category_smartwatch.png" alt="#" /></i>
+							src="../images/category/category_smartwatch.png" alt="#" /></i>
 						<h3>Smart Watch</h3>
 						<p>We have smart watches</p>
 					</div>
@@ -196,7 +196,7 @@
 											<div class="productThumbnailContainer">
 												<a href="Product?command=viewProductDetail&productID=${product.id}">
 												<img class="productThumbnail"
-													src='${pageContext.request.contextPath}${product.imgSrc}' />
+													src='..${product.imgSrc}' />
 													</a>
 											</div>
 											<p class="productDescription">

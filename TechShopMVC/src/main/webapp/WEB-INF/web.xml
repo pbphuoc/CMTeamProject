@@ -54,6 +54,5 @@
 	<servlet-mapping>
 	    <servlet-name>LogoutServlet</servlet-name>
 	    <url-pattern>/Logout</url-pattern>
-	</servlet-mapping>					
-	<session-timeout>30</session-timeout>
+	</servlet-mapping>
 </web-app>

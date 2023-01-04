@@ -116,7 +116,7 @@
 
 				<div class="card-header card-1">
 					<p class="card-text text-muted mt-md-4  mb-2 space">
-					<a href="${pageContext.request.contextPath}/Cart">
+					<a href="Cart">
 						<span class=" small text-muted ml-2 cursor-pointer">EDIT SHOPPING BAG</span>
 					</a>
 					</p>
@@ -130,7 +130,7 @@
 						<div class="col-auto col-md-7">
 							<div class="media flex-column flex-sm-row">
 								<img class="img-fluid"
-									src="${pageContext.request.contextPath}<c:out value='${item.product.imgSrc}'/>">
+									src="..<c:out value='${item.product.imgSrc}'/>">
 								<p class="mb-0">
 									<b><c:out value="${item.product.name}"/></b>
 								</p>
@@ -194,7 +194,7 @@
         </div>
 	
 	<jsp:include page="allscript.jsp"></jsp:include>	
-	<script src="${pageContext.request.contextPath}/js/checkout.js"></script>
+	<script src="../js/checkout.js"></script>
 
 </body>
 </html>

@@ -10,7 +10,7 @@
 						<div class="center-desk" class="d-inline-flex">
 							<div class="logo">
 								<a href="Home"><img
-									src="${pageContext.request.contextPath}/images/logo.png"
+									src="../images/logo.png"
 									alt="#" /></a>
 							</div>
 						</div>

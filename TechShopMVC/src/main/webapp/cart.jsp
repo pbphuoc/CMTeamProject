@@ -25,7 +25,7 @@
 			<div class="col-xl-12">
 				<div class="cart">
 					<h1 class="cartTitle">
-						My Shopping Cart <a href="${pageContext.request.contextPath}/Home" class="btn"> <i
+						My Shopping Cart <a href="Home" class="btn"> <i
 							class="fa fa-shopping-cart " aria-hidden="true"></i> <span
 							class="backToShop">Back To Shop</span>
 						</a>
@@ -52,7 +52,7 @@
 					<div class="itemInfor">
 					<div class="imageContainer">
 					<a href="product.html"> 
-					<img src="${pageContext.request.contextPath}<c:out value='${item.product.imgSrc}'/>">
+					<img src="..<c:out value='${item.product.imgSrc}'/>">
 					</a>
 					</div>
 					<div>

@@ -7,7 +7,7 @@
 				<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
 					<div class="logo-footer">
 						<img class="logo1"
-							src="${pageContext.request.contextPath}/images/logo.png" alt="#" />
+							src="../images/logo.png" alt="#" />
 					</div>
 
 					<ul class="social_icon">

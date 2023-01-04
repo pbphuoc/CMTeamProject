@@ -27,13 +27,13 @@
 					<c:if test="${medias.size() > 0}">
 						<div class="col-12">
 							<div class="lightbox productImageContainer">
-								<img id="imageViewer" src="${pageContext.request.contextPath}${medias[0]}" alt="Gallery image 1"
+								<img id="imageViewer" src="..${medias[0]}" alt="Gallery image 1"
 									class="active" />
 							</div>
 						</div>
 						<c:forEach var="media" items="${medias}">
 							<div class="col-3 mb-1">
-								<img src="${pageContext.request.contextPath}${media}" class="active imgViewerItem"
+								<img src="..${media}" class="active imgViewerItem"
 									onclick="changeProductImage(this.src)" />
 							</div>
 						</c:forEach>
