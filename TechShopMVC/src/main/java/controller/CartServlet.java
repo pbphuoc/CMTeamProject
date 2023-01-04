@@ -2,29 +2,18 @@ package controller;
 
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.security.KeyStore.Entry;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.mysql.cj.Session;
-
 import dao.CartDAO;
 import model.CartItemDetail;
-import model.CartItem;
-import model.Product;
 
 /**
  * Servlet implementation class CartServlet
@@ -94,8 +83,7 @@ public class CartServlet extends HttpServlet {
 					List<CartItemDetail> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
 					request.setAttribute("cartItemDetails", cartItemDetails);
 					RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
-					dispatcher.forward(request, response);
-				
+					dispatcher.forward(request, response);			
 			}
 	}
 	protected void remove(HttpServletRequest request, HttpServletResponse response, String productID)throws ServletException, IOException {
@@ -127,7 +115,8 @@ public class CartServlet extends HttpServlet {
 					cartItems.put(productID,1);
 				}
 					session.setAttribute("cartItems", cartItems);
-					response.getWriter().append("success");					
+					if(cartItems.get(productID) >= 1)
+						response.getWriter().append("increase success: product" + productID + " is now " + cartItems.get(productID) + "- Cart Size: " + ((HashMap<String, Integer>) session.getAttribute("cartItems")).size());					
 		}
 	
 		protected void decrease(HttpServletRequest request, HttpServletResponse response,String productID)throws ServletException, IOException {

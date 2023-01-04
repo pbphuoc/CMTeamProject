@@ -46,8 +46,7 @@ public class LogoutServlet extends HttpServlet {
 		session.setAttribute("userfullname", "");
 		session.setAttribute("useremail", "");						
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
-		dispatcher.forward(request, response);
-			
+		dispatcher.forward(request, response);		
 	}
 
 }

@@ -33,6 +33,7 @@
 				</div>
 			</div>
 		</div>
+		cart size: ${cartItemDetails.size()}
 		<div class="tableWrapper">
 			<table class="tableInfor">
 				<tr>
@@ -45,7 +46,6 @@
 		</div>
 		<div class="cartItemWrapper">
 		<% double subTotal = 0; %>
-		
 		<c:forEach var="item" items="${cartItemDetails}">
 			<div class="itemTable">
 				<div class="cartCol1">
@@ -108,6 +108,7 @@
 	</div>
 	<jsp:include page="footer.jsp"></jsp:include>	
 	<jsp:include page="allscript.jsp"></jsp:include>	
+	<script src="${pageContext.request.contextPath}/js/cart.js"></script>
 </body>
 </html>
 

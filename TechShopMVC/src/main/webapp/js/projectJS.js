@@ -398,32 +398,28 @@ function viewCart() {
 	requestToServlet('Cart', 'viewCart', 'productID', '');
 }
 
-function ajaxToServlet(url, type, data, onSuccess) {
+function ajaxToServlet(url, type, data) {
 	//requestToServlet('Cart', 'increase', productID);
 	$.ajax({
 		url: url,
 		type: type,
 		data: data,
 		success: function(response){
-			if(response == "success")
-				onSuccess();
+			console.log(response);
 		}
 	});
 }
 
 function increase(productID) {
-	var onSuccess = function(){console.log('increase success')};
-	ajaxToServlet('Cart', 'POST', {'command' : 'increase', 'productID' : productID}, onSuccess);
+	ajaxToServlet('Cart', 'POST', {'command' : 'increase', 'productID' : productID});
 }
 
 function decrease(productID) {
-	var onSuccess = function(){console.log('decrease success')};
-	ajaxToServlet('Cart', 'POST', {'command' : 'decrease', 'productID' : productID}, onSuccess);
+	ajaxToServlet('Cart', 'POST', {'command' : 'decrease', 'productID' : productID});
 }
 
 function remove(productID) {
-	var onSuccess = function(){console.log('remove success')};
-	ajaxToServlet('Cart', 'POST', {'command' : 'remove', 'productID' : productID}, onSuccess);
+	ajaxToServlet('Cart', 'POST', {'command' : 'remove', 'productID' : productID});
 }
 
 function setErrorMessage(element, feedback, message) {
