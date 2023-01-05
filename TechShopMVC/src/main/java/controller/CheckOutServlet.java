@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import dao.CartDAO;
+import dao.ProductDAO;
 import model.CartItemDetail;
 
 /**
@@ -50,7 +49,7 @@ public class CheckOutServlet extends HttpServlet {
 	}
 	
 	 protected void viewCheckOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CartDAO cartDAO = new CartDAO();
+		ProductDAO cartDAO = new ProductDAO();
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		List<CartItemDetail> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);

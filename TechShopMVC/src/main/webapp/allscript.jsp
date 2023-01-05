@@ -7,3 +7,4 @@
 <script src="../js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="../js/custom.js"></script>
 <script src="../js/projectJS.js"></script>
+<script src="../js/cart.js"></script>
