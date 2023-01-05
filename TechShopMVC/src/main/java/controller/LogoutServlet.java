@@ -44,9 +44,11 @@ public class LogoutServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		System.out.println("Current useremail: " + (String)session.getAttribute("useremail"));
 		session.setAttribute("userfullname", "");
-		session.setAttribute("useremail", "");						
-		RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
-		dispatcher.forward(request, response);		
+		session.invalidate();
+//		session.setAttribute("useremail", "");						
+//		RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
+//		dispatcher.forward(request, response);		
+		response.sendRedirect("Home");
 	}
 
 }

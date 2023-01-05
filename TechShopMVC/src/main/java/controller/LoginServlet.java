@@ -38,66 +38,26 @@ public class LoginServlet extends HttpServlet {
 		System.out.println("-----------------------------");
 		System.out.println("doGet Login Servlet called");
 		System.out.println("Current command: " + request.getParameter("command"));
-		System.out.println("Current User: " + getCurrentUser(request));
+//		System.out.println("Current User: " + getCurrentUser(request));
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
 		try {
-//			switch (command) {
-//				case "login":
-//					if (!getCurrentUser(request).equalsIgnoreCase(""))
-//						redirectToHome(request, response);
-//					else {
-//						login(request, response);
-//					}
-//					break;
-//				case "logout":
-//					logout(request, response);
-//					break;
-//				case "getLoginForm":
-//					if (!getCurrentUser(request).equalsIgnoreCase(""))
-//						redirectToHome(request, response);
-//					else {
-//						getLoginPage(request, response);
-//					}
-//					break;
-//				case "getRegisterForm":
-//					if (!getCurrentUser(request).equalsIgnoreCase(""))
-//						redirectToHome(request, response);
-//					else {
-//						getRegisterPage(request, response);
-//					}
-//					break;
-//				case "register":
-//					if (!getCurrentUser(request).equalsIgnoreCase(""))
-//						redirectToHome(request, response);
-//					else {
-//						register(request, response);
-//					}
-//					break;
-//				case "":
-//					if (!getCurrentUser(request).equalsIgnoreCase(""))
-//						redirectToHome(request, response);
-//					else {
-//						getLoginPage(request, response);
-//					}
-//					break;
-//			}
-				switch (command) {
-				case "login":			
-					login(request, response);
-					break;
-				case "getLoginForm":
-					getLoginPage(request, response);	
-					break;
-				case "getRegisterForm":
-					getRegisterPage(request, response);
-					break;
-				case "register":
-					register(request, response);
-					break;
-				case "":
-					getLoginPage(request, response);
-					break;
+			switch (command) {
+			case "login":			
+				login(request, response);
+				break;
+			case "getLoginForm":
+				getLoginPage(request, response);	
+				break;
+			case "getRegisterForm":
+				getRegisterPage(request, response);
+				break;
+			case "register":
+				register(request, response);
+				break;
+			case "":
+				getLoginPage(request, response);
+				break;
 			}			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -124,14 +84,16 @@ public class LoginServlet extends HttpServlet {
 		UserDAO userDAO = (UserDAO)DAOService.getDAO(DAOType.USER);
 		User user = userDAO.getRecordByID(email);
 		if(user != null) {
-			
+			request.setAttribute("registerError", "existing");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
+			dispatcher.forward(request, response);				
 		}else {
 			user = new User(email, password, fullname, mobile);
 			QueryResult queryResult = userDAO.insertUser(user);
 			if (queryResult == QueryResult.SUCCESSFUL) {
 				HttpSession session = request.getSession();
 				session.setAttribute("userfullname", fullname);
-				session.setAttribute("useremail", email);
+//				session.setAttribute("useremail", email);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
 				dispatcher.forward(request, response);					
 			}
@@ -146,29 +108,23 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		if(user != null) {			
 			session.setAttribute("userfullname", user.getFullname());
-			session.setAttribute("useremail", email);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
-			dispatcher.forward(request, response);			
+//			session.setAttribute("useremail", email);
+			response.sendRedirect("Home");			
 		}else {
-			session.setAttribute("useremail", "invalid");
+//			session.setAttribute("useremail", "invalid");
+			session.setAttribute("userfullname", "");
+			request.setAttribute("loginError", "invalid");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 			dispatcher.forward(request, response);				
 		}
 	}	
 	
-	private void redirectToHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
-		dispatcher.forward(request, response);	
-	}
-	
 	private void getRegisterPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
-		dispatcher.forward(request, response);			 
+		response.sendRedirect("register.jsp");	
 	}		
 	
-	private void getLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-		dispatcher.forward(request, response);			
+	private void getLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {			
+		response.sendRedirect("login.jsp");
 	}	
 	
 	private String getCurrentUser(HttpServletRequest request) {
@@ -180,5 +136,4 @@ public class LoginServlet extends HttpServlet {
 			return "";
 		}
 	}
-
 }

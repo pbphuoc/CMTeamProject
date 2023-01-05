@@ -36,7 +36,7 @@
 						<div class="input-group mb-3">
 							<c:choose>
 								<c:when
-									test="${sessionScope.userfullname == '' && sessionScope.useremail == 'invalid'}">
+									test="${loginError == 'invalid'}">
 									<input type="email" class="form-control is-invalid"
 										placeholder="Email Address" id="emailLogin" name="emailLogin"
 										required>
@@ -123,6 +123,12 @@
 		}
 		setErrorMessage(passwordLogin, passwordFeedback, errorMsg);
 	}	
+	$('#emailLogin').on('focusout', function(){
+		validateEmail();
+	});
+	$('#passwordLogin').on('focusout', function(){
+		validatePassword();
+	});	
 	</script>		
 </body>
 </html>
