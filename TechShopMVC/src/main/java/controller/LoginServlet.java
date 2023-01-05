@@ -94,8 +94,7 @@ public class LoginServlet extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("userfullname", fullname);
 //				session.setAttribute("useremail", email);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
-				dispatcher.forward(request, response);					
+				response.sendRedirect("Home");				
 			}
 		}
 	}	
@@ -127,13 +126,13 @@ public class LoginServlet extends HttpServlet {
 		response.sendRedirect("login.jsp");
 	}	
 	
-	private String getCurrentUser(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		if(session.getAttribute("userfullname") != null && !((String)session.getAttribute("userfullname")).equalsIgnoreCase(""))
-			return (String)session.getAttribute("userfullname");
-		else {
-			session.setAttribute("userfullname", "");
-			return "";
-		}
-	}
+//	private String getCurrentUser(HttpServletRequest request) {
+//		HttpSession session = request.getSession();
+//		if(session.getAttribute("userfullname") != null && !((String)session.getAttribute("userfullname")).equalsIgnoreCase(""))
+//			return (String)session.getAttribute("userfullname");
+//		else {
+//			session.setAttribute("userfullname", "");
+//			return "";
+//		}
+//	}
 }

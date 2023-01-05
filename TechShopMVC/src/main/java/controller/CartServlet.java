@@ -77,8 +77,7 @@ public class CartServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		HashMap<String,Integer> cartItems = (HashMap<String,Integer>) session.getAttribute("cartItems");
 			if(cartItems == null || cartItems.size() == 0) {
-				RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
-				dispatcher.forward(request, response);
+				response.sendRedirect("cart.jsp");					
 			} else {
 					List<CartItemDetail> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
 					request.setAttribute("cartItemDetails", cartItemDetails);
@@ -86,50 +85,58 @@ public class CartServlet extends HttpServlet {
 					dispatcher.forward(request, response);			
 			}
 	}
-	protected void remove(HttpServletRequest request, HttpServletResponse response, String productID)throws ServletException, IOException {
-		
+	protected void remove(HttpServletRequest request, HttpServletResponse response, String productID)throws ServletException, IOException {		
 		HttpSession session = request.getSession();	
 		HashMap<String,Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		cartItems.remove(productID);						
-		session.setAttribute("cartItems", cartItems);						
-		response.getWriter().append("success");				
+		session.setAttribute("cartItems", cartItems);
+		if(!cartItems.containsKey(productID))
+			response.getWriter().append("remove success: product" + productID + "- Cart Size: " + ((HashMap<String, Integer>) session.getAttribute("cartItems")).size());		
 	}
 
-		protected void increase(HttpServletRequest request, HttpServletResponse response, String productID)throws ServletException, IOException {
-			CartDAO cartDAO = new CartDAO();
-			HttpSession session = request.getSession();
-			System.out.println(productID);	
-			HashMap<String,Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-			HashMap<String,Integer> cartList = new HashMap<String,Integer>();
-				if(cartItems == null) {
-					cartItems = cartList;
-				}
-				if(cartItems.containsKey(productID) ) {
-					cartItems.put(productID, cartItems.get(productID) + 1);				
-				}
-				if(cartItems.size() == 0) {
-					cartItems.put(productID,1);
-				}
-	
-				if(cartItems.size() > 0 && cartItems.containsKey(productID) == false) {
-					cartItems.put(productID,1);
-				}
-					session.setAttribute("cartItems", cartItems);
-					if(cartItems.get(productID) >= 1)
-						response.getWriter().append("increase success: product" + productID + " is now " + cartItems.get(productID) + "- Cart Size: " + ((HashMap<String, Integer>) session.getAttribute("cartItems")).size());					
+	protected void increase(HttpServletRequest request, HttpServletResponse response, String productID)
+			throws ServletException, IOException {
+		CartDAO cartDAO = new CartDAO();
+		HttpSession session = request.getSession();
+		System.out.println(productID);
+		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
+		HashMap<String, Integer> cartList = new HashMap<String, Integer>();
+		int beforeIncrease = 0;
+		if (cartItems == null) {
+			cartItems = cartList;
 		}
-	
-		protected void decrease(HttpServletRequest request, HttpServletResponse response,String productID)throws ServletException, IOException {
-			HttpSession session = request.getSession();	
-			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-			
-			if(cartItems.containsKey(productID) ) {
-				cartItems.put(productID, cartItems.get(productID) - 1);				
-			}
-			if(cartItems.get(productID) == 0) {
-				cartItems.remove(productID);
-			}	
-			session.setAttribute("cartItems", cartItems);
-			response.getWriter().append("success");		
+		if (cartItems.containsKey(productID)) {
+			beforeIncrease = cartItems.get(productID);
+			cartItems.put(productID, cartItems.get(productID) + 1);
 		}
+		if (cartItems.size() == 0) {
+			cartItems.put(productID, 1);
+		}
+
+		if (cartItems.size() > 0 && cartItems.containsKey(productID) == false) {
+			cartItems.put(productID, 1);
+		}
+		session.setAttribute("cartItems", cartItems);
+		if (cartItems.get(productID) == beforeIncrease + 1)
+			response.getWriter().append("increase success: product" + productID + " is now " + cartItems.get(productID)
+					+ "- Cart Size: " + ((HashMap<String, Integer>) session.getAttribute("cartItems")).size());
+	}
+	
+	protected void decrease(HttpServletRequest request, HttpServletResponse response, String productID)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
+		int beforeDecrease = 0;
+		if (cartItems.containsKey(productID)) {
+			beforeDecrease = cartItems.get(productID);
+			cartItems.put(productID, cartItems.get(productID) - 1);
+		}
+		if (cartItems.get(productID) == 0) {
+			cartItems.remove(productID);
+		}
+		session.setAttribute("cartItems", cartItems);
+		if (cartItems.get(productID) == null || (cartItems.get(productID) == beforeDecrease - 1))
+			response.getWriter().append("decrease success: product" + productID + " is now " + cartItems.get(productID)
+					+ "- Cart Size: " + ((HashMap<String, Integer>) session.getAttribute("cartItems")).size());
+	}
 }
