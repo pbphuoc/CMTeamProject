@@ -383,6 +383,9 @@ function getAllSelectedParams(){
 		params += "&priceMax=" + $('#priceTo').val();	
 	
 	params += "&sortBy=" + $('#sorter option:selected').val();	
+	params += "&perPage=" + $('#maxPerPageButtonGroup .selected').val();
+	params += "&page=" + $('#pageButtonGroup .selected').val();
+
 	return params;	
 }
 

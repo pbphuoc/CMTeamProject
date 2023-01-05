@@ -1,8 +1,8 @@
-package model;
-
-public class BrandDTO extends DTO {
-
-	public BrandDTO(String id, String name) {
-		super(id, name);
-	}
-}
+//package model;
+//
+//public class BrandDTO extends SearchFilterDTO {
+//
+//	public BrandDTO(String id, String name) {
+//		super(id, name);
+//	}
+//}

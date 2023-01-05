@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
+<%@page import="model.SearchFilterDTO"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,167 +36,184 @@
 <body class="main-layout">
 	<jsp:include page="header.jsp"></jsp:include>
 	<div class="projectContainer">
-		<div class="row">
-			<div class="col-md-3">
-				<div class="row filterSection">
+		<div id="mainBodySection" class="row">
+			<div id="filterSection" class="col-md-2">
+				<div class="row filter">
 					<div class="col-md-12">
-						<h3>Brand</h3>
+						<h2>Brand</h2>
 						<p class="selectedFilter" id="selectedBrands">
-							<ul>
-								<c:forEach var="key" items="${brandFilters.keySet()}">									
-									<c:if test='${!brandFilters.get(key).getSelected().equalsIgnoreCase("")}'>
-										<li>${brandFilters.get(key).getName()}</li>
-									</c:if>
-								</c:forEach>	
-							</ul>					
+						<ul>
+							<c:forEach var="key" items="${brandFilters.keySet()}">
+								<c:if
+									test='${!brandFilters.get(key).getSelected().equalsIgnoreCase("")}'>
+									<li>${brandFilters.get(key).getName()}</li>
+								</c:if>
+							</c:forEach>
+						</ul>
 						</p>
 						<select id="brandSelect" multiple data-live-search="true"
-							title="Filtered By Brand" class="queryFilter">
+							title="Filter By Brand" class="queryFilter">
 							<c:forEach var="key" items="${brandFilters.keySet()}">
-								<option value="${brandFilters.get(key).getId()}" ${brandFilters.get(key).getSelected()}>
-								${brandFilters.get(key).getName()}(${brandFilters.get(key).getStock()})
+								<option value="${brandFilters.get(key).getId()}"
+									${brandFilters.get(key).getSelected()}>
+									${brandFilters.get(key).getName()}(${brandFilters.get(key).getStock()})
 								</option>
 							</c:forEach>
 						</select>
 					</div>
 				</div>
-				<div class="row mt-1 filterSection">
-					<div class="row">
-						<div class="col-md-12">
-							<h3>Category</h3>
-							<p class="selectedFilter" id="selectedCategories">
-								<ul>
-									<c:forEach var="key" items="${categoryFilters.keySet()}">
-										<c:if test='${!categoryFilters.get(key).getSelected().equalsIgnoreCase("")}'>
-											<li>${categoryFilters.get(key).getName()}</li>
-										</c:if>
-									</c:forEach>
-								</ul>							
-							</p>
-							<select id="categorySelect" multiple data-live-search="true"
-								title="Filtered By Category" class="queryFilter">
-								<c:forEach var="key" items="${categoryFilters.keySet()}">
-									<option value="${categoryFilters.get(key).getId()}" ${categoryFilters.get(key).getSelected()}>
+				<div class="row filter">
+					<div class="col-md-12">
+						<h2>Category</h2>
+						<p class="selectedFilter" id="selectedCategories">
+						<ul>
+							<c:forEach var="key" items="${categoryFilters.keySet()}">
+								<c:if
+									test='${!categoryFilters.get(key).getSelected().equalsIgnoreCase("")}'>
+									<li>${categoryFilters.get(key).getName()}</li>
+								</c:if>
+							</c:forEach>
+						</ul>
+						</p>
+						<select id="categorySelect" multiple data-live-search="true"
+							title="Filter By Category" class="queryFilter">
+							<c:forEach var="key" items="${categoryFilters.keySet()}">
+								<option value="${categoryFilters.get(key).getId()}"
+									${categoryFilters.get(key).getSelected()}>
 									${categoryFilters.get(key).getName()}(${categoryFilters.get(key).getStock()})
-									</option>
-								</c:forEach>
-							</select>
-						</div>
+								</option>
+							</c:forEach>
+						</select>
 					</div>
 				</div>
-				<div class="row mt-1 filterSection">
+				<div class="row filter">
 					<div class="col-md-12">
-						<h3>Price</h3>
+						<h2>Availability</h2>
+						<p class="selectedFilter" id="selectedAvailabilities">
+						<ul>
+							<c:forEach var="key" items="${availabilityFilters.keySet()}">
+								<c:if
+									test='${!availabilityFilters.get(key).getSelected().equalsIgnoreCase("")}'>
+									<li>${availabilityFilters.get(key).getName()}</li>
+								</c:if>
+							</c:forEach>
+						</ul>
+						</p>
+						<select id="availabilitySelect" multiple data-live-search="true"
+							title="Filter By Availability" class="queryFilter">
+							<c:forEach var="key" items="${availabilityFilters.keySet()}">
+								<option value="${availabilityFilters.get(key).getId()}"
+									${availabilityFilters.get(key).getSelected()}>
+									${availabilityFilters.get(key).getName()}(${availabilityFilters.get(key).getStock()})
+								</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+				<div class="row filter">
+					<div class="col-md-12">
+						<h2>Price</h2>
 						<div class="row">
 							<input type="number" class="form-control" id="priceFrom"
-								placeholder="From Price" value="${priceMin}">
+								placeholder="From" value="${priceMin}">
 						</div>
 						<div class="row mt-2">
 							<input type="number" class="form-control" id="priceTo"
-								placeholder="To Price" value="${priceMax}">
+								placeholder="To" value="${priceMax}">
 						</div>
 						<div class="row mt-3">
 							<button id="priceFilterBtn" onclick="searchProductWithFilters()">Apply</button>
 						</div>
 					</div>
-				</div>
-				<div class="row mt-1 filterSection">
-					<div class="row">
-						<div class="col-md-12">
-							<h3>Availability</h3>
-							<p class="selectedFilter" id="selectedAvailabilities">
-								<ul>
-									<c:forEach var="key" items="${availabilityFilters.keySet()}">
-										<c:if test='${!availabilityFilters.get(key).getSelected().equalsIgnoreCase("")}'>
-											<li>${availabilityFilters.get(key).getName()}</li>
-										</c:if>
-									</c:forEach>
-								</ul>							
-							</p>
-							<select id="availabilitySelect" multiple data-live-search="true"
-								title="Filtered By Availability" class="queryFilter">
-								<c:forEach var="key" items="${availabilityFilters.keySet()}">
-									<option value="${availabilityFilters.get(key).getId()}" ${availabilityFilters.get(key).getSelected()}>
-									${availabilityFilters.get(key).getName()}(${availabilityFilters.get(key).getStock()})
-									</option>
-								</c:forEach>								
-							</select>
-						</div>
-					</div>
-				</div>
+				</div>				
 			</div>
-			<div class="col-md-8">
+			<div class="col-md-9">
 				<div class="row">
 					<div class="col-md-12">
 						<div id="numberOfResult">
-							<p>${products.size()} result(s) matched for <span id="searchKeyword">${keyword}</span></p>
+							<p>${totalResult} result(s) matched for <span id="searchKeyword">${keyword}</span></p>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div id="sortSection">
-						<h3>Sort By</h3>
+				<div class="row floatRight">	
+					<div class="col-md-6">
+						<h2>Results Per Page</h2>
+						<div id="maxPerPageButtonGroup" class="btn-group" role="group" data-toggle="buttons-radio">
+						<c:forEach var="key" items="${resultPerPageMap.keySet()}">
+						  <button type="button" class="btn btn-default maxPerPageButton ${resultPerPageMap.get(key)}" value="${key}">${key}</button>							
+						</c:forEach>						 
+						</div>						
+					</div>									
+					<div class="col-md-6">
+						<h2>Sort By</h2>
 						<select id="sorter" class="form-select queryFilter"
-							aria-label="Default select example" class="queryFilter">
+							aria-label="Default select example">
 							<c:forEach var="key" items="${sorters.keySet()}">
 								<option value="${sorters.get(key).getId()}" ${sorters.get(key).getSelected()}>
 								${sorters.get(key).getName()}
 								</option>
 							</c:forEach>							
 						</select>
-					</div>
+					</div>				
 				</div>
-				<div class="row">
+				<div id="productSection" class="row">
 					<div class="col-md-12">
-						<div class="our_products">
-							<div class="row">
-								<c:forEach var="product" items="${products}">
-									<div class="col-md-4">
-										<div class="product_box">
-											<form>
-												<div class="productThumbnailContainer">
-													<a
-														href="Product?command=viewProductDetail&productID=${product.id}">
-														<img class="productThumbnail"
-														src='..${product.imgSrc}' />
-													</a>
+						<div class="row our_products">
+							<c:forEach var="product" items="${products}">
+								<div class="col-md-4">
+									<div class="product_box">
+										<form>
+											<div class="productThumbnailContainer">
+												<a
+													href="Product?command=viewProductDetail&productID=${product.id}">
+													<img class="productThumbnail" src='..${product.imgSrc}' />
+												</a>
+											</div>
+											<p class="productDescription">
+												<c:out value="${product.name}"></c:out>
+											</p>
+											<h3 class="oldPrice">
+												<c:if test="${product.oldPrice > product.newPrice}">
+													<c:out value="$ ${product.oldPrice}"></c:out>
+												</c:if>
+											</h3>
+											<h3 class="newPrice">
+												<c:out value="$ ${product.newPrice }"></c:out>
+											</h3>
+											<div class="row productButtonSection">
+												<div class="col-md-5">
+													<a class="productButton" type="button"
+														href="Product?command=viewProductDetail&productID=${product.id}">View</a>
 												</div>
-												<p class="productDescription">
-													<c:out value="${product.name}"></c:out>
-												</p>
-												<h3 class="oldPrice">
-													<c:if test="${product.oldPrice > product.newPrice}">
-														<c:out value="$ ${product.oldPrice}"></c:out>
-													</c:if>
-												</h3>
-												<h3 class="newPrice">
-													<c:out value="$ ${product.newPrice }"></c:out>
-												</h3>
-												<div class="row">
-													<div class="col-md-6">
-														<a class="productButton" type="button"
-															href="Product?command=viewProductDetail&productID=${product.id}">View</a>
-													</div>
-													<div class="col-md-6">
+												<div class="col-md-5">
 													<c:choose>
 														<c:when test="${product.getStock() > 0}">
 															<button class="productButton" type="button"
-																onclick="increase(${product.id})">Add To Cart</button>														
+																onclick="increase(${product.id})">Add To Cart</button>
 														</c:when>
 														<c:otherwise>
-															<button class="productButton" type="button" disabled>${product.getAvailabilityMap().get(product.getStockStatus())}</button>
+															<button class="productButton" type="button" disabled>${SearchFilterDTO.AVAILABILITY_MAP.get(product.getStockStatus())}</button>
 														</c:otherwise>
-													</c:choose>														
-													</div>
+													</c:choose>
 												</div>
-											</form>
-										</div>
+											</div>
+										</form>
 									</div>
-								</c:forEach>
-							</div>
+								</div>
+							</c:forEach>
 						</div>
+						<div class="row floatRight">	
+							<div class="col-md-12">
+								<h2 class="inlineHeading">Page</h2>
+								<div id="pageButtonGroup" class="btn-group" role="group" data-toggle="buttons-radio">
+									<c:forEach var="key" items="${pagingMap.keySet()}">
+									  <button type="button" class="btn btn-default pageButton ${pagingMap.get(key)}" value="${key}">${key}</button>							
+									</c:forEach>								  
+								</div>						
+							</div>													
+						</div>							
 					</div>
-				</div>
+				</div>			
 			</div>			
 		</div>
 	</div>
@@ -213,6 +231,22 @@
 		$(function() {
 			$('select').selectpicker();
 		});
+		$('.maxPerPageButton').on('click',function(){		
+			$('#maxPerPageButtonGroup > .btn').removeClass('active');
+			$('#maxPerPageButtonGroup > .btn').removeClass('selected');			
+			$(this).addClass('selected');			
+			$('#pageButtonGroup > .btn').removeClass('selected');
+			$('#pageButtonGroup > .btn').removeClass('active');
+			$('#pageButtonGroup button[value="1"]').addClass('selected');
+			$('#pageButtonGroup button[value="1"]').addClass('active');
+			searchProductWithFilters();			
+		});	
+		$('.pageButton').on('click',function(){					
+			$('#pageButtonGroup > .btn').removeClass('selected');
+			$('#pageButtonGroup > .btn').removeClass('active');
+			$(this).addClass('selected');			
+			searchProductWithFilters();
+		});			
 	</script>		
 </body>
 </html>

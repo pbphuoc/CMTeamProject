@@ -644,6 +644,11 @@ ul.btn li:last-child {
 	height: 50px;
 }
 
+.productButtonSection{
+  display: flex;
+  justify-content: center;
+}
+
 .productButton {
 	display: block;
 	width: 130px;
@@ -1471,19 +1476,51 @@ table .tableTotal {
 }
 
 .projectContainer {
-	padding-left: 70px;
-	padding-right: 70px;
+	padding-left: 100px;
 	padding-top: 220px;
 	max-width: 100%;
 }
 
-.filterSection {
-	height: 250px;
+#mainBodySection {
+	max-width: 100%;
 }
 
-#sortSection {
-	margin-right: 15%;
-	margin-left: auto;
+.filter {
+/* 	height: 250px; */
+	margin-bottom: 50px;
+}
+
+#filterSection {
+	float:left;
+}
+
+.floatRight {
+	float:right;
+}
+
+.maxPerPageButton{	
+	font-size: 15px;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.maxPerPageButton.selected{	
+	box-shadow: 0 0 0 .2rem rgb(0 123 255 / 50%);
+}
+
+.pageButton{	
+	font-size: 15px;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.pageButton.selected{	
+	box-shadow: 0 0 0 .2rem rgb(0 123 255 / 50%);
+}
+
+
+#productSection {
+	clear:right;
 }
 
 #checkoutBody {
@@ -1542,12 +1579,17 @@ table .tableTotal {
 	display: flex;
 	justify-content: space-between;
 }
-.media .mb-0{
-	width:100%;
-	}
+.media .mb-0 {
+	width: 100%;
+}
 
 #searchKeyword{
 	font-size: 30px;
 	line-height: 22px;
 	font-weight: bold;
+}
+
+.inlineHeading{
+	display: inline;
+	margin-right: 15px;
 }

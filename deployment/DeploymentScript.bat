@@ -1,2 +1,2 @@
-"C:\Program Files\PuTTY\pscp.exe" -pw Techila2022FrankVincent -P 22 TechShopMVC.war root@170.64.149.41:/opt/tomcat/webapps
+"C:\Program Files\PuTTY\pscp.exe" -pw Techila2022FrankVincent -P 22 ROOT.war root@170.64.149.41:/opt/tomcat/webapps
 "C:\Program Files\PuTTY\putty.exe" root@170.64.149.41 22 -pw Techila2022FrankVincent -m "RestartTomcat.txt"

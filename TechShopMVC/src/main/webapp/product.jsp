@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>   
+<%@page import="model.SearchFilterDTO"%>    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,7 +69,7 @@
 						</c:when>
 						<c:otherwise>
 							<button type="button" class="addToCart-button" disabled>
-								<span class="addToCart-text">${product.getAvailabilityMap().get(product.getStockStatus())}</span>
+								<span class="addToCart-text">${SearchFilterDTO.AVAILABILITY_MAP.get(product.getStockStatus())}</span>
 							</button>
 						</c:otherwise>
 					</c:choose>											

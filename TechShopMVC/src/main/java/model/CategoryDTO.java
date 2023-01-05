@@ -1,8 +1,8 @@
-package model;
-
-public class CategoryDTO extends DTO  {
-	
-	public CategoryDTO(String id, String name) {
-		super(id, name);
-	}
-}
+//package model;
+//
+//public class CategoryDTO extends SearchFilterDTO  {
+//	
+//	public CategoryDTO(String id, String name) {
+//		super(id, name);
+//	}
+//}
