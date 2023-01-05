@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 
 import model.AvailabilityDTO;
 import model.BrandDTO;
+import model.CartItemDetail;
 import model.CategoryDTO;
 import model.Product;
 import model.SorterDTO;
@@ -422,6 +423,15 @@ public class ProductDAO extends DAO<Product> {
 		}
 		
 		return (String[])newKeywords.toArray(new String[0]);
+	}
+	
+	public List<CartItemDetail> getAllProductInCartByID(HashMap<String, Integer> cartItems){
+		List<CartItemDetail> cartList = new ArrayList<CartItemDetail>();
+		
+		for (Map.Entry<String, Integer> cI : cartItems.entrySet()) {
+			cartList.add(new CartItemDetail(getRecordByID((String) cI.getKey()),(int) cI.getValue()));
+		}		
+		return cartList;
 	}
 
 }
