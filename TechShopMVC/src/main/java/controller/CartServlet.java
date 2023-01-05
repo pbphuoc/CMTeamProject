@@ -12,8 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
+import dao.DAOService;
 import dao.ProductDAO;
+import dao.DAO.DAOType;
 import model.CartItemDetail;
 
 /**
@@ -74,7 +75,7 @@ public class CartServlet extends HttpServlet {
 	
 	protected void getCartPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ProductDAO cartDAO = new ProductDAO();
+		ProductDAO cartDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
 		HttpSession session = request.getSession();
 		HashMap<String,Integer> cartItems = (HashMap<String,Integer>) session.getAttribute("cartItems");
 			if(cartItems == null || cartItems.size() == 0) {
@@ -96,7 +97,7 @@ public class CartServlet extends HttpServlet {
 	}
 
 		protected void increase(HttpServletRequest request, HttpServletResponse response, String productID)throws ServletException, IOException {
-			ProductDAO cartDAO = new ProductDAO();
+			ProductDAO cartDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
 			HttpSession session = request.getSession();
 			System.out.println(productID);	
 			HashMap<String,Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
