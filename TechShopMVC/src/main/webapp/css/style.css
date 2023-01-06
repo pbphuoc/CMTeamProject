@@ -1593,3 +1593,47 @@ table .tableTotal {
 	display: inline;
 	margin-right: 15px;
 }
+
+/**Payment**/
+
+#paymentHeader{
+	margin:auto;
+}
+.icons{
+	margin-left:auto;
+}
+.paymentBtn{
+	width: 100%;
+}
+.paymentForm{
+	display:flex;
+	flex-direction: column;
+}
+.paymentForm > span {
+	font-size: 1rem;
+	text-align: left;
+}
+.paymentForm > input {
+	margin-bottom: 1rem;
+}
+.cardSpan {
+	text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+.cardSpan > input{
+	background-color: rgb(247, 247, 247);
+	border : 1px solid rgba(0, 0, 0, 0.137);
+}
+.saveCardLabel{
+	margin-bottom: 0;
+	margin-left: 0.5rem;
+}
+.saveCardLabelContainer{
+	margin-left: 0;
+}
+.paymentBox{
+	width: 80%;
+	background-color: rgb(247, 247, 247);
+	border : 1px solid rgba(0, 0, 0, 0.137);
+}

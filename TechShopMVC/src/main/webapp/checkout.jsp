@@ -101,11 +101,16 @@
 										placeholder="Delivery Address" aria-describedby="basic-addon1"
 										id="guestAddress"></textarea>
 								</div>
-								<div class="form-row mb-3">
-									<button class="btn btn-primary ml-0" type="submit">Proceed
-										To Payment</button>
-								</div>
 							</form>
+							<div class="form-row mb-3">
+								<a href="Payment">
+									<button class="btn btn-primary ml-0" >Proceed
+										To Payment</button>
+								</a>
+							</div>
+
+
+
 						</div>
 					</div>
 				</div>
@@ -194,7 +199,7 @@
         </div>
 	
 	<jsp:include page="allscript.jsp"></jsp:include>	
-	<script src="../js/checkout.js"></script>
+	<script src="${pageContext.request.contextPath}/js/checkout.js"></script>
 
 </body>
 </html>
