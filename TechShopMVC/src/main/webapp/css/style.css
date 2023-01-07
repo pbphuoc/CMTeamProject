@@ -1604,6 +1604,7 @@ table .tableTotal {
 }
 .paymentBtn{
 	width: 100%;
+	margin-top: 2rem;
 }
 .paymentForm{
 	display:flex;
@@ -1636,4 +1637,9 @@ table .tableTotal {
 	width: 80%;
 	background-color: rgb(247, 247, 247);
 	border : 1px solid rgba(0, 0, 0, 0.137);
+}
+#paymentForm{
+	border-right: 1px solid #000;
+	padding-right: 50px;
+	text-align: center;
 }

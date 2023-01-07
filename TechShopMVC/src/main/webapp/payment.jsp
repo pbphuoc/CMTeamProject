@@ -24,28 +24,38 @@
 	
 	<!-- payment Card -->
 		<div class="row">
-			<div id="checkoutLeft" class="col-md-7">
+			<div id="paymentForm" class="col-md-7">
 				<div class="row ">
-					<div id="checkoutMember" class="col">
-					<h1 >Payment</h1>
-						<div class="row">
-							<div class="icons">
-								<img src="https://img.icons8.com/color/48/000000/visa.png" /> <img
-									src="https://img.icons8.com/color/48/000000/mastercard-logo.png" />
-								<img src="https://img.icons8.com/color/48/000000/maestro.png" />
+					<div class="col">
+						<h1>Payment</h1>
+						<div class="form-row mb-3 saveCardLabelContainer">
+							<div id="paymentOptions" class="btn-group btn-group-toggle"
+								data-toggle="buttons">
+								<label class="btn btn-secondary active mr-2"> <input
+									id="payNowBtn" type="radio" name="options" autocomplete="off"
+									checked> Pay now
+								</label> <label class="btn btn-secondary"> <input
+									id="payOnPickupBtn" type="radio" name="options"
+									autocomplete="off"> Pay on pickup
+								</label>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div id="creditCardField" class="row">
 					<div class="col">
-							<div class="form_container" id="guestForm">
+						<div class="form-row mb-3 icons">
+							<img src="https://img.icons8.com/color/48/000000/visa.png" /> <img
+								src="https://img.icons8.com/color/48/000000/mastercard-logo.png" />
+							<img src="https://img.icons8.com/color/48/000000/maestro.png" />
+						</div>
+						<div class="form_container" id="guestForm">
+							<!-- payment option -->
 							<form class="paymentForm">
-							
-								<span>Cardholder's name:</span> 
-								<input class="paymentBox" placeholder="Linda Williams"> 
-								
-								<span>Card Number:</span> 
+
+								<!-- payment option -->
+								<span>Cardholder's name:</span> <input class="paymentBox"
+									placeholder="Linda Williams"> <span>Card Number:</span>
 								<input class="paymentBox" placeholder="0125 6780 4567 9909">
 								<div class="row">
 									<div class="col-4 cardSpan">
@@ -55,41 +65,15 @@
 										<span>CVV:</span> <input placeholder="XYZ">
 									</div>
 								</div>
-								<div class="form-row mb-3 saveCardLabelContainer">
-								<input type="checkbox" id="save_card" class="align-left"> <label
-									class="saveCardLabel" for="save_card">Save card details to wallet</label>
-								</div>
-								
-								
-								<!-- delivery option -->
-								<div class="form-row mb-3 saveCardLabelContainer">
-									<div id="deliveryOptions" class="btn-group btn-group-toggle"
-										data-toggle="buttons">
-										<label class="btn btn-secondary active mr-2"> <input
-											id="optDeliveryLB" type="radio" name="options"
-											autocomplete="off" checked> Delivery
-										</label> <label class="btn btn-secondary"> <input
-											id="optCollectLB" type="radio" name="options"
-											autocomplete="off"> Collect At Store
-										</label>
-									</div>
-								</div>
-								<div class="form-row mb-3 saveCardLabelContainer">
-									<textarea class="form-control" rows="5"
-										placeholder="Delivery Address" aria-describedby="basic-addon1"
-										id="guestAddress"></textarea>
-								</div>
-
 							</form>
-							<div class="form-row mb-3 saveCardLabelContainer">
-									<button class="paymentBtn btn btn-primary ml-0" type="submit">
-										Paynow</button>
-								</div>
+							
 						</div>
 					</div>
 				</div>
-				
-				
+				<div class="form-row mb-3 saveCardLabelContainer">
+					<button class="paymentBtn btn btn-primary ml-0" type="submit">
+						Proceed</button>
+				</div>
 			</div>
 
 			<!-- payment Card -->
@@ -97,8 +81,6 @@
 			<div id="checkoutRight" class="col-md-5">
 				<h1>Order Detail</h1>
 
-
-				
 				<div class="card-body pt-0">
 
 

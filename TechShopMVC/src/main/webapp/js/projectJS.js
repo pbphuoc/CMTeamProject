@@ -104,6 +104,13 @@ $('#deliveryOptions input').change(function() {
 		$('#guestAddress').hide();
 });
 
+$('#paymentOptions input').change(function() {
+	if ($(this).attr('id') == 'payNowBtn')
+		$('#creditCardField').show();
+	else if ($(this).attr('id') == 'payOnPickupBtn')
+		$('#creditCardField').hide();
+});
+
 //$('.menuBarLoginBtn').click(() => {
 //	if (getCookie("username") != ""){
 //		deleteCookie("username");
