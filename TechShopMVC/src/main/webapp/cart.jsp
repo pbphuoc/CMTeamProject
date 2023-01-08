@@ -19,7 +19,9 @@
 </head>
 <!-- body -->
 <body class="main-layout">
-	<jsp:include page="header.jsp"></jsp:include>
+	<jsp:include page="header.jsp">
+			<jsp:param name="curUrl" value="${requestScope['javax.servlet.forward.request_uri']}" />
+	</jsp:include>
 	<div id="cartContainer" class="container">
 		<div class="row">
 			<div class="col-xl-12">

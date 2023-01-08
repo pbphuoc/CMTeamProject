@@ -40,7 +40,6 @@ public class ProductlServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
-		System.out.println("Count Params: " + request.getParameterMap().size());
 		try {
 			switch (command) {
 			case "viewProductDetail":

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+ <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -33,6 +33,7 @@
 					<form action="Auth" method="Post" class="needs-validation"
 						novalidate>
 						<input type="hidden" name="command" value="register">
+						<input type="hidden" name="prevUrl" value="${param['prevUrl']}">
 						<div class="form-group">
 							<label for="fullnameRegister">Full Name</label> <input
 								type="text" class="form-control" name="fullnameRegister"

@@ -338,11 +338,11 @@ function formatNumberWithCommas(x) {
 //	form.hide().appendTo("body").submit();
 //}
 
-function requestToServlet(servlet, command, paramName, paramValue) {
+function requestToServlet(servlet, method, command, paramName, paramValue) {
 	var form =
 		jQuery('<form>', {
 			action: servlet,
-			method: 'Post'
+			method: method
 		}).append(jQuery('<input>', {
 			type: 'hidden',
 			name: 'command',
@@ -401,11 +401,11 @@ $('.queryFilter').change(function() {
 });
 
 function viewProductDetail(productID) {
-	requestToServlet('Product', 'viewProductDetail', 'productID', productID);
+	requestToServlet('Product', 'GET', 'viewProductDetail', 'productID', productID);
 }
 
 function viewCart() {
-	requestToServlet('Cart', 'viewCart', 'productID', '');
+	requestToServlet('Cart', 'GET', 'viewCart', 'productID', '');
 }
 
 function ajaxToServlet(url, type, data) {

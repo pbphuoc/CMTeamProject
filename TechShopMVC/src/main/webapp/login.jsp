@@ -33,6 +33,7 @@
 					<form action="Auth" method="Post" class="needs-validation"
 						novalidate>
 						<input type="hidden" name="command" value="login">
+						<input type="hidden" name="prevUrl" value="${param['prevUrl']}">
 						<div class="input-group mb-3">
 							<c:choose>
 								<c:when
@@ -69,7 +70,7 @@
 						<span class="create-text">Don't have account yet ? Join
 							with us now ! </span>
 					</div>
-					<a href="Auth?command=getRegisterForm">
+					<a href="Auth?command=getRegisterForm&prevUrl=${param['prevUrl']}">
 						<button class="btn btn-secondary" type="button">Create an
 							account</button>
 					</a>

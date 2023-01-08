@@ -14,7 +14,7 @@ import dao.UserDAO;
 import dao.DAO.DAOType;
 import dao.DAO.QueryResult;
 import model.User;
-
+import util.UtilityFunctions;
 
 /**
  * Servlet implementation class LoginServlet
@@ -66,7 +66,7 @@ public class LoginServlet extends HttpServlet {
 		
 	}
 
-	/**
+	/**	
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -91,24 +91,28 @@ public class LoginServlet extends HttpServlet {
 			user = new User(email, password, fullname, mobile);
 			QueryResult queryResult = userDAO.insertUser(user);
 			if (queryResult == QueryResult.SUCCESSFUL) {
+				String prevUrl = UtilityFunctions.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+				System.out.println("prev Url" + prevUrl);				
 				HttpSession session = request.getSession();
 				session.setAttribute("userfullname", fullname);
-//				session.setAttribute("useremail", email);
-				response.sendRedirect("Home");				
+				session.setAttribute("useremail", email);
+				response.sendRedirect(prevUrl);				
 			}
 		}
 	}	
 	
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("emailLogin");
-		String password = request.getParameter("passwordLogin");		
+		String password = request.getParameter("passwordLogin");	
 		UserDAO userDAO = (UserDAO)DAOService.getDAO(DAOType.USER);
 		User user = userDAO.getUserByEmailAndPassword(email, password);
 		HttpSession session = request.getSession();
 		if(user != null) {			
+			String prevUrl = UtilityFunctions.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+			System.out.println("prev Url" + prevUrl);			
 			session.setAttribute("userfullname", user.getFullname());
-//			session.setAttribute("useremail", email);
-			response.sendRedirect("Home");			
+			session.setAttribute("useremail", email);
+			response.sendRedirect(prevUrl);				
 		}else {
 //			session.setAttribute("useremail", "invalid");
 			session.setAttribute("userfullname", "");
@@ -119,11 +123,15 @@ public class LoginServlet extends HttpServlet {
 	}	
 	
 	private void getRegisterPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect("register.jsp");	
+		String prevUrl = UtilityFunctions.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+		System.out.println("prevUrl: " + prevUrl);		
+		response.sendRedirect("register.jsp?prevUrl="+prevUrl);		
 	}		
 	
-	private void getLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {			
-		response.sendRedirect("login.jsp");
+	private void getLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String prevUrl = UtilityFunctions.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+		System.out.println("prevUrl: " + prevUrl);		
+		response.sendRedirect("login.jsp?prevUrl="+prevUrl);	
 	}	
 	
 //	private String getCurrentUser(HttpServletRequest request) {
