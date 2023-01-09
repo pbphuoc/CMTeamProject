@@ -453,6 +453,18 @@ function isMobileFormatValid(mobile) {
 	return new RegExp(ausMobilePattern).test(mobile);
 }
 
+$('.productButton').click(function productOverlayOn(e){
+	var target = e.target;
+	$(target).closest('.product_box').find('.productOverlay').show();
+})
+
+$('.productOverlay').click(function productOverlayOff(e){
+	var target = e.target;
+	$(target).hide()
+})
+
+
+
 //end cookies functions
 
 //$('#searchBar').change(function(){

@@ -190,7 +190,10 @@
 						<div id="productRowDiv" class="row">
 							<c:forEach var="product" items="${productList}">
 								<div class='col-md-4'>
-									<div class='product_box'>
+									<div class='product_box productOverlayCover'>
+										<div class="productOverlay" onclick="productOverlayOff()">
+											<p>Item added!</p>
+										</div>
 										<form>
 											<div class="productThumbnailContainer">
 												<a href="Product?command=viewProductDetail&productID=${product.id}">
@@ -217,7 +220,7 @@
 													<c:choose>
 														<c:when test="${product.getStock() > 0}">
 															<button class="productButton" type="button"
-																onclick="increase(${product.id})">Add To Cart</button>														
+																onclick="increase(${product.id}); productOverlayOn();">Add To Cart</button>														
 														</c:when>
 														<c:otherwise>
 															<button class="productButton" type="button" disabled>${SearchFilterDTO.AVAILABILITY_MAP.get(product.getStockStatus())}</button>
