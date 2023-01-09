@@ -44,3 +44,4 @@ Servers/Tomcat v9.0 Server at localhost-config/catalina.properties
 Servers/Tomcat v9.0 Server at localhost-config/catalina.policy
 TechShopMVC/.classpath
 TechShopMVC/.classpath
+*.war
