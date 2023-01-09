@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import util.UtilityFunctions;
+
 /**
  * Servlet implementation class LogoutServlet
  */
@@ -41,14 +43,13 @@ public class LogoutServlet extends HttpServlet {
 	}
 	
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String prevUrl = UtilityFunctions.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+		System.out.println("prev Url" + prevUrl);			
 		HttpSession session = request.getSession();
 		System.out.println("Current useremail: " + (String)session.getAttribute("useremail"));
-		session.setAttribute("userfullname", "");
-		session.invalidate();
-//		session.setAttribute("useremail", "");						
-//		RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
-//		dispatcher.forward(request, response);		
-		response.sendRedirect("Home");
+		session.setAttribute("userfullname", null);
+		session.setAttribute("useremail", null);
+		response.sendRedirect(prevUrl);
 	}
 
 }

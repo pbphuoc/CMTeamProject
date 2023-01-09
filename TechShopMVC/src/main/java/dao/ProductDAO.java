@@ -330,7 +330,6 @@ public class ProductDAO extends DAO<Product> {
 				++rowCountBeforeLimit;
 			}
 			pagingMap = getPagingMap((int)Math.ceil((double)rowCountBeforeLimit/Double.parseDouble(perPage)));
-			System.out.println("pages: " + (int)Math.ceil((double)rowCountBeforeLimit/Double.parseDouble(perPage)));
 			setSelectedStringInMap(pagingMap,page);
 			currentParam = currentParam - 2;
 			if(!perPage.equalsIgnoreCase(""))

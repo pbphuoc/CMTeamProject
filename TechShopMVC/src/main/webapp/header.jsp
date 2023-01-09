@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <header>
 	<div class="header">
@@ -9,9 +9,7 @@
 					<div class="navbar-brand">
 						<div class="center-desk" class="d-inline-flex">
 							<div class="logo">
-								<a href="Home"><img
-									src="../images/logo.png"
-									alt="#" /></a>
+								<a href="Home"><img src="../images/logo.png" alt="#" /></a>
 							</div>
 						</div>
 					</div>
@@ -42,19 +40,22 @@
 								<li class="nav-item d_none cartBtnLi"><a class="nav-link"
 									onclick="viewCart()"><i class="fa fa-shopping-cart"
 										aria-hidden="true"></i></a></li>
-								<li class="nav-item menuBarUserLi"><c:choose>
+								<li class="nav-item menuBarUserLi">
+									<c:choose>
 										<c:when
 											test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
 											<h3 class="menuBarUsername"></h3>
-											<a class="nav-link menuBarLoginBtn"
-												href="Auth?command=getLoginForm">Login</a>
+											<jsp:include page="loginButton.jsp">
+												<jsp:param name="curUrl" value="${param.curUrl}" />
+											</jsp:include>
 										</c:when>
 										<c:otherwise>
 											<h3 class="menuBarUsername">Hi
 												${sessionScope.userfullname},</h3>
-											<a class="nav-link menuBarLoginBtn" href=Logout>Logout</a>
+											<a class="nav-link menuBarLoginBtn" href="Logout?prevUrl=${param.curUrl}">Logout</a>
 										</c:otherwise>
-									</c:choose></li>
+									</c:choose>
+								</li>
 							</ul>
 						</div>
 					</nav>

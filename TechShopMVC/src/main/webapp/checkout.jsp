@@ -19,57 +19,60 @@
 </head>
 <!-- body -->
 <body class="main-layout">
-	<jsp:include page="header.jsp"></jsp:include>
+	<jsp:include page="header.jsp">
+			<jsp:param name="curUrl" value="${requestScope['javax.servlet.forward.request_uri']}" />
+	</jsp:include>
 	<div id="checkoutBody" class="projectContainer">
 		<div class="row">
 			<div id="checkoutLeft" class="col-md-7">
-				<div class="row mb-5">
-					<div id="checkoutMember" class="col">
-						<h1>Login</h1>
-						<div class="form_container">
-							<form>
-								<div class="form-row mb-3">
-									<div class="col-md-5">
-										<input type="text" class="form-control"
-											placeholder="Email Address" aria-describedby="basic-addon1"
-											id="checkoutEmailLogin">
-									</div>
-									<div class="col-md-5">
-										<input type="password" class="form-control"
-											placeholder="Password" aria-describedby="basic-addon1">
-									</div>
-									<div class="col-md-2">
-										<button id="checkoutLoginBtn" class="btn btn-primary"
-											type="button">Login</button>
-									</div>
-								</div>
-							</form>
+				<c:if test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
+					<div class="row mb-5">
+						<div id="checkoutMember" class="col">
+							<h1>Already A User?</h1>
+								<jsp:include page="loginButton.jsp">
+										<jsp:param name="curUrl" value="${requestScope['javax.servlet.forward.request_uri']}" />
+								</jsp:include>	
 						</div>
-					</div>
-				</div>
+					</div>			
+				</c:if>			
 				<div class="row">
 					<div class="col">
-						<h1 id="guestCheckoutLabel">Check Out As Guest</h1>
-						<div class="form_container" id="guestForm">
+					<c:choose>
+						<c:when test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
+							<h1 id="checkOutLabel">Or Check Out As Guest</h1>
+						</c:when>
+						<c:otherwise>
+							<h1 id="checkOutLabel">Member Checkout</h1>
+						</c:otherwise>
+					</c:choose>
+						<div class="form_container" id="checkOutForm">
 							<form>
 								<div class="form-row mb-3">
 									<div class="col-md-6">
-										<!-- <label for="guestEmail">Contact</label>  -->
-										<input type="email" class="form-control"
-											placeholder="Email Address" aria-describedby="basic-addon1"
-											id="guestEmail">
+										<c:choose>
+											<c:when test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
+												<input type="email" class="form-control"
+													placeholder="Email Address" aria-describedby="basic-addon1"
+													id="checkOutEmail">
+											</c:when>
+											<c:otherwise>
+												<input type="email" class="form-control"
+													placeholder="Email Address" aria-describedby="basic-addon1"
+													id="checkOutEmail" value="${sessionScope.useremail}" disabled>
+											</c:otherwise>
+										</c:choose>									
 									</div>
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-6">
 										<input type="text" class="form-control"
 											placeholder="First Name" aria-describedby="basic-addon1"
-											id="guestFirstName">
+											id="checkOutFirstName">
 									</div>
 									<div class="form-group col-md-6">
 										<input type="text" class="form-control"
 											placeholder="Last Name" aria-describedby="basic-addon1"
-											id="guestLastName">
+											id="checkOutLastName">
 									</div>
 								</div>
 								<div class="form-row mb-3">
@@ -81,7 +84,7 @@
 									<div class="col-md-6">
 										<input type="text" class="form-control"
 											placeholder="Phone Number" aria-describedby="basic-addon1"
-											id="guestPhoneNumber">
+											id="checkOutPhoneNumber">
 									</div>
 								</div>
 								<div class="form-row mb-3">
@@ -99,7 +102,7 @@
 								<div class="form-row mb-3">
 									<textarea class="form-control" rows="5"
 										placeholder="Delivery Address" aria-describedby="basic-addon1"
-										id="guestAddress"></textarea>
+										id="checkOutAddress"></textarea>
 								</div>
 							</form>
 							<div class="form-row mb-3">

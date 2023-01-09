@@ -192,8 +192,6 @@
 								<div class='col-md-4'>
 									<div class='product_box'>
 										<form>
-<!-- 											<input class="productID" type="hidden" name="id" -->
-<%-- 												value="${product.id}" hidden> --%>
 											<div class="productThumbnailContainer">
 												<a href="Product?command=viewProductDetail&productID=${product.id}">
 												<img class="productThumbnail"
