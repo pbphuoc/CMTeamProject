@@ -46,3 +46,4 @@ TechShopMVC/.classpath
 TechShopMVC/.classpath
 *.war
 *.war
+*.policy

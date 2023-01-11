@@ -25,52 +25,58 @@
 	<div id="checkoutBody" class="projectContainer">
 		<div class="row">
 			<div id="checkoutLeft" class="col-md-7">
-				<c:if test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
+				<c:if
+					test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
 					<div class="row mb-5">
 						<div id="checkoutMember" class="col">
 							<h1>Already A User?</h1>
-								<jsp:include page="loginButton.jsp">
-										<jsp:param name="curUrl" value="${requestScope['javax.servlet.forward.request_uri']}" />
-								</jsp:include>	
+							<jsp:include page="loginButton.jsp">
+								<jsp:param name="curUrl"
+									value="${requestScope['javax.servlet.forward.request_uri']}" />
+							</jsp:include>
 						</div>
-					</div>			
-				</c:if>			
+					</div>
+				</c:if>
 				<div class="row">
 					<div class="col">
-					<c:choose>
-						<c:when test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
-							<h1 id="checkOutLabel">Or Check Out As Guest</h1>
-						</c:when>
-						<c:otherwise>
-							<h1 id="checkOutLabel">Member Checkout</h1>
-						</c:otherwise>
-					</c:choose>
+						<c:choose>
+							<c:when
+								test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
+								<h1 id="checkOutLabel">Or Check Out As Guest</h1>
+							</c:when>
+							<c:otherwise>
+								<h1 id="checkOutLabel">Member Checkout</h1>
+							</c:otherwise>
+						</c:choose>
 						<div class="form_container" id="checkOutForm">
-							<form>
-								<div class="form-row mb-3">
+							<form action="Confirmation">
+								<div class="form-row mb-3 emailContainer">
 									<div class="col-md-6">
 										<c:choose>
-											<c:when test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
-												<input type="email" class="form-control"
+											<c:when
+												test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
+												<input type="email" name="email" class="form-control"
 													placeholder="Email Address" aria-describedby="basic-addon1"
 													id="checkOutEmail">
 											</c:when>
 											<c:otherwise>
-												<input type="email" class="form-control"
+												<input type="email" name="email" class="form-control"
 													placeholder="Email Address" aria-describedby="basic-addon1"
-													id="checkOutEmail" value="${sessionScope.useremail}" disabled>
+													id="checkOutEmail" value="${sessionScope.useremail}"
+													disabled>
 											</c:otherwise>
-										</c:choose>									
+										</c:choose>
 									</div>
 								</div>
-								<div class="form-row">
+								<h1>Delivery information</h1>
+								<div class="form-row mb-3">
 									<div class="form-group col-md-6">
-										<input type="text" class="form-control"
+										<input type="text" name="fname" class="form-control"
 											placeholder="First Name" aria-describedby="basic-addon1"
 											id="checkOutFirstName">
 									</div>
 									<div class="form-group col-md-6">
-										<input type="text" class="form-control"
+										<input type="text" name="lname" class="form-control"
 											placeholder="Last Name" aria-describedby="basic-addon1"
 											id="checkOutLastName">
 									</div>
@@ -82,12 +88,13 @@
 										</select>
 									</div>
 									<div class="col-md-6">
-										<input type="text" class="form-control"
+										<input type="text" name="phone" class="form-control"
 											placeholder="Phone Number" aria-describedby="basic-addon1"
 											id="checkOutPhoneNumber">
 									</div>
 								</div>
-								<div class="form-row mb-3">
+								<!--  
+								<div class="form-row mb-3">								
 									<div id="deliveryOptions" class="btn-group btn-group-toggle"
 										data-toggle="buttons">
 										<label class="btn btn-secondary active mr-2"> <input
@@ -98,64 +105,109 @@
 											autocomplete="off"> Collect At Store
 										</label>
 									</div>
+							
 								</div>
 								<div class="form-row mb-3">
 									<textarea class="form-control" rows="5"
 										placeholder="Delivery Address" aria-describedby="basic-addon1"
 										id="checkOutAddress"></textarea>
 								</div>
+								-->
+								<div class="row">
+									<div class="col">
+										<h1>Payment</h1>
+										<div class="form-row mb-3 saveCardLabelContainer">
+											<div id="paymentOptions" class="btn-group btn-group-toggle"
+												data-toggle="buttons">
+												<label class="btn btn-secondary active mr-2"> <input
+													id="payNowBtn" type="radio" name="options"
+													autocomplete="off" checked> Pay now
+												</label> <label class="btn btn-secondary"> <input
+													id="payOnPickupBtn" type="radio" name="options"
+													autocomplete="off"> Pay on pickup
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+			
+								<div id="creditCardField" class="row">
+									<div class="col">
+										<div class="form-row mb-3 icons">
+											<img src="https://img.icons8.com/color/48/000000/visa.png" />
+											<img
+												src="https://img.icons8.com/color/48/000000/mastercard-logo.png" />
+											<img src="https://img.icons8.com/color/48/000000/maestro.png" />
+										</div>
+										<div id="paymentForm">
+											
+											<!-- payment option -->
+											<span>Cardholder's name:</span> <input class="paymentBox"
+												placeholder="Linda Williams"> <span>Card
+												Number:</span> <input class="paymentBox"
+												placeholder="0125 6780 4567 9909">
+											<div class="row">
+												<div class="col-4 cardSpan">
+													<span>Expiry date:</span> <input placeholder="YY/MM">
+												</div>
+												<div class="col-4 cardSpan">
+													<span>CVV:</span> <input placeholder="XYZ">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-row mb-3">
+									<input class="btn btn-primary ml-0" type="submit" value="Review Order">
+									
+								</div>
+				
 							</form>
-							<div class="form-row mb-3">
-								<a href="Payment">
-									<button class="btn btn-primary ml-0" >Proceed
-										To Payment</button>
-								</a>
-							</div>
-
-
-
+							
 						</div>
 					</div>
 				</div>
 			</div>
+
+
+
 			<div id="checkoutRight" class="col-md-5">
 				<h1>Order Detail</h1>
-
-
 				<div class="card-header card-1">
 					<p class="card-text text-muted mt-md-4  mb-2 space">
-					<a href="Cart">
-						<span class=" small text-muted ml-2 cursor-pointer">EDIT SHOPPING BAG</span>
-					</a>
+						<a href="Cart"> <span
+							class=" small text-muted ml-2 cursor-pointer">EDIT
+								SHOPPING BAG</span>
+						</a>
 					</p>
-					
+
 				</div>
 				<div class="card-body pt-0">
-				
-				
-				<c:forEach var="item" items="${CartItemDetails}">				
-					<div class="cartItemRow row justify-content-between">
-						<div class="col-auto col-md-7">
-							<div class="media flex-column flex-sm-row">
-								<img class="img-fluid"
-									src="..<c:out value='${item.product.imgSrc}'/>">
-								<p class="mb-0">
-									<b><c:out value="${item.product.name}"/></b>
+					<c:forEach var="item" items="${CartItemDetails}">
+						<div class="cartItemRow row justify-content-between">
+							<div class="col-auto col-md-7">
+								<div class="media flex-column flex-sm-row">
+									<img class="img-fluid"
+										src="..<c:out value='${item.product.imgSrc}'/>">
+									<p class="mb-0">
+										<b><c:out value="${item.product.name}" /></b>
+									</p>
+								</div>
+							</div>
+
+
+							<div class=" pl-0 flex-sm-col col-auto  my-auto">
+								<p class="boxed-1">
+									<c:out value="${item.quantity}" />
+								</p>
+							</div>
+							<div class=" pl-0 flex-sm-col col-auto  my-auto ">
+								<p class="rowPrice">
+									<b><c:out value="${item.product.newPrice * item.quantity }" /></b>
 								</p>
 							</div>
 						</div>
-					
-							
-						<div class=" pl-0 flex-sm-col col-auto  my-auto">
-							<p class="boxed-1"><c:out value="${item.quantity}"/></p>
-						</div>
-						<div class=" pl-0 flex-sm-col col-auto  my-auto ">
-							<p class="rowPrice">
-								<b><c:out value="${item.product.newPrice * item.quantity }"/></b>
-							</p>
-						</div>
-					</div>
-				</c:forEach>
+					</c:forEach>
 					<hr class="my-2">
 					<div class="row ">
 						<div class="col">
@@ -171,7 +223,19 @@
 									</p>
 								</div>
 							</div>
-							
+							<div class="row justify-content-between">
+								<div class="col-4">
+									<p>
+										<b>Shipping Cost</b>
+									</p>
+								</div>
+								<div class="flex-sm-col col-auto">
+									<p class="mb-1 shippingCost">
+										<b>0</b>
+									</p>
+								</div>
+							</div>
+
 							<div class="row justify-content-between">
 								<div class="col-4">
 									<p>
@@ -195,12 +259,10 @@
 						</div>
 					</div>
 				</div>
-
-
 			</div>
-            </div>
-        </div>
-	
+		</div>
+	</div>
+
 	<jsp:include page="allscript.jsp"></jsp:include>	
 	<script src="${pageContext.request.contextPath}/js/checkout.js"></script>
 
