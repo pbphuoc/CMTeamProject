@@ -63,7 +63,7 @@
 												<input type="email" name="email" class="form-control"
 													placeholder="Email Address" aria-describedby="basic-addon1"
 													id="checkOutEmail" value="${sessionScope.useremail}"
-													disabled>
+													readonly>
 											</c:otherwise>
 										</c:choose>
 									</div>
