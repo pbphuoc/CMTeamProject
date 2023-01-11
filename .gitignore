@@ -47,3 +47,4 @@ TechShopMVC/.classpath
 *.war
 *.war
 *.policy
+*.properties
