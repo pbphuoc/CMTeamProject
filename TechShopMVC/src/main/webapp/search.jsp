@@ -43,20 +43,20 @@
 						<h2>Brand</h2>
 						<p class="selectedFilter" id="selectedBrands">
 						<ul>
-							<c:forEach var="key" items="${brandFilters.keySet()}">
+							<c:forEach var="entry" items="${brandFilters.entrySet()}">
 								<c:if
-									test='${!brandFilters.get(key).getSelected().equalsIgnoreCase("")}'>
-									<li>${brandFilters.get(key).getName()}</li>
+									test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'>
+									<li>${entry.getValue().getName()}</li>
 								</c:if>
 							</c:forEach>
 						</ul>
 						</p>
 						<select id="brandSelect" multiple data-live-search="true"
 							title="Filter By Brand" class="queryFilter">
-							<c:forEach var="key" items="${brandFilters.keySet()}">
-								<option value="${brandFilters.get(key).getId()}"
-									${brandFilters.get(key).getSelected()}>
-									${brandFilters.get(key).getName()}(${brandFilters.get(key).getStock()})
+							<c:forEach var="entry" items="${brandFilters.entrySet()}">
+								<option value="${entry.getKey()}"
+									${entry.getValue().getSelected()}>
+									${entry.getValue().getName()}(${entry.getValue().getStock()})
 								</option>
 							</c:forEach>
 						</select>
@@ -67,20 +67,20 @@
 						<h2>Category</h2>
 						<p class="selectedFilter" id="selectedCategories">
 						<ul>
-							<c:forEach var="key" items="${categoryFilters.keySet()}">
+							<c:forEach var="entry" items="${categoryFilters.entrySet()}">
 								<c:if
-									test='${!categoryFilters.get(key).getSelected().equalsIgnoreCase("")}'>
-									<li>${categoryFilters.get(key).getName()}</li>
+									test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'>
+									<li>${entry.getValue().getName()}</li>
 								</c:if>
 							</c:forEach>
 						</ul>
 						</p>
 						<select id="categorySelect" multiple data-live-search="true"
 							title="Filter By Category" class="queryFilter">
-							<c:forEach var="key" items="${categoryFilters.keySet()}">
-								<option value="${categoryFilters.get(key).getId()}"
-									${categoryFilters.get(key).getSelected()}>
-									${categoryFilters.get(key).getName()}(${categoryFilters.get(key).getStock()})
+							<c:forEach var="entry" items="${categoryFilters.entrySet()}">
+								<option value="${entry.getKey()}"
+									${entry.getValue().getSelected()}>
+									${entry.getValue().getName()}(${entry.getValue().getStock()})
 								</option>
 							</c:forEach>
 						</select>
@@ -91,20 +91,20 @@
 						<h2>Availability</h2>
 						<p class="selectedFilter" id="selectedAvailabilities">
 						<ul>
-							<c:forEach var="key" items="${availabilityFilters.keySet()}">
+							<c:forEach var="entry" items="${availabilityFilters.entrySet()}">
 								<c:if
-									test='${!availabilityFilters.get(key).getSelected().equalsIgnoreCase("")}'>
-									<li>${availabilityFilters.get(key).getName()}</li>
+									test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'>
+									<li>${entry.getValue().getName()}</li>
 								</c:if>
 							</c:forEach>
 						</ul>
 						</p>
 						<select id="availabilitySelect" multiple data-live-search="true"
 							title="Filter By Availability" class="queryFilter">
-							<c:forEach var="key" items="${availabilityFilters.keySet()}">
-								<option value="${availabilityFilters.get(key).getId()}"
-									${availabilityFilters.get(key).getSelected()}>
-									${availabilityFilters.get(key).getName()}(${availabilityFilters.get(key).getStock()})
+							<c:forEach var="entry" items="${availabilityFilters.entrySet()}">
+								<option value="${entry.getKey()}"
+									${entry.getValue().getSelected()}>
+									${entry.getValue().getName()}(${entry.getValue().getStock()})
 								</option>
 							</c:forEach>
 						</select>
@@ -139,8 +139,8 @@
 					<div class="col-md-6">
 						<h2>Results Per Page</h2>
 						<div id="maxPerPageButtonGroup" class="btn-group" role="group" data-toggle="buttons-radio">
-						<c:forEach var="key" items="${resultPerPageMap.keySet()}">
-						  <button type="button" class="btn btn-default maxPerPageButton ${resultPerPageMap.get(key)}" value="${key}">${key}</button>							
+						<c:forEach var="entry" items="${resultPerPageMap.entrySet()}">
+						  <button type="button" class="btn btn-default maxPerPageButton ${entry.getValue().getSelected()}" value="${entry.getKey()}">${entry.getKey()}</button>							
 						</c:forEach>						 
 						</div>						
 					</div>									
@@ -148,9 +148,9 @@
 						<h2>Sort By</h2>
 						<select id="sorter" class="form-select queryFilter"
 							aria-label="Default select example">
-							<c:forEach var="key" items="${sorters.keySet()}">
-								<option value="${sorters.get(key).getId()}" ${sorters.get(key).getSelected()}>
-								${sorters.get(key).getName()}
+							<c:forEach var="entry" items="${sorters.entrySet()}">
+								<option value="${entry.getKey()}" ${entry.getValue().getSelected()}>
+								${entry.getValue().getName()}
 								</option>
 							</c:forEach>							
 						</select>
@@ -206,8 +206,8 @@
 							<div class="col-md-12">
 								<h2 class="inlineHeading">Page</h2>
 								<div id="pageButtonGroup" class="btn-group" role="group" data-toggle="buttons-radio">
-									<c:forEach var="key" items="${pagingMap.keySet()}">
-									  <button type="button" class="btn btn-default pageButton ${pagingMap.get(key)}" value="${key}">${key}</button>							
+									<c:forEach var="entry" items="${pagingMap.entrySet()}">
+									  <button type="button" class="btn btn-default pageButton ${entry.getValue()}" value="${entry.getKey()}">${entry.getKey()}</button>							
 									</c:forEach>								  
 								</div>						
 							</div>													

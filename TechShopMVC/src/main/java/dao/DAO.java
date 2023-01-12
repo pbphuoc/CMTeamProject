@@ -30,8 +30,7 @@ public abstract class DAO<T> {
 	
 	public enum QueryResult{
 		SUCCESSFUL,
-		UNSUCCESSFUL,
-		DUPLICATE
+		UNSUCCESSFUL
 	}	
 	
 	protected DAO() {
@@ -57,7 +56,16 @@ public abstract class DAO<T> {
 			return QueryResult.SUCCESSFUL;
 
 			return QueryResult.UNSUCCESSFUL;
-	}	
+	}
+	
+	protected void close() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	abstract
 	public List<T> getAllRecords();

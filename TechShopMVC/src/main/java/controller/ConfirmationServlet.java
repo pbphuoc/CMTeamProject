@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.DAOService;
 import dao.ProductDAO;
+import dao.DAO.DAOType;
 import model.CartItemDetail;
 
 /**
@@ -50,7 +52,7 @@ public class ConfirmationServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	protected void viewCheckOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ProductDAO cartDAO = new ProductDAO();
+		ProductDAO cartDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		List<CartItemDetail> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);

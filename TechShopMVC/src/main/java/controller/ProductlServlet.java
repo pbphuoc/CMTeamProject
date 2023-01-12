@@ -108,7 +108,7 @@ public class ProductlServlet extends HttpServlet {
 		String priceMax = (request.getParameter("priceMax") != null) ? request.getParameter("priceMax") : "";
 		String[] availabilities = (request.getParameterValues("availability") != null) ? request.getParameterValues("availability") : new String[0];
 		String sortBy = (request.getParameter("sortBy") != null) ? request.getParameter("sortBy") : "0";
-		String perPage = (request.getParameter("perPage") != null) ? request.getParameter("perPage") : (String) UtilityFunctions.getKeyByValue(SearchFilterDTO.RESULTPERPAGE_MAP, "selected");
+		String perPage = (request.getParameter("perPage") != null) ? request.getParameter("perPage") : "16";
 		String page = (request.getParameter("page") != null) ? request.getParameter("page") : "1" ;
 		Object[] listOfProductAndFilters = productDAO.searchProductByNameWithFilters(searchKeywords,brands,categories,priceMin,priceMax,availabilities,sortBy,perPage,page);
 		List<Product> products = (List<Product>) listOfProductAndFilters[0];

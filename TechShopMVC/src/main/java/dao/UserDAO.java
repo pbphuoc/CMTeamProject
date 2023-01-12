@@ -19,19 +19,19 @@ public class UserDAO extends DAO<User>{
 	
 	private Connection connection;
 	
-	public UserDAO() {
+	protected UserDAO() {
 		super();
 		connection = getConnection();
 	}	
 	
-	public QueryResult insertUser(User user) {
+	public QueryResult insertUser(String email, String password, String fullname, String mobile) {
 		try (PreparedStatement insertStm = connection.prepareStatement(INSERT_USER_SQL);) {
-			if (getRecordByID(user.getEmail()) != null)
-				return QueryResult.DUPLICATE;
-			insertStm.setString(1, user.getEmail());
-			insertStm.setString(2, user.getPassword());
-			insertStm.setString(3, user.getFullname());
-			insertStm.setString(4, user.getPhoneNumber());
+			if (getRecordByID(email) != null)
+				return QueryResult.UNSUCCESSFUL;
+			insertStm.setString(1, email);
+			insertStm.setString(2, password);
+			insertStm.setString(3, fullname);
+			insertStm.setString(4, mobile);
 			return getResultCode(insertStm.executeUpdate());
 		} catch (SQLException e) {
 			e.printStackTrace();

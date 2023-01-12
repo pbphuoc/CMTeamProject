@@ -10,7 +10,7 @@ public class SearchFilterDTO {
 	private int stock = 0;
 	private String selected = "";
 	
-	public static final Map<String, String> AVAILABILITY_MAP = new HashMap<String, String>(){{
+	public static final Map<String, String> AVAILABILITY_MAP = new LinkedHashMap<String, String>(){{
 		put("0", "Out Of Stock");
 		put("1", "In Stock");
 	}};		
@@ -26,10 +26,10 @@ public class SearchFilterDTO {
 	}};
 	
 	public static final Map<String, String> RESULTPERPAGE_MAP = new LinkedHashMap<String, String>(){{
-		put("16", "selected");
-		put("32", "");
-		put("64", "");
-		put("128", "");
+		put("16", "16");
+		put("32", "32");
+		put("64", "64");
+		put("128", "128");
 	}};		
 	
 	public SearchFilterDTO(String id, String name) {

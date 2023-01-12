@@ -87,9 +87,8 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("registerError", "existing");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
 			dispatcher.forward(request, response);				
-		}else {
-			user = new User(email, password, fullname, mobile);
-			QueryResult queryResult = userDAO.insertUser(user);
+		}else {			
+			QueryResult queryResult = userDAO.insertUser(email, password, fullname, mobile);
 			if (queryResult == QueryResult.SUCCESSFUL) {
 				String prevUrl = UtilityFunctions.getCorrectPrevUrl(request.getParameter("prevUrl"));		
 				System.out.println("prev Url" + prevUrl);				
