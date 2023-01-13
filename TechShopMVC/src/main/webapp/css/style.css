@@ -1592,11 +1592,10 @@ table .tableTotal {
 	display: inline;
 	margin-right: 15px;
 }
-.emailContainer{
-	
-	justify-content: center;
-}
 
+#checkOutAddress{
+	width: 100%;
+}
 
 /**Payment**/
 
@@ -1661,10 +1660,12 @@ table .tableTotal {
    	background: #dbeef2;
     padding: 20px;
     z-index: 9;
-    opacity: 1;
+    opacity: 0;
     visibility: visible;
-    transform: translateY(0%);
+    transform: translateY(0%) ;
+    transition : opacity 0.2s;
     border-radius: 10px;
+    
 }
 .productOverlay > p {
 	font-size: 2rem;
@@ -1672,20 +1673,37 @@ table .tableTotal {
 	margin-top: 6rem;
 }
 /*comfirmation*/
+.confirmationTitle{
+	font-weight: bold;
+}
+
+.confirmationContainer{
+	display: flex;
+	justify-content: center;
+	padding-top: 220px;
+	width: 100%;
+	
+}
 
 .reviewBox{
-	margin-left: 5rem;
 	flex-direction: row;
 	justify-content: center;
+	border: 1px solid grey;
+	flex-wrap: nowrap;
 }
 .confirmationDetail{
 	display:flex;
 	justify-content: space-between;
 	width:100%;
+	border-bottom: 1px black solid
 }
 .reviewDetail{
 	width: 100%;
+	margin-top: 1.5rem;
 }
 .submitOrder{
 	width: 100%;
+}
+.reviewUserDetail{
+	margin-top: 1.5rem;
 }

@@ -23,9 +23,10 @@
 	<jsp:include page="header.jsp">
 			<jsp:param name="curUrl" value="${requestScope['javax.servlet.forward.request_uri']}" />
 	</jsp:include>
-	<div class="projectContainer">
+	<div class="confirmationContainer">
 		<div class="reviewBox row col-xl-8">
-			<div class="card-body pt-0 reviewDetail">
+			<div class="card-body pt-0 reviewUserDetail reviewDetail">
+			<h1 class="confirmationTitle">Your information</h1>
 				<div class="confirmationDetail">
 					<h1>Email Address</h1>
 					<h2>${param.email}</h2>
@@ -42,12 +43,34 @@
 					<h1>Phone Number</h1>
 					<h1>${param.phone}</h1>
 				</div>
+				<br>
+				<c:choose>
+					<c:when test="${param.billingFname == null || param.billingFname == ''}">
+						<br>
+					</c:when>
+					<c:otherwise>
+						<h1 class="confirmationTitle">Your Billing Information</h1>
+						<div class="confirmationDetail">
+							<h1>First Name</h1>
+							<h2>${param.billingFname}</h2>
+						</div>
+						<div class="confirmationDetail">
+							<h1>First Name</h1>
+							<h1>${param.billingLname}</h1>
+						</div>
+						<div class="confirmationDetail">
+							<h1 >Billing Address</h1>
+							<h1>${param.billingAddress}</h1>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
-
-			<div class="card-body pt-0 reviewDetail">
+			
+			<div class="card-body pt-0 reviewOrderDetail reviewDetail">
+				<h1 class="confirmationTitle">Your Order</h1>
 				<c:forEach var="item" items="${CartItemDetails}">
 					<div class="cartItemRow row justify-content-between">
-					
+						
 						<div class="col-auto col-md-7">
 							<div class="media flex-column flex-sm-row">
 								<%-- <img class="img-fluid"
@@ -56,8 +79,8 @@
 									<b><c:out value="${item.product.name}" /></b>
 								</p>
 							</div>
-						</div> 
-						
+						</div>
+
 						<div class=" pl-0 flex-sm-col col-auto  my-auto">
 							<p class="boxed-1">
 								<c:out value="${item.quantity}" />
@@ -120,11 +143,9 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
+	</div>
 	<jsp:include page="allscript.jsp"></jsp:include>	
 	<script src="${pageContext.request.contextPath}/js/checkout.js"></script>
-	
-	</div>
 </body>
 </html>
