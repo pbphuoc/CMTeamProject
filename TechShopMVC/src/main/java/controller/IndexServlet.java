@@ -37,17 +37,18 @@ public class IndexServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		System.out.println("-----------------------------");
 		System.out.println("doGet Index Servlet called");		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		String action = request.getServletPath();
-		try {
-			switch(action) {
-				case "/Home":
-					getIndexPage(request, response);
-			}
-		}catch (Exception e) {
-			// TODO: handle exception
-			throw new ServletException(e);
-		}
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
+//		String action = request.getServletPath();
+//		try {
+//			switch(action) {
+//				case "/Home":
+//					getIndexPage(request, response);
+//			}
+//		}catch (Exception e) {
+//			// TODO: handle exception
+//			throw new ServletException(e);
+//		}
+		getIndexPage(request, response);
 	}
 
 	/**

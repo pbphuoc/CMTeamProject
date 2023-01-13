@@ -46,6 +46,9 @@ public class LoginServlet extends HttpServlet {
 			case "login":			
 				login(request, response);
 				break;
+			case "logout":			
+				logout(request, response);
+				break;				
 			case "getLoginForm":
 				getLoginPage(request, response);	
 				break;
@@ -56,7 +59,7 @@ public class LoginServlet extends HttpServlet {
 				register(request, response);
 				break;
 			case "":
-				getLoginPage(request, response);
+//				getLoginPage(request, response);
 				break;
 			}			
 		} catch (Exception e) {
@@ -119,6 +122,16 @@ public class LoginServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 			dispatcher.forward(request, response);				
 		}
+	}
+	
+	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String prevUrl = UtilityFunctions.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+		System.out.println("prev Url" + prevUrl);			
+		HttpSession session = request.getSession();
+		System.out.println("Current useremail: " + (String)session.getAttribute("useremail"));
+		session.setAttribute("userfullname", null);
+		session.setAttribute("useremail", null);
+		response.sendRedirect(prevUrl);
 	}	
 	
 	private void getRegisterPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
