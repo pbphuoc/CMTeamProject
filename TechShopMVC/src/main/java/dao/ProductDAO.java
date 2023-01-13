@@ -430,7 +430,8 @@ public class ProductDAO extends DAO<Product> {
 			selectStm.setString(1, id);
 			ResultSet result = selectStm.executeQuery();
 			if(!result.next())
-				price = result.getDouble("new_price");						
+				return price;
+			price = result.getDouble("new_price");						
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}

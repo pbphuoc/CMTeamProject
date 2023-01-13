@@ -25,7 +25,8 @@ public abstract class DAO<T> {
 	
 	public enum DAOType{
 		USER,
-		PRODUCT
+		PRODUCT,
+		ORDER
 	}
 	
 	public enum QueryResult{

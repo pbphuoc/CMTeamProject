@@ -35,7 +35,10 @@
 	    <servlet-name>PaymentServlet</servlet-name>
 	    <servlet-class>controller.PaymentServlet</servlet-class>
 	</servlet>
-	
+	<servlet>
+	    <servlet-name>OrderServlet</servlet-name>
+	    <servlet-class>controller.OrderServlet</servlet-class>
+	</servlet>	
 	<servlet-mapping>
 	    <servlet-name>IndexServlet</servlet-name>
 	    <url-pattern>/Home</url-pattern>
@@ -64,4 +67,8 @@
 	    <servlet-name>LogoutServlet</servlet-name>
 	    <url-pattern>/Logout</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>OrderServlet</servlet-name>
+	    <url-pattern>/OrderServlet</url-pattern>
+	</servlet-mapping>	
 </web-app>

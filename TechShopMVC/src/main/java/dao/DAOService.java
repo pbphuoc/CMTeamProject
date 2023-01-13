@@ -9,6 +9,8 @@ public class DAOService {
 				return new UserDAO();
 			case PRODUCT:
 				return new ProductDAO();
+			case ORDER:
+				return new OrderDAO();				
 			default:
 				return null;
 		}		
