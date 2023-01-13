@@ -51,7 +51,7 @@
 						<div class="form_container" id="checkOutForm">
 							<form action="Confirmation">
 								<div class="form-row mb-3 emailContainer">
-									<div class="col-md-6">
+									<div class="col-md-12">
 										<c:choose>
 											<c:when
 												test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
@@ -63,7 +63,11 @@
 												<input type="email" name="email" class="form-control"
 													placeholder="Email Address" aria-describedby="basic-addon1"
 													id="checkOutEmail" value="${sessionScope.useremail}"
+<<<<<<< Updated upstream
 													readonly>
+=======
+													>
+>>>>>>> Stashed changes
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -124,7 +128,7 @@
 													autocomplete="off" checked> Pay now
 												</label> <label class="btn btn-secondary"> <input
 													id="payOnPickupBtn" type="radio" name="options"
-													autocomplete="off"> Pay on pickup
+													autocomplete="off"> Pay later
 												</label>
 											</div>
 										</div>
@@ -133,6 +137,28 @@
 			
 								<div id="creditCardField" class="row">
 									<div class="col">
+									<h1>Billing Information</h1>
+										<div class="form-row mb-3">
+											
+											<div class="form-group col-md-6">
+												<input type="text" name="billingFname" class="form-control"
+													placeholder="First Name" aria-describedby="basic-addon1"
+													id="billingFname">
+											</div>
+											<div class="form-group col-md-6">
+												<input type="text" name="billingLname" class="form-control"
+													placeholder="Last Name" aria-describedby="basic-addon1"
+													id="billingLname">
+											</div>
+											<div class="form-group col-md-12">
+												<input type="text" name="billingAddress" class="form-control"
+													placeholder="Address" aria-describedby="basic-addon1"
+													id="billingAddress">
+											</div>
+
+										</div>
+										
+									
 										<div class="form-row mb-3 icons">
 											<img src="https://img.icons8.com/color/48/000000/visa.png" />
 											<img

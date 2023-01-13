@@ -455,14 +455,16 @@ function isMobileFormatValid(mobile) {
 
 $('.productButton').click(function productOverlayOn(e){
 	var target = e.target;
-	$(target).closest('.product_box').find('.productOverlay').show();
+	$(target).closest('.product_box').find('.productOverlay').css("opacity", "1").show();
+	setTimeout( ()=>{
+		$(target).closest('.product_box').find('.productOverlay').hide("slow","linear");
+	},300)
+	
 })
 
-$('.productOverlay').click(function productOverlayOff(e){
-	var target = e.target;
-	$(target).hide()
+$('.productOverlay').click(function productOverlayOff(){
+	$(this).hide();
 })
-
 
 
 //end cookies functions
