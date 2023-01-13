@@ -1673,6 +1673,10 @@ table .tableTotal {
 	margin-top: 6rem;
 }
 /*comfirmation*/
+.confirmationTitle{
+	font-weight: bold;
+}
+
 .confirmationContainer{
 	display: flex;
 	justify-content: center;
@@ -1702,8 +1706,4 @@ table .tableTotal {
 }
 .reviewUserDetail{
 	margin-top: 1.5rem;
-    text-align: center;
-}
-.reviewOrderDetail{
-	 text-align: center;
 }

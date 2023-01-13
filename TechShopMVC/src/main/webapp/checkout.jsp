@@ -62,12 +62,8 @@
 											<c:otherwise>
 												<input type="email" name="email" class="form-control"
 													placeholder="Email Address" aria-describedby="basic-addon1"
-													id="checkOutEmail" value="${sessionScope.useremail}"
-<<<<<<< Updated upstream
-													readonly>
-=======
-													>
->>>>>>> Stashed changes
+													id="checkOutEmail" value="${sessionScope.useremail}">
+
 											</c:otherwise>
 										</c:choose>
 									</div>

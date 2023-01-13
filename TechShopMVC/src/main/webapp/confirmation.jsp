@@ -26,7 +26,7 @@
 	<div class="confirmationContainer">
 		<div class="reviewBox row col-xl-8">
 			<div class="card-body pt-0 reviewUserDetail reviewDetail">
-			<h1>Your information</h1>
+			<h1 class="confirmationTitle">Your information</h1>
 				<div class="confirmationDetail">
 					<h1>Email Address</h1>
 					<h2>${param.email}</h2>
@@ -49,7 +49,7 @@
 						<br>
 					</c:when>
 					<c:otherwise>
-						<h1>Your Billing Information</h1>
+						<h1 class="confirmationTitle">Your Billing Information</h1>
 						<div class="confirmationDetail">
 							<h1>First Name</h1>
 							<h2>${param.billingFname}</h2>
@@ -59,7 +59,7 @@
 							<h1>${param.billingLname}</h1>
 						</div>
 						<div class="confirmationDetail">
-							<h1>Billing Address</h1>
+							<h1 >Billing Address</h1>
 							<h1>${param.billingAddress}</h1>
 						</div>
 					</c:otherwise>
@@ -67,7 +67,7 @@
 			</div>
 			
 			<div class="card-body pt-0 reviewOrderDetail reviewDetail">
-				<h1>Your Order</h1>
+				<h1 class="confirmationTitle">Your Order</h1>
 				<c:forEach var="item" items="${CartItemDetails}">
 					<div class="cartItemRow row justify-content-between">
 						
