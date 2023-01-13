@@ -57,43 +57,17 @@
 												test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
 												<input type="email" name="email" class="form-control"
 													placeholder="Email Address" aria-describedby="basic-addon1"
-													id="checkOutEmail">
+													id="checkOutEmail" required>
 											</c:when>
 											<c:otherwise>
 												<input type="email" name="email" class="form-control"
 													placeholder="Email Address" aria-describedby="basic-addon1"
-													id="checkOutEmail" value="${sessionScope.useremail}">
+													id="checkOutEmail" value="${sessionScope.useremail}" required>
 
 											</c:otherwise>
 										</c:choose>
 									</div>
 								</div>
-								<h1>Delivery information</h1>
-								<div class="form-row mb-3">
-									<div class="form-group col-md-6">
-										<input type="text" name="fname" class="form-control"
-											placeholder="First Name" aria-describedby="basic-addon1"
-											id="checkOutFirstName">
-									</div>
-									<div class="form-group col-md-6">
-										<input type="text" name="lname" class="form-control"
-											placeholder="Last Name" aria-describedby="basic-addon1"
-											id="checkOutLastName">
-									</div>
-								</div>
-								<div class="form-row mb-3">
-									<div class="col-md-1.1">
-										<select id="countryCodeList" class="form-select">
-											<option value="australia" selected>+61</option>
-										</select>
-									</div>
-									<div class="col-md-6">
-										<input type="text" name="phone" class="form-control"
-											placeholder="Phone Number" aria-describedby="basic-addon1"
-											id="checkOutPhoneNumber">
-									</div>
-								</div>
-								<!--  
 								<div class="form-row mb-3">								
 									<div id="deliveryOptions" class="btn-group btn-group-toggle"
 										data-toggle="buttons">
@@ -107,13 +81,42 @@
 									</div>
 							
 								</div>
-								<div class="form-row mb-3">
-									<textarea class="form-control" rows="5"
-										placeholder="Delivery Address" aria-describedby="basic-addon1"
-										id="checkOutAddress"></textarea>
+								<div id="deliveryBox" class="row">
+									<div class="col">
+										
+											<h1>Delivery information</h1>
+										
+										<div class="form-row mb-3">
+											<div class="form-group col-md-6">
+												<input type="text" name="fname" class="form-control"
+													placeholder="First Name" aria-describedby="basic-addon1"
+													id="checkOutFirstName">
+											</div>
+											<div class="form-group col-md-6">
+												<input type="text" name="lname" class="form-control"
+													placeholder="Last Name" aria-describedby="basic-addon1"
+													id="checkOutLastName">
+											</div>
+										</div>
+										<div class="form-row mb-3">
+											<div class="col-md-1.1">
+												<select id="countryCodeList" class="form-select">
+													<option value="australia" selected>+61</option>
+												</select>
+											</div>
+											<div class="col-md-6">
+												<input type="text" name="phone" class="form-control"
+													placeholder="Phone Number" aria-describedby="basic-addon1"
+													id="checkOutPhoneNumber">
+											</div>
+										</div>
+									</div>
+
 								</div>
-								-->
-								<div class="row">
+
+
+
+								<div id="guestAddress" class="row">
 									<div class="col">
 										<h1>Payment</h1>
 										<div class="form-row mb-3 saveCardLabelContainer">

@@ -1533,6 +1533,9 @@ table .tableTotal {
 	padding-right: 50px;
 	text-align: center;
 }
+#deliveryBox{
+	flex-direction: row;
+}
 
 #checkoutRight {
 	text-align: center;

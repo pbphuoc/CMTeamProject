@@ -31,18 +31,28 @@
 					<h1>Email Address</h1>
 					<h2>${param.email}</h2>
 				</div>
-				<div class="confirmationDetail">
-					<h1>First Name</h1>
-					<h1>${param.fname}</h1>
-				</div>
-				<div class="confirmationDetail">
-					<h1>Last Name</h1>
-					<h1>${param.lname}</h1>
-				</div>
-				<div class="confirmationDetail">
-					<h1>Phone Number</h1>
-					<h1>${param.phone}</h1>
-				</div>
+				<c:choose>
+					<c:when test="${param.fname == null || param.fname == ''}">
+						<br>
+						<h1>Collect At Store</h1>
+					</c:when>
+					<c:otherwise>
+						<div class="confirmationDetail">
+							<h1>First Name</h1>
+							<h1>${param.fname}</h1>
+						</div>
+						<div class="confirmationDetail">
+							<h1>Last Name</h1>
+							<h1>${param.lname}</h1>
+						</div>
+						<div class="confirmationDetail">
+							<h1>Phone Number</h1>
+							<h1>${param.phone}</h1>
+						</div>
+					</c:otherwise>
+				</c:choose>
+
+
 				<br>
 				<c:choose>
 					<c:when test="${param.billingFname == null || param.billingFname == ''}">

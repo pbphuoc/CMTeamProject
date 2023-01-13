@@ -98,10 +98,16 @@ function loadLoggedInUser() {
 }
 
 $('#deliveryOptions input').change(function() {
-	if ($(this).attr('id') == 'optDeliveryLB')
+	if ($(this).attr('id') == 'optDeliveryLB'){
+		$('#deliveryBox').show();
 		$('#guestAddress').show();
-	else if ($(this).attr('id') == 'optCollectLB')
+		$('#creditCardField').show();
+	}else if ($(this).attr('id') == 'optCollectLB'){
+		$('#deliveryBox').hide();
 		$('#guestAddress').hide();
+		$('#creditCardField').hide();
+	}
+		
 });
 
 $('#paymentOptions input').change(function() {
