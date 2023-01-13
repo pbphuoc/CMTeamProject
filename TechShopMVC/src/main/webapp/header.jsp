@@ -52,7 +52,8 @@
 										<c:otherwise>
 											<h3 class="menuBarUsername">Hi
 												${sessionScope.userfullname},</h3>
-											<a class="nav-link menuBarLoginBtn" href="Logout?prevUrl=${param.curUrl}">Logout</a>
+<%-- 											<a class="nav-link menuBarLoginBtn" href="Logout?prevUrl=${param.curUrl}">Logout</a> --%>
+											<a class="nav-link menuBarLoginBtn" href="Auth?command=logout&prevUrl=${param.curUrl}">Logout</a>										
 										</c:otherwise>
 									</c:choose>
 								</li>

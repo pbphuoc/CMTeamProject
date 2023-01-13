@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class AdminAuthenticationFIlter
  */
-@WebFilter(urlPatterns = {"/Auth","/Logout"})
+@WebFilter(urlPatterns = {"/Auth"})
 public class UserAuthenticationFilter implements Filter {
 
     /**
@@ -43,11 +43,12 @@ public class UserAuthenticationFilter implements Filter {
 		String loginURI = httpRequest.getContextPath() + "/Auth";
 		boolean isLoginRequest = httpRequest.getRequestURI().equals(loginURI);
 		boolean isLoginPage = httpRequest.getRequestURI().endsWith("login.jsp");
+		boolean isLogoutRequest = (httpRequest.getParameter("command") != null) ? ((String)httpRequest.getParameter("command")).equalsIgnoreCase("logout") : false;
 		
-		if(isLoggedIn && (isLoginRequest || isLoginPage)) {
+		if(isLoggedIn && (isLoginRequest || isLoginPage) && !isLogoutRequest) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
 			dispatcher.forward(request, response);
-		}else if(isLoggedIn || isLoginRequest) {
+		}else if(isLoggedIn || isLoginRequest || isLogoutRequest) {
 			// pass the request along the filter chain
 			chain.doFilter(request, response);
 		}else {
