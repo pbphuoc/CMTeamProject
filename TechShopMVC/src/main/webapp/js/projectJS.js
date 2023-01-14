@@ -99,10 +99,10 @@ function loadLoggedInUser() {
 
 $('#deliveryOptions input').change(function() {
 	if ($(this).attr('id') == 'optDeliveryLB'){
-		$('#deliveryBox').show();
-		
+		$('#checkOutAddress').show();	
 	}else if ($(this).attr('id') == 'optCollectLB'){
-		$('#deliveryBox').hide();
+		$('#checkOutAddress').hide();
+		$('#checkOutAddress').val("");
 		
 	}
 		
@@ -113,6 +113,7 @@ $('#paymentOptions input').change(function() {
 		$('#creditCardField').show();
 	else if ($(this).attr('id') == 'payOnPickupBtn')
 		$('#creditCardField').hide();
+		$('#creditCardField').find('input').val("");
 });
 
 //$('.menuBarLoginBtn').click(() => {

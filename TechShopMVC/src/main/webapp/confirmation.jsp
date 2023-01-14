@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
-    
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,22 +21,21 @@
 <!-- body -->
 <body class="main-layout">
 	<jsp:include page="header.jsp">
-			<jsp:param name="curUrl" value="${requestScope['javax.servlet.forward.request_uri']}" />
+		<jsp:param name="curUrl"
+			value="${requestScope['javax.servlet.forward.request_uri']}" />
 	</jsp:include>
 	<div class="confirmationContainer">
 		<div class="reviewBox row col-xl-8">
 			<div class="card-body pt-0 reviewUserDetail reviewDetail">
-			<h1 class="confirmationTitle">Your information</h1>
+				<h1 class="confirmationTitle">Your information</h1>
 				<div class="confirmationDetail">
 					<h1>Email Address</h1>
 					<h2>${param.email}</h2>
 				</div>
 				<c:choose>
-					<c:when test="${param.fname == null || param.fname == ''}">
+					<c:when test="${param.address == null || param.address == ''}">
 						<br>
 						<h1>Collect At Store</h1>
-					</c:when>
-					<c:otherwise>
 						<div class="confirmationDetail">
 							<h1>First Name</h1>
 							<h1>${param.fname}</h1>
@@ -49,13 +48,34 @@
 							<h1>Phone Number</h1>
 							<h1>${param.phone}</h1>
 						</div>
+					</c:when>
+					<c:otherwise>
+						<br>
+						<h1>Delivery</h1>
+						<div class="confirmationDetail">
+							<h1>First Name</h1>
+							<h1>${param.fname}</h1>
+						</div>
+						<div class="confirmationDetail">
+							<h1>Last Name</h1>
+							<h1>${param.lname}</h1>
+						</div>
+						<div class="confirmationDetail">
+							<h1>Phone Number</h1>
+							<h1>${param.phone}</h1>
+						</div>
+						<div class="confirmationDetail">
+							<h1>Delivery Address</h1>
+							<h1>${param.address}</h1>
+						</div>
 					</c:otherwise>
 				</c:choose>
 
 
 				<br>
 				<c:choose>
-					<c:when test="${param.billingFname == null || param.billingFname == ''}">
+					<c:when
+						test="${param.billingFname == null || param.billingFname == ''}">
 						<br>
 					</c:when>
 					<c:otherwise>
@@ -69,18 +89,18 @@
 							<h1>${param.billingLname}</h1>
 						</div>
 						<div class="confirmationDetail">
-							<h1 >Billing Address</h1>
+							<h1>Billing Address</h1>
 							<h1>${param.billingAddress}</h1>
 						</div>
 					</c:otherwise>
 				</c:choose>
 			</div>
-			
+
 			<div class="card-body pt-0 reviewOrderDetail reviewDetail">
 				<h1 class="confirmationTitle">Your Order</h1>
 				<c:forEach var="item" items="${CartItemDetails}">
 					<div class="cartItemRow row justify-content-between">
-						
+
 						<div class="col-auto col-md-7">
 							<div class="media flex-column flex-sm-row">
 								<%-- <img class="img-fluid"
@@ -155,7 +175,7 @@
 			</div>
 		</div>
 	</div>
-	<jsp:include page="allscript.jsp"></jsp:include>	
+	<jsp:include page="allscript.jsp"></jsp:include>
 	<script src="${pageContext.request.contextPath}/js/checkout.js"></script>
 </body>
 </html>
