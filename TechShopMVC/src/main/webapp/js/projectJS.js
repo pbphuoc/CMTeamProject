@@ -100,12 +100,10 @@ function loadLoggedInUser() {
 $('#deliveryOptions input').change(function() {
 	if ($(this).attr('id') == 'optDeliveryLB'){
 		$('#deliveryBox').show();
-		$('#guestAddress').show();
-		$('#creditCardField').show();
+		
 	}else if ($(this).attr('id') == 'optCollectLB'){
 		$('#deliveryBox').hide();
-		$('#guestAddress').hide();
-		$('#creditCardField').hide();
+		
 	}
 		
 });

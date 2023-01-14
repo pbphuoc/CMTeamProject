@@ -104,10 +104,17 @@
 													<option value="australia" selected>+61</option>
 												</select>
 											</div>
-											<div class="col-md-6">
+											<div class="col-md-12">
 												<input type="text" name="phone" class="form-control"
 													placeholder="Phone Number" aria-describedby="basic-addon1"
 													id="checkOutPhoneNumber">
+											</div>
+											<br>
+											<br>
+											<div class="form-group col-md-12">
+												<input type="text" name="address" class="form-control"
+													placeholder="Delivery Address" aria-describedby="basic-addon1"
+													id="checkOutAddress">
 											</div>
 										</div>
 									</div>
