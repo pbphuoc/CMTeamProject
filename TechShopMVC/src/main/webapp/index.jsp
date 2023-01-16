@@ -219,7 +219,7 @@
 												<div class="col-md-6">										
 													<c:choose>
 														<c:when test="${product.getStock() > 0}">
-															<button class="productButton" type="button"
+															<button class="productButton addbutton" type="button"
 																onclick="increase(${product.id}); productOverlayOn();">Add To Cart</button>														
 														</c:when>
 														<c:otherwise>
