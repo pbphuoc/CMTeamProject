@@ -33,8 +33,26 @@ public class OrderServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		submitOrder(request, response);
+		System.out.println("-----------------------------");
+		System.out.println("doGet Order Servlet called");
+		System.out.println("Current command: " + request.getParameter("command"));
+		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
+		try {
+			switch (command) {
+			case "submitOrder":			
+				submitOrder(request, response);
+				break;
+			case "viewOrders":			
+				viewOrders(request, response);
+				break;				
+			case "":
+//				getLoginPage(request, response);
+				break;
+			}			
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new ServletException(e);
+		}				
 	}
 
 	/**
@@ -67,6 +85,11 @@ public class OrderServlet extends HttpServlet {
 		}};
 		QueryResult result = orderDAO.insertOrder(date, checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate, shipping, total, orderItems);
 		System.out.println(result);
+	}
+	
+	protected void viewOrders(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		OrderDAO orderDAO = (OrderDAO) DAOService.getDAO(DAOType.ORDER);
+
 	}	
 
 }

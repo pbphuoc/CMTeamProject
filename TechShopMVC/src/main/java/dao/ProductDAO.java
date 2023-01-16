@@ -20,7 +20,7 @@ public class ProductDAO extends DAO<Product> {
 	private static final String SELECT_ALL_PRODUCT_SQL = "SELECT * FROM product;";
 	private static final String SELECT_PRODUCT_BY_ID_SQL = "SELECT * FROM product where id=? ;";
 	private static final String SELECT_PRICE_BY_ID_SQL = "SELECT new_price FROM product where id =? ;";
-	private static final String SEARCH_PRODUCT_BY_NAME_SQL = "SELECT * FROM product where name like ? ;";
+	private static final String SEARCH_PRODUCT_BY_NAME_SQL = "SELECT * FROM product where name like ? ";
 	private static final String SELECT_ALL_BRAND_SQL = "SELECT * FROM brand;";
 	private static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM category;";
 	private static final String SELECT_MEDIA_BY_PRODUCT_ID_SQL = "SELECT * FROM media where product_id = ?; ";	

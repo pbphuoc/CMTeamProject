@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
 		System.out.println("doGet Login Servlet called");
 		System.out.println("Current command: " + request.getParameter("command"));
 //		System.out.println("Current User: " + getCurrentUser(request));
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
 		try {
 			switch (command) {

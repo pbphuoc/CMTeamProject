@@ -20,61 +20,63 @@
 <body class="main-layout">
 	<jsp:include page="header.jsp"></jsp:include>
 	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="formTitle">
-					<h2>Login</h2>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4 m-auto">
-				<div class="form_container" id="loginDiv">
-					<form action="Auth" method="Post" class="needs-validation"
-						novalidate>
-						<input type="hidden" name="command" value="login">
-						<input type="hidden" name="prevUrl" value="${param['prevUrl']}">
-						<div class="input-group mb-3">
-							<c:choose>
-								<c:when
-									test="${loginError == 'invalid'}">
-									<input type="email" class="form-control is-invalid"
-										placeholder="Email Address" id="emailLogin" name="emailLogin"
-										required>
-									<div id="emailLoginFeedback" class="invalid-feedback">
-										Incorrect Email or Password. Please try again</div>
-								</c:when>
-								<c:otherwise>
-									<input type="email" class="form-control"
-										placeholder="Email Address" id="emailLogin" name="emailLogin"
-										required>
-									<div id="emailLoginFeedback" class="invalid-feedback"></div>
-								</c:otherwise>
-							</c:choose>
-						</div>
-						<div class="input-group mb-3">
-							<input type="password" class="form-control"
-								placeholder="Password" id="passwordLogin" name="passwordLogin"
-								required>
-							<div id="passwordLoginFeedback" class="invalid-feedback"></div>
-						</div>
-						<button class="btn btn-primary" type="submit" id="loginBtn">Login</button>
-					</form>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6 m-auto">
-				<div class="form_container" id="registerDiv">
-					<div id="create-intro">
-						<span class="create-text">Don't have account yet ? Join
-							with us now ! </span>
+		<div class="projectContainer">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="formTitle">
+						<h2>Login</h2>
 					</div>
-					<a href="Auth?command=getRegisterForm&prevUrl=${param['prevUrl']}">
-						<button class="btn btn-secondary" type="button">Create an
-							account</button>
-					</a>
-
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 m-auto">
+					<div class="form_container" id="loginDiv">
+						<form action="Auth" method="Post" class="needs-validation"
+							novalidate>
+							<input type="hidden" name="command" value="login">
+							<input type="hidden" name="prevUrl" value="${param['prevUrl']}">
+							<div class="input-group mb-3">
+								<c:choose>
+									<c:when
+										test="${loginError == 'invalid'}">
+										<input type="email" class="form-control is-invalid"
+											placeholder="Email Address" id="emailLogin" name="emailLogin"
+											required>
+										<div id="emailLoginFeedback" class="invalid-feedback">
+											Incorrect Email or Password. Please try again</div>
+									</c:when>
+									<c:otherwise>
+										<input type="email" class="form-control"
+											placeholder="Email Address" id="emailLogin" name="emailLogin"
+											required>
+										<div id="emailLoginFeedback" class="invalid-feedback"></div>
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<div class="input-group mb-3">
+								<input type="password" class="form-control"
+									placeholder="Password" id="passwordLogin" name="passwordLogin"
+									required>
+								<div id="passwordLoginFeedback" class="invalid-feedback"></div>
+							</div>
+							<button class="btn btn-primary" type="submit" id="loginBtn">Login</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 m-auto">
+					<div class="form_container" id="registerDiv">
+						<div id="create-intro">
+							<span class="create-text">Don't have account yet ? Join
+								with us now ! </span>
+						</div>
+						<a href="Auth?command=getRegisterForm&prevUrl=${param['prevUrl']}">
+							<button class="btn btn-secondary" type="button">Create an
+								account</button>
+						</a>
+	
+					</div>
 				</div>
 			</div>
 		</div>

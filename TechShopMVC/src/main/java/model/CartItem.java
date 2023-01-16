@@ -4,8 +4,7 @@ public class CartItem {
 	private String id;
 	private int quantity;
 	
-	public CartItem(String productID, int quantity) {
-		
+	public CartItem(String productID, int quantity) {	
 		this.id = productID;
 		this.quantity = quantity;
 	}

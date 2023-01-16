@@ -20,81 +20,84 @@
 <body class="main-layout">
 	<jsp:include page="header.jsp"></jsp:include>
 	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div id="register-intro-text" class="formTitle">
-					<h2>Create an account</h2>
+		<div class="projectContainer">
+			<div class="row">
+				<div class="col-lg-12">
+					<div id="register-intro-text" class="formTitle">
+						<h2>Create an account</h2>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8 m-auto">
+					<div class="form_container">
+						<form action="Auth" method="Post" class="needs-validation"
+							novalidate>
+							<input type="hidden" name="command" value="register"> <input
+								type="hidden" name="prevUrl" value="${param['prevUrl']}">
+							<div class="form-group">
+								<label for="fullnameRegister">Full Name</label> <input
+									type="text" class="form-control" name="fullnameRegister"
+									id="fullnameRegister" placeholder="Please enter your full name"
+									required>
+								<div id="fullnameRegisterFeedback" class="invalid-feedback">
+								</div>
+							</div>
+							<div class="form-group">
+								<c:choose>
+									<c:when test="${registerError == 'existing'}">
+										<label for="emailRegister">Email Address</label>
+										<input type="email" class="form-control is-invalid"
+											name="emailRegister" id="emailRegister"
+											placeholder="Please enter your email address"
+											aria-label="Username" aria-describedby="basic-addon1"
+											required>
+										<div id="emailRegisterFeedback" class="invalid-feedback">
+											This email address has been registered already</div>
+									</c:when>
+									<c:otherwise>
+										<label for="emailRegister">Email Address</label>
+										<input type="email" class="form-control" name="emailRegister"
+											id="emailRegister"
+											placeholder="Please enter your email address"
+											aria-label="Username" aria-describedby="basic-addon1"
+											required>
+										<div id="emailRegisterFeedback" class="invalid-feedback"></div>
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<div class="form-group">
+								<label for="passwordRegister">Password</label> <input
+									type="password" class="form-control" name="passwordRegister"
+									id="passwordRegister" placeholder="Please enter your password"
+									aria-label="Password" aria-describedby="basic-addon1" required>
+								<div id="passwordRegisterFeedback" class="invalid-feedback">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="confirmPasswordRegister">Confirm Password</label> <input
+									type="password" class="form-control"
+									id="confirmPasswordRegister"
+									placeholder="Please enter your password again"
+									aria-label="Password" aria-describedby="basic-addon1" required>
+								<div id="confirmPasswordRegisterFeedback"
+									class="invalid-feedback"></div>
+							</div>
+							<div class="form-group">
+								<label for="mobileRegister">Mobile Number</label> <input
+									type="tel" class="form-control" name="mobileRegister"
+									id="mobileRegister"
+									placeholder="Please enter your mobile number"
+									aria-label="Mobile" aria-describedby="basic-addon1" required>
+								<div id="mobileRegisterFeedback" class="invalid-feedback">
+								</div>
+							</div>
+							<button class="btn btn-primary" type="submit">Register</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-8 m-auto">
-				<div class="form_container">
-					<form action="Auth" method="Post" class="needs-validation"
-						novalidate>
-						<input type="hidden" name="command" value="register">
-						<input type="hidden" name="prevUrl" value="${param['prevUrl']}">
-						<div class="form-group">
-							<label for="fullnameRegister">Full Name</label> <input
-								type="text" class="form-control" name="fullnameRegister"
-								id="fullnameRegister" placeholder="Please enter your full name"
-								required>
-							<div id="fullnameRegisterFeedback" class="invalid-feedback">
-							</div>
-						</div>
-						<div class="form-group">
-							<c:choose>
-								<c:when test="${registerError == 'existing'}">
-									<label for="emailRegister">Email Address</label>
-									<input type="email" class="form-control is-invalid"
-										name="emailRegister" id="emailRegister"
-										placeholder="Please enter your email address"
-										aria-label="Username" aria-describedby="basic-addon1" required>
-									<div id="emailRegisterFeedback" class="invalid-feedback">
-										This email address has been registered already</div>
-								</c:when>
-								<c:otherwise>
-									<label for="emailRegister">Email Address</label>
-									<input type="email" class="form-control" name="emailRegister"
-										id="emailRegister"
-										placeholder="Please enter your email address"
-										aria-label="Username" aria-describedby="basic-addon1" required>
-									<div id="emailRegisterFeedback" class="invalid-feedback"></div>
-								</c:otherwise>
-							</c:choose>
-						</div>
-						<div class="form-group">
-							<label for="passwordRegister">Password</label> <input
-								type="password" class="form-control" name="passwordRegister"
-								id="passwordRegister" placeholder="Please enter your password"
-								aria-label="Password" aria-describedby="basic-addon1" required>
-							<div id="passwordRegisterFeedback" class="invalid-feedback">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="confirmPasswordRegister">Confirm Password</label> <input
-								type="password" class="form-control"
-								id="confirmPasswordRegister"
-								placeholder="Please enter your password again"
-								aria-label="Password" aria-describedby="basic-addon1" required>
-							<div id="confirmPasswordRegisterFeedback"
-								class="invalid-feedback"></div>
-						</div>
-						<div class="form-group">
-							<label for="mobileRegister">Mobile Number</label> <input
-								type="tel" class="form-control" name="mobileRegister"
-								id="mobileRegister"
-								placeholder="Please enter your mobile number"
-								aria-label="Mobile" aria-describedby="basic-addon1" required>
-							<div id="mobileRegisterFeedback" class="invalid-feedback">
-							</div>
-						</div>
-						<button class="btn btn-primary" type="submit">Register</button>
-					</form>
-				</div>
-			</div>
-		</div>
-
 	</div>
 	<jsp:include page="footer.jsp"></jsp:include>
 	<jsp:include page="allscript.jsp"></jsp:include>

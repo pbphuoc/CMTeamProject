@@ -1157,8 +1157,6 @@ ul.social_icon li a:hover {
 
 .formTitle {
 	text-align: center;
-	padding-bottom: 60px;
-	margin-top: 200px;
 }
 
 .formTitle h2 {
@@ -1168,9 +1166,9 @@ ul.social_icon li a:hover {
 	font-weight: bold;
 	padding: 0;
 	text-transform: uppercase;
-	border-bottom: #48ca95 solid 1px;
-	max-width: 315px;
+	max-width: 400px;
 	margin: auto;
+	padding-bottom: 50px;
 }
 
 #register-intro-text h2 {
@@ -1477,8 +1475,14 @@ table .tableTotal {
 
 .projectContainer {
 	padding-left: 100px;
-	padding-top: 220px;
+	padding-top: 200px;
 	max-width: 100%;
+	max-height: 100%;
+	height:800px;
+}
+
+#cartContainer {
+	height:800px;
 }
 
 #mainBodySection {
