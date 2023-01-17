@@ -34,7 +34,11 @@
 	<servlet>
 	    <servlet-name>OrderServlet</servlet-name>
 	    <servlet-class>controller.OrderServlet</servlet-class>
-	</servlet>	
+	</servlet>
+	<servlet>
+	    <servlet-name>UserAccountServlet</servlet-name>
+	    <servlet-class>controller.UserAccountServlet</servlet-class>
+	</servlet>			
 	<servlet-mapping>
 	    <servlet-name>IndexServlet</servlet-name>
 	    <url-pattern>/Home</url-pattern>
@@ -62,5 +66,9 @@
 	<servlet-mapping>
 	    <servlet-name>OrderServlet</servlet-name>
 	    <url-pattern>/Order</url-pattern>
-	</servlet-mapping>	
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>UserAccountServlet</servlet-name>
+	    <url-pattern>/Account</url-pattern>
+	</servlet-mapping>			
 </web-app>

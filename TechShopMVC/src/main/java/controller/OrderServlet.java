@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,12 +10,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.DAOService;
 import dao.OrderDAO;
+import dao.ProductDAO;
 import dao.DAO.DAOType;
 import dao.DAO.QueryResult;
 import entity.OrderDTO;
+import model.CartItemDetail;
 
 /**
  * Servlet implementation class OrderServlet
@@ -43,9 +47,9 @@ public class OrderServlet extends HttpServlet {
 			switch (command) {
 			case "submitOrder":			
 				submitOrder(request, response);
-				break;
-			case "viewOrders":			
-				viewOrders(request, response);
+				break;	
+			case "trackOrder":			
+				trackOrder(request, response);
 				break;				
 			case "":
 //				getLoginPage(request, response);
@@ -67,7 +71,7 @@ public class OrderServlet extends HttpServlet {
 	
 	protected void submitOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		OrderDAO orderDAO = (OrderDAO) DAOService.getDAO(DAOType.ORDER);
-		String date = "14/01/2023";
+		ProductDAO productDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
 		String checkOutEmail = "ff.pbphuoc@gmail.com";
 		String checkOutFullname = "Phuoc Pham";
 		String checkOutPhone = "04987654321";
@@ -78,24 +82,23 @@ public class OrderServlet extends HttpServlet {
 		String paymentTypeId = "1";
 		String paymentDate = "";
 		String shipping = "0";
-		String total = "12345.00";
-		HashMap<String,Integer> orderItems = new HashMap<>() {{
-			put("1", 1);
-			put("2", 2);
-			put("3", 3);
-			put("4", 4);
-		}};
-		QueryResult result = orderDAO.insertOrder(date, checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate, shipping, total, orderItems);
+		HttpSession session = request.getSession();
+		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
+		List<CartItemDetail> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);		
+		QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate, shipping, cartItemsDetail);
 		System.out.println(result);
 	}
 	
-	protected void viewOrders(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String checkoutEmail = "ff.pbphuoc@gmail.com";
+	protected void trackOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String emailAddress = request.getParameter("email") != null ? request.getParameter("email") : "";
+		String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber") : "";
 		OrderDAO orderDAO = (OrderDAO) DAOService.getDAO(DAOType.ORDER);
-		List<OrderDTO> orderList = orderDAO.getOrderByUserEmail(checkoutEmail);
-		request.setAttribute("orderList", orderList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("account.jsp");
+		OrderDTO order = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress,orderNumber);
+		List<OrderDTO> orders = new ArrayList<OrderDTO>();
+		orders.add(order);
+		request.setAttribute("orderList", orders);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("orderhistory.jsp");
 		dispatcher.forward(request, response);
-	}	
+	}		
 
 }
