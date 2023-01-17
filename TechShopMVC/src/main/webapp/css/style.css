@@ -529,7 +529,7 @@ ul.btn li:last-child {
 	font-weight: bold;
 	padding: 0;
 	text-transform: uppercase;
-	border-bottom: #48ca95 solid 1px;
+	border-bottom: #b9d3d9 solid 2px;
 	max-width: 315px;
 	margin: auto;
 }
@@ -568,16 +568,11 @@ ul.btn li:last-child {
 	background-color: #fff;
 }
 
-.categoryIcon {
-	width: 100px;
-	height: 100px;
-}
-
 .box_text {
 	background: #fff;
 	text-align: center;
 	padding: 50px 20px 20px 20px;
-	border: #48ca95 solid 1px;
+	border: #b9d3d9 solid 2px;
 	border-radius: 15px;
 }
 
@@ -726,114 +721,11 @@ ul.btn li:last-child {
 	color: #FFA007 !important;
 }
 
-/** end products section **/
-
-/** laptop  section **/
-.laptop {
-	font-family: 'Dosis', sans-serif;
-	padding: 130px 0;
-	background-color: #4f4aa6;
-}
-
-.laptop .titlepage {
-	text-align: left;
-	padding-bottom: 0;
-}
-
-.laptop .titlepage p {
-	color: #fff;
-	display: block;
-	font-size: 40px;
-	font-weight: normal;
-	padding-bottom: 24px;
-	line-height: 40px;
-}
-
-.laptop .titlepage h2 {
-	text-transform: none;
-	font-size: 80px;
-	color: #fff;
-	max-width: inherit;
-	border: inherit;
-	font-weight: 500;
-	line-height: 80px;
-}
-
-.laptop_box {
-	margin-right: -50px;
-}
-
-.laptop_box figure {
-	margin: 0;
-}
 
 .margin_bottom {
 	margin-bottom: 30px;
 }
 
-.laptop .read_more {
-	display: block;
-	margin-top: 60px;
-}
-
-/** end laptop  section **/
-
-/** customer section **/
-.customer {
-	padding: 90px 0px 140px 0px;
-	background: #fff;
-}
-
-.customer .titlepage h2 {
-	max-width: 385px;
-}
-
-.customer_Carousel .carousel-caption {
-	position: inherit;
-	padding: 0;
-}
-
-.customer_box {
-	text-align: center;
-}
-
-.test_box {
-	text-align: left
-}
-
-.customer_Carousel .test_box h4 {
-	font-size: 30px;
-	color: #030305;
-	line-height: 28px;
-	display: block;
-	font-weight: 600;
-	padding: 30px 0px 30px 0px;
-	text-align: left;
-}
-
-.customer_Carousel .test_box p {
-	font-size: 17px;
-	line-height: 28px;
-	color: #0b0b0c;
-	text-align: left;
-}
-
-.customer_Carousel .carousel-indicators {
-	bottom: -50px;
-	right: inherit;
-	margin-left: 4px;
-}
-
-.customer_Carousel .carousel-indicators li {
-	width: 20px;
-	height: 20px;
-	border-radius: 20px;
-	background: #48ca95;
-}
-
-.customer_Carousel .carousel-indicators li.active {
-	background: #4f4aa6;
-}
 
 #myCarousel .carousel-control-next-icon, #myCarousel .carousel-control-prev-icon
 	{
@@ -1146,8 +1038,9 @@ ul.social_icon li a:hover {
 
 /** productCategory **/
 .categoryIcon {
-	width: 50px;
-	height: 50px;
+	width: 140px;
+	height: 140px;
+	background-color: #fff;
 }
 
 /** Login Div **/
@@ -1478,7 +1371,7 @@ table .tableTotal {
 	padding-top: 200px;
 	max-width: 100%;
 	max-height: 100%;
-	height:800px;
+	min-height:80vh;
 }
 
 #cartContainer {

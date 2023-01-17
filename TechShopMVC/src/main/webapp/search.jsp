@@ -139,7 +139,7 @@
 					<div class="col-md-6">
 						<h2>Results Per Page</h2>
 						<div id="maxPerPageButtonGroup" class="btn-group" role="group" data-toggle="buttons-radio">
-						<c:forEach var="entry" items="${resultPerPageMap.entrySet()}">
+						<c:forEach var="entry" items="${resultPerPage.entrySet()}">
 						  <button type="button" class="btn btn-default maxPerPageButton ${entry.getValue().getSelected()}" value="${entry.getKey()}">${entry.getKey()}</button>							
 						</c:forEach>						 
 						</div>						

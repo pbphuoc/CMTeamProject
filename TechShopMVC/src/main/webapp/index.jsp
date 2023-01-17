@@ -110,9 +110,8 @@
 			</a>
 		</div>
 	</section>
-	<!-- end banner -->
-	<!-- three_box -->
-	<div class="three_box">
+
+	<div class="three_box mb-5">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -122,59 +121,47 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4 mb-4">
-					<div class="box_text">
-						<i><img class="categoryIcon"
-							src="../images/category/category_computer.png" alt="#" /></i>
-						<h3>Computer</h3>
-						<p>We have computers</p>
+				<c:forEach items="${categoryMap.entrySet()}" var="entry">
+					<div class="col-md-4 mb-4">				
+						<div class="box_text">
+							<a href="Product?command=search&keywords=&category=${entry.getKey()}">
+								<i><img class="categoryIcon"
+									src="${entry.getValue().getImgSrc()}"/></i>
+								<h3>${entry.getValue().getName()}</h3>
+							</a>
+						</div>								
 					</div>
-				</div>
-				<div class="col-md-4 mb-4">
-					<div class="box_text">
-						<i><img class="categoryIcon"
-							src="../images/category/category_laptop.png" alt="#" /></i>
-						<h3>Laptop</h3>
-						<p>We have laptops</p>
-					</div>
-				</div>
-				<div class="col-md-4 mb-4">
-					<div class="box_text">
-						<i><img class="categoryIcon"
-							src="../images/category/category_tablet.png" alt="#" /></i>
-						<h3>Tablet</h3>
-						<p>We have tablets</p>
-					</div>
-				</div>
-				<div class="col-md-4 mb-4">
-					<div class="box_text">
-						<i><img class="categoryIcon"
-							src="../images/category/category_cellphone.png" alt="#" /></i>
-						<h3>Cellphone</h3>
-						<p>We have cellphones</p>
-					</div>
-				</div>
-				<div class="col-md-4 mb-4">
-					<div class="box_text">
-						<i><img class="categoryIcon"
-							src="../images/category/category_accessory.png" alt="#" /></i>
-						<h3>Accessory</h3>
-						<p>We have device accessories</p>
-					</div>
-				</div>
-				<div class="col-md-4 mb-4">
-					<div class="box_text">
-						<i><img class="categoryIcon"
-							src="../images/category/category_smartwatch.png" alt="#" /></i>
-						<h3>Smart Watch</h3>
-						<p>We have smart watches</p>
+				</c:forEach>				
+			</div>			
+		</div>
+	</div>
+	
+	<div class="three_box">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="titlepage">
+						<h2>Brands</h2>
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<c:forEach items="${brandMap.entrySet()}" var="entry">
+					<div class="col-md-4 mb-4">				
+						<div class="box_text">
+							<a href="Product?command=search&keywords=&brand=${entry.getKey()}">
+								<i><img class="categoryIcon"
+									src="${entry.getValue().getImgSrc()}"/></i>
+								<h3>${entry.getValue().getName()}</h3>
+							</a>
+						</div>								
+					</div>
+				</c:forEach>				
+			</div>			
 		</div>
 	</div>
-	<!-- three_box -->
-	<!-- products -->
+	
+
 	<div class="products">
 		<div class="container">
 			<div class="row">

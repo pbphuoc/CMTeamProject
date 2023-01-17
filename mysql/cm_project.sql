@@ -49,6 +49,7 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
+  `img_src` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -59,7 +60,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'laptop'),(2,'desktop'),(3,'cellphone'),(4,'tablet'),(5,'smartwatch'),(6,'accessory');
+INSERT INTO `category` VALUES (1,'laptop','/images/category/category_laptop.png'),(2,'desktop','/images/category/category_computer.png'),(3,'cellphone','/images/category/category_cellphone.png'),(4,'tablet','/images/category/category_tablet.png'),(5,'smartwatch','/images/category/category_smartwatch.png'),(6,'accessory','/images/category/category_accessory.png');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -260,6 +261,31 @@ INSERT INTO `receive_type` VALUES (1,'pickup'),(2,'delivery');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `setting_sortby`
+--
+
+DROP TABLE IF EXISTS `setting_sortby`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `setting_sortby` (
+  `id` int NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `selected` varchar(45) NOT NULL DEFAULT ' ',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `setting_sortby`
+--
+
+LOCK TABLES `setting_sortby` WRITE;
+/*!40000 ALTER TABLE `setting_sortby` DISABLE KEYS */;
+INSERT INTO `setting_sortby` VALUES (-5,'Price High To Low',' '),(-2,'Name Z To A',' '),(-1,'New To Old',' '),(0,'Relevancy','selected'),(1,'Old To New',' '),(2,'Name A To Z',' '),(5,'Price Low To High',' ');
+/*!40000 ALTER TABLE `setting_sortby` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -296,4 +322,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-14  3:22:48
+-- Dump completed on 2023-01-17 13:44:27

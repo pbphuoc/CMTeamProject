@@ -116,7 +116,7 @@ public class ProductlServlet extends HttpServlet {
 		Map<String,SearchFilterDTO> categoryFilters = (Map<String, SearchFilterDTO>) listOfProductAndFilters[2];
 		Map<String,SearchFilterDTO> availabilityFilters = (Map<String, SearchFilterDTO>) listOfProductAndFilters[3];		
 		Map<String,SearchFilterDTO> sorters = (Map<String, SearchFilterDTO>) listOfProductAndFilters[4];		
-		Map<String,String> resultPerPageMap = (Map<String, String>) listOfProductAndFilters[5];
+		Map<String,SearchFilterDTO> resultPerPage = (Map<String, SearchFilterDTO>) listOfProductAndFilters[5];
 		Map<String,String> pagingMap = (Map<String, String>) listOfProductAndFilters[6];
 		int totalResult = (int)listOfProductAndFilters[7];
 		request.setAttribute("keyword", request.getParameter("keywords"));
@@ -127,7 +127,7 @@ public class ProductlServlet extends HttpServlet {
 		request.setAttribute("sorters", sorters);
 		request.setAttribute("priceMin", priceMin);
 		request.setAttribute("priceMax", priceMax);
-		request.setAttribute("resultPerPageMap", resultPerPageMap);
+		request.setAttribute("resultPerPage", resultPerPage);
 		request.setAttribute("pagingMap", pagingMap);
 		request.setAttribute("totalResult", totalResult);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");

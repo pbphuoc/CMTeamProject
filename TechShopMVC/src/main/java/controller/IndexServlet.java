@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ import dao.DAOService;
 import dao.ProductDAO;
 import dao.DAO.DAOType;
 import model.Product;
+import model.SearchFilterDTO;
 
 /**
  * Servlet implementation class IndexServlet
@@ -64,7 +66,11 @@ public class IndexServlet extends HttpServlet {
 	private void getIndexPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProductDAO productDAO = (ProductDAO)DAOService.getDAO(DAOType.PRODUCT);
 		List<Product> products = productDAO.getAllRecords();
+		Map<String,SearchFilterDTO> brands = productDAO.getAllFilterFromDB(ProductDAO.SELECT_ALL_BRAND_SQL);
+		Map<String,SearchFilterDTO> categories = productDAO.getAllFilterFromDB(ProductDAO.SELECT_ALL_CATEGORY_SQL);
 		request.setAttribute("productList", products);
+		request.setAttribute("brandMap", brands);
+		request.setAttribute("categoryMap", categories);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 		dispatcher.forward(request, response);
 	}

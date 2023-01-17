@@ -21,23 +21,30 @@ public class ProductDAO extends DAO<Product> {
 	private static final String SELECT_PRODUCT_BY_ID_SQL = "SELECT * FROM product where id=? ;";
 	private static final String SELECT_PRICE_BY_ID_SQL = "SELECT new_price FROM product where id =? ;";
 	private static final String SEARCH_PRODUCT_BY_NAME_SQL = "SELECT * FROM product where name like ? ";
-	private static final String SELECT_ALL_BRAND_SQL = "SELECT * FROM brand;";
-	private static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM category;";
+	public static final String SELECT_ALL_BRAND_SQL = "SELECT * FROM brand;";
+	public static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM category;";
 	private static final String SELECT_MEDIA_BY_PRODUCT_ID_SQL = "SELECT * FROM media where product_id = ?; ";	
+	private static final String SELECT_ALL_SETTING_AVAILABILITY = "SELECT * FROM setting_availability;";
+	private static final String SELECT_ALL_SETTING_RESULTPERPAGE = "SELECT * FROM setting_resultperpage;";
+	private static final String SELECT_ALL_SETTING_SORTBY = "SELECT * FROM setting_sortby order by 2 desc;";
+	
 	private static final int MAX_LIMIT_SQL = 999999;
 	
-	private Connection connection;
+	private Connection connection = null;
 	
-	protected ProductDAO() {
-		super();
-		connection = getConnection();
-	}	
+//	protected ProductDAO() {
+//		super();
+//		connection = getConnection();
+//	}	
 
 	@Override
-	public List<Product> getAllRecords() {	
-		List<Product> products = new ArrayList<Product>();		
-		try(PreparedStatement selectStm = connection.prepareStatement(SELECT_ALL_PRODUCT_SQL);)
+	public List<Product> getAllRecords(){	
+		List<Product> products = new ArrayList<Product>();				
+		PreparedStatement selectStm = null;
+		try
 		{
+			connection = getConnection();
+			selectStm = connection.prepareStatement(SELECT_ALL_PRODUCT_SQL);
 			ResultSet result = selectStm.executeQuery();
 			while(result.next()) {
 				String id = result.getInt("id") + "";
@@ -52,43 +59,20 @@ public class ProductDAO extends DAO<Product> {
 				products.add(new Product(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock));
 			}
 			
-		}catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				connection.close();
+				selectStm.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return products;
 	}
-	
-	public Map<String, SearchFilterDTO> getAllFilterFromMap(Map<String, String> filters) {	
-		Map<String, SearchFilterDTO> allFilters = new HashMap<String, SearchFilterDTO>();		
-		for(Entry entry: filters.entrySet()) {
-			allFilters.put((String)entry.getKey(), new SearchFilterDTO((String)entry.getKey(), (String)entry.getValue()));
-		}
-		return allFilters;
-	}	
-	
-//	public Map<String, SearchFilterDTO> getAllAvailabilityFilter() {	
-//		Map<String, SearchFilterDTO> availabilities = new HashMap<String, SearchFilterDTO>();		
-//		for(Entry entry: SearchFilterDTO.AVAILABILITY_MAP.entrySet()) {
-//			availabilities.put((String)entry.getKey(), new SearchFilterDTO((String)entry.getKey(), (String)entry.getValue()));
-//		}
-//		return availabilities;
-//	}
-	
-//	public Map<String, SearchFilterDTO> getAllSorter() {	
-//		Map<String, SearchFilterDTO> sorters = new LinkedHashMap<String, SearchFilterDTO>();		
-//		for(Entry entry: SearchFilterDTO.SORTBY_MAP.entrySet()) {
-//			sorters.put((String)entry.getKey(), new SearchFilterDTO((String)entry.getKey(), (String)entry.getValue()));
-//		}
-//		return sorters;
-//	}	
-	
-//	public Map<String, String> getAllResultPerPage() {	
-//		Map<String, String> resultPerPageMap = new LinkedHashMap<String, String>();		
-//		for(Entry entry: SearchFilterDTO.RESULTPERPAGE_MAP.entrySet()) {
-//			resultPerPageMap.put((String)entry.getKey(), (String)entry.getValue());
-//		}
-//		return resultPerPageMap;
-//	}
 	
 	public Map<String, String> getPagingMap(int totalPage) {	
 		Map<String, String> pagingMap = new LinkedHashMap<String, String>();		
@@ -101,58 +85,37 @@ public class ProductDAO extends DAO<Product> {
 	}	
 	
 	public Map<String, SearchFilterDTO> getAllFilterFromDB(String query) {	
-		Map<String, SearchFilterDTO> filters = new HashMap<String, SearchFilterDTO>();		
-		try(PreparedStatement selectStm = connection.prepareStatement(query);)
+		Map<String, SearchFilterDTO> filters = new LinkedHashMap<String, SearchFilterDTO>();		
+		PreparedStatement selectStm = null;
+		try
 		{
+			connection = getConnection();
+			selectStm = connection.prepareStatement(query);
 			ResultSet result = selectStm.executeQuery();
 			while(result.next()) {
 				String id = result.getInt("id") + "";
 				String name = result.getString("name");
-				SearchFilterDTO brand =  new SearchFilterDTO(id, name);
-				filters.put(id, brand);
+				SearchFilterDTO filter =  new SearchFilterDTO(id, name);
+				if(result.getMetaData().getColumnCount() == 3) {
+					String imgSrc = result.getString("img_src");
+					filter.setImgSrc(imgSrc);
+				}								
+				filters.put(id, filter);
 			}
 			
 		}catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				connection.close();
+				selectStm.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return filters;
 	}	
-	
-//	public Map<String, SearchFilterDTO> getAllBrandFilter() {	
-//		Map<String, SearchFilterDTO> brands = new HashMap<String, SearchFilterDTO>();		
-//		try(PreparedStatement selectStm = connection.prepareStatement(SELECT_ALL_BRAND_SQL);)
-//		{
-//			ResultSet result = selectStm.executeQuery();
-//			while(result.next()) {
-//				String id = result.getInt("id") + "";
-//				String name = result.getString("name");
-//				SearchFilterDTO brand =  new SearchFilterDTO(id, name);
-//				brands.put(id, brand);
-//			}
-//			
-//		}catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return brands;
-//	}
-//	
-//	public Map<String, SearchFilterDTO> getAllCategoryFilter() {	
-//		Map<String, SearchFilterDTO> categories = new HashMap<String, SearchFilterDTO>();		
-//		try(PreparedStatement selectStm = connection.prepareStatement(SELECT_ALL_CATEGORY_SQL);)
-//		{
-//			ResultSet result = selectStm.executeQuery();
-//			while(result.next()) {
-//				String id = result.getInt("id") + "";
-//				String name = result.getString("name");
-//				SearchFilterDTO category =  new SearchFilterDTO(id, name);
-//				categories.put(id, category);
-//			}
-//			
-//		}catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return categories;
-//	}
 	
 	public String getWhereClause(String[] statements) {
 		String whereClause = "";
@@ -244,16 +207,15 @@ public class ProductDAO extends DAO<Product> {
 		Map<String,SearchFilterDTO> brandFilters = new HashMap<String,SearchFilterDTO>();
 		Map<String,SearchFilterDTO> allCategoryFilters = getAllFilterFromDB(SELECT_ALL_CATEGORY_SQL);
 		Map<String,SearchFilterDTO> categoryFilters = new HashMap<String,SearchFilterDTO>();
-		Map<String,SearchFilterDTO> allAvailabilityFilters = getAllFilterFromMap(SearchFilterDTO.AVAILABILITY_MAP);		
+		Map<String,SearchFilterDTO> allAvailabilityFilters = getAllFilterFromDB(SELECT_ALL_SETTING_AVAILABILITY);		
 		Map<String,SearchFilterDTO> availabilityFilters = new HashMap<String,SearchFilterDTO>();
-//		Map<String,SearchFilterDTO> allSorters = getAllSorter();
-//		Map<String,String> resultPerPageMap = getAllResultPerPage();
-//		Map<String,String> pagingMap;
 		String[] newKeywords = getAllPossibleMatchedKeywords(keywords);
 		int currentParam = 0;	
 		String searchProductSQL = DAO.SELECT_FROM_SUB_QUERY + getNameCondition(newKeywords);
-		
-		try(PreparedStatement selectStm = connection.prepareStatement(searchProductSQL);){
+		PreparedStatement selectStm = null;
+		try{
+			connection = getConnection();
+			selectStm = connection.prepareStatement(searchProductSQL);
 			for(String keyword: newKeywords) {
 				selectStm.setString(++currentParam, "%" + keyword + "%");
 			}					
@@ -274,15 +236,18 @@ public class ProductDAO extends DAO<Product> {
 				updateQuantityInEachFilter(brandFilters,allBrandFilters,brandID);
 				updateQuantityInEachFilter(categoryFilters,allCategoryFilters,categoryID);
 				updateQuantityInEachFilter(availabilityFilters,allAvailabilityFilters,product.getStockStatus());
-//				updateBrandFilter(brandFilters, allBrandFilters, brandID);
-//				updateCategoryFilter(categoryFilters, allCategoryFilters, categoryID);
-//				updateAvailabilityFilter(availabilityFilters,allAvailabilityFilters ,product.getStockStatus());
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				connection.close();
+				selectStm.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-//		pagingMap = getPagingMap(products.size()/Integer.parseInt((String) UtilityFunctions.getKeyByValue(resultPerPageMap, "selected")));
-//		return new Object[]{products, brandFilters, categoryFilters, availabilityFilters, allSorters,resultPerPageMap, pagingMap};
 		return new Object[]{products, brandFilters, categoryFilters, availabilityFilters};
 	}	
 	
@@ -292,23 +257,13 @@ public class ProductDAO extends DAO<Product> {
 		Map<String,SearchFilterDTO> allBrandFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[1];
 		Map<String,SearchFilterDTO> allCategoryFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[2];
 		Map<String,SearchFilterDTO> allAvailabilityFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[3];		
-//		Map<String,SearchFilterDTO> allSorters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[4];
-		Map<String,SearchFilterDTO> allSorters = getAllFilterFromMap(SearchFilterDTO.SORTBY_MAP);
-//		Map<String,String> resultPerPageMap = (Map<String, String>) originalSearchResultAndFilter[5];
-		Map<String,SearchFilterDTO> allResultPerPages = getAllFilterFromMap(SearchFilterDTO.RESULTPERPAGE_MAP);
+		Map<String,SearchFilterDTO> allSorters = getAllFilterFromDB(SELECT_ALL_SETTING_SORTBY);
+		Map<String,SearchFilterDTO> allResultPerPages = getAllFilterFromDB(SELECT_ALL_SETTING_RESULTPERPAGE);
 		Map<String,String> pagingMap = null; 
 		List<Product> filteredProducts = new ArrayList<Product>();	 
 		String[] newKeywords = getAllPossibleMatchedKeywords(keywords);
 		int currentParam = 0;
-		
-		
-//		checkSelectedBrandFilter(brandFilters, selectedBrands);
-//		checkSelectedCategoryFilter(categoryFilters, selectedCategories);
-//		checkSelectedAvailabilityFilter(availabilityFilters, selectedAvailabilities);
-//		checkSelectedSorter(allSorters, selectedSorter);
-//		checkSelectedResultPerPageMap(resultPerPageMap, perPage);
-//		checkSelectedPagingMap(pagingMap, page);
-//		setSelectedStringInMap(resultPerPageMap,perPage);		
+				
 		setSelectedDTOInMap(allBrandFilters,selectedBrands);
 		setSelectedDTOInMap(allCategoryFilters,selectedCategories);
 		setSelectedDTOInMap(allAvailabilityFilters,selectedAvailabilities);
@@ -330,7 +285,10 @@ public class ProductDAO extends DAO<Product> {
 		if(!page.equalsIgnoreCase(""))
 			searchProductSQL += " offset ? ";		
 		
-		try(PreparedStatement selectStm = connection.prepareStatement(searchProductSQL);){
+		PreparedStatement selectStm = null;		
+		try{
+			connection = getConnection();
+			selectStm = connection.prepareStatement(searchProductSQL);
 			for(String keyword: newKeywords) {
 				selectStm.setString(++currentParam, "%" + keyword + "%");
 			}
@@ -381,6 +339,14 @@ public class ProductDAO extends DAO<Product> {
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				connection.close();
+				selectStm.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return new Object[]{filteredProducts, allBrandFilters, allCategoryFilters, allAvailabilityFilters, allSorters, allResultPerPages, pagingMap, allProducts.size()};		
 	}
@@ -388,7 +354,10 @@ public class ProductDAO extends DAO<Product> {
 	@Override
 	public Product getRecordByID(String id) {
 		Product product = null;
-		try(PreparedStatement selectStm = connection.prepareStatement(SELECT_PRODUCT_BY_ID_SQL);){
+		PreparedStatement selectStm = null;
+		try{
+			connection = getConnection();
+			selectStm = connection.prepareStatement(SELECT_PRODUCT_BY_ID_SQL);
 			selectStm.setString(1, id);
 			ResultSet result = selectStm.executeQuery();
 			if(!result.next())
@@ -404,14 +373,25 @@ public class ProductDAO extends DAO<Product> {
 			product = new Product(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc, stock);
 		}catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				connection.close();
+				selectStm.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}		
 		return product;
 	}
 	
 	public List<String> getAllMediaByProductID(String id){
 		List<String> medias = new ArrayList<String>();	
-		try(PreparedStatement selectStm = connection.prepareStatement(SELECT_MEDIA_BY_PRODUCT_ID_SQL);)
+		PreparedStatement selectStm = null;
+		try
 		{
+			connection = getConnection();
+			selectStm = connection.prepareStatement(SELECT_MEDIA_BY_PRODUCT_ID_SQL);
 			selectStm.setString(1, id);
 			ResultSet result = selectStm.executeQuery();
 			while(result.next()) {
@@ -419,14 +399,25 @@ public class ProductDAO extends DAO<Product> {
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				connection.close();
+				selectStm.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return medias;
 	}
 	
 	public double getPriceByProductID(String id) {
 		double price = 0;		
-		try(PreparedStatement selectStm = connection.prepareStatement(SELECT_PRICE_BY_ID_SQL);)
+		PreparedStatement selectStm = null;
+		try
 		{
+			connection = getConnection();
+			selectStm = connection.prepareStatement(SELECT_PRICE_BY_ID_SQL);
 			selectStm.setString(1, id);
 			ResultSet result = selectStm.executeQuery();
 			if(!result.next())
@@ -434,28 +425,18 @@ public class ProductDAO extends DAO<Product> {
 			price = result.getDouble("new_price");						
 		}catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				connection.close();
+				selectStm.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return price;
 	}
 	
-//	private void updateBrandFilter(Map<String, SearchFilterDTO> brandFilter, Map<String, SearchFilterDTO> allBrandFilter, String brandID) {
-//		if(!brandFilter.containsKey(brandID))
-//			brandFilter.put(brandID, allBrandFilter.get(brandID));	
-//		brandFilter.get(brandID).setStock(brandFilter.get(brandID).getStock() + 1);		
-//	}
-//	
-//	private void updateCategoryFilter(Map<String, SearchFilterDTO> categoryFilter, Map<String, SearchFilterDTO> allCategoryFilter, String categoryID) {
-//		if(!categoryFilter.containsKey(categoryID))
-//			categoryFilter.put(categoryID, allCategoryFilter.get(categoryID));
-//		categoryFilter.get(categoryID).setStock(categoryFilter.get(categoryID).getStock() + 1);			
-//	}
-//	
-//	private void updateAvailabilityFilter(Map<String, SearchFilterDTO> availabilityFilter,Map<String, SearchFilterDTO> allAvailabilityFilter, String stockStatus) {		
-//		if(!availabilityFilter.containsKey(stockStatus))
-//			availabilityFilter.put(stockStatus, allAvailabilityFilter.get(stockStatus));
-//		availabilityFilter.get(stockStatus).setStock(availabilityFilter.get(stockStatus).getStock() + 1);				
-//	}
-//	
 	private void updateQuantityInEachFilter(Map<String, SearchFilterDTO> theFilter,Map<String, SearchFilterDTO> allFilters, String filterID) {		
 		if(!theFilter.containsKey(filterID))
 			theFilter.put(filterID, allFilters.get(filterID));
@@ -469,31 +450,6 @@ public class ProductDAO extends DAO<Product> {
 		}
 	}	
 	
-//	private void checkSelectedBrandFilter(Map<String,BrandDTO> brandFilters, String[] selectedBrandFilters) {
-//		for(String selectedBrandFilter: selectedBrandFilters) {
-//			if(brandFilters.containsKey(selectedBrandFilter))
-//				brandFilters.get(selectedBrandFilter).setSelected("selected");
-//		}
-//	}
-//	
-//	private void checkSelectedCategoryFilter(Map<String,CategoryDTO> categoryFilters, String[] selectedCategoryFilters) {
-//		for(String selectedCategoryFilter: selectedCategoryFilters) {
-//			if(categoryFilters.containsKey(selectedCategoryFilter))
-//				categoryFilters.get(selectedCategoryFilter).setSelected("selected");
-//		}
-//	}	
-//	
-//	private void checkSelectedAvailabilityFilter(Map<String,AvailabilityDTO> availabilityFilters, String[] selectedAvailabilityFilters) {
-//		for(String selectedAvailabilityFilter: selectedAvailabilityFilters) {
-//			if(availabilityFilters.containsKey(selectedAvailabilityFilter))
-//				availabilityFilters.get(selectedAvailabilityFilter).setSelected("selected");
-//		}
-//	}	
-//	
-//	private void checkSelectedSorter(Map<String,SearchFilterDTO> sorters, String selectedSorter) {
-//		sorters.get(selectedSorter).setSelected("selected");		
-//	}
-	
 	private void setSelectedStringInMap(Map<String,String> theMap, String selectedString) {
 		for(Entry entry: theMap.entrySet()) {
 			if (((String)entry.getKey()).equalsIgnoreCase(selectedString))
@@ -503,24 +459,6 @@ public class ProductDAO extends DAO<Product> {
 		}		
 	}	
 
-//	private void checkSelectedResultPerPageMap(Map<String,String> resultPerPageMap, String selectedPerPage) {
-//		for(Entry entry: resultPerPageMap.entrySet()) {
-//			if (((String)entry.getKey()).equalsIgnoreCase(selectedPerPage))
-//				resultPerPageMap.put((String)entry.getKey(), "selected");
-//			else
-//				resultPerPageMap.put((String)entry.getKey(), "");
-//		}		
-//	}
-//	
-//	private void checkSelectedPagingMap(Map<String,String> pagingMap, String selectedPage) {
-//		for(Entry entry: pagingMap.entrySet()) {
-//			if (((String)entry.getKey()).equalsIgnoreCase(selectedPage))
-//				pagingMap.put((String)entry.getKey(), "selected");
-//			else
-//				pagingMap.put((String)entry.getKey(), "");
-//		}		
-//	}	
-	
 	private String[] getAllPossibleMatchedKeywords(String[] keywords) {
 		List<String> newKeywords = new ArrayList<String>();
 		String combinedKeyword = "";

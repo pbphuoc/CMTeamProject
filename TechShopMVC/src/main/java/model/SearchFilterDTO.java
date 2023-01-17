@@ -6,6 +6,7 @@ import java.util.Map;
 public class SearchFilterDTO {
 	private String id;
 	private String name;
+	private String imgSrc;
 	private int stock = 0;
 	private String selected = "";
 	
@@ -59,5 +60,12 @@ public class SearchFilterDTO {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-	
+
+	public String getImgSrc() {
+		return imgSrc;
+	}
+
+	public void setImgSrc(String imgSrc) {
+		this.imgSrc = imgSrc;
+	}
 }

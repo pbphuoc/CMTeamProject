@@ -19,13 +19,16 @@ public class UserDAO extends DAO<User>{
 	
 	private Connection connection;
 	
-	protected UserDAO() {
-		super();
-		connection = getConnection();
-	}	
+//	protected UserDAO() {
+//		super();
+//		connection = getConnection();
+//	}	
 	
 	public QueryResult insertUser(String email, String password, String fullname, String mobile) {
-		try (PreparedStatement insertStm = connection.prepareStatement(INSERT_USER_SQL);) {
+		PreparedStatement insertStm = null;
+		try {
+			connection = getConnection();
+			insertStm = connection.prepareStatement(INSERT_USER_SQL);			
 			if (getRecordByID(email) != null)
 				return QueryResult.UNSUCCESSFUL;
 			insertStm.setString(1, email);
@@ -36,6 +39,14 @@ public class UserDAO extends DAO<User>{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// TODO: handle exception
+		}finally {
+			try {
+				connection.close();
+				insertStm.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return QueryResult.UNSUCCESSFUL;
 	}
@@ -43,8 +54,11 @@ public class UserDAO extends DAO<User>{
 	@Override
 	public User getRecordByID(String email) {
 		User user = null;
-		try(PreparedStatement selectStm = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL);)
+		PreparedStatement selectStm = null;
+		try
 		{
+			connection = getConnection();
+			selectStm = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL);
 			selectStm.setString(1, email);
 			ResultSet result = selectStm.executeQuery();
 			if(!result.next())
@@ -52,6 +66,14 @@ public class UserDAO extends DAO<User>{
 			user = new User(result.getString("email"), result.getString("fullname"), result.getString("phone_number"));		
 		}catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				connection.close();
+				selectStm.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return user;
@@ -59,8 +81,11 @@ public class UserDAO extends DAO<User>{
 	
 	public User getUserByEmailAndPassword(String email, String password) {
 		User user = null;
-		try(PreparedStatement selectStm = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD_SQL);)
+		PreparedStatement selectStm = null;
+		try
 		{
+			connection = getConnection();
+			selectStm = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD_SQL);
 			selectStm.setString(1, email);
 			selectStm.setString(2, password);
 			ResultSet result = selectStm.executeQuery();
@@ -72,16 +97,6 @@ public class UserDAO extends DAO<User>{
 		}		
 		return user;
 	}
-	
-//	public QueryResult deleteUser(User user) {
-//		try(PreparedStatement deletetStm = connection.prepareStatement(DELETE_USER_SQL);){
-//			deletetStm.setString(1, user.getEmail());
-//			return getResultCode(deletetStm.executeUpdate());
-//		}catch(SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return QueryResult.UNSUCCESSFUL;		
-//	}
 
 	@Override
 	public List<User> getAllRecords() {

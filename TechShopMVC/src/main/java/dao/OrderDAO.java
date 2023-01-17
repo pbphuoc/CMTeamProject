@@ -21,15 +21,18 @@ public class OrderDAO extends DAO<Order> {
 	
 	private Connection connection;
 	
-	public OrderDAO() {
-		super();
-		connection = getConnection();
-	}	
-	
+//	public OrderDAO() {
+//		super();
+//		connection = getConnection();
+//	}	
+//	
 	public QueryResult insertOrder(String date, String checkOutEmail, String checkOutFullname,
 			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
 			String receiveMethodId, String paymentTypeId, String paymentDate, String shipping, String total, Map<String, Integer> orderItems) {
-		try (PreparedStatement insertStm = connection.prepareStatement(INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS);) {
+		PreparedStatement insertStm = null;		
+		try {
+			connection = getConnection();
+			insertStm = connection.prepareStatement(INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS);			
 			int currentParam = 0;
 			insertStm.setString(++currentParam, date);			
 			insertStm.setString(++currentParam, checkOutEmail);
@@ -56,12 +59,23 @@ public class OrderDAO extends DAO<Order> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// TODO: handle exception
+		}finally {
+			try {
+				connection.close();
+				insertStm.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return QueryResult.UNSUCCESSFUL;
 	}
 	
 	public QueryResult insertOrderItem(int orderID, Map<String, Integer> orderItems) {
-		try (PreparedStatement insertStm = connection.prepareStatement(INSERT_ORDERITEM_SQL, Statement.RETURN_GENERATED_KEYS);) {			
+		PreparedStatement insertStm = null;		
+		try {
+			connection = getConnection();
+			insertStm = connection.prepareStatement(INSERT_ORDERITEM_SQL, Statement.RETURN_GENERATED_KEYS);
 			int batchCount = 0;
 			int successCount = 0;
 			for(Entry<String, Integer> entry: orderItems.entrySet()) {
@@ -85,6 +99,14 @@ public class OrderDAO extends DAO<Order> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// TODO: handle exception
+		}finally {
+			try {
+				connection.close();
+				insertStm.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return QueryResult.UNSUCCESSFUL;
 	}	
