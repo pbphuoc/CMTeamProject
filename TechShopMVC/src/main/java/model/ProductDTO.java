@@ -10,12 +10,10 @@ public class ProductDTO {
 	private String categoryID;
 	private String imgSrc;
 	private int stock;
-	private String stockStatus;
-	private static final String STATUS_IN_STOCK = "1";
-	private static final String STATUS_OUT_OF_STOCK = "0";		
+	private String stockStatus;	
 
 	public ProductDTO(String id, String name, String description, double oldPrice, double newPrice, String brandID,
-			String categoryID, String imgSrc, int stock) {
+			String categoryID, String imgSrc, int stock, String stockStatus) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -25,7 +23,7 @@ public class ProductDTO {
 		this.categoryID = categoryID;
 		this.imgSrc = imgSrc;
 		this.stock = stock;
-		this.stockStatus = stock > 0 ? STATUS_IN_STOCK : STATUS_OUT_OF_STOCK;
+		this.stockStatus = stockStatus;
 	}
 	
 	public String getId() {

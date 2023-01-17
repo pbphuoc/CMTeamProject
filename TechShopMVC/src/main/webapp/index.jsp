@@ -210,7 +210,7 @@
 																onclick="increase(${product.id}); productOverlayOn();">Add To Cart</button>														
 														</c:when>
 														<c:otherwise>
-															<button class="productButton" type="button" disabled>${SearchFilterDTO.AVAILABILITY_MAP.get(product.getStockStatus())}</button>
+															<button class="productButton" type="button" disabled>${product.getStockStatus()}</button>
 														</c:otherwise>
 													</c:choose>															
 												</div>

@@ -39,7 +39,8 @@ public class ProductDAO extends DAO<ProductDTO> {
 
 	@Override
 	public List<ProductDTO> getAllRecords(){	
-		List<ProductDTO> products = new ArrayList<ProductDTO>();				
+		List<ProductDTO> products = new ArrayList<ProductDTO>();	
+		Map<String,SearchFilterDTO> allAvailabilityFilters = getAllFilterFromDB(SELECT_ALL_SETTING_AVAILABILITY);
 		PreparedStatement selectStm = null;
 		try
 		{
@@ -56,7 +57,8 @@ public class ProductDAO extends DAO<ProductDTO> {
 				String categoryID = result.getString("category_id");
 				String imgSrc = result.getString("img_src");
 				int stock = result.getInt("stock");
-				products.add(new ProductDTO(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock));
+				String stockStatus = (stock == 0) ? allAvailabilityFilters.get("0").getName() : allAvailabilityFilters.get("1").getName();				
+				products.add(new ProductDTO(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock, stockStatus));
 			}
 			
 		}
@@ -230,8 +232,9 @@ public class ProductDAO extends DAO<ProductDTO> {
 				String brandID = result.getString("brand_id");
 				String categoryID = result.getString("category_id");
 				String imgSrc = result.getString("img_src");
-				int stock = result.getInt("stock");	
-				ProductDTO product = new ProductDTO(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock);
+				int stock = result.getInt("stock");
+				String stockStatus = (stock == 0) ? allAvailabilityFilters.get("0").getName() : allAvailabilityFilters.get("1").getName();
+				ProductDTO product = new ProductDTO(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock, stockStatus);
 				products.add(product);
 				updateQuantityInEachFilter(brandFilters,allBrandFilters,brandID);
 				updateQuantityInEachFilter(categoryFilters,allCategoryFilters,categoryID);
@@ -334,7 +337,8 @@ public class ProductDAO extends DAO<ProductDTO> {
 				String categoryID = result.getString("category_id");
 				String imgSrc = result.getString("img_src");
 				int stock = result.getInt("stock");	
-				ProductDTO product = new ProductDTO(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock);
+				String stockStatus = (stock == 0) ? allAvailabilityFilters.get("0").getName() : allAvailabilityFilters.get("1").getName();
+				ProductDTO product = new ProductDTO(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock, stockStatus);
 				filteredProducts.add(product);
 			}
 		}catch (SQLException e) {
@@ -355,6 +359,7 @@ public class ProductDAO extends DAO<ProductDTO> {
 	public ProductDTO getRecordByID(String id) {
 		ProductDTO product = null;
 		PreparedStatement selectStm = null;
+		Map<String,SearchFilterDTO> allAvailabilityFilters = getAllFilterFromDB(SELECT_ALL_SETTING_AVAILABILITY);
 		try{
 			connection = getConnection();
 			selectStm = connection.prepareStatement(SELECT_PRODUCT_BY_ID_SQL);
@@ -369,8 +374,9 @@ public class ProductDAO extends DAO<ProductDTO> {
 			String brandID = result.getString("brand_id");
 			String categoryID = result.getString("category_id");
 			String imgSrc = result.getString("img_src");
-			int stock = result.getInt("stock");			
-			product = new ProductDTO(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc, stock);
+			int stock = result.getInt("stock");
+			String stockStatus = (stock == 0) ? allAvailabilityFilters.get("0").getName() : allAvailabilityFilters.get("1").getName();
+			product = new ProductDTO(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc, stock, stockStatus);
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {

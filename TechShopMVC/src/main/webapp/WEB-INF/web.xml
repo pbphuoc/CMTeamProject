@@ -61,6 +61,6 @@
 	</servlet-mapping>
 	<servlet-mapping>
 	    <servlet-name>OrderServlet</servlet-name>
-	    <url-pattern>/OrderServlet</url-pattern>
+	    <url-pattern>/Order</url-pattern>
 	</servlet-mapping>	
 </web-app>
