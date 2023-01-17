@@ -15,9 +15,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import dao.DAO.DAOType;
-import entity.OrderDTO;
 import entity.OrderItem;
 import model.CartItemDTO;
+import model.OrderDTO;
 
 public class OrderDAO extends DAO<OrderDTO> {
 	private static final String INSERT_ORDER_SQL = "INSERT INTO orders (order_number, order_date, checkout_email, checkout_fullname, checkout_phone, receiver_fullname, receiver_phone, receiver_address, receive_method_id, payment_type_id, payment_date, shipping, total) "

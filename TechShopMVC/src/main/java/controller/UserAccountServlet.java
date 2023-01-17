@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.DAOService;
 import dao.OrderDAO;
 import dao.DAO.DAOType;
-import entity.OrderDTO;
+import model.OrderDTO;
 
 /**
  * Servlet implementation class UserAccountServlet

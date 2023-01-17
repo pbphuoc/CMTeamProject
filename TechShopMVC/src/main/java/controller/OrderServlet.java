@@ -17,8 +17,8 @@ import dao.OrderDAO;
 import dao.ProductDAO;
 import dao.DAO.DAOType;
 import dao.DAO.QueryResult;
-import entity.OrderDTO;
 import model.CartItemDTO;
+import model.OrderDTO;
 
 /**
  * Servlet implementation class OrderServlet

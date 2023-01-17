@@ -1,4 +1,4 @@
-package entity;
+package model;
 
 public class OrderDTO {
 	private String orderNumber;
