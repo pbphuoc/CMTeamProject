@@ -348,7 +348,7 @@ public class ProductDAO extends DAO<Product> {
 				e.printStackTrace();
 			}
 		}
-		return new Object[]{filteredProducts, allBrandFilters, allCategoryFilters, allAvailabilityFilters, allSorters, allResultPerPages, pagingMap, allProducts.size()};		
+		return new Object[]{filteredProducts, allBrandFilters, allCategoryFilters, allAvailabilityFilters, allSorters, allResultPerPages, pagingMap, filteredProducts.size()};		
 	}
 
 	@Override

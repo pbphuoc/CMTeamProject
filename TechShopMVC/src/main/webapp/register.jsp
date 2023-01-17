@@ -92,7 +92,7 @@
 								<div id="mobileRegisterFeedback" class="invalid-feedback">
 								</div>
 							</div>
-							<button class="btn btn-primary" type="submit">Register</button>
+							<button class="btn btn-info" type="submit">Register</button>
 						</form>
 					</div>
 				</div>

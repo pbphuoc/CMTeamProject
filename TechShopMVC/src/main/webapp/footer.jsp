@@ -5,9 +5,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-					<div class="logo-footer">
-						<img class="logo1"
-							src="../images/logo.png" alt="#" />
+					<div class="logo">
+						<a href="Home"><img src="../images/logo.png" alt="#" /></a>
 					</div>
 
 <!-- 					<ul class="social_icon"> -->

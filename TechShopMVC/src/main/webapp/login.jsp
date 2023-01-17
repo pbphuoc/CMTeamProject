@@ -59,7 +59,7 @@
 									required>
 								<div id="passwordLoginFeedback" class="invalid-feedback"></div>
 							</div>
-							<button class="btn btn-primary" type="submit" id="loginBtn">Login</button>
+							<button class="btn btn-info" type="submit" id="loginBtn">Login</button>
 						</form>
 					</div>
 				</div>

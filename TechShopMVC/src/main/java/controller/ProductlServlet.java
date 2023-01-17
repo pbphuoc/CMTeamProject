@@ -46,10 +46,6 @@ public class ProductlServlet extends HttpServlet {
 				getProductDetail(request, response);
 				break;
 			case "search":
-//				if(request.getParameterMap().size() == 2)
-//					searchProduct(request, response);
-//				else if(request.getParameterMap().size() > 2)
-//					searchProductWithFilter(request, response);
 				searchProductWithFilter(request, response);
 				break;	
 			case "":
