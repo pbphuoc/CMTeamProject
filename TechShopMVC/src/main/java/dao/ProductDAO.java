@@ -286,6 +286,7 @@ public class ProductDAO extends DAO<Product> {
 			searchProductSQL += " offset ? ";		
 		
 		PreparedStatement selectStm = null;		
+		int rowCountBeforeLimit = 0;
 		try{
 			connection = getConnection();
 			selectStm = connection.prepareStatement(searchProductSQL);
@@ -309,8 +310,7 @@ public class ProductDAO extends DAO<Product> {
 
 			selectStm.setInt(++currentParam, MAX_LIMIT_SQL);
 			selectStm.setInt(++currentParam, 0);	
-			System.out.println("Query before limit and offset: " + selectStm.toString());
-			int rowCountBeforeLimit = 0;
+			System.out.println("Query before limit and offset: " + selectStm.toString());			
 			ResultSet result = selectStm.executeQuery();
 			while(result.next()) {
 				++rowCountBeforeLimit;
@@ -348,7 +348,7 @@ public class ProductDAO extends DAO<Product> {
 				e.printStackTrace();
 			}
 		}
-		return new Object[]{filteredProducts, allBrandFilters, allCategoryFilters, allAvailabilityFilters, allSorters, allResultPerPages, pagingMap, filteredProducts.size()};		
+		return new Object[]{filteredProducts, allBrandFilters, allCategoryFilters, allAvailabilityFilters, allSorters, allResultPerPages, pagingMap, rowCountBeforeLimit};		
 	}
 
 	@Override

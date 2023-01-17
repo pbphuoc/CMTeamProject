@@ -396,8 +396,9 @@ function getAllSelectedParams(){
 	
 	params += "&sortBy=" + $('#sorter option:selected').val();	
 	params += "&perPage=" + $('#maxPerPageButtonGroup .selected').val();
-	params += "&page=" + $('#pageButtonGroup .selected').val();
-
+	if ($('#pageButtonGroup .selected').val() !== undefined)
+		params += "&page=" + $('#pageButtonGroup .selected').val();
+		
 	return params;	
 }
 

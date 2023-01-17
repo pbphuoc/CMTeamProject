@@ -41,16 +41,16 @@
 				<div class="row filter">
 					<div class="col-md-12">
 						<h2>Brand</h2>
-						<p class="selectedFilter" id="selectedBrands">
-						<ul>
-							<c:forEach var="entry" items="${brandFilters.entrySet()}">
-								<c:if
-									test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'>
-									<li>${entry.getValue().getName()}</li>
-								</c:if>
-							</c:forEach>
-						</ul>
-						</p>
+<!-- 						<p class="selectedFilter" id="selectedBrands"> -->
+<!-- 							<ul> -->
+<%-- 								<c:forEach var="entry" items="${brandFilters.entrySet()}"> --%>
+<%-- 									<c:if --%>
+<%-- 										test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'> --%>
+<%-- 										<li>${entry.getValue().getName()}</li> --%>
+<%-- 									</c:if> --%>
+<%-- 								</c:forEach> --%>
+<!-- 							</ul> -->
+<!-- 						</p> -->
 						<select id="brandSelect" multiple data-live-search="true"
 							title="Filter By Brand" class="queryFilter">
 							<c:forEach var="entry" items="${brandFilters.entrySet()}">
@@ -65,16 +65,16 @@
 				<div class="row filter">
 					<div class="col-md-12">
 						<h2>Category</h2>
-						<p class="selectedFilter" id="selectedCategories">
-						<ul>
-							<c:forEach var="entry" items="${categoryFilters.entrySet()}">
-								<c:if
-									test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'>
-									<li>${entry.getValue().getName()}</li>
-								</c:if>
-							</c:forEach>
-						</ul>
-						</p>
+<!-- 						<p class="selectedFilter" id="selectedCategories"> -->
+<!-- 							<ul> -->
+<%-- 								<c:forEach var="entry" items="${categoryFilters.entrySet()}"> --%>
+<%-- 									<c:if --%>
+<%-- 										test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'> --%>
+<%-- 										<li>${entry.getValue().getName()}</li> --%>
+<%-- 									</c:if> --%>
+<%-- 								</c:forEach> --%>
+<!-- 							</ul> -->
+<!-- 						</p> -->
 						<select id="categorySelect" multiple data-live-search="true"
 							title="Filter By Category" class="queryFilter">
 							<c:forEach var="entry" items="${categoryFilters.entrySet()}">
@@ -89,16 +89,16 @@
 				<div class="row filter">
 					<div class="col-md-12">
 						<h2>Availability</h2>
-						<p class="selectedFilter" id="selectedAvailabilities">
-						<ul>
-							<c:forEach var="entry" items="${availabilityFilters.entrySet()}">
-								<c:if
-									test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'>
-									<li>${entry.getValue().getName()}</li>
-								</c:if>
-							</c:forEach>
-						</ul>
-						</p>
+<!-- 						<p class="selectedFilter" id="selectedAvailabilities"> -->
+<!-- 							<ul> -->
+<%-- 								<c:forEach var="entry" items="${availabilityFilters.entrySet()}"> --%>
+<%-- 									<c:if --%>
+<%-- 										test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'> --%>
+<%-- 										<li>${entry.getValue().getName()}</li> --%>
+<%-- 									</c:if> --%>
+<%-- 								</c:forEach> --%>
+<!-- 							</ul> -->
+<!-- 						</p> -->
 						<select id="availabilitySelect" multiple data-live-search="true"
 							title="Filter By Availability" class="queryFilter">
 							<c:forEach var="entry" items="${availabilityFilters.entrySet()}">
@@ -131,7 +131,35 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div id="numberOfResult">
-							<p>${totalResult} result(s) matched for <span id="searchKeyword">${keyword}</span></p>
+							<p>${totalResult} result(s) matched  <span id="searchKeyword">${keyword}</span></p>							
+							<span class="searchParam">
+								<c:forEach var="entry" items="${brandFilters.entrySet()}">
+									<c:if
+										test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'>
+										${entry.getValue().getName()} 
+									</c:if>
+								</c:forEach>
+							</span>
+							<span class="searchParam">
+								<c:forEach var="entry" items="${categoryFilters.entrySet()}">
+									<c:if
+										test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'>
+										${entry.getValue().getName()} 
+									</c:if>
+								</c:forEach>
+							</span>
+							<span class="searchParam">
+								<c:forEach var="entry" items="${availabilityFilters.entrySet()}">
+									<c:if
+										test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'>
+										${entry.getValue().getName()} 
+									</c:if>
+								</c:forEach>
+							</span>
+							<span class="searchParam">
+								<c:if test="${!priceMin.equals('')}">From  $${priceMin} </c:if>
+								<c:if test="${!priceMax.equals('')}">To  $${priceMax}</c:if>
+							</span>																														
 						</div>
 					</div>
 				</div>
