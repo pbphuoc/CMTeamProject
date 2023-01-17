@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import dao.DAOService;
 import dao.ProductDAO;
 import dao.DAO.DAOType;
-import model.CartItemDetail;
+import model.CartItemDTO;
 
 /**
  * Servlet implementation class CartServlet
@@ -81,7 +81,7 @@ public class CartServlet extends HttpServlet {
 			if(cartItems == null || cartItems.size() == 0) {
 				response.sendRedirect("cart.jsp");					
 			} else {
-					List<CartItemDetail> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
+					List<CartItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
 					request.setAttribute("cartItemDetails", cartItemDetails);
 					RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
 					dispatcher.forward(request, response);			

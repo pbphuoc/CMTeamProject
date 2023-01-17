@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.DAOService;
 import dao.ProductDAO;
 import dao.DAO.DAOType;
-import model.ProductDTO;
+import entity.Product;
 import model.SearchFilterDTO;
 import util.UtilityFunctions;
 
@@ -68,7 +68,7 @@ public class ProductlServlet extends HttpServlet {
 	private void getProductDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProductDAO productDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
 		String id = request.getParameter("productID");
-		ProductDTO product = productDAO.getRecordByID(id);
+		Product product = productDAO.getRecordByID(id);
 		List<String> medias = productDAO.getAllMediaByProductID(id);
 		request.setAttribute("product", product);
 		request.setAttribute("medias", medias);
@@ -107,7 +107,7 @@ public class ProductlServlet extends HttpServlet {
 		String perPage = (request.getParameter("perPage") != null) ? request.getParameter("perPage") : "16";
 		String page = (request.getParameter("page") != null) ? request.getParameter("page") : "1" ;
 		Object[] listOfProductAndFilters = productDAO.searchProductByNameWithFilters(searchKeywords,brands,categories,priceMin,priceMax,availabilities,sortBy,perPage,page);
-		List<ProductDTO> products = (List<ProductDTO>) listOfProductAndFilters[0];
+		List<Product> products = (List<Product>) listOfProductAndFilters[0];
 		Map<String,SearchFilterDTO> brandFilters = (Map<String, SearchFilterDTO>) listOfProductAndFilters[1];
 		Map<String,SearchFilterDTO> categoryFilters = (Map<String, SearchFilterDTO>) listOfProductAndFilters[2];
 		Map<String,SearchFilterDTO> availabilityFilters = (Map<String, SearchFilterDTO>) listOfProductAndFilters[3];		

@@ -1,6 +1,6 @@
-package model;
+package entity;
 
-public class ProductDTO {
+public class Product {
 	private String id;
 	private String name;
 	private String description;
@@ -12,7 +12,7 @@ public class ProductDTO {
 	private int stock;
 	private String stockStatus;	
 
-	public ProductDTO(String id, String name, String description, double oldPrice, double newPrice, String brandID,
+	public Product(String id, String name, String description, double oldPrice, double newPrice, String brandID,
 			String categoryID, String imgSrc, int stock, String stockStatus) {
 		this.id = id;
 		this.name = name;

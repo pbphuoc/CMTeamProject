@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import dao.DAOService;
 import dao.ProductDAO;
 import dao.DAO.DAOType;
-import model.CartItemDetail;
+import model.CartItemDTO;
 
 /**
  * Servlet implementation class CheckOutServlet
@@ -55,7 +55,7 @@ public class CheckOutServlet extends HttpServlet {
 		ProductDAO cartDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-		List<CartItemDetail> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
+		List<CartItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
 		request.setAttribute("CartItemDetails", cartItemDetails);
 		System.out.println(cartItemDetails.size());
 		RequestDispatcher dispatcher = request.getRequestDispatcher("checkout.jsp");

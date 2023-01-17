@@ -18,7 +18,7 @@ import dao.ProductDAO;
 import dao.DAO.DAOType;
 import dao.DAO.QueryResult;
 import entity.OrderDTO;
-import model.CartItemDetail;
+import model.CartItemDTO;
 
 /**
  * Servlet implementation class OrderServlet
@@ -84,7 +84,7 @@ public class OrderServlet extends HttpServlet {
 		String shipping = "0";
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-		List<CartItemDetail> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);		
+		List<CartItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);		
 		QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate, shipping, cartItemsDetail);
 		System.out.println(result);
 	}

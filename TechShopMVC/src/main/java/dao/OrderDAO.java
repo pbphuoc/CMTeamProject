@@ -17,7 +17,7 @@ import java.util.Map.Entry;
 import dao.DAO.DAOType;
 import entity.OrderDTO;
 import entity.OrderItem;
-import model.CartItemDetail;
+import model.CartItemDTO;
 
 public class OrderDAO extends DAO<OrderDTO> {
 	private static final String INSERT_ORDER_SQL = "INSERT INTO orders (order_number, order_date, checkout_email, checkout_fullname, checkout_phone, receiver_fullname, receiver_phone, receiver_address, receive_method_id, payment_type_id, payment_date, shipping, total) "
@@ -49,11 +49,11 @@ public class OrderDAO extends DAO<OrderDTO> {
 		return date + first4DigitInTotal.substring(0, 5);
 	}
 	
-	private long calculateTotal(String shipping, List<CartItemDetail> orderItems) {
+	private long calculateTotal(String shipping, List<CartItemDTO> orderItems) {
 		long totalCost = 0;
 		try {
 			totalCost = Long.parseLong(shipping);
-			for(CartItemDetail item : orderItems) {
+			for(CartItemDTO item : orderItems) {
 				totalCost += item.getProduct().getNewPrice() * item.getQuantity();
 			}
 		}catch(NumberFormatException e) {
@@ -64,7 +64,7 @@ public class OrderDAO extends DAO<OrderDTO> {
 	
 	public QueryResult insertOrder(String checkOutEmail, String checkOutFullname,
 			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
-			String receiveMethodId, String paymentTypeId, String paymentDate, String shipping, List<CartItemDetail> orderItems) {
+			String receiveMethodId, String paymentTypeId, String paymentDate, String shipping, List<CartItemDTO> orderItems) {
 		PreparedStatement insertStm = null;		
 		ResultSet generatedKeys = null;
 		Connection connection = getConnection();
@@ -107,14 +107,14 @@ public class OrderDAO extends DAO<OrderDTO> {
 		return QueryResult.UNSUCCESSFUL;
 	}
 	
-	public QueryResult insertOrderItem(int orderID, List<CartItemDetail> orderItems) {
+	public QueryResult insertOrderItem(int orderID, List<CartItemDTO> orderItems) {
 		PreparedStatement insertStm = null;		
 		Connection connection = getConnection();
 		try {			
 			insertStm = connection.prepareStatement(INSERT_ORDERITEM_SQL, Statement.RETURN_GENERATED_KEYS);
 			int batchCount = 0;
 			int successCount = 0;
-			for(CartItemDetail item: orderItems) {
+			for(CartItemDTO item: orderItems) {
 				int currentParam = 0;
 				insertStm.setInt(++currentParam, orderID);
 				insertStm.setString(++currentParam, item.getProduct().getId());
