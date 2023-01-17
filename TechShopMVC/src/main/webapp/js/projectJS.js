@@ -458,7 +458,7 @@ function isMobileFormatValid(mobile) {
 	return new RegExp(ausMobilePattern).test(mobile);
 }
 
-$('.productButton').click(function productOverlayOn(e){
+$('.addbutton').click(function productOverlayOn(e){
 	var target = e.target;
 	$(target).closest('.product_box').find('.productOverlay').css("opacity", "1").show();
 	setTimeout( ()=>{
