@@ -15,7 +15,7 @@ import dao.DAO;
 import dao.DAOService;
 import dao.ProductDAO;
 import dao.DAO.DAOType;
-import model.Product;
+import model.ProductDTO;
 import model.SearchFilterDTO;
 
 /**
@@ -65,7 +65,7 @@ public class IndexServlet extends HttpServlet {
 	
 	private void getIndexPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProductDAO productDAO = (ProductDAO)DAOService.getDAO(DAOType.PRODUCT);
-		List<Product> products = productDAO.getAllRecords();
+		List<ProductDTO> products = productDAO.getAllRecords();
 		Map<String,SearchFilterDTO> brands = productDAO.getAllFilterFromDB(ProductDAO.SELECT_ALL_BRAND_SQL);
 		Map<String,SearchFilterDTO> categories = productDAO.getAllFilterFromDB(ProductDAO.SELECT_ALL_CATEGORY_SQL);
 		request.setAttribute("productList", products);

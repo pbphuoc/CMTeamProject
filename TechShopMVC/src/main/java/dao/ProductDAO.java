@@ -13,9 +13,9 @@ import java.util.Map.Entry;
 
 import model.SearchFilterDTO;
 import model.CartItemDetail;
-import model.Product;
+import model.ProductDTO;
 
-public class ProductDAO extends DAO<Product> {
+public class ProductDAO extends DAO<ProductDTO> {
 	
 	private static final String SELECT_ALL_PRODUCT_SQL = "SELECT * FROM product;";
 	private static final String SELECT_PRODUCT_BY_ID_SQL = "SELECT * FROM product where id=? ;";
@@ -38,8 +38,8 @@ public class ProductDAO extends DAO<Product> {
 //	}	
 
 	@Override
-	public List<Product> getAllRecords(){	
-		List<Product> products = new ArrayList<Product>();				
+	public List<ProductDTO> getAllRecords(){	
+		List<ProductDTO> products = new ArrayList<ProductDTO>();				
 		PreparedStatement selectStm = null;
 		try
 		{
@@ -56,7 +56,7 @@ public class ProductDAO extends DAO<Product> {
 				String categoryID = result.getString("category_id");
 				String imgSrc = result.getString("img_src");
 				int stock = result.getInt("stock");
-				products.add(new Product(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock));
+				products.add(new ProductDTO(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock));
 			}
 			
 		}
@@ -202,7 +202,7 @@ public class ProductDAO extends DAO<Product> {
 	}	
 	
 	public Object[] searchProductByName(String[] keywords) {
-		List<Product> products = new ArrayList<Product>();	
+		List<ProductDTO> products = new ArrayList<ProductDTO>();	
 		Map<String,SearchFilterDTO> allBrandFilters = getAllFilterFromDB(SELECT_ALL_BRAND_SQL); 
 		Map<String,SearchFilterDTO> brandFilters = new HashMap<String,SearchFilterDTO>();
 		Map<String,SearchFilterDTO> allCategoryFilters = getAllFilterFromDB(SELECT_ALL_CATEGORY_SQL);
@@ -231,7 +231,7 @@ public class ProductDAO extends DAO<Product> {
 				String categoryID = result.getString("category_id");
 				String imgSrc = result.getString("img_src");
 				int stock = result.getInt("stock");	
-				Product product = new Product(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock);
+				ProductDTO product = new ProductDTO(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock);
 				products.add(product);
 				updateQuantityInEachFilter(brandFilters,allBrandFilters,brandID);
 				updateQuantityInEachFilter(categoryFilters,allCategoryFilters,categoryID);
@@ -253,14 +253,14 @@ public class ProductDAO extends DAO<Product> {
 	
 	public Object[] searchProductByNameWithFilters(String[] keywords, String[] selectedBrands, String[] selectedCategories, String priceMin, String priceMax, String[] selectedAvailabilities, String selectedSorter, String perPage, String page) {
 		Object[] originalSearchResultAndFilter = searchProductByName(keywords);
-		List<Product> allProducts = (List<Product>)originalSearchResultAndFilter[0];
+		List<ProductDTO> allProducts = (List<ProductDTO>)originalSearchResultAndFilter[0];
 		Map<String,SearchFilterDTO> allBrandFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[1];
 		Map<String,SearchFilterDTO> allCategoryFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[2];
 		Map<String,SearchFilterDTO> allAvailabilityFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[3];		
 		Map<String,SearchFilterDTO> allSorters = getAllFilterFromDB(SELECT_ALL_SETTING_SORTBY);
 		Map<String,SearchFilterDTO> allResultPerPages = getAllFilterFromDB(SELECT_ALL_SETTING_RESULTPERPAGE);
 		Map<String,String> pagingMap = null; 
-		List<Product> filteredProducts = new ArrayList<Product>();	 
+		List<ProductDTO> filteredProducts = new ArrayList<ProductDTO>();	 
 		String[] newKeywords = getAllPossibleMatchedKeywords(keywords);
 		int currentParam = 0;
 				
@@ -334,7 +334,7 @@ public class ProductDAO extends DAO<Product> {
 				String categoryID = result.getString("category_id");
 				String imgSrc = result.getString("img_src");
 				int stock = result.getInt("stock");	
-				Product product = new Product(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock);
+				ProductDTO product = new ProductDTO(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock);
 				filteredProducts.add(product);
 			}
 		}catch (SQLException e) {
@@ -352,8 +352,8 @@ public class ProductDAO extends DAO<Product> {
 	}
 
 	@Override
-	public Product getRecordByID(String id) {
-		Product product = null;
+	public ProductDTO getRecordByID(String id) {
+		ProductDTO product = null;
 		PreparedStatement selectStm = null;
 		try{
 			connection = getConnection();
@@ -370,7 +370,7 @@ public class ProductDAO extends DAO<Product> {
 			String categoryID = result.getString("category_id");
 			String imgSrc = result.getString("img_src");
 			int stock = result.getInt("stock");			
-			product = new Product(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc, stock);
+			product = new ProductDTO(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc, stock);
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {

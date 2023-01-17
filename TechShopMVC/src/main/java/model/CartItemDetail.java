@@ -1,19 +1,19 @@
 package model;
 
 public class CartItemDetail {
-	private Product product;
+	private ProductDTO product;
 	private int quantity;
 	
-	public CartItemDetail(Product product, int quantity) {
+	public CartItemDetail(ProductDTO product, int quantity) {
 		this.product = product;
 		this.quantity = quantity;
 	}
 	
 	
-	public Product getProduct() {
+	public ProductDTO getProduct() {
 		return product;
 	}
-	public void setProduct(Product product) {
+	public void setProduct(ProductDTO product) {
 		this.product = product;
 	}
 	public int getQuantity() {

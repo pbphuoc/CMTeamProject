@@ -2,9 +2,10 @@ package controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import dao.DAOService;
 import dao.OrderDAO;
 import dao.DAO.DAOType;
 import dao.DAO.QueryResult;
+import entity.Order;
 
 /**
  * Servlet implementation class OrderServlet
@@ -88,8 +90,12 @@ public class OrderServlet extends HttpServlet {
 	}
 	
 	protected void viewOrders(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String checkoutEmail = "ff.pbphuoc@gmail.com";
 		OrderDAO orderDAO = (OrderDAO) DAOService.getDAO(DAOType.ORDER);
-
+		List<Order> orderList = orderDAO.getOrderByUserEmail(checkoutEmail);
+		request.setAttribute("orderList", orderList);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("account.jsp");
+		dispatcher.forward(request, response);
 	}	
 
 }

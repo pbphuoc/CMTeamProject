@@ -2,6 +2,8 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -69,14 +71,19 @@ public abstract class DAO<T> {
 			return QueryResult.UNSUCCESSFUL;
 	}
 	
-//	protected void close() {
-//		try {
-//			connection.close();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
+	protected void close(Connection connection, PreparedStatement stm, ResultSet rs) {
+		try {
+			if(rs != null)
+				rs.close();
+			if(stm != null)
+				stm.close();				
+			if(connection != null)
+				connection.close();			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	abstract
 	public List<T> getAllRecords();

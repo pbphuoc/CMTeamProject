@@ -16,8 +16,8 @@
 	    <servlet-class>controller.CartServlet</servlet-class>
 	</servlet>
 	<servlet>
-	    <servlet-name>LoginServlet</servlet-name>
-	    <servlet-class>controller.LoginServlet</servlet-class>
+	    <servlet-name>AuthenticationServlet</servlet-name>
+	    <servlet-class>controller.AuthenticationServlet</servlet-class>
 	</servlet>	
 	<servlet>
 	    <servlet-name>ProductlServlet</servlet-name>
@@ -40,7 +40,7 @@
 	    <url-pattern>/Home</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-	    <servlet-name>LoginServlet</servlet-name>
+	    <servlet-name>AuthenticationServlet</servlet-name>
 	    <url-pattern>/Auth</url-pattern>
 	</servlet-mapping>	
 	<servlet-mapping>

@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import model.User;
+import entity.User;
 
 public class UserDAO extends DAO<User>{
 	

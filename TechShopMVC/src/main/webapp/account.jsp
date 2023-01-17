@@ -34,32 +34,30 @@
 						<table class="table">
 						  <thead>
 						    <tr>
-						      <th scope="col">#</th>
-						      <th scope="col">First</th>
-						      <th scope="col">Last</th>
-						      <th scope="col">Handle</th>
+						      <th scope="col">Order</th>
+						      <th scope="col">Date</th>
+						      <th scope="col">Email</th>
+						      <th scope="col">Receiver</th>
+						      <th scope="col">Delivery</th>
+						      <th scope="col">Payment</th>
+						      <th scope="col">Status</th>
+						      <th scope="col">Total</th>
 						    </tr>
 						  </thead>
-						  <tbody>
-						    <tr>
-						      <th scope="row">1</th>
-						      <td>Mark</td>
-						      <td>Otto</td>
-						      <td>@mdo</td>
-						    </tr>
-						    <tr>
-						      <th scope="row">2</th>
-						      <td>Jacob</td>
-						      <td>Thornton</td>
-						      <td>@fat</td>
-						    </tr>
-						    <tr>
-						      <th scope="row">3</th>
-						      <td>Larry</td>
-						      <td>the Bird</td>
-						      <td>@twitter</td>
-						    </tr>
-						  </tbody>
+						  <c:forEach items="${orderList}" var="order">
+							  <tbody>
+							    <tr>
+							      <th scope="row">${order.id}</th>
+							      <td>${order.date}</td>
+							      <td>${order.checkOutEmail}</td>
+							      <td>${order.receiverFullname}</td>
+							      <td>${order.receiverFullname}</td>
+							      <td>${order.receiverFullname}</td>
+							      <td>${order.status}</td>
+							      <td>${order.total}</td>
+							    </tr>
+							  </tbody>						  
+						  </c:forEach>
 						</table>
 					</div>
 				</div>
