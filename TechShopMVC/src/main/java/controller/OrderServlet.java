@@ -14,7 +14,7 @@ import dao.DAOService;
 import dao.OrderDAO;
 import dao.DAO.DAOType;
 import dao.DAO.QueryResult;
-import entity.Order;
+import entity.OrderDTO;
 
 /**
  * Servlet implementation class OrderServlet
@@ -92,7 +92,7 @@ public class OrderServlet extends HttpServlet {
 	protected void viewOrders(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String checkoutEmail = "ff.pbphuoc@gmail.com";
 		OrderDAO orderDAO = (OrderDAO) DAOService.getDAO(DAOType.ORDER);
-		List<Order> orderList = orderDAO.getOrderByUserEmail(checkoutEmail);
+		List<OrderDTO> orderList = orderDAO.getOrderByUserEmail(checkoutEmail);
 		request.setAttribute("orderList", orderList);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("account.jsp");
 		dispatcher.forward(request, response);

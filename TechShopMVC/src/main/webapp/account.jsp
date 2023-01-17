@@ -51,8 +51,8 @@
 							      <td>${order.date}</td>
 							      <td>${order.checkOutEmail}</td>
 							      <td>${order.receiverFullname}</td>
-							      <td>${order.receiverFullname}</td>
-							      <td>${order.receiverFullname}</td>
+							      <td>${order.receiveMethod}</td>
+							      <td>${order.paymentType}</td>
 							      <td>${order.status}</td>
 							      <td>${order.total}</td>
 							    </tr>

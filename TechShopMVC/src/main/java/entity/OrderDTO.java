@@ -1,6 +1,6 @@
 package entity;
 
-public class Order {
+public class OrderDTO {
 	private String id;
 	private String date;
 	private String checkOutEmail;
@@ -36,7 +36,7 @@ public class Order {
 //		REFUNDED
 //	}
 	
-	public Order(String id, String date, String checkOutEmail, String checkOutFullname,
+	public OrderDTO(String id, String date, String checkOutEmail, String checkOutFullname,
 			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
 			String receiveMethod, String paymentType, String paymentDate, String status, double shipping,
 			double total) {

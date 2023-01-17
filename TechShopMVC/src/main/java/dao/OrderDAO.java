@@ -5,20 +5,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import dao.DAO.DAOType;
-import entity.Order;
+import entity.OrderDTO;
 import entity.OrderItem;
 
-public class OrderDAO extends DAO<Order> {
+public class OrderDAO extends DAO<OrderDTO> {
 	private static final String INSERT_ORDER_SQL = "INSERT INTO orders (order_date, checkout_email, checkout_fullname, checkout_phone, receiver_fullname, receiver_phone, receiver_address, receive_method_id, payment_type_id, payment_date, shipping, total) "
 			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String INSERT_ORDERITEM_SQL = "INSERT INTO order_item (order_id, product_id, price, quantity) "
 			+ "VALUES (?,?,?,?);";
-	private static final String SELECT_ORDER_BY_USEREMAIL_SQL = "SELECT * FROM orders where checkout_email = ?;";
+	private static final String SELECT_ORDER_BY_USEREMAIL_SQL = "SELECT o.id as order_id, o.order_date, o.checkout_email, o.checkout_fullname, o.checkout_phone, o.receiver_fullname, o.receiver_phone, o.receiver_address,"
+			+ " r.name as receive_method, p.name as payment_method, o.payment_date, s.name as status, o.shipping, o.total"			
+			+ " FROM orders as o, receive_type as r, payment_type as p, order_status as s"
+			+ " WHERE checkout_email = ? AND o.receive_method_id = r.id AND o.payment_type_id = p.id AND o.order_status_id = s.id;";
 	private static final String SELECT_ORDERITEM_BY_ORDERID_SQL = "SELECT * FROM order_item where order_id = ?;";	
 	private static final String SELECT_PAYMENTMETHOD_BY_ID_SQL = "SELECT * FROM payment_type where id = ?;";
 	private static final String SELECT_RECEIVEMETHOD_BY_ID_SQL = "SELECT * FROM receive_type where id = ?;";
@@ -131,17 +135,18 @@ public class OrderDAO extends DAO<Order> {
 		return items;		
 	}	
 	
-	public List<Order> getOrderByUserEmail(String email){
+	public List<OrderDTO> getOrderByUserEmail(String email){
 		PreparedStatement selectStm = null;
-		List<Order> orders = null;
+		List<OrderDTO> orders = new ArrayList<OrderDTO>();
 		ResultSet result = null;
 		Connection connection = getConnection();
 		try {			
 			selectStm = connection.prepareStatement(SELECT_ORDER_BY_USEREMAIL_SQL);
 			selectStm.setString(1, email);
-			result = selectStm.executeQuery();
+			System.out.println("query: " + selectStm);
+			result = selectStm.executeQuery();			
 			while(result.next()) {
-				String id = result.getInt("id") + "";
+				String id = result.getInt("order_id") + "";
 				String orderDate = result.getString("order_date");
 				String checkoutEmail = result.getString("checkout_email");
 				String checkoutFullname = result.getString("checkout_fullname");
@@ -149,14 +154,14 @@ public class OrderDAO extends DAO<Order> {
 				String receiverFullname = result.getString("receiver_fullname");
 				String receiverPhone = result.getString("receiver_phone");
 				String receiverAddress = result.getString("receiver_address");
-				String receiveMethodID = result.getInt("receive_method_id") + "";
-				String paymentTypeID = result.getInt("payment_type_id") + "";
+				String receiveMethod = result.getString("receive_method");
+				String paymentType = result.getString("payment_method");
 				String paymentDate = result.getString("payment_date");
-				String status = result.getInt("status") + "";
+				String status = result.getString("status");
 				double shipping = result.getDouble("shipping");
 				double total = result.getDouble("total");				
-				orders.add(new Order(id, orderDate, checkoutEmail, checkoutFullname, checkoutPhone, receiverFullname, 
-						receiverPhone, receiverAddress, receiveMethodID, paymentTypeID, paymentDate, status, shipping, total));
+				orders.add(new OrderDTO(id, orderDate, checkoutEmail, checkoutFullname, checkoutPhone, receiverFullname, 
+						receiverPhone, receiverAddress, receiveMethod, paymentType, paymentDate, status, shipping, total));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -168,13 +173,13 @@ public class OrderDAO extends DAO<Order> {
 	}
 	
 	@Override
-	public List<Order> getAllRecords() {
+	public List<OrderDTO> getAllRecords() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Order getRecordByID(String id) {
+	public OrderDTO getRecordByID(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
