@@ -34,8 +34,7 @@
 					</h1>
 				</div>
 			</div>
-		</div>
-		cart size: ${cartItemDetails.size()}
+		</div>		
 		<div class="tableWrapper">
 			<table class="tableInfor">
 				<tr>
@@ -53,12 +52,12 @@
 				<div class="cartCol1">
 					<div class="itemInfor">
 					<div class="imageContainer">
-					<a href="product.html"> 
+					<a href="Product?command=viewProductDetail&productID=${item.product.id}"> 
 					<img src="..<c:out value='${item.product.imgSrc}'/>">
 					</a>
 					</div>
 					<div>
-					<a href="product.html"> <c:out value="${item.product.name }"/> </a>
+					<a href="Product?command=viewProductDetail&productID=${item.product.id}"> <c:out value="${item.product.name }"/> </a>
 					</div>
 						
 						

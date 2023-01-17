@@ -409,9 +409,9 @@ function viewProductDetail(productID) {
 	requestToServlet('Product', 'GET', 'viewProductDetail', 'productID', productID);
 }
 
-function viewCart() {
-	requestToServlet('Cart', 'GET', 'viewCart', 'productID', '');
-}
+//function viewCart() {
+//	requestToServlet('Cart', 'GET', 'viewCart', 'productID', '');
+//}
 
 function ajaxToServlet(url, type, data) {
 	//requestToServlet('Cart', 'increase', productID);

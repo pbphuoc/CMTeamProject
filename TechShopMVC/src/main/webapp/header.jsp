@@ -38,7 +38,7 @@
 										href="product.html">Products</a></li> -->
 
 								<li class="nav-item d_none cartBtnLi"><a class="nav-link"
-									onclick="viewCart()"><i class="fa fa-shopping-cart"
+									href="Cart?command=viewCart"><i class="fa fa-shopping-cart"
 										aria-hidden="true"></i></a></li>
 								<li class="nav-item menuBarUserLi">
 									<c:choose>

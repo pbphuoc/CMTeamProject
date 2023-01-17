@@ -20,10 +20,6 @@
 </head>
 <!-- body -->
 <body class="main-layout">
-	<jsp:include page="header.jsp">
-		<jsp:param name="curUrl"
-			value="${requestScope['javax.servlet.forward.request_uri']}" />
-	</jsp:include>
 	<div class="confirmationContainer">
 		<div class="reviewBox row col-xl-8">
 			<div class="card-body pt-0 reviewUserDetail reviewDetail">
