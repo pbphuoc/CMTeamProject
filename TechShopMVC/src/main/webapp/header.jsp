@@ -32,11 +32,15 @@
 						</button>
 						<div class="collapse navbar-collapse" id="navbarsExample04">
 							<ul class="navbar-nav mr-auto">
-								<li class="nav-item "><a class="nav-link" href="Home">Home</a></li>
-
-								<!-- 									<li class="nav-item"><a class="nav-link"
-										href="product.html">Products</a></li> -->
-
+<!-- 								<li class="nav-item "><a class="nav-link" href="Home">Home</a></li> -->
+								<li class="nav-item dropdown">
+									  <a class="nav-link dropdown-toggle" href="" id="menuBarHelpDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Help
+									 </a>
+									 <div class="dropdown-menu" aria-labelledby="menuBarHelpDropdownLink">									      
+									   <a class="dropdown-item" href="Order?command=getTrackOrderForm">Track Order</a>									   
+									  </div>
+								</li>									
 								<li class="nav-item d_none cartBtnLi"><a class="nav-link"
 									href="Cart?command=viewCart"><i class="fa fa-shopping-cart"
 										aria-hidden="true"></i></a></li>
@@ -52,7 +56,7 @@
 									</c:when>
 									<c:otherwise>
 									  <li class="nav-item dropdown">
-									    <a class="nav-link dropdown-toggle menuBarUsername" href="" id="menuBarUsernameDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									    <a class="nav-link dropdown-toggle" href="" id="menuBarUsernameDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									      Hi ${sessionScope.user.name}
 									    </a>
 									    <div class="dropdown-menu" aria-labelledby="menuBarUsernameDropdownLink">									      

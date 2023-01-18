@@ -1068,15 +1068,15 @@ ul.social_icon li a:hover {
 	max-width: 600px;
 }
 
-#loginDiv {
+.formDiv {
 	margin-bottom: 100px;
 }
 
-#loginDiv .input-group-text {
+.formDiv .input-group-text {
 	width: 120px;
 }
 
-#loginDiv .btn {
+.formDiv .btn {
 	margin-left: 40%;
 }
 

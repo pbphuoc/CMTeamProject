@@ -44,6 +44,9 @@ public class OrderServlet extends HttpServlet {
 			case "submitOrder":			
 				submitOrder(request, response);
 				break;	
+			case "getTrackOrderForm":			
+				getTrackOrderForm(request, response);
+				break;				
 			case "trackOrder":			
 				trackOrder(request, response);
 				break;				
@@ -86,7 +89,7 @@ public class OrderServlet extends HttpServlet {
 	}
 	
 	protected void trackOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String emailAddress = request.getParameter("email") != null ? request.getParameter("email") : "";
+		String emailAddress = request.getParameter("emailAddress") != null ? request.getParameter("emailAddress") : "";
 		String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber") : "";
 		OrderDAO orderDAO = new OrderDAO();
 		OrderDTO order = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress,orderNumber);
@@ -95,6 +98,12 @@ public class OrderServlet extends HttpServlet {
 		request.setAttribute("orderList", orders);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("orderhistory.jsp");
 		dispatcher.forward(request, response);
-	}		
+	}
+	
+	private void getTrackOrderForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+//		System.out.println("prevUrl: " + prevUrl);		
+		response.sendRedirect("trackOrder.jsp");	
+	}	
 
 }

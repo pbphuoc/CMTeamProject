@@ -30,7 +30,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-4 m-auto">
-					<div class="form_container" id="loginDiv">
+					<div class="form_container formDiv">
 						<form action="Auth" method="Post" class="needs-validation"
 							novalidate>
 							<input type="hidden" name="command" value="login">

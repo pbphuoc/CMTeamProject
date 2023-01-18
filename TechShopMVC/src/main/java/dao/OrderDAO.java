@@ -42,9 +42,9 @@ public class OrderDAO{
 //	}	
 //	
 	
-	private String generateOrderNumber(String date, long total) {	
-		String first4DigitInTotal = (total*10000) + "";
-		return date + first4DigitInTotal.substring(0, 5);
+	private String generateOrderNumber(String date, int second) {	
+		String first4DigitInSecond = (second*10000) + "";
+		return date + first4DigitInSecond.substring(0, 5);
 	}
 	
 	private long calculateTotal(String shipping, List<CartItemDTO> orderItems) {
@@ -70,10 +70,11 @@ public class OrderDAO{
 		ZoneId z = ZoneId.of("Australia/Sydney");
 		ZonedDateTime zdt = ZonedDateTime.now(z);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+		String orderNumber = generateOrderNumber("" + zdt.getDayOfMonth() + zdt.getMonthValue() + zdt.getYear(), zdt.getNano());
 		try {			
 			insertStm = connection.prepareStatement(INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS);			
 			int currentParam = 0;
-			insertStm.setString(++currentParam, generateOrderNumber("" + zdt.getDayOfMonth() + zdt.getMonthValue() + zdt.getYear(), totalCost));
+			insertStm.setString(++currentParam, orderNumber);
 			insertStm.setString(++currentParam, formatter.format(zdt));			
 			insertStm.setString(++currentParam, checkOutEmail);
 			insertStm.setString(++currentParam, checkOutFullname);

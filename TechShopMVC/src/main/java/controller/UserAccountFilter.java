@@ -44,9 +44,8 @@ public class UserAccountFilter extends HttpFilter implements Filter {
 		boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
 		String userAccountURI = httpRequest.getContextPath() + "/Account";
 		boolean isUserAccountRequest = httpRequest.getRequestURI().equals(userAccountURI);
-		boolean isUserAccountPage = httpRequest.getRequestURI().endsWith("account.jsp");
 		
-		if(!isLoggedIn && (isUserAccountRequest || isUserAccountPage)) {
+		if(!isLoggedIn && isUserAccountRequest) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/Auth?command=getLoginForm");
 			dispatcher.forward(request, response);
 		}else {
