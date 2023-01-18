@@ -22,50 +22,57 @@ import util.Utility;
 //@WebServlet("/OrderServlet")
 public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public OrderServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public OrderServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		System.out.println("-----------------------------");
 		System.out.println("doGet Order Servlet called");
 		System.out.println("Current command: " + request.getParameter("command"));
 		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
+		
 		try {
 			switch (command) {
-			case "submitOrder":			
-				submitOrder(request, response);
-				break;	
-			case "trackOrder":			
+			case "submitOrder":
+			//	submitOrder(request, response);
+				sendOrder(request, response);
+				break;
+			case "trackOrder":
 				trackOrder(request, response);
-				break;				
+				break;
 			case "":
 //				getLoginPage(request, response);
 				break;
-			}			
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw new ServletException(e);
-		}				
+		}
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
-	protected void submitOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void submitOrder(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		OrderDAO orderDAO = new OrderDAO();
 		ProductDAO productDAO = new ProductDAO();
 		String checkOutEmail = "ff.pbphuoc@gmail.com";
@@ -80,21 +87,49 @@ public class OrderServlet extends HttpServlet {
 		String shipping = "0";
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-		List<CartItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);		
-		Utility.QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate, shipping, cartItemsDetail);
+		List<CartItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);
+		Utility.QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone,
+				receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate,
+				shipping, cartItemsDetail);
 		System.out.println(result);
 	}
-	
-	protected void trackOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void trackOrder(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String emailAddress = request.getParameter("email") != null ? request.getParameter("email") : "";
 		String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber") : "";
 		OrderDAO orderDAO = new OrderDAO();
-		OrderDTO order = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress,orderNumber);
+		OrderDTO order = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress, orderNumber);
 		List<OrderDTO> orders = new ArrayList<OrderDTO>();
 		orders.add(order);
 		request.setAttribute("orderList", orders);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("orderhistory.jsp");
 		dispatcher.forward(request, response);
-	}		
+	}
+
+	protected void sendOrder(HttpServletRequest request, HttpServletResponse response) 
+		throws ServletException, IOException {
+		OrderDAO orderDAO = new OrderDAO();
+		ProductDAO productDAO = new ProductDAO();
+		String checkOutEmail = request.getParameter("checkOutEmail");
+		String checkOutFullname = request.getParameter("checkOutFullname");
+		String checkOutPhone = request.getParameter("checkOutPhone");
+		String receiverFullname = request.getParameter("receiverFullname");
+		String receiverPhone = request.getParameter("receiverPhone");
+		String receiverAddress = request.getParameter("receiverAddress");
+		String receiverMethodId = "1";
+		String paymentTypeId = "1";
+		String paymentDate = "";
+		String shipping = "0";
+		HttpSession session = request.getSession();
+		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
+		List<CartItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);
+		Utility.QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone,
+				receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate,
+				shipping, cartItemsDetail);
+		System.out.println(result);
+		response.sendRedirect("Home");
+		
+	}
 
 }

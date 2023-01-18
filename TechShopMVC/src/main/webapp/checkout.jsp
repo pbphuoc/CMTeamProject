@@ -156,6 +156,11 @@
 													placeholder="Last Name" aria-describedby="basic-addon1"
 													id="billingLname" required>
 											</div>
+											<div class="form-group col-md-6">
+												<input type="text" name="billingPhone" class="form-control"
+													placeholder="Phone number" aria-describedby="basic-addon1"
+													id="billingPhone" required>
+											</div>
 											<div class="form-group col-md-12">
 												<input type="text" name="billingAddress" class="form-control"
 													placeholder="Address" aria-describedby="basic-addon1"
@@ -191,7 +196,6 @@
 								</div>
 								<div class="form-row mb-3">
 									<input class="btn btn-primary ml-0" type="submit" value="Review Order">
-									
 								</div>
 				
 							</form>
