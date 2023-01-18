@@ -90,31 +90,31 @@
 											<div class="form-group col-md-6">
 												<input type="text" name="fname" class="form-control"
 													placeholder="First Name" aria-describedby="basic-addon1"
-													id="checkOutFirstName">
+													id="checkOutFirstName" required>
 											</div>
 											<div class="form-group col-md-6">
 												<input type="text" name="lname" class="form-control"
 													placeholder="Last Name" aria-describedby="basic-addon1"
-													id="checkOutLastName">
+													id="checkOutLastName" required>
 											</div>
 										</div>
 										<div class="form-row mb-3">
 											<div class="col-md-1.1">
 												<select id="countryCodeList" class="form-select">
-													<option value="australia" selected>+61</option>
+													<option value="australia" selected >+61</option>
 												</select>
 											</div>
 											<div class="col-md-12">
 												<input type="text" name="phone" class="form-control"
 													placeholder="Phone Number" aria-describedby="basic-addon1"
-													id="checkOutPhoneNumber">
+													id="checkOutPhoneNumber" required>
 											</div>
 											<br>
 											<br>
 											<div class="form-group col-md-12">
 												<input type="text" name="address" class="form-control"
 													placeholder="Delivery Address" aria-describedby="basic-addon1"
-													id="checkOutAddress">
+													id="checkOutAddress" required>
 											</div>
 										</div>
 									</div>
@@ -149,17 +149,17 @@
 											<div class="form-group col-md-6">
 												<input type="text" name="billingFname" class="form-control"
 													placeholder="First Name" aria-describedby="basic-addon1"
-													id="billingFname">
+													id="billingFname" required>
 											</div>
 											<div class="form-group col-md-6">
 												<input type="text" name="billingLname" class="form-control"
 													placeholder="Last Name" aria-describedby="basic-addon1"
-													id="billingLname">
+													id="billingLname" required>
 											</div>
 											<div class="form-group col-md-12">
 												<input type="text" name="billingAddress" class="form-control"
 													placeholder="Address" aria-describedby="basic-addon1"
-													id="billingAddress">
+													id="billingAddress" required>
 											</div>
 
 										</div>
@@ -174,16 +174,16 @@
 										<div id="paymentForm">
 											
 											<!-- payment option -->
-											<span>Cardholder's name:</span> <input class="paymentBox"
-												placeholder="Linda Williams"> <span>Card
-												Number:</span> <input class="paymentBox"
-												placeholder="0125 6780 4567 9909">
+											<span>Cardholder's name:</span> <input type="text" class="paymentBox"
+												id="cardHolderName" name="cardHolderName" placeholder="Linda Williams" required> <span>Card
+												Number:</span> <input type="number" class="paymentBox"
+												id="cardNumber" name="cardNumber" placeholder="0125 6780 4567 9909" required>
 											<div class="row">
 												<div class="col-4 cardSpan">
-													<span>Expiry date:</span> <input placeholder="YY/MM">
+													<span>Expiry date:</span> <input type="date" placeholder="YY/MM" id="expiredDate" name="expiredDate" required>
 												</div>
 												<div class="col-4 cardSpan">
-													<span>CVV:</span> <input placeholder="XYZ">
+													<span>CVV:</span> <input type="number" placeholder="XYZ" id="cvvNumber" name="cvvNumber" required>
 												</div>
 											</div>
 										</div>

@@ -73,8 +73,10 @@
 					<c:when
 						test="${param.billingFname == null || param.billingFname == ''}">
 						<br>
+						<h1>Pay Later</h1>
 					</c:when>
 					<c:otherwise>
+						<h1>Pay With Card</h1>
 						<h1 class="confirmationTitle">Your Billing Information</h1>
 						<div class="confirmationDetail">
 							<h1>First Name</h1>
@@ -88,6 +90,25 @@
 							<h1>Billing Address</h1>
 							<h1>${param.billingAddress}</h1>
 						</div>
+						<br>
+						<h1>Payment Card</h1>
+						<div class="confirmationDetail">
+							<h1>Cardholder's name</h1>
+							<h2>${param.cardHolderName}</h2>
+						</div>
+						<div class="confirmationDetail">
+							<h1>Card Number</h1>
+							<h1>${param.cardNumber}</h1>
+						</div>
+						<div class="confirmationDetail">
+							<h1>Expiry date</h1>
+							<h1>${param.expiredDate}</h1>
+						</div>
+						<div class="confirmationDetail">
+							<h1>CVV</h1>
+							<h1>${param.cvvNumber}</h1>
+						</div>
+
 					</c:otherwise>
 				</c:choose>
 			</div>

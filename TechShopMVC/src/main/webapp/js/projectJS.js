@@ -100,20 +100,44 @@ function loadLoggedInUser() {
 $('#deliveryOptions input').change(function() {
 	if ($(this).attr('id') == 'optDeliveryLB'){
 		$('#checkOutAddress').show();	
-	}else if ($(this).attr('id') == 'optCollectLB'){
+		$('#checkOutAddress').attr('required',true);
+	}else {
 		$('#checkOutAddress').hide();
 		$('#checkOutAddress').val("");
+		$('#checkOutAddress').attr('required',false);
 		
 	}
+	//if ($(this).attr('id') == 'optCollectLB')
 		
 });
 
 $('#paymentOptions input').change(function() {
-	if ($(this).attr('id') == 'payNowBtn')
+	if ($(this).attr('id') == 'payNowBtn'){
 		$('#creditCardField').show();
-	else if ($(this).attr('id') == 'payOnPickupBtn')
+		$('#cardHolderName').attr('required',true);
+		$('#cardNumber').attr('required',true);
+		$('#expiredDate').attr('required',true);
+		$('#cvvNumber').attr('required',true);
+		$('#billingFname').attr('required',true);
+		$('#billingLname').attr('required',true);
+		$('#billingAddress').attr('required',true);
+	}	
+	else {
 		$('#creditCardField').hide();
 		$('#creditCardField').find('input').val("");
+		$('#cardHolderName').attr('required',false);
+		$('#cardNumber').attr('required',false);
+		$('#expiredDate').attr('required',false);
+		$('#cvvNumber').attr('required',false);
+		$('#billingFname').attr('required',false);
+		$('#billingLname').attr('required',false);
+		$('#billingAddress').attr('required',false);
+		
+		
+	}
+		//if ($(this).attr('id') == 'payOnPickupBtn')
+		
+		
 });
 
 //$('.menuBarLoginBtn').click(() => {
