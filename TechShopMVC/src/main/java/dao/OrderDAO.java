@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import entity.OrderItem;
+import entity.Product;
 import model.CartItemDTO;
 import model.OrderDTO;
 import util.Utility;
@@ -141,9 +142,9 @@ public class OrderDAO{
 		return QueryResult.UNSUCCESSFUL;
 	}	
 	
-	public List<OrderItem> getOrderItemByOrderID(String id){
-		PreparedStatement selectStm = null;
-		List<OrderItem> items = null;
+	public List<CartItemDTO> getOrderItemByOrderID(String id){
+		List<CartItemDTO> items = new ArrayList<CartItemDTO>();
+		PreparedStatement selectStm = null;		
 		ResultSet result = null;
 		Connection connection = Utility.getConnection();
 		try {			
@@ -158,7 +159,9 @@ public class OrderDAO{
 				String productImgSrc = result.getString("product_img_src");
 				double price = result.getDouble("price");
 				int quantity = result.getInt("quantity");
-				items.add(new OrderItem(orderID, productID, productName, productDescription, productImgSrc, price, quantity));
+				Product product = new Product(productID, productName, productDescription, price, productImgSrc);
+//				items.add(new OrderItem(orderID, productID, productName, productDescription, productImgSrc, price, quantity));
+				items.add(new CartItemDTO(orderID, product, quantity));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -4,7 +4,7 @@
 <header>
 	<div class="header">
 		<div class="container-fluid">
-			<div class="row">
+			<div class="row alignItemCenter">
 				<div class="col-xl col-lg col-md col-sm ">
 					<div class="navbar-brand">
 						<div class="center-desk" class="d-inline-flex">
@@ -40,23 +40,28 @@
 								<li class="nav-item d_none cartBtnLi"><a class="nav-link"
 									href="Cart?command=viewCart"><i class="fa fa-shopping-cart"
 										aria-hidden="true"></i></a></li>
-								<li class="nav-item menuBarUserLi">
-									<c:choose>
-										<c:when
-											test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
-											<h3 class="menuBarUsername"></h3>
+								
+								<c:choose>
+									<c:when
+										test="${sessionScope.user == null}">
+										<li class="nav-item menuBarUserLi">										
 											<jsp:include page="loginButton.jsp">
 												<jsp:param name="curUrl" value="${param.curUrl}" />
 											</jsp:include>
-										</c:when>
-										<c:otherwise>
-											<h3 class="menuBarUsername">Hi
-												${sessionScope.userfullname},</h3>
-<%-- 											<a class="nav-link menuBarLoginBtn" href="Logout?prevUrl=${param.curUrl}">Logout</a> --%>
-											<a class="nav-link menuBarLoginBtn" href="Auth?command=logout&prevUrl=${param.curUrl}">Logout</a>										
-										</c:otherwise>
-									</c:choose>
-								</li>
+										</li>
+									</c:when>
+									<c:otherwise>
+									  <li class="nav-item dropdown">
+									    <a class="nav-link dropdown-toggle menuBarUsername" href="" id="menuBarUsernameDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									      Hi ${sessionScope.user.name}
+									    </a>
+									    <div class="dropdown-menu" aria-labelledby="menuBarUsernameDropdownLink">									      
+									      <a class="dropdown-item" href="Account?command=viewOrders">Order History</a>
+									      <a class="dropdown-item" href="Auth?command=logout&prevUrl=${param.curUrl}">Logout</a>
+									    </div>
+									  </li>											
+									</c:otherwise>
+								</c:choose>														
 							</ul>
 						</div>
 					</nav>

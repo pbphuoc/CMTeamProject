@@ -26,7 +26,7 @@
 		<div class="row">
 			<div id="checkoutLeft" class="col-md-7">
 				<c:if
-					test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
+					test="${sessionScope.user == null}">
 					<div class="row mb-5">
 						<div id="checkoutMember" class="col">
 							<h1>Already A User?</h1>
@@ -41,7 +41,7 @@
 					<div class="col">
 						<c:choose>
 							<c:when
-								test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
+								test="${sessionScope.user == null}">
 								<h1 id="checkOutLabel">Or Check Out As Guest</h1>
 							</c:when>
 							<c:otherwise>
@@ -54,7 +54,7 @@
 									<div class="col-md-12">
 										<c:choose>
 											<c:when
-												test="${sessionScope.userfullname == null || sessionScope.userfullname == ''}">
+												test="${sessionScope.user == null}">
 												<input type="email" name="email" class="form-control"
 													placeholder="Email Address" aria-describedby="basic-addon1"
 													id="checkOutEmail" required>
@@ -62,7 +62,7 @@
 											<c:otherwise>
 												<input type="email" name="email" class="form-control"
 													placeholder="Email Address" aria-describedby="basic-addon1"
-													id="checkOutEmail" value="${sessionScope.useremail}" required readonly>
+													id="checkOutEmail" value="${sessionScope.user.email}" required readonly>
 
 											</c:otherwise>
 										</c:choose>

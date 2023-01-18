@@ -7,7 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import dao.OrderDAO;
+import entity.User;
 import model.OrderDTO;
 
 /**
@@ -57,9 +60,10 @@ public class UserAccountServlet extends HttpServlet {
 	}
 	
 	protected void viewOrders(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String checkoutEmail = "ff.pbphuoc@gmail.com";
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
 		OrderDAO orderDAO = new OrderDAO();
-		List<OrderDTO> orderList = orderDAO.getOrderByUserEmail(checkoutEmail);
+		List<OrderDTO> orderList = orderDAO.getOrderByUserEmail(user.getEmail());
 		request.setAttribute("orderList", orderList);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("orderhistory.jsp");
 		dispatcher.forward(request, response);
