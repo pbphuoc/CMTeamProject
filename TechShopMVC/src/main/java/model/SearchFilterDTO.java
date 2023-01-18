@@ -3,9 +3,10 @@ package model;
 public class SearchFilterDTO {
 	private String id;
 	private String name;
-	private String imgSrc;
+	private String selected = "";	
 	private int stock = 0;
-	private String selected = "";
+//	private String imgSrc;
+	
 	
 //	public static final Map<String, String> AVAILABILITY_MAP = new LinkedHashMap<String, String>(){{
 //		put("0", "Out Of Stock");
@@ -58,11 +59,11 @@ public class SearchFilterDTO {
 		this.stock = stock;
 	}
 
-	public String getImgSrc() {
-		return imgSrc;
-	}
-
-	public void setImgSrc(String imgSrc) {
-		this.imgSrc = imgSrc;
-	}
+//	public String getImgSrc() {
+//		return imgSrc;
+//	}
+//
+//	public void setImgSrc(String imgSrc) {
+//		this.imgSrc = imgSrc;
+//	}
 }

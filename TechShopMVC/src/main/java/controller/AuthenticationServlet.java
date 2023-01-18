@@ -14,7 +14,7 @@ import dao.UserDAO;
 import dao.DAO.DAOType;
 import dao.DAO.QueryResult;
 import entity.User;
-import util.UtilityFunctions;
+import util.Utility;
 
 /**
  * Servlet implementation class LoginServlet
@@ -93,7 +93,7 @@ public class AuthenticationServlet extends HttpServlet {
 		}else {			
 			QueryResult queryResult = userDAO.insertUser(email, password, fullname, mobile);
 			if (queryResult == QueryResult.SUCCESSFUL) {
-				String prevUrl = UtilityFunctions.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+				String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
 				System.out.println("prev Url" + prevUrl);				
 				HttpSession session = request.getSession();
 				session.setAttribute("userfullname", fullname);
@@ -110,7 +110,7 @@ public class AuthenticationServlet extends HttpServlet {
 		User user = userDAO.getUserByEmailAndPassword(email, password);
 		HttpSession session = request.getSession();
 		if(user != null) {			
-			String prevUrl = UtilityFunctions.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+			String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
 			System.out.println("prev Url" + prevUrl);			
 			session.setAttribute("userfullname", user.getFullname());
 			session.setAttribute("useremail", email);
@@ -125,7 +125,7 @@ public class AuthenticationServlet extends HttpServlet {
 	}
 	
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String prevUrl = UtilityFunctions.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+		String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
 		System.out.println("prev Url" + prevUrl);			
 		HttpSession session = request.getSession();
 		System.out.println("Current useremail: " + (String)session.getAttribute("useremail"));
@@ -135,13 +135,13 @@ public class AuthenticationServlet extends HttpServlet {
 	}	
 	
 	private void getRegisterPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String prevUrl = UtilityFunctions.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+		String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
 		System.out.println("prevUrl: " + prevUrl);		
 		response.sendRedirect("register.jsp?prevUrl="+prevUrl);		
 	}		
 	
 	private void getLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String prevUrl = UtilityFunctions.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+		String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
 		System.out.println("prevUrl: " + prevUrl);		
 		response.sendRedirect("login.jsp?prevUrl="+prevUrl);	
 	}	

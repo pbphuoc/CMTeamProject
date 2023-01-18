@@ -157,8 +157,8 @@
 								</c:forEach>
 							</span>
 							<span class="searchParam">
-								<c:if test="${!priceMin.equals('')}">From  $${priceMin} </c:if>
-								<c:if test="${!priceMax.equals('')}">To  $${priceMax}</c:if>
+								<c:if test="${!priceMin.equals('')}">Min  $${priceMin} </c:if>
+								<c:if test="${!priceMax.equals('')}">Max  $${priceMax}</c:if>
 							</span>																														
 						</div>
 					</div>
@@ -220,7 +220,7 @@
 																onclick="increase(${product.id})">Add To Cart</button>
 														</c:when>
 														<c:otherwise>
-															<button class="productButton" type="button" disabled>${SearchFilterDTO.AVAILABILITY_MAP.get(product.getStockStatus())}</button>
+															<button class="productButton" type="button" disabled>${product.getStockStatusDescription()}</button>
 														</c:otherwise>
 													</c:choose>
 												</div>

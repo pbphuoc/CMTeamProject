@@ -15,9 +15,7 @@ public class UserDAO extends DAO<User>{
 	private static final String SELECT_USER_BY_EMAIL_AND_PASSWORD_SQL = "SELECT * FROM user WHERE email = ? AND password = ?;";	
 //	private static final String UPDATE_USER_BY_EMAIL_SQL = "UPDATE user SET fullname = ?, phone_number = ? WHERE email = ?;";
 //	private static final String UPDATE_PASSWORD_SQL = "UPDATE user SET password = ? where id = ? AND password = ?;";
-//	private static final String DELETE_USER_SQL = "DELETE FROM user where email = ?;";
-	
-	private Connection connection;
+//	private static final String DELETE_USER_SQL = "DELETE FROM user where email = ?;";	
 	
 //	protected UserDAO() {
 //		super();
@@ -25,9 +23,9 @@ public class UserDAO extends DAO<User>{
 //	}	
 	
 	public QueryResult insertUser(String email, String password, String fullname, String mobile) {
+		Connection connection = getConnection();
 		PreparedStatement insertStm = null;
-		try {
-			connection = getConnection();
+		try {			
 			insertStm = connection.prepareStatement(INSERT_USER_SQL);			
 			if (getRecordByID(email) != null)
 				return QueryResult.UNSUCCESSFUL;
@@ -40,13 +38,7 @@ public class UserDAO extends DAO<User>{
 			e.printStackTrace();
 			// TODO: handle exception
 		}finally {
-			try {
-				connection.close();
-				insertStm.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close(connection, insertStm, null);
 		}
 		return QueryResult.UNSUCCESSFUL;
 	}
@@ -54,46 +46,43 @@ public class UserDAO extends DAO<User>{
 	@Override
 	public User getRecordByID(String email) {
 		User user = null;
+		Connection connection = getConnection();
 		PreparedStatement selectStm = null;
+		ResultSet result = null;
 		try
-		{
-			connection = getConnection();
+		{			
 			selectStm = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL);
 			selectStm.setString(1, email);
-			ResultSet result = selectStm.executeQuery();
+			result = selectStm.executeQuery();
 			if(!result.next())
 				return user;
 			user = new User(result.getString("email"), result.getString("fullname"), result.getString("phone_number"));		
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				connection.close();
-				selectStm.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close(connection, selectStm, result);
 		}
-		
 		return user;
 	}
 	
 	public User getUserByEmailAndPassword(String email, String password) {
 		User user = null;
+		Connection connection = getConnection();
 		PreparedStatement selectStm = null;
+		ResultSet result = null;
 		try
-		{
-			connection = getConnection();
+		{			
 			selectStm = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD_SQL);
 			selectStm.setString(1, email);
 			selectStm.setString(2, password);
-			ResultSet result = selectStm.executeQuery();
+			result = selectStm.executeQuery();
 			if(!result.next())
 				return user;
 			user = new User(result.getString("email"), result.getString("fullname"), result.getString("phone_number"));		
 		}catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			close(connection, selectStm, result);
 		}		
 		return user;
 	}

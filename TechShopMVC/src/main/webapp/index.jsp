@@ -121,13 +121,13 @@
 				</div>
 			</div>
 			<div class="row">
-				<c:forEach items="${categoryMap.entrySet()}" var="entry">
+				<c:forEach items="${categoryList}" var="category">
 					<div class="col-md-4 mb-4">				
 						<div class="box_text">
-							<a href="Product?command=search&keywords=&category=${entry.getKey()}">
+							<a href="Product?command=search&keywords=&category=${category.id}">
 								<i><img class="categoryIcon"
-									src="${entry.getValue().getImgSrc()}"/></i>
-								<h3>${entry.getValue().getName()}</h3>
+									src="${category.imgSrc}"/></i>
+								<h3>${category.name}</h3>
 							</a>
 						</div>								
 					</div>
@@ -146,13 +146,13 @@
 				</div>
 			</div>
 			<div class="row">
-				<c:forEach items="${brandMap.entrySet()}" var="entry">
+				<c:forEach items="${brandList}" var="brand">
 					<div class="col-md-4 mb-4">				
 						<div class="box_text">
-							<a href="Product?command=search&keywords=&brand=${entry.getKey()}">
+							<a href="Product?command=search&keywords=&brand=${brand.id}">
 								<i><img class="categoryIcon"
-									src="${entry.getValue().getImgSrc()}"/></i>
-								<h3>${entry.getValue().getName()}</h3>
+									src="${brand.imgSrc}"/></i>
+								<h3>${brand.name}</h3>
 							</a>
 						</div>								
 					</div>
@@ -210,7 +210,7 @@
 																onclick="increase(${product.id}); productOverlayOn();">Add To Cart</button>														
 														</c:when>
 														<c:otherwise>
-															<button class="productButton" type="button" disabled>${product.getStockStatus()}</button>
+															<button class="productButton" type="button" disabled>${product.getStockStatusDescription()}</button>
 														</c:otherwise>
 													</c:choose>															
 												</div>

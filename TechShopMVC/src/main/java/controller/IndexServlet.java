@@ -15,6 +15,8 @@ import dao.DAO;
 import dao.DAOService;
 import dao.ProductDAO;
 import dao.DAO.DAOType;
+import entity.Brand;
+import entity.Category;
 import entity.Product;
 import model.SearchFilterDTO;
 
@@ -66,11 +68,11 @@ public class IndexServlet extends HttpServlet {
 	private void getIndexPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProductDAO productDAO = (ProductDAO)DAOService.getDAO(DAOType.PRODUCT);
 		List<Product> products = productDAO.getAllRecords();
-		Map<String,SearchFilterDTO> brands = productDAO.getAllFilterFromDB(ProductDAO.SELECT_ALL_BRAND_SQL);
-		Map<String,SearchFilterDTO> categories = productDAO.getAllFilterFromDB(ProductDAO.SELECT_ALL_CATEGORY_SQL);
+		List<Brand> brands = productDAO.getAllBrands();
+		List<Category> categories = productDAO.getAllCategory();
 		request.setAttribute("productList", products);
-		request.setAttribute("brandMap", brands);
-		request.setAttribute("categoryMap", categories);
+		request.setAttribute("brandList", brands);
+		request.setAttribute("categoryList", categories);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 		dispatcher.forward(request, response);
 	}

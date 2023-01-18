@@ -11,7 +11,6 @@ public class CartItemDTO {
 		this.quantity = quantity;
 	}
 	
-	
 	public Product getProduct() {
 		return product;
 	}

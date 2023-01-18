@@ -69,7 +69,7 @@
 						</c:when>
 						<c:otherwise>
 							<button type="button" class="addToCart-button" disabled>
-								<span class="addToCart-text">${product.getStockStatus()}</span>
+								<span class="addToCart-text">${product.getStockStatusDescription()}</span>
 							</button>
 						</c:otherwise>
 					</c:choose>											

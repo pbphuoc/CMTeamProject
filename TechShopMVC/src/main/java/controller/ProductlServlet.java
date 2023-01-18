@@ -16,7 +16,7 @@ import dao.ProductDAO;
 import dao.DAO.DAOType;
 import entity.Product;
 import model.SearchFilterDTO;
-import util.UtilityFunctions;
+import util.Utility;
 
 /**
  * Servlet implementation class ProductDetailServlet
