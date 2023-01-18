@@ -104,11 +104,18 @@ public class OrderServlet extends HttpServlet {
 		String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber") : "";
 		OrderDAO orderDAO = new OrderDAO();
 		OrderDTO order = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress, orderNumber);
-		List<OrderDTO> orders = new ArrayList<OrderDTO>();
-		orders.add(order);
-		request.setAttribute("orderList", orders);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("orderhistory.jsp");
-		dispatcher.forward(request, response);
+		if(order != null) {
+			List<OrderDTO> orders = new ArrayList<OrderDTO>();
+			orders.add(order);
+			request.setAttribute("orderList", orders);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("orderhistory.jsp");
+			dispatcher.forward(request, response);
+		}else {
+			request.setAttribute("error", "No Order Found");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("trackOrder.jsp");
+			dispatcher.forward(request, response);				
+		}
+		
 	}
 	
 	private void getTrackOrderForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

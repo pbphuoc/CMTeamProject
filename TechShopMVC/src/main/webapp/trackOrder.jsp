@@ -24,7 +24,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="formTitle">
-						<h2>Track Your Order</h2>
+						<h2>Track Order</h2>
 					</div>
 				</div>
 			</div>
@@ -48,7 +48,7 @@
 										<input type="email" class="form-control"
 											placeholder="Email Address" id="emailAddress" name="emailAddress"
 											required>
-										<div id="emailAddress" class="invalid-feedback"></div>
+										<div id="emailAddressFeedback" class="invalid-feedback"></div>
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -67,5 +67,55 @@
 	</div>
 	<jsp:include page="footer.jsp"></jsp:include>	
 	<jsp:include page="allscript.jsp"></jsp:include>
+	<script type="text/javascript">
+	(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		    var forms = document.getElementsByClassName('needs-validation');
+		    // Loop over them and prevent submission
+		    var validation = Array.prototype.filter.call(forms, function(form) {
+		      form.addEventListener('submit', function(event) {
+		        if (form.checkValidity() === false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }	        
+		        validateEmailAddress();
+		        validateOrderNumber()
+		        		        
+		      }, false);
+		    });
+		  }, false);
+		})();
+
+	function validateEmailAddress(){
+		var emailFeedback = $('#emailAddressFeedback');
+		var emailAddress = $('#emailAddress');
+		var emailAddressValue = $('#emailAddress').val();
+		var errorMsg = '';
+		if(emailAddressValue == ''){
+			errorMsg = 'Email Address cannot be blank';
+		}else if(!isEmailFormatValid(emailAddressValue)){
+			errorMsg = 'Please provide a correct email address, e.g test@gmail.com';
+		}
+		setErrorMessage(emailAddress, emailFeedback, errorMsg);
+	}
+	function validateOrderNumber(){
+		var orderNumberFeedback =  $('#orderNumberFeedback');
+		var orderNumber =  $('#orderNumber');
+		var orderNumberValue =  $('#orderNumber').val();
+		var errorMsg = '';
+		if(orderNumberValue == ''){
+			errorMsg= 'Order Number cannot be blank';
+		}
+		setErrorMessage(orderNumber, orderNumberFeedback, errorMsg);
+	}	
+	$('#orderNumber').on('focusout', function(){
+		validateEmailAddress();
+	});
+	$('#emailAddress').on('focusout', function(){
+		validateOrderNumber();
+	});	
+	</script>		
 </body>
 </html>

@@ -45,7 +45,7 @@
 							</div>
 							<div class="form-group">
 								<c:choose>
-									<c:when test="${registerError == 'existing'}">
+									<c:when test="${error != null}">
 										<label for="emailRegister">Email Address</label>
 										<input type="email" class="form-control is-invalid"
 											name="emailRegister" id="emailRegister"
@@ -53,7 +53,7 @@
 											aria-label="Username" aria-describedby="basic-addon1"
 											required>
 										<div id="emailRegisterFeedback" class="invalid-feedback">
-											This email address has been registered already</div>
+											${error}</div>
 									</c:when>
 									<c:otherwise>
 										<label for="emailRegister">Email Address</label>

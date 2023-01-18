@@ -82,7 +82,7 @@ public class AuthenticationServlet extends HttpServlet {
 		UserDAO userDAO = new UserDAO();
 		User user = userDAO.getUserByEmail(email);
 		if(user != null) {
-			request.setAttribute("registerError", "existing");
+			request.setAttribute("error", "This email address has been registered already");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
 			dispatcher.forward(request, response);				
 		}else {			
@@ -110,7 +110,7 @@ public class AuthenticationServlet extends HttpServlet {
 			response.sendRedirect(prevUrl);				
 		}else {
 			session.setAttribute("user", null);
-			request.setAttribute("loginError", "invalid");
+			request.setAttribute("error", "Incorrect Email or Password. Please try again");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 			dispatcher.forward(request, response);				
 		}

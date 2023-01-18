@@ -38,12 +38,12 @@
 							<div class="input-group mb-3">
 								<c:choose>
 									<c:when
-										test="${loginError == 'invalid'}">
+										test="${error != null}">
 										<input type="email" class="form-control is-invalid"
 											placeholder="Email Address" id="emailLogin" name="emailLogin"
 											required>
 										<div id="emailLoginFeedback" class="invalid-feedback">
-											Incorrect Email or Password. Please try again</div>
+											${error}</div>
 									</c:when>
 									<c:otherwise>
 										<input type="email" class="form-control"

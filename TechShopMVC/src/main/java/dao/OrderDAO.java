@@ -43,6 +43,8 @@ public class OrderDAO{
 //	
 	
 	private String generateOrderNumber(String date, int second) {	
+		if (second < 0)
+			second = second*-1;
 		String first4DigitInSecond = (second*10000) + "";
 		return date + first4DigitInSecond.substring(0, 5);
 	}
