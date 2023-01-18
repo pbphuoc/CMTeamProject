@@ -544,25 +544,6 @@ ul.btn li:last-child {
 	color: #0808ff;
 }
 
-.read_more {
-	font-size: 17px;
-	background-color: #48ca95;
-	color: #fff !important;
-	padding: 13px 0px;
-	width: 100%;
-	max-width: 190px;
-	text-align: center;
-	display: inline-block;
-	transition: ease-in all 0.5s;
-	font-weight: 500;
-}
-
-.read_more:hover {
-	background: #000;
-	color: #fff;
-	transition: ease-in all 0.5s;
-}
-
 /** three_box section - category**/
 .three_box {
 	background-color: #fff;
@@ -703,22 +684,22 @@ ul.btn li:last-child {
 	margin-bottom: 60px;
 }
 
-.our_products .read_more {
+.read_more {
 	margin: 0 auto;
-	display: block;
-	margin-top: 50px;
-	background-color: transparent;
-	border: #48ca95 solid 2px;
+	display: block;	
+	border: #b9d3d9 solid 2px;
 	color: #303841 !important;
 	max-width: 232px;
-	padding: 50px 0;
 	border-radius: 15px;
+	font-size: 22px;	
+	padding: 13px 0px;
+	width: 100%;
+	text-align: center;
 }
 
-.our_products .read_more:hover {
-	background-color: transparent;
-	border: #FFA007 solid 2px;
-	color: #FFA007 !important;
+.read_more:hover {
+	background-image: linear-gradient(#c4c3d2, #b9d3d9);
+	transition: ease-in all 0.2s;
 }
 
 .margin_bottom {

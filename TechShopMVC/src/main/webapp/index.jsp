@@ -223,6 +223,11 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<a class="read_more" href="Product?command=search&keywords=">View All Products</a>
+				</div>
+			</div>
 		</div>
 	</div>
 	<jsp:include page="footer.jsp"></jsp:include>	
