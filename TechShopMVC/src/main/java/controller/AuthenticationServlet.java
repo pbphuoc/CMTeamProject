@@ -1,18 +1,13 @@
 package controller;
 
 import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import dao.DAOService;
 import dao.UserDAO;
-import dao.DAO.DAOType;
-import dao.DAO.QueryResult;
 import entity.User;
 import util.Utility;
 
@@ -84,15 +79,15 @@ public class AuthenticationServlet extends HttpServlet {
 		String email = request.getParameter("emailRegister");
 		String password = request.getParameter("passwordRegister");
 		String mobile = request.getParameter("mobileRegister");
-		UserDAO userDAO = (UserDAO)DAOService.getDAO(DAOType.USER);
-		User user = userDAO.getRecordByID(email);
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getUserByEmail(email);
 		if(user != null) {
 			request.setAttribute("registerError", "existing");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
 			dispatcher.forward(request, response);				
 		}else {			
-			QueryResult queryResult = userDAO.insertUser(email, password, fullname, mobile);
-			if (queryResult == QueryResult.SUCCESSFUL) {
+			Utility.QueryResult queryResult = userDAO.insertUser(email, password, fullname, mobile);
+			if (queryResult == Utility.QueryResult.SUCCESSFUL) {
 				String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
 				System.out.println("prev Url" + prevUrl);				
 				HttpSession session = request.getSession();
@@ -106,7 +101,7 @@ public class AuthenticationServlet extends HttpServlet {
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("emailLogin");
 		String password = request.getParameter("passwordLogin");	
-		UserDAO userDAO = (UserDAO)DAOService.getDAO(DAOType.USER);
+		UserDAO userDAO = new UserDAO();
 		User user = userDAO.getUserByEmailAndPassword(email, password);
 		HttpSession session = request.getSession();
 		if(user != null) {			
@@ -145,14 +140,4 @@ public class AuthenticationServlet extends HttpServlet {
 		System.out.println("prevUrl: " + prevUrl);		
 		response.sendRedirect("login.jsp?prevUrl="+prevUrl);	
 	}	
-	
-//	private String getCurrentUser(HttpServletRequest request) {
-//		HttpSession session = request.getSession();
-//		if(session.getAttribute("userfullname") != null && !((String)session.getAttribute("userfullname")).equalsIgnoreCase(""))
-//			return (String)session.getAttribute("userfullname");
-//		else {
-//			session.setAttribute("userfullname", "");
-//			return "";
-//		}
-//	}
 }

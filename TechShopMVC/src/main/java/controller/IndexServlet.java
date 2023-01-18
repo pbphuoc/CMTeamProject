@@ -2,23 +2,15 @@ package controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import dao.DAO;
-import dao.DAOService;
 import dao.ProductDAO;
-import dao.DAO.DAOType;
 import entity.Brand;
 import entity.Category;
 import entity.Product;
-import model.SearchFilterDTO;
 
 /**
  * Servlet implementation class IndexServlet
@@ -66,8 +58,8 @@ public class IndexServlet extends HttpServlet {
 	}
 	
 	private void getIndexPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ProductDAO productDAO = (ProductDAO)DAOService.getDAO(DAOType.PRODUCT);
-		List<Product> products = productDAO.getAllRecords();
+		ProductDAO productDAO = new ProductDAO();
+		List<Product> products = productDAO.getPopularProducts();
 		List<Brand> brands = productDAO.getAllBrands();
 		List<Category> categories = productDAO.getAllCategory();
 		request.setAttribute("productList", products);

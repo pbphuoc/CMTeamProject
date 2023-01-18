@@ -3,20 +3,14 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import dao.DAOService;
 import dao.ProductDAO;
-import dao.DAO.DAOType;
 import entity.Product;
 import model.SearchFilterDTO;
-import util.Utility;
 
 /**
  * Servlet implementation class ProductDetailServlet
@@ -66,9 +60,9 @@ public class ProductlServlet extends HttpServlet {
 	}
 	
 	private void getProductDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ProductDAO productDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
+		ProductDAO productDAO = new ProductDAO();
 		String id = request.getParameter("productID");
-		Product product = productDAO.getRecordByID(id);
+		Product product = productDAO.getProductByID(id);
 		List<String> medias = productDAO.getAllMediaByProductID(id);
 		request.setAttribute("product", product);
 		request.setAttribute("medias", medias);
@@ -96,7 +90,7 @@ public class ProductlServlet extends HttpServlet {
 //	}
 	
 	private void searchProductWithFilter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ProductDAO productDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
+		ProductDAO productDAO = new ProductDAO();
 		String[] searchKeywords = request.getParameter("keywords").split(" ");
 		String[] brands = (request.getParameterValues("brand") != null) ? request.getParameterValues("brand") : new String[0];
 		String[] categories = (request.getParameterValues("category") != null) ? request.getParameterValues("category") : new String[0];

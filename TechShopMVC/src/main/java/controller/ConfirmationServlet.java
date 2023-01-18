@@ -3,7 +3,6 @@ package controller;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,10 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import dao.DAOService;
 import dao.ProductDAO;
-import dao.DAO.DAOType;
 import model.CartItemDTO;
 
 /**
@@ -52,7 +48,7 @@ public class ConfirmationServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	protected void viewCheckOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ProductDAO cartDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
+		ProductDAO cartDAO = new ProductDAO();
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		List<CartItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);

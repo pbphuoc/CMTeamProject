@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-
 import entity.User;
+import util.Utility;
+import util.Utility.QueryResult;
 
-public class UserDAO extends DAO<User>{
+public class UserDAO{
 	
 	private static final String INSERT_USER_SQL = "INSERT INTO user (email, password, fullname, phone_number) VALUES (?,?,?,?);";
 	private static final String SELECT_USER_BY_EMAIL_SQL = "SELECT * FROM user WHERE email = ?;";
@@ -23,30 +23,29 @@ public class UserDAO extends DAO<User>{
 //	}	
 	
 	public QueryResult insertUser(String email, String password, String fullname, String mobile) {
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		PreparedStatement insertStm = null;
 		try {			
 			insertStm = connection.prepareStatement(INSERT_USER_SQL);			
-			if (getRecordByID(email) != null)
+			if (getUserByEmail(email) != null)
 				return QueryResult.UNSUCCESSFUL;
 			insertStm.setString(1, email);
 			insertStm.setString(2, password);
 			insertStm.setString(3, fullname);
 			insertStm.setString(4, mobile);
-			return getResultCode(insertStm.executeUpdate());
+			return Utility.getResultCode(insertStm.executeUpdate());
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// TODO: handle exception
 		}finally {
-			close(connection, insertStm, null);
+			Utility.close(connection, insertStm, null);
 		}
 		return QueryResult.UNSUCCESSFUL;
 	}
 	
-	@Override
-	public User getRecordByID(String email) {
+	public User getUserByEmail(String email) {
 		User user = null;
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
 		try
@@ -60,14 +59,14 @@ public class UserDAO extends DAO<User>{
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(connection, selectStm, result);
+			Utility.close(connection, selectStm, result);
 		}
 		return user;
 	}
 	
 	public User getUserByEmailAndPassword(String email, String password) {
 		User user = null;
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
 		try
@@ -82,14 +81,8 @@ public class UserDAO extends DAO<User>{
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(connection, selectStm, result);
+			Utility.close(connection, selectStm, result);
 		}		
 		return user;
 	}
-
-	@Override
-	public List<User> getAllRecords() {
-		// TODO Auto-generated method stub
-		return null;
-	}	
 }

@@ -4,21 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import dao.DAOService;
 import dao.OrderDAO;
 import dao.ProductDAO;
-import dao.DAO.DAOType;
-import dao.DAO.QueryResult;
 import model.CartItemDTO;
 import model.OrderDTO;
+import util.Utility;
 
 /**
  * Servlet implementation class OrderServlet
@@ -70,8 +66,8 @@ public class OrderServlet extends HttpServlet {
 	}
 	
 	protected void submitOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		OrderDAO orderDAO = (OrderDAO) DAOService.getDAO(DAOType.ORDER);
-		ProductDAO productDAO = (ProductDAO) DAOService.getDAO(DAOType.PRODUCT);
+		OrderDAO orderDAO = new OrderDAO();
+		ProductDAO productDAO = new ProductDAO();
 		String checkOutEmail = "ff.pbphuoc@gmail.com";
 		String checkOutFullname = "Phuoc Pham";
 		String checkOutPhone = "04987654321";
@@ -85,14 +81,14 @@ public class OrderServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		List<CartItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);		
-		QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate, shipping, cartItemsDetail);
+		Utility.QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate, shipping, cartItemsDetail);
 		System.out.println(result);
 	}
 	
 	protected void trackOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String emailAddress = request.getParameter("email") != null ? request.getParameter("email") : "";
 		String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber") : "";
-		OrderDAO orderDAO = (OrderDAO) DAOService.getDAO(DAOType.ORDER);
+		OrderDAO orderDAO = new OrderDAO();
 		OrderDTO order = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress,orderNumber);
 		List<OrderDTO> orders = new ArrayList<OrderDTO>();
 		orders.add(order);

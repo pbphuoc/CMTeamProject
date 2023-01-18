@@ -10,7 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import entity.Brand;
 import entity.Category;
 import entity.Product;
@@ -18,9 +17,9 @@ import model.SearchFilterDTO;
 import util.Utility;
 import model.CartItemDTO;
 
-public class ProductDAO extends DAO<Product> {
+public class ProductDAO {
 	
-	private static final String SELECT_ALL_PRODUCT_SQL = "SELECT * FROM product;";
+	private static final String SELECT_LATEST16_PRODUCT_SQL = "SELECT * FROM product order by 1 desc limit 16;";
 	private static final String SELECT_PRODUCT_BY_ID_SQL = "SELECT * FROM product where id=? ;";
 	private static final String SELECT_PRICE_BY_ID_SQL = "SELECT new_price FROM product where id =? ;";
 	private static final String SEARCH_PRODUCT_BY_NAME_SQL = "SELECT * FROM product where name like ? ";
@@ -39,15 +38,14 @@ public class ProductDAO extends DAO<Product> {
 //		connection = getConnection();
 //	}	
 
-	@Override
-	public List<Product> getAllRecords(){	
+	public List<Product> getPopularProducts(){	
 		List<Product> products = new ArrayList<Product>();			
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
 		try
 		{			
-			selectStm = connection.prepareStatement(SELECT_ALL_PRODUCT_SQL);
+			selectStm = connection.prepareStatement(SELECT_LATEST16_PRODUCT_SQL);
 			result = selectStm.executeQuery();
 			while(result.next()) {
 				String id = result.getInt("id") + "";
@@ -66,7 +64,7 @@ public class ProductDAO extends DAO<Product> {
 		catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(connection, selectStm, result);
+			Utility.close(connection, selectStm, result);
 		}
 		return products;
 	}
@@ -91,7 +89,7 @@ public class ProductDAO extends DAO<Product> {
 	
 	public Map<String, SearchFilterDTO> getAllFilterDTOFromDB(String query) {	
 		Map<String, SearchFilterDTO> filters = new LinkedHashMap<String, SearchFilterDTO>();		
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
 		try
@@ -108,7 +106,7 @@ public class ProductDAO extends DAO<Product> {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(connection, selectStm, result);
+			Utility.close(connection, selectStm, result);
 		}
 		return filters;
 	}	
@@ -120,9 +118,9 @@ public class ProductDAO extends DAO<Product> {
 			if(!statement.equalsIgnoreCase("")) {
 				if (!inWhereClause){
 					inWhereClause = true;
-					whereClause += WHERE_QUERY + statement;							
+					whereClause += Utility.WHERE_QUERY + statement;							
 				}else {
-					whereClause += AND_QUERY + statement;		
+					whereClause += Utility.AND_QUERY + statement;		
 				}
 			}			
 		}
@@ -207,8 +205,8 @@ public class ProductDAO extends DAO<Product> {
 		Map<String,SearchFilterDTO> availabilityFilters = new HashMap<String,SearchFilterDTO>();
 		String[] newKeywords = getAllPossibleMatchedKeywords(keywords);
 		int currentParam = 0;	
-		String searchProductSQL = DAO.SELECT_FROM_SUB_QUERY + getNameCondition(newKeywords);
-		Connection connection = getConnection();
+		String searchProductSQL = Utility.SELECT_FROM_SUB_QUERY + getNameCondition(newKeywords);
+		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
 		try{			
@@ -237,7 +235,7 @@ public class ProductDAO extends DAO<Product> {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(connection, selectStm, result);
+			Utility.close(connection, selectStm, result);
 		}
 		return new Object[]{products, brandFilters, categoryFilters, availabilityFilters};
 	}	
@@ -268,7 +266,7 @@ public class ProductDAO extends DAO<Product> {
 		if(!priceMax.equalsIgnoreCase(""))
 			priceMaxCondition = "new_price <= ?";		
 		
-		String searchProductSQL = DAO.SELECT_FROM_SUB_QUERY + getNameCondition(newKeywords) + getWhereClause(new String[] {getBrandCondition(selectedBrands),getCategoryCondition(selectedCategories),getAvailabilityCondition(selectedAvailabilities),priceMinCondition,priceMaxCondition});
+		String searchProductSQL = Utility.SELECT_FROM_SUB_QUERY + getNameCondition(newKeywords) + getWhereClause(new String[] {getBrandCondition(selectedBrands),getCategoryCondition(selectedCategories),getAvailabilityCondition(selectedAvailabilities),priceMinCondition,priceMaxCondition});
 
 		searchProductSQL+= getSortCondition(selectedSorter);	
 		if(!perPage.equalsIgnoreCase(""))
@@ -276,7 +274,7 @@ public class ProductDAO extends DAO<Product> {
 		if(!page.equalsIgnoreCase(""))
 			searchProductSQL += " offset ? ";		
 		
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;		
 		ResultSet result = null;
 		int rowCountBeforeLimit = 0;
@@ -332,14 +330,13 @@ public class ProductDAO extends DAO<Product> {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(connection, selectStm, result);
+			Utility.close(connection, selectStm, result);
 		}
 		return new Object[]{filteredProducts, allBrandFilters, allCategoryFilters, allAvailabilityFilters, allSorters, allResultPerPages, pagingMap, rowCountBeforeLimit};		
 	}
 
-	@Override
-	public Product getRecordByID(String id) {
-		Connection connection = getConnection();
+	public Product getProductByID(String id) {
+		Connection connection = Utility.getConnection();
 		Product product = null;
 		PreparedStatement selectStm = null;		
 		try{			
@@ -360,14 +357,14 @@ public class ProductDAO extends DAO<Product> {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(connection, selectStm, null);
+			Utility.close(connection, selectStm, null);
 		}		
 		return product;
 	}
 	
 	public List<String> getAllMediaByProductID(String id){
 		List<String> medias = new ArrayList<String>();	
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
 		try
@@ -381,14 +378,14 @@ public class ProductDAO extends DAO<Product> {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(connection, selectStm, result);
+			Utility.close(connection, selectStm, result);
 		}
 		return medias;
 	}
 	
 	public double getPriceByProductID(String id) {
 		double price = 0;		
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
 		try
@@ -402,14 +399,14 @@ public class ProductDAO extends DAO<Product> {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(connection, selectStm, result);
+			Utility.close(connection, selectStm, result);
 		}
 		return price;
 	}
 	
 	public List<Brand> getAllBrands() {
 		List<Brand> brands = new ArrayList<Brand>();	
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet rs = null;
 		try
@@ -425,14 +422,14 @@ public class ProductDAO extends DAO<Product> {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(connection, selectStm, rs);;
+			Utility.close(connection, selectStm, rs);;
 		}
 		return brands;
 	}
 	
 	public List<Category> getAllCategory() {
 		List<Category> categories = new ArrayList<Category>();	
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet rs = null;
 		try
@@ -448,7 +445,7 @@ public class ProductDAO extends DAO<Product> {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(connection, selectStm, rs);;
+			Utility.close(connection, selectStm, rs);;
 		}
 		return categories;
 	}	
@@ -513,7 +510,7 @@ public class ProductDAO extends DAO<Product> {
 		List<CartItemDTO> cartList = new ArrayList<CartItemDTO>();
 		
 		for (Map.Entry<String, Integer> cI : cartItems.entrySet()) {
-			cartList.add(new CartItemDTO(getRecordByID((String) cI.getKey()),(int) cI.getValue()));
+			cartList.add(new CartItemDTO(getProductByID((String) cI.getKey()),(int) cI.getValue()));
 		}		
 		return cartList;
 	}

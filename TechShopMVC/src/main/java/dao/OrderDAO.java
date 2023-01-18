@@ -5,21 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import dao.DAO.DAOType;
 import entity.OrderItem;
 import model.CartItemDTO;
 import model.OrderDTO;
+import util.Utility;
+import util.Utility.QueryResult;
 
-public class OrderDAO extends DAO<OrderDTO> {
+public class OrderDAO{
 	private static final String INSERT_ORDER_SQL = "INSERT INTO orders (order_number, order_date, checkout_email, checkout_fullname, checkout_phone, receiver_fullname, receiver_phone, receiver_address, receive_method_id, payment_type_id, payment_date, shipping, total) "
 			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String INSERT_ORDERITEM_SQL = "INSERT INTO order_item (order_id, product_id, product_name, product_description, product_img_src, price, quantity) "
@@ -67,7 +64,7 @@ public class OrderDAO extends DAO<OrderDTO> {
 			String receiveMethodId, String paymentTypeId, String paymentDate, String shipping, List<CartItemDTO> orderItems) {
 		PreparedStatement insertStm = null;		
 		ResultSet generatedKeys = null;
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		long totalCost = calculateTotal(shipping, orderItems);
 		ZoneId z = ZoneId.of("Australia/Sydney");
 		ZonedDateTime zdt = ZonedDateTime.now(z);
@@ -89,7 +86,7 @@ public class OrderDAO extends DAO<OrderDTO> {
 			insertStm.setDouble(++currentParam, Double.parseDouble(shipping));
 			insertStm.setDouble(++currentParam, totalCost);		
 //			System.out.println("query: " + insertStm.toString());
-			if(getResultCode(insertStm.executeUpdate()) == QueryResult.UNSUCCESSFUL)
+			if(Utility.getResultCode(insertStm.executeUpdate()) == QueryResult.UNSUCCESSFUL)
 				return QueryResult.UNSUCCESSFUL;
 			else {
 				generatedKeys = insertStm.getGeneratedKeys();
@@ -102,14 +99,14 @@ public class OrderDAO extends DAO<OrderDTO> {
 			e.printStackTrace();
 			// TODO: handle exception
 		}finally {
-			close(connection, insertStm, generatedKeys);
+			Utility.close(connection, insertStm, generatedKeys);
 		}
 		return QueryResult.UNSUCCESSFUL;
 	}
 	
 	public QueryResult insertOrderItem(int orderID, List<CartItemDTO> orderItems) {
 		PreparedStatement insertStm = null;		
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		try {			
 			insertStm = connection.prepareStatement(INSERT_ORDERITEM_SQL, Statement.RETURN_GENERATED_KEYS);
 			int batchCount = 0;
@@ -139,7 +136,7 @@ public class OrderDAO extends DAO<OrderDTO> {
 			e.printStackTrace();
 			// TODO: handle exception
 		}finally {
-			close(connection, insertStm, null);
+			Utility.close(connection, insertStm, null);
 		}
 		return QueryResult.UNSUCCESSFUL;
 	}	
@@ -148,7 +145,7 @@ public class OrderDAO extends DAO<OrderDTO> {
 		PreparedStatement selectStm = null;
 		List<OrderItem> items = null;
 		ResultSet result = null;
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		try {			
 			selectStm = connection.prepareStatement(SELECT_ORDERITEM_BY_ORDERID_SQL);
 			selectStm.setString(1, id);
@@ -167,7 +164,7 @@ public class OrderDAO extends DAO<OrderDTO> {
 			e.printStackTrace();
 			// TODO: handle exception
 		}finally {
-			close(connection, selectStm, result);
+			Utility.close(connection, selectStm, result);
 		}
 		return items;		
 	}	
@@ -176,7 +173,7 @@ public class OrderDAO extends DAO<OrderDTO> {
 		PreparedStatement selectStm = null;
 		List<OrderDTO> orders = new ArrayList<OrderDTO>();
 		ResultSet result = null;
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		try {			
 			selectStm = connection.prepareStatement(SELECT_ORDER_BY_USEREMAIL_SQL);
 			selectStm.setString(1, email);
@@ -204,7 +201,7 @@ public class OrderDAO extends DAO<OrderDTO> {
 			e.printStackTrace();
 			// TODO: handle exception
 		}finally {
-			close(connection, selectStm, result);
+			Utility.close(connection, selectStm, result);
 		}
 		return orders;		
 	}
@@ -213,7 +210,7 @@ public class OrderDAO extends DAO<OrderDTO> {
 		PreparedStatement selectStm = null;
 		OrderDTO order = null;
 		ResultSet result = null;
-		Connection connection = getConnection();
+		Connection connection = Utility.getConnection();
 		try {			
 			selectStm = connection.prepareStatement(SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL);
 			selectStm.setString(1, email);
@@ -242,21 +239,8 @@ public class OrderDAO extends DAO<OrderDTO> {
 			e.printStackTrace();
 			// TODO: handle exception
 		}finally {
-			close(connection, selectStm, result);
+			Utility.close(connection, selectStm, result);
 		}
 		return order;		
 	}
-	
-	@Override
-	public List<OrderDTO> getAllRecords() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrderDTO getRecordByID(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
