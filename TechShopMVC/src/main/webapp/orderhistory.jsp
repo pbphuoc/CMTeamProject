@@ -19,7 +19,7 @@
 </head>
 <body class="main-layout">
 	<jsp:include page="header.jsp"></jsp:include>
-	<div class="container">
+	<div class="container widerContainer">
 		<div class="projectContainer">	
 			<div class="row">
 				<div class="col-md-12">
@@ -47,7 +47,7 @@
 						  <c:forEach items="${orderList}" var="order">
 							  <tbody>
 							    <tr>
-							      <th scope="row">${order.id}</th>
+							      <th scope="row">${order.orderNumber}</th>
 							      <td>${order.date}</td>
 							      <td>${order.checkOutEmail}</td>
 							      <td>${order.receiverFullname}</td>

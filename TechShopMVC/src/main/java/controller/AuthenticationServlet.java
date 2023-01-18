@@ -36,7 +36,7 @@ public class AuthenticationServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("-----------------------------");
-		System.out.println("doGet Login Servlet called");
+		System.out.println("doGet Authentication Servlet called");
 		System.out.println("Current command: " + request.getParameter("command"));
 //		System.out.println("Current User: " + getCurrentUser(request));
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -58,8 +58,8 @@ public class AuthenticationServlet extends HttpServlet {
 			case "register":
 				register(request, response);
 				break;
-			case "":
-//				getLoginPage(request, response);
+			default:
+				getLoginPage(request, response);
 				break;
 			}			
 		} catch (Exception e) {

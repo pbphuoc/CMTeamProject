@@ -1617,3 +1617,6 @@ table .tableTotal {
 .reviewUserDetail{
 	margin-top: 1.5rem;
 }
+.widerContainer{
+	max-width: 90vw;
+}

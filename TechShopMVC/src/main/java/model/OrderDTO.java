@@ -1,7 +1,7 @@
-package entity;
+package model;
 
 public class OrderDTO {
-	private String id;
+	private String orderNumber;
 	private String date;
 	private String checkOutEmail;
 	private String checkOutFullname;
@@ -36,11 +36,11 @@ public class OrderDTO {
 //		REFUNDED
 //	}
 	
-	public OrderDTO(String id, String date, String checkOutEmail, String checkOutFullname,
+	public OrderDTO(String orderNumber, String date, String checkOutEmail, String checkOutFullname,
 			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
 			String receiveMethod, String paymentType, String paymentDate, String status, double shipping,
 			double total) {
-		this.id = id;
+		this.orderNumber = orderNumber;
 		this.date = date;
 		this.checkOutEmail = checkOutEmail;
 		this.checkOutFullname = checkOutFullname;
@@ -56,8 +56,8 @@ public class OrderDTO {
 		this.total = total;
 	}
 
-	public String getId() {
-		return id;
+	public String getOrderNumber() {
+		return orderNumber;
 	}
 
 	public String getDate() {
