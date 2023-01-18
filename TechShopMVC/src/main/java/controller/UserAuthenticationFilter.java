@@ -39,7 +39,7 @@ public class UserAuthenticationFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpSession session = httpRequest.getSession(false);
 		
-		boolean isLoggedIn = (session != null && session.getAttribute("userfullname") != null && !((String)session.getAttribute("userfullname")).equalsIgnoreCase(""));
+		boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
 		String loginURI = httpRequest.getContextPath() + "/Auth";
 		boolean isLoginRequest = httpRequest.getRequestURI().equals(loginURI);
 		boolean isLoginPage = httpRequest.getRequestURI().endsWith("login.jsp");

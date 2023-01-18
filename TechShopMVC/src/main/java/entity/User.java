@@ -3,19 +3,19 @@ package entity;
 public class User {
 	private String email;
 	private String password;
-	private String fullname;
+	private String name;
 	private String phoneNumber;
 	
-	public User(String email, String password, String fullname, String phoneNumber) {
+	public User(String email, String password, String name, String phoneNumber) {
 		this.email = email;
 		this.password = password;
-		this.fullname = fullname;
+		this.name = name;
 		this.phoneNumber = phoneNumber;
 	}
 	
-	public User(String email, String fullname, String phoneNumber) {
+	public User(String email, String name, String phoneNumber) {
 		this.email = email;
-		this.fullname = fullname;
+		this.name = name;
 		this.phoneNumber = phoneNumber;
 	}
 	
@@ -27,8 +27,8 @@ public class User {
 		return password;
 	}
 
-	public String getFullname() {
-		return fullname;
+	public String getName() {
+		return name;
 	}
 
 	public String getPhoneNumber() {

@@ -12,7 +12,6 @@ public class Product {
 	private String categoryID;
 	private String imgSrc;
 	private int stock;
-//	private String stockStatus;	
 
 	public Product(String id, String name, String description, double oldPrice, double newPrice, String brandID,
 			String categoryID, String imgSrc, int stock) {
@@ -25,8 +24,15 @@ public class Product {
 		this.categoryID = categoryID;
 		this.imgSrc = imgSrc;
 		this.stock = stock;
-//		this.stockStatus = (stock == 0) ? Utility.STOCKSTATUS_OUTOFSTOCK : Utility.STOCKSTATUS_INSTOCK ;
 	}
+	
+	public Product(String id, String name, String description, double newPrice, String imgSrc) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.newPrice = newPrice;
+		this.imgSrc = imgSrc;
+	}	
 	
 	public String getId() {
 		return id;

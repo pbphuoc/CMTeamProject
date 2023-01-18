@@ -91,8 +91,7 @@ public class AuthenticationServlet extends HttpServlet {
 				String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
 				System.out.println("prev Url" + prevUrl);				
 				HttpSession session = request.getSession();
-				session.setAttribute("userfullname", fullname);
-				session.setAttribute("useremail", email);
+				session.setAttribute("user", user);
 				response.sendRedirect(prevUrl);				
 			}
 		}
@@ -107,12 +106,10 @@ public class AuthenticationServlet extends HttpServlet {
 		if(user != null) {			
 			String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
 			System.out.println("prev Url" + prevUrl);			
-			session.setAttribute("userfullname", user.getFullname());
-			session.setAttribute("useremail", email);
+			session.setAttribute("user", user);
 			response.sendRedirect(prevUrl);				
 		}else {
-//			session.setAttribute("useremail", "invalid");
-			session.setAttribute("userfullname", "");
+			session.setAttribute("user", null);
 			request.setAttribute("loginError", "invalid");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 			dispatcher.forward(request, response);				
@@ -123,9 +120,7 @@ public class AuthenticationServlet extends HttpServlet {
 		String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
 		System.out.println("prev Url" + prevUrl);			
 		HttpSession session = request.getSession();
-		System.out.println("Current useremail: " + (String)session.getAttribute("useremail"));
-		session.setAttribute("userfullname", null);
-		session.setAttribute("useremail", null);
+		session.setAttribute("user", null);
 		response.sendRedirect(prevUrl);
 	}	
 	

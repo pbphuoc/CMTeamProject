@@ -1444,8 +1444,9 @@ table .tableTotal {
 	padding-left: 30px;
 }
 
-.menuBarUsername {
+#menuBarUsernameDropdownLink {
 	display: inline;
+	font-size: 22px;
 }
 
 .menuBarLoginBtn {
@@ -1637,6 +1638,7 @@ table .tableTotal {
 	max-width: 90vw;
 }
 
+
 .confirmationForm {
 	width: 100%;
 	display: flex;
@@ -1649,4 +1651,9 @@ table .tableTotal {
 
 
 
+
+
+.alignItemCenter{
+	align-items: center;
+}
 
