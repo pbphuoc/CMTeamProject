@@ -130,8 +130,8 @@ public class OrderServlet extends HttpServlet {
 		ProductDAO productDAO = new ProductDAO();
 		String checkOutEmail = request.getParameter("checkOutEmail");
 		System.out.println(checkOutEmail);
-		String checkOutFullname = request.getParameter("checkOutFullname");
-		String checkOutPhone = request.getParameter("checkOutPhone");
+		String checkOutFullname = "Guest User";
+		String checkOutPhone = "No Phone";
 		String receiverFullname = request.getParameter("receiverFullname");
 		String receiverPhone = request.getParameter("receiverPhone");
 		String receiverAddress = request.getParameter("receiverAddress");

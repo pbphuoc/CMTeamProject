@@ -25,10 +25,9 @@ const formatter = new Intl.NumberFormat('en-Us',{
 
 	$('.subTotalPrice').text(function(){
 		$(this).text(formatter.format(subtotal));
+		;
 	});
-	if(subtotal == 0){
-		$('.checkOutNow').remove();
-	}
 	
+	$("#total").val(`${subtotal}`);
 	}
 )

@@ -99,12 +99,14 @@ function loadLoggedInUser() {
 
 $('#deliveryOptions input').change(function() {
 	if ($(this).attr('id') == 'optDeliveryLB'){
-		$('#checkOutAddress').show();	
-		$('#checkOutAddress').attr('required',true);
+		$('#receiverAddress').show();	
+		$('#receiverAddress').attr('required',true);
+		$('#deliveryMethod').attr('value',"2");
 	}else {
-		$('#checkOutAddress').hide();
-		$('#checkOutAddress').val("");
-		$('#checkOutAddress').attr('required',false);
+		$('#receiverAddress').hide();
+		$('#receiverAddress').val("");
+		$('#receiverAddress').attr('required',false);
+		$('#deliveryMethod').attr('value',"1");
 		
 	}
 	//if ($(this).attr('id') == 'optCollectLB')
@@ -113,21 +115,28 @@ $('#deliveryOptions input').change(function() {
 
 $('#paymentOptions input').change(function() {
 	if ($(this).attr('id') == 'payNowBtn'){
-		$('#paymentForm').show();
+		$('#creditCardField').show();
 		$('#cardHolderName').attr('required',true);
 		$('#cardNumber').attr('required',true);
 		$('#expiredDate').attr('required',true);
 		$('#cvvNumber').attr('required',true);
 		$('#billingFname').attr('required',true);
 		$('#billingLname').attr('required',true);
+		$('#billingPhone').attr('required',true);
 		$('#billingAddress').attr('required',true);
+		$('#paymentMethod').attr('value',"1");
 	}	else {
-		$('#paymentForm').hide();
-		$('#paymentForm').find('input').val("");
+		$('#creditCardField').hide();
+		$('#creditCardField').find('input').val("");
+		$('#billingFname').attr('required',false);
+		$('#billingLname').attr('required',false);
+		$('#billingAddress').attr('required',false);
+		$('#billingPhone').attr('required',false);
 		$('#cardHolderName').attr('required',false);
 		$('#cardNumber').attr('required',false);
 		$('#expiredDate').attr('required',false);
 		$('#cvvNumber').attr('required',false);
+		$('#paymentMethod').attr('value',"0");
 		
 		
 		

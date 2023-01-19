@@ -71,12 +71,14 @@
 									<div id="deliveryOptions" class="btn-group btn-group-toggle"
 										data-toggle="buttons">
 										<label class="btn btn-secondary active mr-2"> <input
-											id="optDeliveryLB" type="radio" name="options"
+											id="optDeliveryLB" type="radio" name="options" 
 											autocomplete="off" checked> Delivery
+											
 										</label> <label class="btn btn-secondary"> <input
-											id="optCollectLB" type="radio" name="options"
-											autocomplete="off"> Collect At Store
+											id="optCollectLB" type="radio" name="deliveryoptionsMethod" 
+											autocomplete="off" > Pickup at Store
 										</label>
+										<input id="deliveryMethod" name="deliveryMethod" value="2" hidden="true">
 									</div>
 
 								</div>
@@ -87,14 +89,14 @@
 
 										<div class="form-row mb-3">
 											<div class="form-group col-md-6">
-												<input type="text" name="fname" class="form-control"
+												<input type="text" name="receiverFirstName" class="form-control"
 													placeholder="First Name" aria-describedby="basic-addon1"
-													id="checkOutFirstName" required>
+													id="receiverFirstName" required>
 											</div>
 											<div class="form-group col-md-6">
-												<input type="text" name="lname" class="form-control"
+												<input type="text" name="receiverLastName" class="form-control"
 													placeholder="Last Name" aria-describedby="basic-addon1"
-													id="checkOutLastName" required>
+													id="receiverLastName" required>
 											</div>
 										</div>
 										<div class="form-row mb-3">
@@ -104,23 +106,20 @@
 												</select>
 											</div>
 											<div class="col-md-12">
-												<input type="text" name="phone" class="form-control"
+												<input type="text" name="receiverPhoneNumber" class="form-control"
 													placeholder="Phone Number" aria-describedby="basic-addon1"
-													id="checkOutPhoneNumber" required>
+													id="receiverPhoneNumber" required>
 											</div>
 											<br> <br>
 											<div class="form-group col-md-12">
-												<input type="text" name="address" class="form-control"
+												<input type="text" name="receiverAddress" class="form-control"
 													placeholder="Delivery Address"
-													aria-describedby="basic-addon1" id="checkOutAddress"
+													aria-describedby="basic-addon1" id="receiverAddress"
 													required>
 											</div>
 										</div>
 									</div>
-
 								</div>
-
-
 
 								<div id="guestAddress" class="row">
 									<div class="col">
@@ -132,9 +131,10 @@
 													id="payNowBtn" type="radio" name="options"
 													autocomplete="off" checked> Pay now
 												</label> <label class="btn btn-secondary"> <input
-													id="payOnPickupBtn" type="radio" name="options"
+													id="payOnPickupBtn" type="radio" name="options" 
 													autocomplete="off"> Pay later
 												</label>
+												<input id="paymentMethod" name="paymentMethod" value="1" hidden="true">
 											</div>
 										</div>
 									</div>
@@ -263,6 +263,7 @@
 								<div class="flex-sm-col col-auto">
 									<p class="mb-1 subTotalPrice">
 										<b>0</b>
+										<input id="subtotal" name="subtotal" value="0">
 									</p>
 								</div>
 							</div>
@@ -283,13 +284,16 @@
 								<div class="col-4">
 									<p>
 										<b>Total</b>
+			
 									</p>
 								</div>
 								<div class="flex-sm-col col-auto">
 									<p class="mb-1 subTotalPrice">
 										<b>0</b>
+										
 									</p>
 								</div>
+								<input id="total" name="total" value="0" hidden="true">
 							</div>
 							<hr class="my-0">
 						</div>

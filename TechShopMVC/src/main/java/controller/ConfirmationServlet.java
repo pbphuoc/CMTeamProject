@@ -10,8 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import dao.OrderDAO;
 import dao.ProductDAO;
+import entity.Order;
 import model.CartItemDTO;
+import util.Utility;
 
 /**
  * Servlet implementation class ConfirmationServlet
@@ -49,11 +53,49 @@ public class ConfirmationServlet extends HttpServlet {
 	}
 	protected void viewCheckOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProductDAO cartDAO = new ProductDAO();
+		
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		List<CartItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
-		String email = request.getParameter("email");
-		request.setAttribute("email", email);
+		
+		/*//String orderNumber E, String dateE, String checkOutEmailP, String checkOutFullnameE,
+				String checkOutPhoneE, String receiverFullnameP, String receiverPhoneP, String receiverAddressP,
+				String receiveMethod Utility, String paymentTypeUtility, String paymentDate E, String statusE, double shippingE,
+				double total*/		
+		
+		String orderNumber = "";
+		String date = "";
+		String checkOutEmail = request.getParameter("email");
+		
+		String checkOutFullname = "";
+		String checkOutPhone = "";
+		String receiverFullname = request.getParameter("receiverFirstName") + request.getParameter("receiverLastName");
+		
+		String receiverPhone = request.getParameter("receiverPhoneNumber");
+		String receiverAddress = request.getParameter("receiverAddress");
+		String receiveMethod = Utility.RECEIVEMETHOD_MAP.get(request.getParameter("deliveryMethod"));
+		System.out.println(receiveMethod);
+		String paymentType = Utility.PAYMENT_MAP.get(request.getParameter("paymentMethod"));
+		String paymentDate = "";
+		String status = "";
+		double shipping = 0;
+		double total = 0;	
+		
+		
+		/*
+		 * Order order = new Order(String orderNumber, String date, String
+		 * checkOutEmail, String checkOutFullname, String checkOutPhone, String
+		 * receiverFullname, String receiverPhone, String receiverAddress, String
+		 * receiveMethod, String paymentType, String paymentDate, String status, double
+		 * shipping, double total);
+		 */
+		
+		 Order order = new Order(orderNumber, date, checkOutEmail, checkOutFullname,
+				 checkOutPhone, receiverFullname, receiverPhone, receiverAddress,
+				 receiveMethod, paymentType, paymentDate, status, shipping, total);
+		 
+		 request.setAttribute("order",order);
+		 
 		request.setAttribute("CartItemDetails", cartItemDetails);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("confirmation.jsp");
 		dispatcher.forward(request, response);
