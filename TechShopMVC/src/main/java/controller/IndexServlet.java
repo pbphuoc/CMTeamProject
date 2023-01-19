@@ -11,6 +11,7 @@ import dao.ProductDAO;
 import entity.Brand;
 import entity.Category;
 import entity.Product;
+import util.BCrypt;
 
 /**
  * Servlet implementation class IndexServlet

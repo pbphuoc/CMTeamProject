@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,6 +29,20 @@ public class Utility {
 //	private static final String DEFAULT_RESULTPERPAGE_SETTING = "16";
 	public static final String STOCKSTATUS_OUTOFSTOCK = "0";	
 	public static final String STOCKSTATUS_INSTOCK = "1";
+	public static final String ORDERSTATUS_RECEIVED = "0";
+	public static final String ORDERSTATUS_PROCESSING = "1";
+	public static final String ORDERSTATUS_READY = "2";
+	public static final String ORDERSTATUS_FINISHED = "3";
+	public static final String ORDERSTATUS_REFUNDED = "4";
+	public static final String ORDERSTATUS_CANCELLED = "-1";
+	public static final String PAYMENT_UNPAID = "0";
+	public static final String PAYMENT_CARD = "1";
+	public static final String PAYMENT_TRANSFER = "2";
+	public static final String PAYMENT_ATSTORE = "3";
+	public static final String RECEIVEMETHOD_PICKUP = "1";
+	public static final String RECEIVEMETHOD_DELIVER = "2";
+	
+	
 	public static final Map<String, String> AVAILABILITY_MAP = new LinkedHashMap<String, String>(){{
 		put(STOCKSTATUS_OUTOFSTOCK, "Out Of Stock");
 		put(STOCKSTATUS_INSTOCK, "In Stock");
@@ -50,11 +65,47 @@ public class Utility {
 		put("128", "128");
 	}};		
 	
+	public static final Map<String, String> ORDERSTATUS_MAP = new HashMap<String, String>(){{
+		put(ORDERSTATUS_RECEIVED, "RECEIVED");
+		put(ORDERSTATUS_PROCESSING, "PROCESSING");
+		put(ORDERSTATUS_READY, "READY");
+		put(ORDERSTATUS_FINISHED, "FINISHED");
+		put(ORDERSTATUS_REFUNDED, "REFUNDED");
+		put(ORDERSTATUS_CANCELLED, "CANCELLED");
+	}};		
+	
+	public static final Map<String, String> PAYMENT_MAP = new HashMap<String, String>(){{
+		put(PAYMENT_UNPAID, "UNPAID");
+		put(PAYMENT_CARD, "CARD");
+		put(PAYMENT_TRANSFER, "AT STORE");
+		put(PAYMENT_ATSTORE, "TRANSFER");		
+	}};
+	
+	public static final Map<String, String> RECEIVEMETHOD_MAP = new HashMap<String, String>(){{
+		put(RECEIVEMETHOD_PICKUP, "PICK UP AT STORE");
+		put(RECEIVEMETHOD_DELIVER, "DELIVERY");	
+	}};		
+	
 	public enum QueryResult{
 		SUCCESSFUL,
 		UNSUCCESSFUL
 	}	
 			
+//	public enum PAYMENT{
+//		UNPAID,
+//		PAYATSTORE,
+//		TRANSFER,
+//		CARD
+//	}
+	
+//	public enum STATUS{
+//		RECEIVED,
+//		PROCESSING,
+//		READY,
+//		FINISHED,
+//		REFUNDED
+//	}	
+	
 	public static Entry getEntryByKey(Map<?,?> theMap, Object theKey, Object theDefaultKey) {
 		Entry defaultEntry = null;
 		for(Entry entry: theMap.entrySet()) {

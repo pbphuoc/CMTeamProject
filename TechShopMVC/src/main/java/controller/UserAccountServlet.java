@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.OrderDAO;
+import entity.Order;
 import entity.User;
-import model.OrderDTO;
 
 /**
  * Servlet implementation class UserAccountServlet
@@ -63,7 +63,7 @@ public class UserAccountServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		OrderDAO orderDAO = new OrderDAO();
-		List<OrderDTO> orderList = orderDAO.getOrderByUserEmail(user.getEmail());
+		List<Order> orderList = orderDAO.getOrderByUserEmail(user.getEmail());
 		request.setAttribute("orderList", orderList);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("orderhistory.jsp");
 		dispatcher.forward(request, response);

@@ -10,27 +10,20 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import entity.OrderItem;
+
+import entity.Order;
 import entity.Product;
 import model.CartItemDTO;
-import model.OrderDTO;
 import util.Utility;
 import util.Utility.QueryResult;
 
 public class OrderDAO{
-	private static final String INSERT_ORDER_SQL = "INSERT INTO orders (order_number, order_date, checkout_email, checkout_fullname, checkout_phone, receiver_fullname, receiver_phone, receiver_address, receive_method_id, payment_type_id, payment_date, shipping, total) "
-			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+	private static final String INSERT_ORDER_SQL = "INSERT INTO orders (order_number, order_date, checkout_email, checkout_fullname, checkout_phone, receiver_fullname, receiver_phone, receiver_address, receive_method_id, payment_type_id, payment_date, order_status_id, shipping, total) "
+			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String INSERT_ORDERITEM_SQL = "INSERT INTO order_item (order_id, product_id, product_name, product_description, product_img_src, price, quantity) "
 			+ "VALUES (?,?,?,?,?,?,?);";
-	private static final String SELECT_ORDER_BY_USEREMAIL_SQL = "SELECT o.order_number, o.order_date, o.checkout_email, o.checkout_fullname, o.checkout_phone, o.receiver_fullname, o.receiver_phone, o.receiver_address,"
-			+ " r.name as receive_method, p.name as payment_method, o.payment_date, s.name as status, o.shipping, o.total"			
-			+ " FROM orders as o, receive_type as r, payment_type as p, order_status as s"
-			+ " WHERE checkout_email = ? AND o.receive_method_id = r.id AND o.payment_type_id = p.id AND o.order_status_id = s.id;";
-	private static final String SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL = "SELECT o.order_number, o.order_date, o.checkout_email, o.checkout_fullname, o.checkout_phone, o.receiver_fullname, o.receiver_phone, o.receiver_address,"
-			+ " r.name as receive_method, p.name as payment_method, o.payment_date, s.name as status, o.shipping, o.total"			
-			+ " FROM orders as o, receive_type as r, payment_type as p, order_status as s"
-			+ " WHERE o.checkout_email = ? AND o.order_number = ? AND o.receive_method_id = r.id AND o.payment_type_id = p.id AND o.order_status_id = s.id;";	
-	
+	private static final String SELECT_ORDER_BY_USEREMAIL_SQL = "SELECT * FROM orders WHERE checkout_email = ?;";
+	private static final String SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL = "SELECT * FROM orders WHERE checkout_email = ? AND order_number = ?;";	
 	private static final String SELECT_ORDERITEM_BY_ORDERID_SQL = "SELECT * FROM order_item where order_id = ?;";	
 	private static final String SELECT_PAYMENTMETHOD_BY_ID_SQL = "SELECT * FROM payment_type where id = ?;";
 	private static final String SELECT_RECEIVEMETHOD_BY_ID_SQL = "SELECT * FROM receive_type where id = ?;";
@@ -46,7 +39,7 @@ public class OrderDAO{
 		if (second < 0)
 			second = second*-1;
 		String first4DigitInSecond = (second*10000) + "";
-		return date + first4DigitInSecond.substring(0, 5);
+		return date + first4DigitInSecond.substring(0, 8);
 	}
 	
 	private long calculateTotal(String shipping, List<CartItemDTO> orderItems) {
@@ -87,6 +80,7 @@ public class OrderDAO{
 			insertStm.setInt(++currentParam, Integer.parseInt(receiveMethodId));
 			insertStm.setInt(++currentParam, Integer.parseInt(paymentTypeId));
 			insertStm.setString(++currentParam, paymentDate);
+			insertStm.setInt(++currentParam, Integer.parseInt(Utility.ORDERSTATUS_RECEIVED));			
 			insertStm.setDouble(++currentParam, Double.parseDouble(shipping));
 			insertStm.setDouble(++currentParam, totalCost);		
 //			System.out.println("query: " + insertStm.toString());
@@ -175,9 +169,9 @@ public class OrderDAO{
 		return items;		
 	}	
 	
-	public List<OrderDTO> getOrderByUserEmail(String email){
+	public List<Order> getOrderByUserEmail(String email){
 		PreparedStatement selectStm = null;
-		List<OrderDTO> orders = new ArrayList<OrderDTO>();
+		List<Order> orders = new ArrayList<Order>();
 		ResultSet result = null;
 		Connection connection = Utility.getConnection();
 		try {			
@@ -194,13 +188,13 @@ public class OrderDAO{
 				String receiverFullname = result.getString("receiver_fullname");
 				String receiverPhone = result.getString("receiver_phone");
 				String receiverAddress = result.getString("receiver_address");
-				String receiveMethod = result.getString("receive_method");
-				String paymentType = result.getString("payment_method");
+				String receiveMethod = Utility.RECEIVEMETHOD_MAP.get(result.getInt("receive_method_id") + "");
+				String paymentType = Utility.PAYMENT_MAP.get(result.getInt("payment_type_id") + "");
 				String paymentDate = result.getString("payment_date");
-				String status = result.getString("status");
+				String status = Utility.ORDERSTATUS_MAP.get(result.getInt("order_status_id") + "");				
 				double shipping = result.getDouble("shipping");
 				double total = result.getDouble("total");				
-				orders.add(new OrderDTO(orderNumber, orderDate, checkoutEmail, checkoutFullname, checkoutPhone, receiverFullname, 
+				orders.add(new Order(orderNumber, orderDate, checkoutEmail, checkoutFullname, checkoutPhone, receiverFullname, 
 						receiverPhone, receiverAddress, receiveMethod, paymentType, paymentDate, status, shipping, total));
 			}
 		} catch (SQLException e) {
@@ -212,9 +206,9 @@ public class OrderDAO{
 		return orders;		
 	}
 	
-	public OrderDTO getOrderByUserEmailAndOrderNumber(String email, String orderNum){
+	public Order getOrderByUserEmailAndOrderNumber(String email, String orderNum){
 		PreparedStatement selectStm = null;
-		OrderDTO order = null;
+		Order order = null;
 		ResultSet result = null;
 		Connection connection = Utility.getConnection();
 		try {			
@@ -232,13 +226,13 @@ public class OrderDAO{
 				String receiverFullname = result.getString("receiver_fullname");
 				String receiverPhone = result.getString("receiver_phone");
 				String receiverAddress = result.getString("receiver_address");
-				String receiveMethod = result.getString("receive_method");
-				String paymentType = result.getString("payment_method");
+				String receiveMethod = Utility.RECEIVEMETHOD_MAP.get(result.getInt("receive_method_id") + "");
+				String paymentType = Utility.PAYMENT_MAP.get(result.getInt("payment_type_id") + "");
 				String paymentDate = result.getString("payment_date");
-				String status = result.getString("status");
+				String status = Utility.ORDERSTATUS_MAP.get(result.getInt("order_status_id") + "");	
 				double shipping = result.getDouble("shipping");
 				double total = result.getDouble("total");				
-				order = new OrderDTO(orderNumber, orderDate, checkoutEmail, checkoutFullname, checkoutPhone, receiverFullname, 
+				order = new Order(orderNumber, orderDate, checkoutEmail, checkoutFullname, checkoutPhone, receiverFullname, 
 						receiverPhone, receiverAddress, receiveMethod, paymentType, paymentDate, status, shipping, total);
 			}
 		} catch (SQLException e) {

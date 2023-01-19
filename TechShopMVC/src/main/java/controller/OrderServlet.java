@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import dao.OrderDAO;
 import dao.ProductDAO;
+import entity.Order;
 import model.CartItemDTO;
-import model.OrderDTO;
 import util.Utility;
 
 /**
@@ -85,8 +85,8 @@ public class OrderServlet extends HttpServlet {
 		String receiverFullname = "Chau Vuong";
 		String receiverPhone = "04123456789";
 		String receiverAddress = "123 abc street, inala, qld, 4077";
-		String receiverMethodId = "1";
-		String paymentTypeId = "1";
+		String receiverMethodId = Utility.RECEIVEMETHOD_PICKUP;
+		String paymentTypeId = Utility.PAYMENT_UNPAID;
 		String paymentDate = "";
 		String shipping = "0";
 		HttpSession session = request.getSession();
@@ -103,9 +103,9 @@ public class OrderServlet extends HttpServlet {
 		String emailAddress = request.getParameter("emailAddress") != null ? request.getParameter("emailAddress") : "";
 		String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber") : "";
 		OrderDAO orderDAO = new OrderDAO();
-		OrderDTO order = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress, orderNumber);
+		Order order = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress, orderNumber);
 		if(order != null) {
-			List<OrderDTO> orders = new ArrayList<OrderDTO>();
+			List<Order> orders = new ArrayList<Order>();
 			orders.add(order);
 			request.setAttribute("orderList", orders);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("orderhistory.jsp");
@@ -134,8 +134,8 @@ public class OrderServlet extends HttpServlet {
 		String receiverFullname = request.getParameter("receiverFullname");
 		String receiverPhone = request.getParameter("receiverPhone");
 		String receiverAddress = request.getParameter("receiverAddress");
-		String receiverMethodId = "1";
-		String paymentTypeId = "1";
+		String receiverMethodId = Utility.RECEIVEMETHOD_PICKUP;
+		String paymentTypeId = Utility.PAYMENT_UNPAID;
 		String paymentDate = "";
 		String shipping = "0";
 		HttpSession session = request.getSession();
