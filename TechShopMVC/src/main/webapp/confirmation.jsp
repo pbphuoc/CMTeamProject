@@ -72,9 +72,10 @@
 							<h1>${order.paymentType}</h1>
 						</c:when>
 						<c:otherwise>
+						<h1>${order.paymentType}</h1>
 							<h2>Billing Information</h2>
 							<div class="confirmationDetail">
-								<h1>${order.paymentType}</h1>
+								<h1>Billing Fullname</h1>
 								<input name="receiverFullname"
 									value="${param.billingFname} ${param.billingLname}" readonly>
 							</div>
@@ -118,7 +119,7 @@
 							<div class="col-auto col-md-7">
 								<div class="media flex-column flex-sm-row">
 									<img class="img-fluid"
-									src="..<c:out value='${item.product.imgSrc}'/>">
+									src="..<c:out value='${item.product.imgSrc}'/>"> 
 									<p class="mb-0">
 										<b><c:out value="${item.product.name}" /></b>
 									</p>
