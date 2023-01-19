@@ -20,13 +20,13 @@
 <!-- body -->
 <body class="main-layout">
 	<jsp:include page="header.jsp">
-			<jsp:param name="curUrl" value="${requestScope['javax.servlet.forward.request_uri']}" />
+		<jsp:param name="curUrl"
+			value="${requestScope['javax.servlet.forward.request_uri']}" />
 	</jsp:include>
 	<div id="checkoutBody" class="projectContainer">
 		<div class="row">
 			<div id="checkoutLeft" class="col-md-7">
-				<c:if
-					test="${sessionScope.user == null}">
+				<c:if test="${sessionScope.user == null}">
 					<div class="row mb-5">
 						<div id="checkoutMember" class="col">
 							<h1>Already A User?</h1>
@@ -40,8 +40,7 @@
 				<div class="row">
 					<div class="col">
 						<c:choose>
-							<c:when
-								test="${sessionScope.user == null}">
+							<c:when test="${sessionScope.user == null}">
 								<h1 id="checkOutLabel">Or Check Out As Guest</h1>
 							</c:when>
 							<c:otherwise>
@@ -53,8 +52,7 @@
 								<div class="form-row mb-3 emailContainer">
 									<div class="col-md-12">
 										<c:choose>
-											<c:when
-												test="${sessionScope.user == null}">
+											<c:when test="${sessionScope.user == null}">
 												<input type="email" name="email" class="form-control"
 													placeholder="Email Address" aria-describedby="basic-addon1"
 													id="checkOutEmail" required>
@@ -62,13 +60,14 @@
 											<c:otherwise>
 												<input type="email" name="email" class="form-control"
 													placeholder="Email Address" aria-describedby="basic-addon1"
-													id="checkOutEmail" value="${sessionScope.user.email}" required readonly>
+													id="checkOutEmail" value="${sessionScope.user.email}"
+													required readonly>
 
 											</c:otherwise>
 										</c:choose>
 									</div>
 								</div>
-								<div class="form-row mb-3">								
+								<div class="form-row mb-3">
 									<div id="deliveryOptions" class="btn-group btn-group-toggle"
 										data-toggle="buttons">
 										<label class="btn btn-secondary active mr-2"> <input
@@ -79,13 +78,13 @@
 											autocomplete="off"> Collect At Store
 										</label>
 									</div>
-							
+
 								</div>
 								<div id="deliveryBox" class="row">
 									<div class="col">
-										
-											<h1>Delivery information</h1>
-										
+
+										<h1>Delivery information</h1>
+
 										<div class="form-row mb-3">
 											<div class="form-group col-md-6">
 												<input type="text" name="fname" class="form-control"
@@ -101,7 +100,7 @@
 										<div class="form-row mb-3">
 											<div class="col-md-1.1">
 												<select id="countryCodeList" class="form-select">
-													<option value="australia" selected >+61</option>
+													<option value="australia" selected>+61</option>
 												</select>
 											</div>
 											<div class="col-md-12">
@@ -109,12 +108,12 @@
 													placeholder="Phone Number" aria-describedby="basic-addon1"
 													id="checkOutPhoneNumber" required>
 											</div>
-											<br>
-											<br>
+											<br> <br>
 											<div class="form-group col-md-12">
 												<input type="text" name="address" class="form-control"
-													placeholder="Delivery Address" aria-describedby="basic-addon1"
-													id="checkOutAddress" required>
+													placeholder="Delivery Address"
+													aria-describedby="basic-addon1" id="checkOutAddress"
+													required>
 											</div>
 										</div>
 									</div>
@@ -140,12 +139,12 @@
 										</div>
 									</div>
 								</div>
-			
+
 								<div id="creditCardField" class="row">
 									<div class="col">
-									<h1>Billing Information</h1>
+										<h1>Billing Information</h1>
 										<div class="form-row mb-3">
-											
+
 											<div class="form-group col-md-6">
 												<input type="text" name="billingFname" class="form-control"
 													placeholder="First Name" aria-describedby="basic-addon1"
@@ -162,44 +161,52 @@
 													id="billingPhone" required>
 											</div>
 											<div class="form-group col-md-12">
-												<input type="text" name="billingAddress" class="form-control"
-													placeholder="Address" aria-describedby="basic-addon1"
-													id="billingAddress" required>
+												<input type="text" name="billingAddress"
+													class="form-control" placeholder="Address"
+													aria-describedby="basic-addon1" id="billingAddress"
+													required>
 											</div>
 
 										</div>
-										
-									
-										<div class="form-row mb-3 icons">
-											<img src="https://img.icons8.com/color/48/000000/visa.png" />
-											<img
-												src="https://img.icons8.com/color/48/000000/mastercard-logo.png" />
-											<img src="https://img.icons8.com/color/48/000000/maestro.png" />
-										</div>
+
+
+
 										<div id="paymentForm">
-											
+											<div class="form-row mb-3 icons">
+												<img src="https://img.icons8.com/color/48/000000/visa.png" />
+												<img
+													src="https://img.icons8.com/color/48/000000/mastercard-logo.png" />
+												<img
+													src="https://img.icons8.com/color/48/000000/maestro.png" />
+											</div>
 											<!-- payment option -->
-											<span>Cardholder's name:</span> <input type="text" class="paymentBox"
-												id="cardHolderName" name="cardHolderName" placeholder="Linda Williams" required> <span>Card
+											<span>Cardholder's name:</span> <input type="text"
+												class="paymentBox" id="cardHolderName" name="cardHolderName"
+												placeholder="Linda Williams" required> <span>Card
 												Number:</span> <input type="number" class="paymentBox"
-												id="cardNumber" name="cardNumber" placeholder="0125 6780 4567 9909" required>
+												id="cardNumber" name="cardNumber"
+												placeholder="0125 6780 4567 9909" required>
 											<div class="row">
 												<div class="col-4 cardSpan">
-													<span>Expiry date:</span> <input type="date" placeholder="YY/MM" id="expiredDate" name="expiredDate" required>
+													<span>Expiry date:</span> <input type="date"
+														placeholder="YY/MM" id="expiredDate" name="expiredDate"
+														required>
 												</div>
 												<div class="col-4 cardSpan">
-													<span>CVV:</span> <input type="number" placeholder="XYZ" id="cvvNumber" name="cvvNumber" required>
+													<span>CVV:</span> <input type="number" placeholder="XYZ"
+														id="cvvNumber" name="cvvNumber" required>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="form-row mb-3">
-									<input class="btn btn-primary ml-0" type="submit" value="Review Order">
+									<input class="btn btn-primary ml-0" type="submit"
+										value="Review Order">
 								</div>
-				
+
 							</form>
-							
+
 						</div>
 					</div>
 				</div>
@@ -299,7 +306,7 @@
 		</div>
 	</div>
 
-	<jsp:include page="allscript.jsp"></jsp:include>	
+	<jsp:include page="allscript.jsp"></jsp:include>
 	<script src="${pageContext.request.contextPath}/js/checkout.js"></script>
 
 </body>

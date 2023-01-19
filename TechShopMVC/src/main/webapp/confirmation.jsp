@@ -28,7 +28,7 @@
 					<h1 class="confirmationTitle">Your information</h1>
 					<div class="confirmationDetail">
 						<h1>Email Address</h1>
-						<input name="checkOutEmail" value="${param.email}">
+						<input name="checkOutEmail" value="${param.email}" readonly>
 					</div>
 					<c:choose>
 						<c:when test="${param.address == null || param.address == ''}">
@@ -37,12 +37,12 @@
 							<div class="confirmationDetail">
 								<h1>Full Name</h1>
 								<input name="checkOutFullname"
-									value="${param.fname} ${param.lname}">
+									value="${param.fname} ${param.lname}" readonly>
 							</div>
 
 							<div class="confirmationDetail">
 								<h1>Phone Number</h1>
-								<input name="checkOutPhone" value="${param.phone}">
+								<input name="checkOutPhone" value="${param.phone}" readonly>
 							</div>
 						</c:when>
 						<c:otherwise>
@@ -51,44 +51,44 @@
 							<div class="confirmationDetail">
 								<h1>Full Name</h1>
 								<input name="checkOutFullname"
-									value="${param.fname} ${param.lname}">
+									value="${param.fname} ${param.lname}" readonly>
 							</div>
 							<div class="confirmationDetail">
 								<h1>Phone Number</h1>
-								<input name="checkOutPhone" value="${param.phone}">
+								<input name="checkOutPhone" value="${param.phone}" readonly>
 							</div>
 							<div class="confirmationDetail">
 								<h1>Delivery Address</h1>
-								<input name="checkOutPhone" value="${param.phone}">
+								<input name="checkOutPhone" value="${param.phone}" readonly>
 							</div>
 						</c:otherwise>
 					</c:choose>
 
-
-					<br>
+					<h1>Pay With Card</h1>
+					<h1 class="confirmationTitle">Receiver Information</h1>
+					<div class="confirmationDetail">
+						<h1>Receiver Full Name</h1>
+						<input name="receiverFullname"
+							value="${param.billingFname} ${param.billingLname}" readonly>
+					</div>
+					<div class="confirmationDetail">
+						<h1>Receiver Phone</h1>
+						<input name="receiverPhone" value="${param.billingPhone}" readonly>
+					</div>
+					<div class="confirmationDetail">
+						<h1>Receiver Address</h1>
+						<input name="receiverAddress" value="${param.billingAddress}"
+							readonly>
+					</div>
+					<br> <br>
 					<c:choose>
 						<c:when
-							test="${param.billingFname == null || param.billingFname == ''}">
+							test="${param.cardHolderName == null || param.cardHolderName == ''}">
 							<br>
 							<h1>Pay Later</h1>
 						</c:when>
 						<c:otherwise>
-							<h1>Pay With Card</h1>
-							<h1 class="confirmationTitle">Receiver Information</h1>
-							<div class="confirmationDetail">
-								<h1>Receiver Full Name</h1>
-								<input name="receiverFullname"
-									value="${param.billingFname} ${param.billingLname}">
-							</div>
-							<div class="confirmationDetail">
-								<h1>Receiver Phone</h1>
-								<input name="receiverPhone" value="${param.billingPhone}">
-							</div>
-							<div class="confirmationDetail">
-								<h1>Receiver Address</h1>
-								<input name="receiverAddress" value="${param.billingAddress}">
-							</div>
-							<br>
+
 							<h1>Payment Card</h1>
 							<div class="confirmationDetail">
 								<h1>Cardholder's name</h1>

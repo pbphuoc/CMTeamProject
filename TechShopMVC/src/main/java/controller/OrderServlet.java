@@ -129,6 +129,7 @@ public class OrderServlet extends HttpServlet {
 		OrderDAO orderDAO = new OrderDAO();
 		ProductDAO productDAO = new ProductDAO();
 		String checkOutEmail = request.getParameter("checkOutEmail");
+		System.out.println(checkOutEmail);
 		String checkOutFullname = request.getParameter("checkOutFullname");
 		String checkOutPhone = request.getParameter("checkOutPhone");
 		String receiverFullname = request.getParameter("receiverFullname");
@@ -145,6 +146,7 @@ public class OrderServlet extends HttpServlet {
 				receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate,
 				shipping, cartItemsDetail);
 		System.out.println(result);
+		session.setAttribute("cartItems", null);
 		response.sendRedirect("Home");
 	}
 }

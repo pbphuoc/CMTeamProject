@@ -113,7 +113,7 @@ $('#deliveryOptions input').change(function() {
 
 $('#paymentOptions input').change(function() {
 	if ($(this).attr('id') == 'payNowBtn'){
-		$('#creditCardField').show();
+		$('#paymentForm').show();
 		$('#cardHolderName').attr('required',true);
 		$('#cardNumber').attr('required',true);
 		$('#expiredDate').attr('required',true);
@@ -121,17 +121,14 @@ $('#paymentOptions input').change(function() {
 		$('#billingFname').attr('required',true);
 		$('#billingLname').attr('required',true);
 		$('#billingAddress').attr('required',true);
-	}	
-	else {
-		$('#creditCardField').hide();
-		$('#creditCardField').find('input').val("");
+	}	else {
+		$('#paymentForm').hide();
+		$('#paymentForm').find('input').val("");
 		$('#cardHolderName').attr('required',false);
 		$('#cardNumber').attr('required',false);
 		$('#expiredDate').attr('required',false);
 		$('#cvvNumber').attr('required',false);
-		$('#billingFname').attr('required',false);
-		$('#billingLname').attr('required',false);
-		$('#billingAddress').attr('required',false);
+		
 		
 		
 	}

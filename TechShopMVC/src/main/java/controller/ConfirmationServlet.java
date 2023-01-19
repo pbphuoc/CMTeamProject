@@ -53,10 +53,8 @@ public class ConfirmationServlet extends HttpServlet {
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		List<CartItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
 		String email = request.getParameter("email");
-		System.out.println(email);
 		request.setAttribute("email", email);
 		request.setAttribute("CartItemDetails", cartItemDetails);
-		System.out.println(cartItemDetails.size());
 		RequestDispatcher dispatcher = request.getRequestDispatcher("confirmation.jsp");
 		dispatcher.forward(request, response);
 	} 
