@@ -100,10 +100,12 @@ function loadLoggedInUser() {
 $('#deliveryOptions input').change(function() {
 	if ($(this).attr('id') == 'optDeliveryLB'){
 		$('#receiverAddress').show();	
+		$('#deliveryOrPickup').text("Delivery Information");
 		$('#receiverAddress').attr('required',true);
 		$('#deliveryMethod').attr('value',"2");
 	}else {
 		$('#receiverAddress').hide();
+		$('#deliveryOrPickup').text("Pickup Information");
 		$('#receiverAddress').val("");
 		$('#receiverAddress').attr('required',false);
 		$('#deliveryMethod').attr('value',"1");

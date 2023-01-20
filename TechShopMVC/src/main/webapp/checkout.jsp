@@ -85,7 +85,7 @@
 								<div id="deliveryBox" class="row">
 									<div class="col">
 
-										<h1>Delivery information</h1>
+										<h1 id="deliveryOrPickup">Delivery information</h1>
 
 										<div class="form-row mb-3">
 											<div class="form-group col-md-6">
