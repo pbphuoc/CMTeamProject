@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@page import="util.Utility"  %>
+<%@page import="util.Utility"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,93 +22,136 @@
 <body class="main-layout">
 	<div class="confirmationContainer">
 		<form class="confirmationForm" action="Order">
-		
+
 			<div class="reviewBox row col-xl-8">
 				<div class="card-body pt-0 reviewUserDetail reviewDetail">
-					<h1 class="confirmationTitle">Your information</h1>
-					<div class="confirmationDetail">
-						<h1>Email Address</h1>
-						<input name="checkOutEmail" value="${order.checkOutEmail}" readonly>
+					<div>
+						<h1 class="confirmationTitle">Review information</h1>
+						<div class="confirmationDetail">
+							<p class="mb-0">
+								<b>Email Address</b>
+							</p>
+							<input class="confirmationInput" name="checkOutEmail"
+								value="${order.checkOutEmail}" readonly>
+						</div>
+
+						<br>
+						<div class="confirmationDetail">
+							<p class="mb-0">
+								<b>Delivery Method</b>
+							</p>
+							<p class="mb-0">${order.receiveMethod}</p>
+						</div>
+						<br>
 					</div>
-					
-					<br>
-					<h1>${order.receiveMethod}</h1>
-					<br>
-					<h1 class="confirmationTitle">Receiver Information</h1>
+					<div>
 
-					<div class="confirmationDetail">
-								<h1>Receiver Full Name</h1>
-								<input name="receiverFullname"
-									value="${order.receiverFullname}" readonly>
-							</div>
+						<div class="confirmationDetail">
+							<p class="mb-0">
+								<b>Receiver Full Name</b>
+							</p>
+							<input class="confirmationInput" name="receiverFullname"
+								value="${order.receiverFullname}" readonly>
+						</div>
 
-							<div class="confirmationDetail">
-								<h1>Receiver Phone Number</h1>
-								<input name="receiverPhoneNumber" value="${order.receiverPhone}" readonly>
-							</div>
-							
-					<c:choose>
-						<c:when test="${order.receiveMethod.equals('DELIVERY')}">
-							<div class="confirmationDetail">
-								<h1>Receiver Delivery Address</h1>
-								<input name="receiverAddress" value="${order.receiverAddress}" readonly>
-							</div>
-							<br>													
-						</c:when>
-						<c:otherwise>
-							<br>
-						</c:otherwise>
-					</c:choose>
-				
+						<div class="confirmationDetail">
+							<p class="mb-0">
+								<b>Receiver Phone Number</b>
+							</p>
+							<input class="confirmationInput" name="receiverPhoneNumber"
+								value="${order.receiverPhone}" readonly>
+						</div>
+
+						<c:choose>
+							<c:when test="${order.receiveMethod.equals('DELIVERY')}">
+								<div class="confirmationDetail">
+									<p class="mb-0">
+										<b>Receiver Delivery Address</b>
+									</p>
+									<input class="confirmationInput" name="receiverAddress"
+										value="${order.receiverAddress}" readonly>
+
+								</div>
+
+								<br>
+							</c:when>
+							<c:otherwise>
+								<br>
+							</c:otherwise>
+						</c:choose>
+
+					</div>
 
 
-					
-				
-					
-					
-					<h1 class="confirmationTitle">Payment Information</h1>
-					<c:choose>
-						<c:when test="${order.paymentType.equals('UNPAID')}">
-							<h1>${order.paymentType}</h1>
-						</c:when>
-						<c:otherwise>
-						<h1>${order.paymentType}</h1>
-							<h2>Billing Information</h2>
-							<div class="confirmationDetail">
-								<h1>Billing Fullname</h1>
-								<input name="receiverFullname"
-									value="${param.billingFname} ${param.billingLname}" readonly>
-							</div>
-							<div class="confirmationDetail">
-								<h1>Billing Phone</h1>
-								<input name="receiverPhone" value="${param.billingPhone}"
-									readonly>
-							</div>
-							<div class="confirmationDetail">
-								<h1>Billing Address</h1>
-								<input name="receiverAddress" value="${param.billingAddress}"
-									readonly>
-							</div>
-							<br>
-							<div class="confirmationDetail">
-								<h1>Cardholder's name</h1>
-								<h2>${param.cardHolderName}</h2>
-							</div>
-							<div class="confirmationDetail">
-								<h1>Card Number</h1>
-								<h1>${param.cardNumber}</h1>
-							</div>
-							<div class="confirmationDetail">
-								<h1>Expiry date</h1>
-								<h1>${param.expiredDate}</h1>
-							</div>
-							<div class="confirmationDetail">
-								<h1>CVV</h1>
-								<h1>${param.cvvNumber}</h1>
-							</div>
 
-						</c:otherwise>
-					</c:choose>
+
+
+
+
+					<div>
+						<h1 class="confirmationTitle">Payment Information</h1>
+						<c:choose>
+							<c:when test="${order.paymentType.equals('UNPAID')}">
+								<div class="confirmationDetail">
+									<p class="mb-0">
+										<b>Payment Status</b>
+									</p>
+									<p class="mb-0">${order.paymentType}</p>
+								</div>
+								<br>
+							</c:when>
+							<c:otherwise>
+								<div class="confirmationDetail">
+									<p class="mb-0">
+										<b>Payment Status</b>
+									</p>
+									<p class="mb-0">${order.paymentType}</p>
+								</div>
+								<br>
+								<p class="mb-0">
+									<b>Billing Information</b>
+								</p>
+								<div class="confirmationDetail">
+									<p class="mb-0">
+										<b>Billing Fullname</b>
+									</p>
+									<input class="confirmationInput" name="receiverFullname"
+										value="${param.billingFname} ${param.billingLname}" readonly>
+								</div>
+								<div class="confirmationDetail">
+									<p class="mb-0">
+										<b>Billing Phone</b>
+									</p>
+									<input class="confirmationInput" name="receiverPhone"
+										value="${param.billingPhone}" readonly>
+								</div>
+								<div class="confirmationDetail">
+									<p class="mb-0">
+										<b>Billing Address</b>
+									</p>
+									<input class="confirmationInput" name="receiverAddress"
+										value="${param.billingAddress}" readonly>
+								</div>
+								<br>
+								<div class="confirmationDetail">
+									<p class="mb-0">
+										<b>Cardholder's name</b>
+									</p>
+									<p class="mb-0">${param.cardHolderName}</p>
+								</div>
+								<div class="confirmationDetail">
+									<p class="mb-0">
+										<b>Card Number</b>
+									</p>
+									<p class="mb-0">${param.cardNumber}</p>
+								</div>
+
+
+
+							</c:otherwise>
+						</c:choose>
+					</div>
+
 				</div>
 
 				<div class="card-body pt-0 reviewOrderDetail reviewDetail">
@@ -119,7 +162,7 @@
 							<div class="col-auto col-md-7">
 								<div class="media flex-column flex-sm-row">
 									<img class="img-fluid"
-									src="..<c:out value='${item.product.imgSrc}'/>"> 
+										src="..<c:out value='${item.product.imgSrc}'/>">
 									<p class="mb-0">
 										<b><c:out value="${item.product.name}" /></b>
 									</p>
@@ -153,6 +196,7 @@
 									</p>
 								</div>
 							</div>
+							<br>
 							<div class="row justify-content-between">
 								<div class="col-4">
 									<p>
@@ -165,7 +209,7 @@
 									</p>
 								</div>
 							</div>
-
+							<br>
 							<div class="row justify-content-between">
 								<div class="col-4">
 									<p>
@@ -183,8 +227,9 @@
 					</div>
 					<div class="row mb-5 mt-4 ">
 						<div class="col-md-7 col-lg-6 mx-auto">
-							<input type="hidden" name="command" value=submitOrder>
-							<input class="btn btn-primary ml-0 submitOrder" type="submit" value="Submit Order">
+							<input type="hidden" name="command" value=submitOrder> <input
+								class="btn btn-primary ml-0 submitOrder" type="submit"
+								value="Submit Order">
 						</div>
 					</div>
 				</div>

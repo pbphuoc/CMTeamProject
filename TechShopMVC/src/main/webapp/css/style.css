@@ -1587,6 +1587,13 @@ table .tableTotal {
 	padding-top: 220px;
 	width: 100%;
 }
+.confirmationContainer input{
+	border:0;
+	
+}
+.confirmationInput{
+	text-align: right;
+}
 
 .reviewBox {
 	flex-direction: row;
@@ -1599,7 +1606,7 @@ table .tableTotal {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
-	border-bottom: 1px black solid
+	
 }
 
 .reviewDetail {
@@ -1613,8 +1620,11 @@ table .tableTotal {
 
 .reviewUserDetail {
 	margin-top: 1.5rem;
+	width: 60%;
 }
-
+.reviewOrderDetail p {
+	font-size: 1.5rem;
+}
 .widerContainer {
 	max-width: 90vw;
 }
@@ -1626,13 +1636,6 @@ table .tableTotal {
 	justify-content: center;
 	margin-bottom: 8rem;
 }
-
-
-
-
-
-
-
 
 .alignItemCenter{
 	align-items: center;
