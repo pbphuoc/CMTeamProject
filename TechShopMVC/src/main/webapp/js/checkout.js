@@ -2,12 +2,12 @@
  * 
  */
  
-const formatter = new Intl.NumberFormat('en-Us',{
-	style: 'currency',
-	currency: 'USD',
-	minimumFractionDigits: 0
-})
- 
+//const formatter = new Intl.NumberFormat('en-Us',{
+//	style: 'currency',
+//	currency: 'USD',
+//	minimumFractionDigits: 0
+//})
+// 
  
  
  $(document).ready(function(){
