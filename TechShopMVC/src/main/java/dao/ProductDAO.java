@@ -15,6 +15,7 @@ import entity.Category;
 import entity.Product;
 import model.SearchFilterDTO;
 import util.Utility;
+import util.Utility.QueryResult;
 import model.CartItemDTO;
 
 public class ProductDAO {
@@ -25,7 +26,8 @@ public class ProductDAO {
 	private static final String SEARCH_PRODUCT_BY_NAME_SQL = "SELECT * FROM product where name like ? ";
 	public static final String SELECT_ALL_BRAND_SQL = "SELECT * FROM brand;";
 	public static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM category;";
-	private static final String SELECT_MEDIA_BY_PRODUCT_ID_SQL = "SELECT * FROM media where product_id = ?; ";	
+	private static final String SELECT_MEDIA_BY_PRODUCTID_SQL = "SELECT * FROM media where product_id = ?; ";	
+	private static final String UPDATE_STOCK_BY_PRODUCTID_SQL = "UPDATE product SET stock = stock - ? WHERE id = ?;";
 //	private static final String SELECT_ALL_SETTING_AVAILABILITY = "SELECT * FROM setting_availability;";
 //	private static final String SELECT_ALL_SETTING_RESULTPERPAGE = "SELECT * FROM setting_resultperpage;";
 //	private static final String SELECT_ALL_SETTING_SORTBY = "SELECT * FROM setting_sortby order by 2 desc;";
@@ -369,7 +371,7 @@ public class ProductDAO {
 		ResultSet result = null;
 		try
 		{			
-			selectStm = connection.prepareStatement(SELECT_MEDIA_BY_PRODUCT_ID_SQL);
+			selectStm = connection.prepareStatement(SELECT_MEDIA_BY_PRODUCTID_SQL);
 			selectStm.setString(1, id);
 			result = selectStm.executeQuery();
 			while(result.next()) {
@@ -510,9 +512,33 @@ public class ProductDAO {
 		List<CartItemDTO> cartList = new ArrayList<CartItemDTO>();
 		
 		for (Map.Entry<String, Integer> cI : cartItems.entrySet()) {
-			cartList.add(new CartItemDTO(getProductByID((String) cI.getKey()),(int) cI.getValue()));
+//			cartList.add(new CartItemDTO(getProductByID((String) cI.getKey()),(int) cI.getValue()));
+			Product product = getProductByID((String) cI.getKey());
+			int quantity = Math.min(product.getStock(), (int) cI.getValue()); 
+			System.out.println("Stock: " + product.getStock() + " - Quantity: " + (int) cI.getValue() + " - Order Quantity: " + quantity);
+			cartList.add(new CartItemDTO(product,quantity));			
 		}		
 		return cartList;
 	}
+	
+	public QueryResult updateStockByProductID(String productID, int quantity) {
+		QueryResult rs = Utility.QueryResult.UNSUCCESSFUL;		
+		Connection connection = Utility.getConnection();
+		PreparedStatement stm = null;
+		int currentParam = 0;
+		try
+		{			
+			stm = connection.prepareStatement(UPDATE_STOCK_BY_PRODUCTID_SQL);
+			stm.setInt(++currentParam, quantity);
+			stm.setString(++currentParam, productID);
+			rs = Utility.getResultCode(stm.executeUpdate());
+					
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			Utility.close(connection, stm, null);
+		}
+		return rs;
+	}	
 
 }

@@ -48,46 +48,57 @@
 		<div class="cartItemWrapper">
 		<% double subTotal = 0; %>
 		<c:forEach var="item" items="${cartItemDetails}">
-			<div class="itemTable">
-				<div class="cartCol1">
-					<div class="itemInfor">
-					<div class="imageContainer">
-					<a href="Product?command=viewProductDetail&productID=${item.product.id}"> 
-					<img src="..<c:out value='${item.product.imgSrc}'/>">
-					</a>
-					</div>
-					<div>
-					<a href="Product?command=viewProductDetail&productID=${item.product.id}"> <c:out value="${item.product.name }"/> </a>
-					</div>
-						
-						
-					</div>
-					<div class="itemQuantity">
-						<button onclick="increase(${item.product.id})" class="increment">
-							<i class="fa fa-plus"></i>
-						</button>
-						<span class="quantity">
-							<c:out value="${item.quantity}"/>
-						</span>
-						<button class="decrement" onclick="decrease(${item.product.id})"><i class="fa fa-minus"></i><span class="itemId" hidden><c:out value="${item.product.id}"/></span></button>						
-					</div>
-				</div>
-				<div class="cartCol2">
-					<div class="unitPrice">
-					<c:out value='${item.product.newPrice}'/>
-					</div>
-					<div class="totalPrice">
-						<div class="itemPrice">
-						<c:out value='${item.product.newPrice * item.quantity}'/> 
+				<div class="itemTable">
+					<div class="cartCol1">
+						<div class="itemInfor">
+							<div class="imageContainer">
+								<a
+									href="Product?command=viewProductDetail&productID=${item.product.id}">
+									<img src="..<c:out value='${item.product.imgSrc}'/>">
+								</a>
+							</div>
+							<div
+								class='<c:if test="${item.product.stock == 0}">crossOutText</c:if>'>
+								<a
+									href="Product?command=viewProductDetail&productID=${item.product.id}">
+									${item.product.name} </a>
+							</div>
 						</div>
-						<div class="itemRemove">
-							<button onclick="remove(${item.product.id})">
-								<i class="fa fa-trash-o"></i> <span class="cartDelete"><span class="itemId" hidden><c:out value="${item.product.id}"/></span>  Remove</span>
+						<div class="itemQuantity">
+							<button
+								onclick="increase(${item.product.id},${item.product.stock}, this)"
+								class="increment"
+								<c:if test="${item.product.stock == item.quantity}">disabled</c:if>>
+								<i class="fa fa-plus"></i>
+							</button>
+							<span class="quantity"> <c:out value="${item.quantity}" />
+							</span>
+							<button class="decrement"
+								onclick="decrease(${item.product.id},${item.product.stock}, this)">
+								<i class="fa fa-minus"></i><span class="itemId" hidden><c:out
+										value="${item.product.id}" /></span>
 							</button>
 						</div>
 					</div>
+					<div class="cartCol2">
+						<div
+							class="unitPrice <c:if test="${item.product.stock == 0}">crossOutText</c:if>">
+							<c:out value='${item.product.newPrice}' />
+						</div>
+						<div class="totalPrice">
+							<div class="itemPrice">
+								<c:out value='${item.product.newPrice * item.quantity}' />
+							</div>
+							<div class="itemRemove">
+								<button onclick="remove(${item.product.id})">
+									<i class="fa fa-trash-o"></i> <span class="cartDelete"><span
+										class="itemId" hidden><c:out value="${item.product.id}" /></span>
+										Remove</span>
+								</button>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
 			</c:forEach>
 		</div>
 		<div class="paymentWrapper">
@@ -108,8 +119,13 @@
 		
 	</div>
 	<jsp:include page="footer.jsp"></jsp:include>	
-	<jsp:include page="allscript.jsp"></jsp:include>	
-	<script src="${pageContext.request.contextPath}/js/cart.js"></script>
+	<jsp:include page="allscript.jsp"></jsp:include>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			formatPriceOnLoad();
+			}
+		)
+	</script>	
 </body>
 </html>
 
