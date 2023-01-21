@@ -184,7 +184,7 @@
 													<c:choose>
 														<c:when test="${product.getStock() > 0}">
 															<button class="productButton addbutton" type="button"
-																onclick="increase(${product.id}); productOverlayOn();">Add To Cart</button>														
+																onclick="increase(${product.id})">Add To Cart</button>														
 														</c:when>
 														<c:otherwise>
 															<button class="productButton" type="button" disabled>${product.getStockStatusDescription()}</button>
