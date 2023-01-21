@@ -33,12 +33,13 @@ public class Utility {
 	public static final String ORDERSTATUS_PROCESSING = "1";
 	public static final String ORDERSTATUS_READY = "2";
 	public static final String ORDERSTATUS_FINISHED = "3";
-	public static final String ORDERSTATUS_REFUNDED = "4";
+	public static final String ORDERSTATUS_RETURNED = "4";
 	public static final String ORDERSTATUS_CANCELLED = "-1";
 	public static final String PAYMENT_UNPAID = "0";
 	public static final String PAYMENT_CARD = "1";
 	public static final String PAYMENT_TRANSFER = "2";
 	public static final String PAYMENT_ATSTORE = "3";
+	public static final String PAYMENT_REFUNDED = "4";
 	public static final String RECEIVEMETHOD_PICKUP = "1";
 	public static final String RECEIVEMETHOD_DELIVER = "2";
 	
@@ -70,7 +71,7 @@ public class Utility {
 		put(ORDERSTATUS_PROCESSING, "PROCESSING");
 		put(ORDERSTATUS_READY, "READY");
 		put(ORDERSTATUS_FINISHED, "FINISHED");
-		put(ORDERSTATUS_REFUNDED, "REFUNDED");
+		put(ORDERSTATUS_RETURNED, "RETURNED");
 		put(ORDERSTATUS_CANCELLED, "CANCELLED");
 	}};		
 	
@@ -78,7 +79,8 @@ public class Utility {
 		put(PAYMENT_UNPAID, "UNPAID");
 		put(PAYMENT_CARD, "CARD");
 		put(PAYMENT_TRANSFER, "AT STORE");
-		put(PAYMENT_ATSTORE, "TRANSFER");		
+		put(PAYMENT_ATSTORE, "TRANSFER");	
+		put(PAYMENT_REFUNDED, "REFUNDED");	
 	}};
 	
 	public static final Map<String, String> RECEIVEMETHOD_MAP = new HashMap<String, String>(){{

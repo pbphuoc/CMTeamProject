@@ -64,8 +64,9 @@ public class OrderDAO{
 		long totalCost = calculateTotal(shipping, orderItems);
 		ZoneId z = ZoneId.of("Australia/Sydney");
 		ZonedDateTime zdt = ZonedDateTime.now(z);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		String orderNumber = generateOrderNumber("" + zdt.getDayOfMonth() + zdt.getMonthValue() + zdt.getYear(), zdt.getNano());
+		System.out.println("Order Date: " + formatter.format(zdt));
 		try {			
 			insertStm = connection.prepareStatement(INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS);			
 			int currentParam = 0;
@@ -90,7 +91,8 @@ public class OrderDAO{
 				generatedKeys = insertStm.getGeneratedKeys();
 				if(generatedKeys.next()) {
 //					System.out.println("generated id: " + (int)generatedKeys.getLong(1));
-					return insertOrderItem(generatedKeys.getInt(1), orderItems);
+					insertOrderItem(generatedKeys.getInt(1), orderItems);
+					return QueryResult.SUCCESSFUL;
 				}
 			}
 		} catch (SQLException e) {
