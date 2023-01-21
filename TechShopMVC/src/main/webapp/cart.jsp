@@ -57,7 +57,8 @@
 					</a>
 					</div>
 					<div>
-					<a href="Product?command=viewProductDetail&productID=${item.product.id}"> <c:out value="${item.product.name }"/> </a>
+					
+					<a  href="Product?command=viewProductDetail&productID=${item.product.id}"> <c:out value="${item.product.name }"/> </a>
 					</div>
 						
 						

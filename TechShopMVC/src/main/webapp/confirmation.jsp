@@ -21,9 +21,12 @@
 <!-- body -->
 <body class="main-layout">
 	<div class="confirmationContainer">
-		<form class="confirmationForm" action="Order">
+		
 
+		<form class="confirmationForm" action="Order">
+			
 			<div class="reviewBox row col-xl-8">
+			
 				<div class="card-body pt-0 reviewUserDetail reviewDetail">
 					<div>
 						<h1 class="confirmationTitle">Review information</h1>
@@ -101,6 +104,7 @@
 								<br>
 							</c:when>
 							<c:otherwise>
+
 								<div class="confirmationDetail">
 									<p class="mb-0">
 										<b>Payment Status</b>
@@ -108,9 +112,8 @@
 									<p class="mb-0">${order.paymentType}</p>
 								</div>
 								<br>
-								<p class="mb-0">
-									<b>Billing Information</b>
-								</p>
+								<h1 class="confirmationTitle">Billing Information</h1>
+
 								<div class="confirmationDetail">
 									<p class="mb-0">
 										<b>Billing Fullname</b>
