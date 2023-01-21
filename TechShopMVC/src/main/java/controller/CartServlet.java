@@ -93,9 +93,6 @@ public class CartServlet extends HttpServlet {
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		cartItems.remove(productID);
 		session.setAttribute("cartItems", cartItems);
-		if (!cartItems.containsKey(productID))
-			response.getWriter().append("remove success: product" + productID + "- Cart Size: "
-					+ ((HashMap<String, Integer>) session.getAttribute("cartItems")).size());
 	}
 
 	protected void increase(HttpServletRequest request, HttpServletResponse response, String productID)
@@ -105,7 +102,6 @@ public class CartServlet extends HttpServlet {
 		System.out.println(productID);
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		HashMap<String, Integer> cartList = new HashMap<String, Integer>();
-
 		if (cartItems == null) {
 			cartItems = cartList;
 			cartItems.put(productID, 1);
@@ -115,20 +111,7 @@ public class CartServlet extends HttpServlet {
 			cartItems.put(productID, cartItems.get(productID) + 1);
 		}
 
-//				if(cartItems.containsKey(productID) ) {
-//					cartItems.put(productID, cartItems.get(productID) + 1);				
-//				}
-//				if(cartItems.size() == 0) {
-//					cartItems.put(productID,1);
-//				}
-//	
-//				if(cartItems.size() > 0 && cartItems.containsKey(productID) == false) {
-//					cartItems.put(productID,1);
-//				}
 		session.setAttribute("cartItems", cartItems);
-		if (cartItems.get(productID) >= 1)
-			response.getWriter().append("increase success: product" + productID + " is now " + cartItems.get(productID)
-					+ "- Cart Size: " + ((HashMap<String, Integer>) session.getAttribute("cartItems")).size());
 	}
 
 	protected void decrease(HttpServletRequest request, HttpServletResponse response, String productID)
@@ -144,8 +127,5 @@ public class CartServlet extends HttpServlet {
 			cartItems.remove(productID);
 		}
 		session.setAttribute("cartItems", cartItems);
-		if (cartItems.get(productID) == null || (cartItems.get(productID) == beforeDecrease - 1))
-			response.getWriter().append("decrease success: product" + productID + " is now " + cartItems.get(productID)
-					+ "- Cart Size: " + ((HashMap<String, Integer>) session.getAttribute("cartItems")).size());
 	}
 }

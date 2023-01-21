@@ -364,8 +364,6 @@ function increase(productID, stock, obj) {
 	
 	if(stock != undefined && quantity != undefined && quantity == stock)
 		$(obj).prop('disabled', true);	
-	console.log('quantity: ' + quantity);
-	console.log('stock: ' + stock);		
 	
 	ajaxToServlet('Cart', 'POST', {'command' : 'increase', 'productID' : productID});
 
@@ -388,9 +386,7 @@ function decrease(productID, stock, obj) {
 	subTotal();		
 	
 	if(quantity < stock)
-		$(obj).siblings("button").prop('disabled', false);
-	console.log('quantity: ' + quantity);
-	console.log('stock: ' + stock);				
+		$(obj).siblings("button").prop('disabled', false);				
 		
 	ajaxToServlet('Cart', 'POST', {'command' : 'decrease', 'productID' : productID});
 }
