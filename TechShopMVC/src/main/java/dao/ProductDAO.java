@@ -16,7 +16,7 @@ import entity.Product;
 import model.SearchFilterDTO;
 import util.Utility;
 import util.Utility.QueryResult;
-import model.CartItemDTO;
+import model.OrderItemDTO;
 
 public class ProductDAO {
 	
@@ -508,15 +508,15 @@ public class ProductDAO {
 		return (String[])newKeywords.toArray(new String[0]);
 	}
 	
-	public List<CartItemDTO> getAllProductInCartByID(HashMap<String, Integer> cartItems){
-		List<CartItemDTO> cartList = new ArrayList<CartItemDTO>();
+	public List<OrderItemDTO> getAllProductInCartByID(HashMap<String, Integer> cartItems){
+		List<OrderItemDTO> cartList = new ArrayList<OrderItemDTO>();
 		
 		for (Map.Entry<String, Integer> cI : cartItems.entrySet()) {
 //			cartList.add(new CartItemDTO(getProductByID((String) cI.getKey()),(int) cI.getValue()));
 			Product product = getProductByID((String) cI.getKey());
 			int quantity = Math.min(product.getStock(), (int) cI.getValue()); 
 			System.out.println("Stock: " + product.getStock() + " - Quantity: " + (int) cI.getValue() + " - Order Quantity: " + quantity);
-			cartList.add(new CartItemDTO(product,quantity));			
+			cartList.add(new OrderItemDTO(product,quantity));			
 		}		
 		return cartList;
 	}

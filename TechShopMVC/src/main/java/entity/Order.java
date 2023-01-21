@@ -1,6 +1,7 @@
 package entity;
 
 public class Order {
+	private String id;
 	private String orderNumber;
 	private String date;
 	private String checkOutEmail;
@@ -16,10 +17,11 @@ public class Order {
 	private double shipping;
 	private double total;
 	
-	public Order(String orderNumber, String date, String checkOutEmail, String checkOutFullname,
+	public Order(String id, String orderNumber, String date, String checkOutEmail, String checkOutFullname,
 			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
 			String receiveMethod, String paymentType, String paymentDate, String status, double shipping,
 			double total) {
+		this.id = id;
 		this.orderNumber = orderNumber;
 		this.date = date;
 		this.checkOutEmail = checkOutEmail;
@@ -34,6 +36,10 @@ public class Order {
 		this.status = status;
 		this.shipping = shipping;
 		this.total = total;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public String getOrderNumber() {

@@ -63,7 +63,7 @@ public class UserAccountServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		OrderDAO orderDAO = new OrderDAO();
-		List<Order> orderList = orderDAO.getOrderByUserEmail(user.getEmail());
+		List<Order> orderList = orderDAO.getOrderByUserEmailAndOrderNumber(user.getEmail(),"");
 		request.setAttribute("orderList", orderList);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("orderhistory.jsp");
 		dispatcher.forward(request, response);

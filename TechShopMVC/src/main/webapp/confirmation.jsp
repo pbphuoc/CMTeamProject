@@ -159,7 +159,7 @@
 
 				<div class="card-body pt-0 reviewOrderDetail reviewDetail">
 					<h1 class="confirmationTitle">Your Order</h1>
-					<c:forEach var="item" items="${CartItemDetails}">
+					<c:forEach var="item" items="${items}">
 						<div class="cartItemRow row justify-content-between">
 
 							<div class="col-auto col-md-7">

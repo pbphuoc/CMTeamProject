@@ -48,40 +48,6 @@
 		<div class="cartItemWrapper">
 		<% double subTotal = 0; %>
 		<c:forEach var="item" items="${cartItemDetails}">
-
-			<div class="itemTable">
-				<div class="cartCol1">
-					<div class="itemInfor">
-					<div class="imageContainer">
-					<a href="Product?command=viewProductDetail&productID=${item.product.id}"> 
-					<img src="..<c:out value='${item.product.imgSrc}'/>">
-					</a>
-					</div>
-					<div>
-					
-					<a  href="Product?command=viewProductDetail&productID=${item.product.id}"> <c:out value="${item.product.name }"/> </a>
-					</div>
-						
-						
-					</div>
-					<div class="itemQuantity">
-						<button onclick="increase(${item.product.id})" class="increment">
-							<i class="fa fa-plus"></i>
-						</button>
-						<span class="quantity">
-							<c:out value="${item.quantity}"/>
-						</span>
-						<button class="decrement" onclick="decrease(${item.product.id})"><i class="fa fa-minus"></i><span class="itemId" hidden><c:out value="${item.product.id}"/></span></button>						
-					</div>
-				</div>
-				<div class="cartCol2">
-					<div class="unitPrice">
-					<c:out value='${item.product.newPrice}'/>
-					</div>
-					<div class="totalPrice">
-						<div class="itemPrice">
-						<c:out value='${item.product.newPrice * item.quantity}'/> 
-
 				<div class="itemTable">
 					<div class="cartCol1">
 						<div class="itemInfor">

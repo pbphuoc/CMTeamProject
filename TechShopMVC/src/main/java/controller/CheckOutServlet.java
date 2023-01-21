@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import dao.ProductDAO;
-import model.CartItemDTO;
+import model.OrderItemDTO;
 
 /**
  * Servlet implementation class CheckOutServlet
@@ -50,7 +50,7 @@ public class CheckOutServlet extends HttpServlet {
 		ProductDAO cartDAO = new ProductDAO();
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-		List<CartItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
+		List<OrderItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
 		request.setAttribute("CartItemDetails", cartItemDetails);
 		System.out.println(cartItemDetails.size());
 		RequestDispatcher dispatcher = request.getRequestDispatcher("checkout.jsp");

@@ -13,7 +13,7 @@ import java.util.List;
 
 import entity.Order;
 import entity.Product;
-import model.CartItemDTO;
+import model.OrderItemDTO;
 import util.Utility;
 import util.Utility.QueryResult;
 
@@ -42,11 +42,11 @@ public class OrderDAO{
 		return date + first4DigitInSecond.substring(0, 8);
 	}
 	
-	private long calculateTotal(String shipping, List<CartItemDTO> orderItems) {
+	private long calculateTotal(String shipping, List<OrderItemDTO> orderItems) {
 		long totalCost = 0;
 		try {
 			totalCost = Long.parseLong(shipping);
-			for(CartItemDTO item : orderItems) {
+			for(OrderItemDTO item : orderItems) {
 				totalCost += item.getProduct().getNewPrice() * item.getQuantity();
 			}
 		}catch(NumberFormatException e) {
@@ -57,7 +57,7 @@ public class OrderDAO{
 	
 	public QueryResult insertOrder(String checkOutEmail, String checkOutFullname,
 			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
-			String receiveMethodId, String paymentTypeId, String paymentDate, String shipping, List<CartItemDTO> orderItems) {
+			String receiveMethodId, String paymentTypeId, String paymentDate, String shipping, List<OrderItemDTO> orderItems) {
 		PreparedStatement insertStm = null;		
 		ResultSet generatedKeys = null;
 		Connection connection = Utility.getConnection();
@@ -104,14 +104,14 @@ public class OrderDAO{
 		return QueryResult.UNSUCCESSFUL;
 	}
 	
-	public QueryResult insertOrderItem(int orderID, List<CartItemDTO> orderItems) {
+	public QueryResult insertOrderItem(int orderID, List<OrderItemDTO> orderItems) {
 		PreparedStatement insertStm = null;		
 		Connection connection = Utility.getConnection();
 		try {			
 			insertStm = connection.prepareStatement(INSERT_ORDERITEM_SQL, Statement.RETURN_GENERATED_KEYS);
 			int batchCount = 0;
 			int successCount = 0;
-			for(CartItemDTO item: orderItems) {
+			for(OrderItemDTO item: orderItems) {
 				int currentParam = 0;
 				insertStm.setInt(++currentParam, orderID);
 				insertStm.setString(++currentParam, item.getProduct().getId());
@@ -141,8 +141,8 @@ public class OrderDAO{
 		return QueryResult.UNSUCCESSFUL;
 	}	
 	
-	public List<CartItemDTO> getOrderItemByOrderID(String id){
-		List<CartItemDTO> items = new ArrayList<CartItemDTO>();
+	public List<OrderItemDTO> getOrderItemByOrderID(String id){
+		List<OrderItemDTO> items = new ArrayList<OrderItemDTO>();
 		PreparedStatement selectStm = null;		
 		ResultSet result = null;
 		Connection connection = Utility.getConnection();
@@ -151,7 +151,6 @@ public class OrderDAO{
 			selectStm.setString(1, id);
 			result = selectStm.executeQuery();
 			while(result.next()) {
-				String orderID = result.getInt("order_id") + "";
 				String productID = result.getString("product_id");
 				String productName = result.getString("product_name");
 				String productDescription = result.getString("product_description");
@@ -159,8 +158,7 @@ public class OrderDAO{
 				double price = result.getDouble("price");
 				int quantity = result.getInt("quantity");
 				Product product = new Product(productID, productName, productDescription, price, productImgSrc);
-//				items.add(new OrderItem(orderID, productID, productName, productDescription, productImgSrc, price, quantity));
-				items.add(new CartItemDTO(orderID, product, quantity));
+				items.add(new OrderItemDTO(product, quantity));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -171,17 +169,20 @@ public class OrderDAO{
 		return items;		
 	}	
 	
-	public List<Order> getOrderByUserEmail(String email){
+	public List<Order> getOrderByUserEmailAndOrderNumber(String email, String orderNum){
 		PreparedStatement selectStm = null;
 		List<Order> orders = new ArrayList<Order>();
 		ResultSet result = null;
 		Connection connection = Utility.getConnection();
 		try {			
-			selectStm = connection.prepareStatement(SELECT_ORDER_BY_USEREMAIL_SQL);
+			selectStm = orderNum.equalsIgnoreCase("") ? connection.prepareStatement(SELECT_ORDER_BY_USEREMAIL_SQL) : connection.prepareStatement(SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL);
 			selectStm.setString(1, email);
+			if(!orderNum.equalsIgnoreCase(""))
+				selectStm.setString(2, orderNum);
 			System.out.println("query: " + selectStm);
 			result = selectStm.executeQuery();			
 			while(result.next()) {
+				String orderID = result.getString("id");
 				String orderNumber = result.getString("order_number");
 				String orderDate = result.getString("order_date");
 				String checkoutEmail = result.getString("checkout_email");
@@ -196,7 +197,7 @@ public class OrderDAO{
 				String status = Utility.ORDERSTATUS_MAP.get(result.getInt("order_status_id") + "");				
 				double shipping = result.getDouble("shipping");
 				double total = result.getDouble("total");				
-				orders.add(new Order(orderNumber, orderDate, checkoutEmail, checkoutFullname, checkoutPhone, receiverFullname, 
+				orders.add(new Order(orderID, orderNumber, orderDate, checkoutEmail, checkoutFullname, checkoutPhone, receiverFullname, 
 						receiverPhone, receiverAddress, receiveMethod, paymentType, paymentDate, status, shipping, total));
 			}
 		} catch (SQLException e) {
@@ -208,41 +209,42 @@ public class OrderDAO{
 		return orders;		
 	}
 	
-	public Order getOrderByUserEmailAndOrderNumber(String email, String orderNum){
-		PreparedStatement selectStm = null;
-		Order order = null;
-		ResultSet result = null;
-		Connection connection = Utility.getConnection();
-		try {			
-			selectStm = connection.prepareStatement(SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL);
-			selectStm.setString(1, email);
-			selectStm.setString(2, orderNum);
-			System.out.println("query: " + selectStm);
-			result = selectStm.executeQuery();			
-			if(result.next()) {
-				String orderNumber = result.getString("order_number");
-				String orderDate = result.getString("order_date");
-				String checkoutEmail = result.getString("checkout_email");
-				String checkoutFullname = result.getString("checkout_fullname");
-				String checkoutPhone = result.getString("checkout_phone");
-				String receiverFullname = result.getString("receiver_fullname");
-				String receiverPhone = result.getString("receiver_phone");
-				String receiverAddress = result.getString("receiver_address");
-				String receiveMethod = Utility.RECEIVEMETHOD_MAP.get(result.getInt("receive_method_id") + "");
-				String paymentType = Utility.PAYMENT_MAP.get(result.getInt("payment_type_id") + "");
-				String paymentDate = result.getString("payment_date");
-				String status = Utility.ORDERSTATUS_MAP.get(result.getInt("order_status_id") + "");	
-				double shipping = result.getDouble("shipping");
-				double total = result.getDouble("total");				
-				order = new Order(orderNumber, orderDate, checkoutEmail, checkoutFullname, checkoutPhone, receiverFullname, 
-						receiverPhone, receiverAddress, receiveMethod, paymentType, paymentDate, status, shipping, total);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			// TODO: handle exception
-		}finally {
-			Utility.close(connection, selectStm, result);
-		}
-		return order;		
-	}
+//	public Order getOrderByUserEmailAndOrderNumber(String email, String orderNum){
+//		PreparedStatement selectStm = null;
+//		Order order = null;
+//		ResultSet result = null;
+//		Connection connection = Utility.getConnection();
+//		try {			
+//			selectStm = orderNum.equalsIgnoreCase("") ? connection.prepareStatement(SELECT_ORDER_BY_USEREMAIL_SQL) : connection.prepareStatement(SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL);
+//			selectStm.setString(1, email);
+//			selectStm.setString(2, orderNum);
+//			System.out.println("query: " + selectStm);
+//			result = selectStm.executeQuery();			
+//			if(result.next()) {
+//				String orderID = result.getString("order_id");
+//				String orderNumber = result.getString("order_number");
+//				String orderDate = result.getString("order_date");
+//				String checkoutEmail = result.getString("checkout_email");
+//				String checkoutFullname = result.getString("checkout_fullname");
+//				String checkoutPhone = result.getString("checkout_phone");
+//				String receiverFullname = result.getString("receiver_fullname");
+//				String receiverPhone = result.getString("receiver_phone");
+//				String receiverAddress = result.getString("receiver_address");
+//				String receiveMethod = Utility.RECEIVEMETHOD_MAP.get(result.getInt("receive_method_id") + "");
+//				String paymentType = Utility.PAYMENT_MAP.get(result.getInt("payment_type_id") + "");
+//				String paymentDate = result.getString("payment_date");
+//				String status = Utility.ORDERSTATUS_MAP.get(result.getInt("order_status_id") + "");	
+//				double shipping = result.getDouble("shipping");
+//				double total = result.getDouble("total");						
+//				order = new Order(orderNumber, orderDate, checkoutEmail, checkoutFullname, checkoutPhone, receiverFullname, 
+//						receiverPhone, receiverAddress, receiveMethod, paymentType, paymentDate, status, shipping, total);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			// TODO: handle exception
+//		}finally {
+//			Utility.close(connection, selectStm, result);
+//		}
+//		return order;		
+//	}
 }

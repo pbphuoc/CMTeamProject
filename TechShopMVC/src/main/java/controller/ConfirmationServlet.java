@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import dao.OrderDAO;
 import dao.ProductDAO;
 import entity.Order;
-import model.CartItemDTO;
+import model.OrderItemDTO;
 import util.Utility;
 
 /**
@@ -56,7 +56,7 @@ public class ConfirmationServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-		List<CartItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
+		List<OrderItemDTO> items = cartDAO.getAllProductInCartByID(cartItems);
 		
 		/*//String orderNumber E, String dateE, String checkOutEmailP, String checkOutFullnameE,
 				String checkOutPhoneE, String receiverFullnameP, String receiverPhoneP, String receiverAddressP,
@@ -90,13 +90,13 @@ public class ConfirmationServlet extends HttpServlet {
 		 * shipping, double total);
 		 */
 		
-		 Order order = new Order(orderNumber, date, checkOutEmail, checkOutFullname,
+		 Order order = new Order("",orderNumber, date, checkOutEmail, checkOutFullname,
 				 checkOutPhone, receiverFullname, receiverPhone, receiverAddress,
 				 receiveMethod, paymentType, paymentDate, status, shipping, total);
 		 
 		 request.setAttribute("order",order);
 		 
-		request.setAttribute("CartItemDetails", cartItemDetails);
+		request.setAttribute("items", items);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("confirmation.jsp");
 		dispatcher.forward(request, response);
 	} 

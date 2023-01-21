@@ -42,6 +42,7 @@
 						      <th scope="col">Payment</th>
 						      <th scope="col">Status</th>
 						      <th scope="col">Total</th>
+						      <th scope="col">Detail</th>
 						    </tr>
 						  </thead>
 						  <c:forEach items="${orderList}" var="order">
@@ -55,6 +56,7 @@
 							      <td>${order.paymentType}</td>
 							      <td>${order.status}</td>
 							      <td>${order.total}</td>
+							      <td><a class="btn btn-info" href="Order?command=viewOrderDetail&emailAddress=${order.checkOutEmail}&orderNumber=${order.orderNumber}">View</a></td>
 							    </tr>
 							  </tbody>						  
 						  </c:forEach>

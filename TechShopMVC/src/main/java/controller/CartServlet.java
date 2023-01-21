@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import dao.ProductDAO;
-import model.CartItemDTO;
+import model.OrderItemDTO;
 
 /**
  * Servlet implementation class CartServlet
@@ -80,7 +80,7 @@ public class CartServlet extends HttpServlet {
 		if (cartItems == null || cartItems.size() == 0) {
 			response.sendRedirect("cart.jsp");
 		} else {
-			List<CartItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
+			List<OrderItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
 			request.setAttribute("cartItemDetails", cartItemDetails);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
 			dispatcher.forward(request, response);

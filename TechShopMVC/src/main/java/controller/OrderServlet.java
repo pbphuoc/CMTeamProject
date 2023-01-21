@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import dao.OrderDAO;
 import dao.ProductDAO;
 import entity.Order;
-import model.CartItemDTO;
+import model.OrderItemDTO;
 import util.Utility;
 
 /**
@@ -55,6 +55,9 @@ public class OrderServlet extends HttpServlet {
 			case "trackOrder":
 				trackOrder(request, response);
 				break;
+			case "viewOrderDetail":
+				viewOrderDetail(request, response);
+				break;				
 			case "":
 //				getLoginPage(request, response);
 				break;
@@ -91,7 +94,7 @@ public class OrderServlet extends HttpServlet {
 		String shipping = "0";
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-		List<CartItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);
+		List<OrderItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);
 		Utility.QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone,
 				receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate,
 				shipping, cartItemsDetail);
@@ -103,10 +106,8 @@ public class OrderServlet extends HttpServlet {
 		String emailAddress = request.getParameter("emailAddress") != null ? request.getParameter("emailAddress") : "";
 		String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber") : "";
 		OrderDAO orderDAO = new OrderDAO();
-		Order order = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress, orderNumber);
-		if(order != null) {
-			List<Order> orders = new ArrayList<Order>();
-			orders.add(order);
+		List<Order> orders = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress, orderNumber);
+		if(orders.size() != 0) {
 			request.setAttribute("orderList", orders);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("orderhistory.jsp");
 			dispatcher.forward(request, response);
@@ -141,7 +142,7 @@ public class OrderServlet extends HttpServlet {
 		String shipping = "0";
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-		List<CartItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);
+		List<OrderItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);
 		Utility.QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone,
 				receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate,
 				shipping, cartItemsDetail);
@@ -149,4 +150,16 @@ public class OrderServlet extends HttpServlet {
 		session.setAttribute("cartItems", null);
 		response.sendRedirect("Home");
 	}
+	
+	private void viewOrderDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		OrderDAO orderDAO = new OrderDAO();
+		String emailAddress = request.getParameter("emailAddress") != null ? request.getParameter("emailAddress") : "";
+		String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber") : "";
+		Order order = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress, orderNumber).get(0);
+		List<OrderItemDTO> items = orderDAO.getOrderItemByOrderID(order.getId());
+		request.setAttribute("order",order);
+		request.setAttribute("items", items);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("confirmation.jsp");
+		dispatcher.forward(request, response);		
+	}	
 }
