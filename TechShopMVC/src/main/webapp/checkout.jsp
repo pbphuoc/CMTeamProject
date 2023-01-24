@@ -49,6 +49,7 @@
 						</c:choose>
 						<div class="form_container" id="checkOutForm">
 							<form action="Confirmation">
+							
 								<div class="form-row mb-3 emailContainer">
 									<div class="col-md-12">
 										<c:choose>

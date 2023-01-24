@@ -80,6 +80,11 @@ public class ConfirmationServlet extends HttpServlet {
 		String status = "";
 		double shipping = 0;
 		double total = 0;	
+		String billingFullname = request.getParameter("billingFname") + request.getParameter("billingLname");
+		String billingAddress = request.getParameter("billingAddress");
+		String billingPhone = request.getParameter("billingPhone");
+		String paymentName = request.getParameter("cardHolderName");
+		String paymentSource = request.getParameter("cardNumber");
 		
 		
 		/*
@@ -92,7 +97,7 @@ public class ConfirmationServlet extends HttpServlet {
 		
 		 Order order = new Order(id, orderNumber, date, checkOutEmail, checkOutFullname,
 					checkOutPhone, receiverFullname, receiverPhone, receiverAddress,
-					receiveMethod, paymentType, status, shipping, total);
+					receiveMethod, status,shipping, total, paymentType,paymentDate,paymentName,paymentSource, billingFullname,billingAddress,billingPhone);
 		 
 		request.setAttribute("order",order);
 		request.setAttribute("items", items);
