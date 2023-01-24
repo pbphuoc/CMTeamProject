@@ -95,10 +95,10 @@ public class OrderServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		List<OrderItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);
-		Utility.QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone,
-				receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate,
-				shipping, cartItemsDetail);
-		System.out.println(result);
+//		Utility.QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone,
+//				receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate,
+//				shipping, cartItemsDetail);
+//		System.out.println(result);
 	}
 
 	protected void trackOrder(HttpServletRequest request, HttpServletResponse response)
@@ -129,26 +129,38 @@ public class OrderServlet extends HttpServlet {
 		throws ServletException, IOException {
 		OrderDAO orderDAO = new OrderDAO();
 		ProductDAO productDAO = new ProductDAO();
+		
 		String checkOutEmail = request.getParameter("checkOutEmail");
-		System.out.println(checkOutEmail);
 		String checkOutFullname = "Guest User";
 		String checkOutPhone = "No Phone";
 		String receiverFullname = request.getParameter("receiverFullname");
 		String receiverPhone = request.getParameter("receiverPhone");
 		String receiverAddress = request.getParameter("receiverAddress");
-		String receiverMethodId = Utility.RECEIVEMETHOD_PICKUP;
-		String paymentTypeId = Utility.PAYMENT_UNPAID;
-		String paymentDate = "";
+		String receiveMethodId = "";
 		String shipping = "0";
+		String paymentTypeId = "";
+		String paymentDate = "";		
+		String paymentFullname = "";	
+		String paymentSource = "";	
+		String billingFullname = "";	
+		String billingAddress = "";	
+		String billingPhone = "";	
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-		List<OrderItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);
-		Utility.QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone,
-				receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate,
-				shipping, cartItemsDetail);
-		System.out.println(result);
-		session.setAttribute("cartItems", null);
-		response.sendRedirect("Home");
+		List<OrderItemDTO> items = productDAO.getAllProductInCartByID(cartItems);	
+		
+		Order order = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone,
+				receiverFullname, receiverPhone, receiverAddress, receiveMethodId,
+				shipping, items, paymentTypeId, paymentDate,
+				paymentFullname, paymentSource, billingFullname, billingAddress,
+				billingPhone);
+		if (order != null) {
+			request.setAttribute("order",order);
+			request.setAttribute("items", items);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("confirmation.jsp");
+			dispatcher.forward(request, response);		
+			session.setAttribute("cartItems", null);
+		}
 	}
 	
 	private void viewOrderDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

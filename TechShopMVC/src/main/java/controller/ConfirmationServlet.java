@@ -38,7 +38,7 @@ public class ConfirmationServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			viewCheckOut(request,response);
+			reviewOrder(request,response);
 		} catch (Exception e) {
 			throw new ServletException();
 		}
@@ -51,7 +51,7 @@ public class ConfirmationServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	protected void viewCheckOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void reviewOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProductDAO cartDAO = new ProductDAO();
 		
 		HttpSession session = request.getSession();
@@ -63,6 +63,7 @@ public class ConfirmationServlet extends HttpServlet {
 				String receiveMethod Utility, String paymentTypeUtility, String paymentDate E, String statusE, double shippingE,
 				double total*/		
 		
+		String id = "";
 		String orderNumber = "";
 		String date = "";
 		String checkOutEmail = request.getParameter("email");
@@ -74,7 +75,6 @@ public class ConfirmationServlet extends HttpServlet {
 		String receiverPhone = request.getParameter("receiverPhoneNumber");
 		String receiverAddress = request.getParameter("receiverAddress");
 		String receiveMethod = Utility.RECEIVEMETHOD_MAP.get(request.getParameter("deliveryMethod"));
-		System.out.println(receiveMethod);
 		String paymentType = Utility.PAYMENT_MAP.get(request.getParameter("paymentMethod"));
 		String paymentDate = "";
 		String status = "";
@@ -90,12 +90,11 @@ public class ConfirmationServlet extends HttpServlet {
 		 * shipping, double total);
 		 */
 		
-		 Order order = new Order("",orderNumber, date, checkOutEmail, checkOutFullname,
-				 checkOutPhone, receiverFullname, receiverPhone, receiverAddress,
-				 receiveMethod, paymentType, paymentDate, status, shipping, total);
+		 Order order = new Order(id, orderNumber, date, checkOutEmail, checkOutFullname,
+					checkOutPhone, receiverFullname, receiverPhone, receiverAddress,
+					receiveMethod, paymentType, status, shipping, total);
 		 
-		 request.setAttribute("order",order);
-		 
+		request.setAttribute("order",order);
 		request.setAttribute("items", items);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("confirmation.jsp");
 		dispatcher.forward(request, response);
