@@ -285,7 +285,7 @@ function viewProductDetail(productID) {
 //	requestToServlet('Cart', 'GET', 'viewCart', 'productID', '');
 //}
 
-function ajaxToServlet(url, type, data) {
+function ajaxToServlet(url, type, data, responseFn) {
 	//requestToServlet('Cart', 'increase', productID);
 	$.ajax({
 		url: url,
@@ -293,6 +293,8 @@ function ajaxToServlet(url, type, data) {
 		data: data,
 		success: function(response){
 			console.log(response);
+			if(responseFn != null)
+				responseFn(response);
 		}
 	});
 }
@@ -353,6 +355,11 @@ function formatPriceOnLoad(){
 	}
 }
 
+function setCartSize(response){
+	response = (response != 0) ? '(' + response + ')' : '';	
+	$('#cartSize').text(response);
+}
+
 function increase(productID, stock, obj) {
 	var quantity = Number($(obj).siblings("span").text());
 	quantity++;
@@ -365,9 +372,7 @@ function increase(productID, stock, obj) {
 	if(stock != undefined && quantity != undefined && quantity == stock)
 		$(obj).prop('disabled', true);	
 	
-	ajaxToServlet('Cart', 'POST', {'command' : 'increase', 'productID' : productID});
-
-
+	ajaxToServlet('Cart', 'POST', {'command' : 'increase', 'productID' : productID},setCartSize);
 }
 
 function decrease(productID, stock, obj) {	
@@ -388,11 +393,11 @@ function decrease(productID, stock, obj) {
 	if(quantity < stock)
 		$(obj).siblings("button").prop('disabled', false);				
 		
-	ajaxToServlet('Cart', 'POST', {'command' : 'decrease', 'productID' : productID});
+	ajaxToServlet('Cart', 'POST', {'command' : 'decrease', 'productID' : productID}, setCartSize);
 }
 
 function remove(productID) {
-	ajaxToServlet('Cart', 'POST', {'command' : 'remove', 'productID' : productID});
+	ajaxToServlet('Cart', 'POST', {'command' : 'remove', 'productID' : productID}, setCartSize);
 }
 
 function setErrorMessage(element, feedback, message) {

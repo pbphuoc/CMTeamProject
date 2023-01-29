@@ -158,7 +158,7 @@
 										<div class="productOverlay" onclick="productOverlayOff()">
 											<p>Item added!</p>
 										</div>
-										<form>
+										<form>											
 											<div class="productThumbnailContainer">
 												<a href="Product?command=viewProductDetail&productID=${product.id}">
 												<img class="productThumbnail"

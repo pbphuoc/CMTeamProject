@@ -43,7 +43,7 @@
 								</li>									
 								<li class="nav-item d_none cartBtnLi"><a class="nav-link"
 									href="Cart?command=viewCart"><i class="fa fa-shopping-cart"
-										aria-hidden="true"></i></a></li>
+										aria-hidden="true"></i><span id="cartSize">${not empty sessionScope.cartItems ? '(' += sessionScope.cartItems.size() += ')' : ''}</span></a></li>
 								
 								<c:choose>
 									<c:when

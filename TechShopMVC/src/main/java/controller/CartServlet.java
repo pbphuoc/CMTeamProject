@@ -93,6 +93,7 @@ public class CartServlet extends HttpServlet {
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		cartItems.remove(productID);
 		session.setAttribute("cartItems", cartItems);
+		response.getWriter().append(cartItems.size()+"");
 	}
 
 	protected void increase(HttpServletRequest request, HttpServletResponse response, String productID)
@@ -110,8 +111,8 @@ public class CartServlet extends HttpServlet {
 		} else {
 			cartItems.put(productID, cartItems.get(productID) + 1);
 		}
-
 		session.setAttribute("cartItems", cartItems);
+		response.getWriter().append(cartItems.size()+"");
 	}
 
 	protected void decrease(HttpServletRequest request, HttpServletResponse response, String productID)
@@ -127,5 +128,6 @@ public class CartServlet extends HttpServlet {
 			cartItems.remove(productID);
 		}
 		session.setAttribute("cartItems", cartItems);
+		response.getWriter().append(cartItems.size()+"");
 	}
 }
