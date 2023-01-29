@@ -98,9 +98,8 @@ public class CartServlet extends HttpServlet {
 
 	protected void increase(HttpServletRequest request, HttpServletResponse response, String productID)
 			throws ServletException, IOException {
-		ProductDAO cartDAO = new ProductDAO();
+//		ProductDAO cartDAO = new ProductDAO();
 		HttpSession session = request.getSession();
-		System.out.println(productID);
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		HashMap<String, Integer> cartList = new HashMap<String, Integer>();
 		if (cartItems == null) {
@@ -119,9 +118,7 @@ public class CartServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-		int beforeDecrease = 0;
 		if (cartItems.containsKey(productID)) {
-			beforeDecrease = cartItems.get(productID);
 			cartItems.put(productID, cartItems.get(productID) - 1);
 		}
 		if (cartItems.get(productID) == 0) {

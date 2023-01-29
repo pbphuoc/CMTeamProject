@@ -48,8 +48,8 @@
 							</c:otherwise>
 						</c:choose>
 						<div class="form_container" id="checkOutForm">
-							<form action="Confirmation">
-							
+							<form action="Checkout">
+								<input type="hidden" name="command" value=confirm>
 								<div class="form-row mb-3 emailContainer">
 									<div class="col-md-12">
 										<c:choose>
@@ -85,9 +85,7 @@
 								</div>
 								<div id="deliveryBox" class="row">
 									<div class="col">
-
 										<h1 id="deliveryOrPickup">Delivery information</h1>
-
 										<div class="form-row mb-3">
 											<div class="form-group col-md-6">
 												<input type="text" name="receiverFirstName" class="form-control"

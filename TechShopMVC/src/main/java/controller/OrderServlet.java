@@ -49,8 +49,7 @@ public class OrderServlet extends HttpServlet {
 				getTrackOrderForm(request, response);
 				break;							
 			case "submitOrder":
-			//	submitOrder(request, response);
-				sendOrder(request, response);
+				submitOrder(request, response);
 				break;
 			case "trackOrder":
 				trackOrder(request, response);
@@ -59,7 +58,6 @@ public class OrderServlet extends HttpServlet {
 				viewOrderDetail(request, response);
 				break;				
 			case "":
-//				getLoginPage(request, response);
 				break;
 			}
 		} catch (Exception e) {
@@ -78,28 +76,28 @@ public class OrderServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
-	protected void submitOrder(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		OrderDAO orderDAO = new OrderDAO();
-		ProductDAO productDAO = new ProductDAO();
-		String checkOutEmail = "ff.pbphuoc@gmail.com";
-		String checkOutFullname = "Phuoc Pham";
-		String checkOutPhone = "04987654321";
-		String receiverFullname = "Chau Vuong";
-		String receiverPhone = "04123456789";
-		String receiverAddress = "123 abc street, inala, qld, 4077";
-		String receiverMethodId = Utility.RECEIVEMETHOD_PICKUP;
-		String paymentTypeId = Utility.PAYMENT_UNPAID;
-		String paymentDate = "";
-		String shipping = "0";
-		HttpSession session = request.getSession();
-		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-		List<OrderItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);
+//	protected void submitOrder(HttpServletRequest request, HttpServletResponse response)
+//			throws ServletException, IOException {
+//		OrderDAO orderDAO = new OrderDAO();
+//		ProductDAO productDAO = new ProductDAO();
+//		String checkOutEmail = "ff.pbphuoc@gmail.com";
+//		String checkOutFullname = "Phuoc Pham";
+//		String checkOutPhone = "04987654321";
+//		String receiverFullname = "Chau Vuong";
+//		String receiverPhone = "04123456789";
+//		String receiverAddress = "123 abc street, inala, qld, 4077";
+//		String receiverMethodId = Utility.RECEIVEMETHOD_PICKUP;
+//		String paymentTypeId = Utility.PAYMENT_UNPAID;
+//		String paymentDate = "";
+//		String shipping = "0";
+//		HttpSession session = request.getSession();
+//		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
+//		List<OrderItemDTO> cartItemsDetail = productDAO.getAllProductInCartByID(cartItems);
 //		Utility.QueryResult result = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone,
 //				receiverFullname, receiverPhone, receiverAddress, receiverMethodId, paymentTypeId, paymentDate,
 //				shipping, cartItemsDetail);
 //		System.out.println(result);
-	}
+//	}
 
 	protected void trackOrder(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -120,12 +118,10 @@ public class OrderServlet extends HttpServlet {
 	}
 	
 	private void getTrackOrderForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
-//		System.out.println("prevUrl: " + prevUrl);		
 		response.sendRedirect("trackOrder.jsp");	
 	}	
 
-	protected void sendOrder(HttpServletRequest request, HttpServletResponse response) 
+	protected void submitOrder(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
 		OrderDAO orderDAO = new OrderDAO();
 		ProductDAO productDAO = new ProductDAO();

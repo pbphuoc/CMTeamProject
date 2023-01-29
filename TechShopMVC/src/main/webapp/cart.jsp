@@ -110,7 +110,7 @@
 			</p>
 			</div>
 			<div class="checkOutNow">
-				<a href="Checkout">
+				<a href="Checkout?command=moreInfo">
 					<button>
 						<i class="fa-solid fa-dollar-sign"></i>Check Out Now
 					</button>
