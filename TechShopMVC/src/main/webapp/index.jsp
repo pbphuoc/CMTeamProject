@@ -37,7 +37,7 @@
 										<h1>Accessories</h1>
 										<p>We have a wide range of computers, laptops, cellphones,
 											smart watches and accessories.</p>
-										<a href="Product?command=search&keywords=">View All </a> 
+										<a class="read_more" href="Product?command=search&keywords=">View All </a> 
 <!-- 										<a href="contact.html">Contact </a> -->
 									</div>
 								</div>
@@ -63,7 +63,6 @@
 <!-- 										<p>We have a wide range of computers, laptops, cellphones, -->
 <!-- 											smart watches and accessories.</p> -->
 <!-- 										<a href="Product?command=search&keywords=">View All </a>  -->
-<!-- <!-- 										<a href="contact.html">Contact </a> --> -->
 <!-- 									</div> -->
 <!-- 								</div> -->
 <!-- 								<div class="col-md-6"> -->

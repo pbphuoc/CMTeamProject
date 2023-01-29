@@ -245,9 +245,9 @@ public class ProductDAO {
 	public Object[] searchProductByNameWithFilters(String[] keywords, String[] selectedBrands, String[] selectedCategories, String priceMin, String priceMax, String[] selectedAvailabilities, String selectedSorter, String perPage, String page) {
 		Object[] originalSearchResultAndFilter = searchProductByName(keywords);
 //		List<Product> allProducts = (List<Product>)originalSearchResultAndFilter[0];
-		Map<String,SearchFilterDTO> allBrandFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[1];
-		Map<String,SearchFilterDTO> allCategoryFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[2];
-		Map<String,SearchFilterDTO> allAvailabilityFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[3];		
+		Map<String,SearchFilterDTO> allBrandFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[0];
+		Map<String,SearchFilterDTO> allCategoryFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[1];
+		Map<String,SearchFilterDTO> allAvailabilityFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[2];		
 		Map<String,SearchFilterDTO> allSorters = getAllSearchFilterFromMap(Utility.SORTBY_MAP);
 		Map<String,SearchFilterDTO> allResultPerPages = getAllSearchFilterFromMap(Utility.RESULTPERPAGE_MAP);
 		Map<String,String> pagingMap = null; 
