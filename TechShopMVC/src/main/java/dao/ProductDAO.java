@@ -24,8 +24,8 @@ public class ProductDAO {
 	private static final String SELECT_PRODUCT_BY_ID_SQL = "SELECT * FROM product where id=? ;";
 	private static final String SELECT_PRICE_BY_ID_SQL = "SELECT new_price FROM product where id =? ;";
 	private static final String SEARCH_PRODUCT_BY_NAME_SQL = "SELECT * FROM product where name like ? ";
-	public static final String SELECT_ALL_BRAND_SQL = "SELECT * FROM brand;";
-	public static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM category;";
+	private static final String SELECT_ALL_BRAND_SQL = "SELECT * FROM brand;";
+	private static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM category;";
 	private static final String SELECT_MEDIA_BY_PRODUCTID_SQL = "SELECT * FROM media where product_id = ?; ";	
 	private static final String UPDATE_STOCK_BY_PRODUCTID_SQL = "UPDATE product SET stock = stock - ? WHERE id = ?;";
 //	private static final String SELECT_ALL_SETTING_AVAILABILITY = "SELECT * FROM setting_availability;";
@@ -81,7 +81,7 @@ public class ProductDAO {
 		return pagingMap;
 	}	
 	
-	public Map<String, SearchFilterDTO> getAllFilterDTOrFromMap(Map<String, String> filterMap) {	
+	public Map<String, SearchFilterDTO> getAllSearchFilterFromMap(Map<String, String> filterMap) {	
 		Map<String, SearchFilterDTO> allFilters = new LinkedHashMap<String, SearchFilterDTO>();		
 		for(Entry entry: filterMap.entrySet()) {
 			allFilters.put((String)entry.getKey(), new SearchFilterDTO((String)entry.getKey(), (String)entry.getValue()));
@@ -89,7 +89,7 @@ public class ProductDAO {
 		return allFilters;
 	}		
 	
-	public Map<String, SearchFilterDTO> getAllFilterDTOFromDB(String query) {	
+	public Map<String, SearchFilterDTO> getAllSearchFilterFromDB(String query) {	
 		Map<String, SearchFilterDTO> filters = new LinkedHashMap<String, SearchFilterDTO>();		
 		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
@@ -198,12 +198,12 @@ public class ProductDAO {
 	}	
 	
 	public Object[] searchProductByName(String[] keywords) {
-		List<Product> products = new ArrayList<Product>();	
-		Map<String,SearchFilterDTO> allBrandFilters = getAllFilterDTOFromDB(SELECT_ALL_BRAND_SQL); 
+//		List<Product> products = new ArrayList<Product>();	
+		Map<String,SearchFilterDTO> allBrandFilters = getAllSearchFilterFromDB(SELECT_ALL_BRAND_SQL); 
 		Map<String,SearchFilterDTO> brandFilters = new HashMap<String,SearchFilterDTO>();
-		Map<String,SearchFilterDTO> allCategoryFilters = getAllFilterDTOFromDB(SELECT_ALL_CATEGORY_SQL);
+		Map<String,SearchFilterDTO> allCategoryFilters = getAllSearchFilterFromDB(SELECT_ALL_CATEGORY_SQL);
 		Map<String,SearchFilterDTO> categoryFilters = new HashMap<String,SearchFilterDTO>();
-		Map<String,SearchFilterDTO> allAvailabilityFilters = getAllFilterDTOrFromMap(Utility.AVAILABILITY_MAP);		
+		Map<String,SearchFilterDTO> allAvailabilityFilters = getAllSearchFilterFromMap(Utility.AVAILABILITY_MAP);		
 		Map<String,SearchFilterDTO> availabilityFilters = new HashMap<String,SearchFilterDTO>();
 		String[] newKeywords = getAllPossibleMatchedKeywords(keywords);
 		int currentParam = 0;	
@@ -229,37 +229,37 @@ public class ProductDAO {
 				String imgSrc = result.getString("img_src");
 				int stock = result.getInt("stock");				
 				Product product = new Product(id,name,description,oldPrice,newPrice,brandID,categoryID,imgSrc,stock);
-				products.add(product);
-				updateQuantityInEachFilter(brandFilters,allBrandFilters,brandID);
-				updateQuantityInEachFilter(categoryFilters,allCategoryFilters,categoryID);
-				updateQuantityInEachFilter(availabilityFilters,allAvailabilityFilters,product.getStockStatus());
+//				products.add(product);
+				updateCountInEachFilter(brandFilters,allBrandFilters,brandID);
+				updateCountInEachFilter(categoryFilters,allCategoryFilters,categoryID);
+				updateCountInEachFilter(availabilityFilters,allAvailabilityFilters,product.getStockStatus());
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
 			Utility.close(connection, selectStm, result);
 		}
-		return new Object[]{products, brandFilters, categoryFilters, availabilityFilters};
+		return new Object[]{brandFilters, categoryFilters, availabilityFilters};
 	}	
 	
 	public Object[] searchProductByNameWithFilters(String[] keywords, String[] selectedBrands, String[] selectedCategories, String priceMin, String priceMax, String[] selectedAvailabilities, String selectedSorter, String perPage, String page) {
 		Object[] originalSearchResultAndFilter = searchProductByName(keywords);
-		List<Product> allProducts = (List<Product>)originalSearchResultAndFilter[0];
+//		List<Product> allProducts = (List<Product>)originalSearchResultAndFilter[0];
 		Map<String,SearchFilterDTO> allBrandFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[1];
 		Map<String,SearchFilterDTO> allCategoryFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[2];
 		Map<String,SearchFilterDTO> allAvailabilityFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[3];		
-		Map<String,SearchFilterDTO> allSorters = getAllFilterDTOrFromMap(Utility.SORTBY_MAP);
-		Map<String,SearchFilterDTO> allResultPerPages = getAllFilterDTOrFromMap(Utility.RESULTPERPAGE_MAP);
+		Map<String,SearchFilterDTO> allSorters = getAllSearchFilterFromMap(Utility.SORTBY_MAP);
+		Map<String,SearchFilterDTO> allResultPerPages = getAllSearchFilterFromMap(Utility.RESULTPERPAGE_MAP);
 		Map<String,String> pagingMap = null; 
 		List<Product> filteredProducts = new ArrayList<Product>();	 
 		String[] newKeywords = getAllPossibleMatchedKeywords(keywords);
 		int currentParam = 0;
 				
-		setSelectedDTOInMap(allBrandFilters,selectedBrands);
-		setSelectedDTOInMap(allCategoryFilters,selectedCategories);
-		setSelectedDTOInMap(allAvailabilityFilters,selectedAvailabilities);
-		setSelectedDTOInMap(allSorters, new String[]{selectedSorter});
-		setSelectedDTOInMap(allResultPerPages, new String[]{perPage});
+		setSelectedSearchFilter(allBrandFilters,selectedBrands);
+		setSelectedSearchFilter(allCategoryFilters,selectedCategories);
+		setSelectedSearchFilter(allAvailabilityFilters,selectedAvailabilities);
+		setSelectedSearchFilter(allSorters, new String[]{selectedSorter});
+		setSelectedSearchFilter(allResultPerPages, new String[]{perPage});
 		
 		String priceMinCondition = "";
 		String priceMaxCondition = "";
@@ -308,7 +308,7 @@ public class ProductDAO {
 				++rowCountBeforeLimit;
 			}
 			pagingMap = getPagingMap((int)Math.ceil((double)rowCountBeforeLimit/Double.parseDouble(perPage)));
-			setSelectedStringInMap(pagingMap,page);
+			setSelectedPage(pagingMap,page);
 			currentParam = currentParam - 2;
 			if(!perPage.equalsIgnoreCase(""))
 				selectStm.setInt(++currentParam, Integer.parseInt(perPage));
@@ -452,25 +452,25 @@ public class ProductDAO {
 		return categories;
 	}	
 	
-	private void updateQuantityInEachFilter(Map<String, SearchFilterDTO> theFilter,Map<String, SearchFilterDTO> allFilters, String filterID) {		
-		if(!theFilter.containsKey(filterID))
-			theFilter.put(filterID, allFilters.get(filterID));
-		theFilter.get(filterID).setStock(theFilter.get(filterID).getStock() + 1);				
+	private void updateCountInEachFilter(Map<String, SearchFilterDTO> existingFilters,Map<String, SearchFilterDTO> allFilters, String filterID) {		
+		if(!existingFilters.containsKey(filterID))
+			existingFilters.put(filterID, allFilters.get(filterID));
+		existingFilters.get(filterID).setStock(existingFilters.get(filterID).getStock() + 1);				
 	}	
 	
-	private void setSelectedDTOInMap(Map<String,SearchFilterDTO> theMap, String[] selectedDTOs) {
-		for(String selectedDTO: selectedDTOs) {
-			if(theMap.containsKey(selectedDTO))
-				theMap.get(selectedDTO).setSelected("selected");
+	private void setSelectedSearchFilter(Map<String,SearchFilterDTO> searchFilters, String[] selectedFilters) {
+		for(String selectedDTO: selectedFilters) {
+			if(searchFilters.containsKey(selectedDTO))
+				searchFilters.get(selectedDTO).setSelected("selected");
 		}
 	}	
 	
-	private void setSelectedStringInMap(Map<String,String> theMap, String selectedString) {
-		for(Entry entry: theMap.entrySet()) {
-			if (((String)entry.getKey()).equalsIgnoreCase(selectedString))
-				theMap.put((String)entry.getKey(), "selected");
+	private void setSelectedPage(Map<String,String> paginationMap, String selectedPage) {
+		for(Entry entry: paginationMap.entrySet()) {
+			if (((String)entry.getKey()).equalsIgnoreCase(selectedPage))
+				paginationMap.put((String)entry.getKey(), "selected");
 			else
-				theMap.put((String)entry.getKey(), "");
+				paginationMap.put((String)entry.getKey(), "");
 		}		
 	}	
 
