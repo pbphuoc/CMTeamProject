@@ -313,6 +313,10 @@ function subTotal(){
 	$('.subTotalPrice').text(function(){
 		$(this).text(formatter.format(subtotal));
 	});
+	
+	if(subtotal == 0){
+		$('.checkOutNow').remove();
+	}
 }
 
 function formatPriceOnLoad(){
@@ -364,10 +368,11 @@ function decrease(productID, stock, obj) {
 	var cartCol2 = $(obj).closest('.itemTable').find('.cartCol2');
 	let totalPrice = Number(cartCol2.find('.unitPrice').text().replace(/[^0-9.-]+/g,""))*quantity;
 		cartCol2.find('.totalPrice').find('.itemPrice').text(formatter.format(totalPrice)); 
-	if(quantity <= 0){
+	
+		if(quantity <= 0){
 		var deleteSelector = $(obj).parentsUntil('.cartItemWrapper');
 		deleteFunction(deleteSelector);
-		$('.checkOutNow').remove();
+	//$('.checkOutNow').remove();
 		}
 	subTotal();		
 	
