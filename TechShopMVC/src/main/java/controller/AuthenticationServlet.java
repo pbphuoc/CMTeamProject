@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import util.Utility;
 /**
  * Servlet implementation class LoginServlet
  */
+@WebServlet(urlPatterns = "/Auth")
 public class AuthenticationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -80,20 +82,18 @@ public class AuthenticationServlet extends HttpServlet {
 		String password = request.getParameter("passwordRegister");
 		String mobile = request.getParameter("mobileRegister");
 		UserDAO userDAO = new UserDAO();
-		User user = userDAO.getUserByEmail(email);
+		User user = userDAO.insertUser(email, password, fullname, mobile);
+//		User user = userDAO.userExist(email);
 		if(user != null) {
+			String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
+			System.out.println("prev Url" + prevUrl);				
+			HttpSession session = request.getSession();
+			session.setAttribute("user", user);
+			response.sendRedirect(prevUrl);											
+		}else {			
 			request.setAttribute("error", "This email address has been registered already");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
-			dispatcher.forward(request, response);				
-		}else {			
-			Utility.QueryResult queryResult = userDAO.insertUser(email, password, fullname, mobile);
-			if (queryResult == Utility.QueryResult.SUCCESSFUL) {
-				String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
-				System.out.println("prev Url" + prevUrl);				
-				HttpSession session = request.getSession();
-				session.setAttribute("user", user);
-				response.sendRedirect(prevUrl);				
-			}
+			dispatcher.forward(request, response);			
 		}
 	}	
 	
@@ -101,15 +101,15 @@ public class AuthenticationServlet extends HttpServlet {
 		String email = request.getParameter("emailLogin");
 		String password = request.getParameter("passwordLogin");	
 		UserDAO userDAO = new UserDAO();
-		User user = userDAO.getUserByEmailAndPassword(email, password);
-		HttpSession session = request.getSession();
+		User user = userDAO.authenticateUser(email, password);		
 		if(user != null) {			
 			String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
-			System.out.println("prev Url" + prevUrl);			
+			System.out.println("prev Url" + prevUrl);		
+			HttpSession session = request.getSession();
 			session.setAttribute("user", user);
 			response.sendRedirect(prevUrl);				
 		}else {
-			session.setAttribute("user", null);
+//			session.setAttribute("user", null);
 			request.setAttribute("error", "Incorrect Email or Password. Please try again");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 			dispatcher.forward(request, response);				

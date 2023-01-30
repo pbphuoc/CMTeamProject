@@ -50,7 +50,7 @@
 										<input type="email" class="form-control is-invalid"
 											name="emailRegister" id="emailRegister"
 											placeholder="Please enter your email address"
-											aria-label="Username" aria-describedby="basic-addon1"
+											aria-label="Username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
 											required>
 										<div id="emailRegisterFeedback" class="invalid-feedback">
 											${error}</div>
@@ -60,7 +60,7 @@
 										<input type="email" class="form-control" name="emailRegister"
 											id="emailRegister"
 											placeholder="Please enter your email address"
-											aria-label="Username" aria-describedby="basic-addon1"
+											aria-label="Username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
 											required>
 										<div id="emailRegisterFeedback" class="invalid-feedback"></div>
 									</c:otherwise>

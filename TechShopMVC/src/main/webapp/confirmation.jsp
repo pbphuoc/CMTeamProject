@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@page import="util.Utility"%>
+<%@page import="constant.OrderPaymentTypeEnum"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,20 +25,12 @@
 			<div class="logo comfirmationLogo ">
 				<a href="Home"><img src="../images/logo.png" alt="#" /></a>
 			</div>
-			<c:choose>
-				<c:when test="${order.orderNumber.equals('')}">
-					<div class="comfirmationOrderName ">
-						<h1>Review Order</h1>
-					</div>
-				</c:when>
-				<c:otherwise>
-					<div class="comfirmationOrderName ">
-						<h1>Order Confirmed</h1>
-						${order.paymentDate}
-				
-					</div>
-				</c:otherwise>
-			</c:choose>
+			<div class="comfirmationOrderName ">
+				<h1>Order ${not order.orderNumber.equals('') ? '#'+= order.orderNumber : ''} ${order.status}</h1>
+				<h2>${order.date}</h1>
+				<h3>${order.paymentDate}</h1>					
+			</div>
+
 		</div>
 
 		<form class="confirmationForm" action="Order">
@@ -47,7 +39,7 @@
 			
 				<div class="card-body pt-0 reviewUserDetail reviewDetail">
 					<div>
-						<h1 class="confirmationTitle">Contact information</h1>
+						<h1 class="confirmationTitle">Contact information</h1>							
 						<div class="confirmationDetail">
 							<p class="mb-0">
 								<b>Email Address</b>
@@ -85,7 +77,7 @@
 						</div>
 
 						<c:choose>
-							<c:when test="${order.receiveMethod.equals('DELIVERY')}">
+							<c:when test="${not order.receiverAddress.equals('')}">
 								<div class="confirmationDetail">
 									<p class="mb-0">
 										<b>Receiver Delivery Address</b>
@@ -104,7 +96,7 @@
 					<div>
 						<h1 class="confirmationTitle">Payment Information</h1>
 						<c:choose>
-							<c:when test="${order.paymentType.equals('UNPAID')}">
+							<c:when test="${order.paymentType.equals(OrderPaymentTypeEnum.UNPAID)}">
 								<div class="confirmationDetail">
 									<p class="mb-0">
 										<b>Payment Status</b>
@@ -164,7 +156,7 @@
 					</div>
 				</div>
 				<div class="card-body pt-0 reviewOrderDetail reviewDetail">
-					<h1 class="confirmationTitle">Your Order ${order.orderNumber}</h1>
+					<h1 class="confirmationTitle">Detail</h1>
 					<c:forEach var="item" items="${items}">
 						<div class="cartItemRow row justify-content-between">
 							<div class="col-auto col-md-7">

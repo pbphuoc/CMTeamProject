@@ -31,7 +31,7 @@
 			<div class="row">
 				<div class="col-md-4 m-auto">
 					<div class="form_container formDiv">
-						<form action="Order" method="Post" class="needs-validation"
+						<form onsu action="Order" method="Post" class="needs-validation"
 							novalidate>
 							<input type="hidden" name="command" value="trackOrder">							
 							<div class="input-group mb-3">
@@ -40,7 +40,7 @@
 										test="${error != null}">
 										<input type="email" class="form-control is-invalid"
 											placeholder="Email Address" id="emailAddress" name="emailAddress"
-											required>
+											required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
 										<div id="emailAddressFeedback" class="invalid-feedback">
 											${error}</div>
 									</c:when>
@@ -81,7 +81,7 @@
 		          event.stopPropagation();
 		        }	        
 		        validateEmailAddress();
-		        validateOrderNumber()
+		        validateOrderNumber();
 		        		        
 		      }, false);
 		    });

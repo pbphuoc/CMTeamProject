@@ -1,5 +1,13 @@
 package entity;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
+import constant.OrderPaymentTypeEnum;
+import constant.OrderReceiveMethodEnum;
+import constant.OrderStatusEnum;
+
 public class Order {
 	private String id;
 	private String orderNumber;
@@ -10,10 +18,12 @@ public class Order {
 	private String receiverFullname;
 	private String receiverPhone;
 	private String receiverAddress;
-	private String receiveMethod;
-	private String paymentType;
+//	private String receiveMethod;
+	private OrderReceiveMethodEnum receiveMethod;
+//	private String paymentType;
+	private OrderPaymentTypeEnum paymentType;
 	private String paymentDate;
-	private String status;
+	private OrderStatusEnum status;
 	private double shipping;
 	private double total;
 	private String billingFullname;
@@ -21,10 +31,31 @@ public class Order {
 	private String billingPhone;
 	private String paymentName;
 	private String paymentSource;
-	
+
+//	public Order(String id, String orderNumber, String date, String checkOutEmail, String checkOutFullname,
+//			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
+//			String receiveMethod, String paymentType, String status, double shipping, double total) {
+//		this.id = id;
+//		this.orderNumber = orderNumber;
+//		this.date = date;
+//		this.checkOutEmail = checkOutEmail;
+//		this.checkOutFullname = checkOutFullname;
+//		this.checkOutPhone = checkOutPhone;
+//		this.receiverFullname = receiverFullname;
+//		this.receiverPhone = receiverPhone;
+//		this.receiverAddress = receiverAddress;
+//		this.receiveMethod = receiveMethod;
+//		this.paymentType = paymentType;
+//		this.status = status;
+//		this.shipping = shipping;
+//		this.total = total;
+//	}
+
 	public Order(String id, String orderNumber, String date, String checkOutEmail, String checkOutFullname,
 			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
-			String receiveMethod, String paymentType, String status, double shipping, double total) {
+			OrderReceiveMethodEnum receiveMethod, OrderStatusEnum status, double shipping, double total,
+			OrderPaymentTypeEnum paymentType, String paymentDate, String paymentName, String paymentSource,
+			String billingFullname, String billingAddress, String billingPhone) {
 		this.id = id;
 		this.orderNumber = orderNumber;
 		this.date = date;
@@ -35,38 +66,17 @@ public class Order {
 		this.receiverPhone = receiverPhone;
 		this.receiverAddress = receiverAddress;
 		this.receiveMethod = receiveMethod;
-		this.paymentType = paymentType;
-		this.status = status;
-		this.shipping = shipping;
-		this.total = total;
-	}
-	
-	public Order(String id, String orderNumber, String date, String checkOutEmail, String checkOutFullname,
-			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
-			String receiveMethod, String status, double shipping, double total, String paymentType, String paymentDate,
-			String paymentName, String paymentSource, String billingFullname, String billingAddress,
-			String billingPhone) {
-		this.id = id;
-		this.orderNumber = orderNumber;
-		this.date = date;
-		this.checkOutEmail = checkOutEmail;
-		this.checkOutFullname = checkOutFullname;
-		this.checkOutPhone = checkOutPhone;
-		this.receiverFullname = receiverFullname;
-		this.receiverPhone = receiverPhone;
-		this.receiverAddress = receiverAddress;
-		this.receiveMethod = receiveMethod;
 		this.status = status;
 		this.shipping = shipping;
 		this.total = total;
 		this.paymentType = paymentType;
-		this.paymentDate = paymentDate;		
+		this.paymentDate = paymentDate;
 		this.paymentName = paymentName;
-		this.paymentSource = paymentSource;		
+		this.paymentSource = paymentSource;
 		this.billingFullname = billingFullname;
 		this.billingAddress = billingAddress;
 		this.billingPhone = billingPhone;
-	}	
+	}
 
 	public String getId() {
 		return id;
@@ -77,6 +87,10 @@ public class Order {
 	}
 
 	public String getDate() {
+		if (!date.equalsIgnoreCase("")) {
+			LocalDate originalFormat = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			date = originalFormat.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		}
 		return date;
 	}
 
@@ -104,11 +118,19 @@ public class Order {
 		return receiverAddress;
 	}
 
-	public String getReceiveMethod() {
+//	public String getReceiveMethod() {
+//		return receiveMethod;
+//	}
+
+	public OrderReceiveMethodEnum getReceiveMethod() {
 		return receiveMethod;
 	}
 
-	public String getPaymentType() {
+//	public String getPaymentType() {
+//		return paymentType;
+//	}	
+
+	public OrderPaymentTypeEnum getPaymentType() {
 		return paymentType;
 	}
 
@@ -116,7 +138,7 @@ public class Order {
 		return paymentDate;
 	}
 
-	public String getStatus() {
+	public OrderStatusEnum getStatus() {
 		return status;
 	}
 
@@ -147,5 +169,5 @@ public class Order {
 	public String getPaymentSource() {
 		return paymentSource;
 	}
-	
+
 }

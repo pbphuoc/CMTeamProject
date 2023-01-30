@@ -1,3 +1,21 @@
+//  BASE DAO 
+
+// select ALL
+
+// userdaO extends BASEDAO
+// productDAO extends BASEDAO
+
+
+// USERDAO and PRODUCTDAO ko viet 1 dong code nao het
+
+// call function from BASEDAO -> su dung duoc
+
+
+// goi y . dung generic + @annotation (JPA)
+// ORM = OBject Relationship Mapping google 
+
+
+
 //package dao;
 //
 //import java.sql.Connection;

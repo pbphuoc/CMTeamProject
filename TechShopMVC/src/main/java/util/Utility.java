@@ -24,25 +24,8 @@ public class Utility {
 	public static final String OR_QUERY = " OR ";
 	public static final String WHERE_QUERY = " WHERE ";	
 	
-//	private static final String DEFAULT_AVAILABILITY_SETTING = "1";
-//	private static final String DEFAULT_SORTBY_SETTING = "0";
-//	private static final String DEFAULT_RESULTPERPAGE_SETTING = "16";
 	public static final String STOCKSTATUS_OUTOFSTOCK = "0";	
 	public static final String STOCKSTATUS_INSTOCK = "1";
-	public static final String ORDERSTATUS_RECEIVED = "0";
-	public static final String ORDERSTATUS_PROCESSING = "1";
-	public static final String ORDERSTATUS_READY = "2";
-	public static final String ORDERSTATUS_FINISHED = "3";
-	public static final String ORDERSTATUS_RETURNED = "4";
-	public static final String ORDERSTATUS_CANCELLED = "-1";
-	public static final String PAYMENT_UNPAID = "0";
-	public static final String PAYMENT_CARD = "1";
-	public static final String PAYMENT_TRANSFER = "2";
-	public static final String PAYMENT_ATSTORE = "3";
-	public static final String PAYMENT_REFUNDED = "4";
-	public static final String RECEIVEMETHOD_PICKUP = "1";
-	public static final String RECEIVEMETHOD_DELIVER = "2";
-	
 	
 	public static final Map<String, String> AVAILABILITY_MAP = new LinkedHashMap<String, String>(){{
 		put(STOCKSTATUS_OUTOFSTOCK, "Out Of Stock");
@@ -50,7 +33,7 @@ public class Utility {
 	}};		
 	
 	public static final Map<String, String> SORTBY_MAP = new LinkedHashMap<String, String>(){{
-		put("0", "Relevancy");
+		put("0", "Relevancy"); // what is this ?? dont understand
 		put("5", "Price Low To High");
 		put("-5", "Price High To Low");
 		put("2", "Name A To Z");
@@ -60,53 +43,17 @@ public class Utility {
 	}};
 	
 	public static final Map<String, String> RESULTPERPAGE_MAP = new LinkedHashMap<String, String>(){{
-		put("16", "16");
+		put("16", "16"); // why this happen??
 		put("32", "32");
 		put("64", "64");
 		put("128", "128");
-	}};		
-	
-	public static final Map<String, String> ORDERSTATUS_MAP = new HashMap<String, String>(){{
-		put(ORDERSTATUS_RECEIVED, "RECEIVED");
-		put(ORDERSTATUS_PROCESSING, "PROCESSING");
-		put(ORDERSTATUS_READY, "READY");
-		put(ORDERSTATUS_FINISHED, "FINISHED");
-		put(ORDERSTATUS_RETURNED, "RETURNED");
-		put(ORDERSTATUS_CANCELLED, "CANCELLED");
-	}};		
-	
-	public static final Map<String, String> PAYMENT_MAP = new HashMap<String, String>(){{
-		put(PAYMENT_UNPAID, "UNPAID");
-		put(PAYMENT_CARD, "CARD");
-		put(PAYMENT_TRANSFER, "AT STORE");
-		put(PAYMENT_ATSTORE, "TRANSFER");	
-		put(PAYMENT_REFUNDED, "REFUNDED");	
-	}};
-	
-	public static final Map<String, String> RECEIVEMETHOD_MAP = new HashMap<String, String>(){{
-		put(RECEIVEMETHOD_PICKUP, "PICK UP AT STORE");
-		put(RECEIVEMETHOD_DELIVER, "DELIVERY");	
-	}};		
+	}};			
 	
 	public enum QueryResult{
 		SUCCESSFUL,
 		UNSUCCESSFUL
 	}	
-			
-//	public enum PAYMENT{
-//		UNPAID,
-//		PAYATSTORE,
-//		TRANSFER,
-//		CARD
-//	}
 	
-//	public enum STATUS{
-//		RECEIVED,
-//		PROCESSING,
-//		READY,
-//		FINISHED,
-//		REFUNDED
-//	}	
 	
 	public static Entry getEntryByKey(Map<?,?> theMap, Object theKey, Object theDefaultKey) {
 		Entry defaultEntry = null;

@@ -101,51 +101,32 @@ $('#deliveryOptions input').change(function() {
 	if ($(this).attr('id') == 'optDeliveryLB'){
 		$('#receiverAddress').show();	
 		$('#deliveryOrPickup').text("Delivery Information");
-		$('#receiverAddress').attr('required',true);
-		$('#deliveryMethod').attr('value',"2");
 	}else {
 		$('#receiverAddress').hide();
 		$('#deliveryOrPickup').text("Pickup Information");
-		$('#receiverAddress').val("");
-		$('#receiverAddress').attr('required',false);
-		$('#deliveryMethod').attr('value',"1");
-		
+		$('#receiverAddress').val("");			
 	}
-	//if ($(this).attr('id') == 'optCollectLB')
-		
+	$('#receiverAddress').attr('required', $(this).attr('id') == 'optDeliveryLB');
+	$('#deliveryMethod').attr('value',$(this).val());			
 });
 
 $('#paymentOptions input').change(function() {
 	if ($(this).attr('id') == 'payNowBtn'){
 		$('#creditCardField').show();
-		$('#cardHolderName').attr('required',true);
-		$('#cardNumber').attr('required',true);
-		$('#expiredDate').attr('required',true);
-		$('#cvvNumber').attr('required',true);
-		$('#billingFname').attr('required',true);
-		$('#billingLname').attr('required',true);
-		$('#billingPhone').attr('required',true);
-		$('#billingAddress').attr('required',true);
-		$('#paymentMethod').attr('value',"1");
 	}	else {
 		$('#creditCardField').hide();
 		$('#creditCardField').find('input').val("");
-		$('#billingFname').attr('required',false);
-		$('#billingLname').attr('required',false);
-		$('#billingAddress').attr('required',false);
-		$('#billingPhone').attr('required',false);
-		$('#cardHolderName').attr('required',false);
-		$('#cardNumber').attr('required',false);
-		$('#expiredDate').attr('required',false);
-		$('#cvvNumber').attr('required',false);
-		$('#paymentMethod').attr('value',"0");
-		
-		
-		
 	}
+	$('#cardHolderName').attr('required', $(this).attr('id') == 'payNowBtn');
+	$('#cardNumber').attr('required', $(this).attr('id') == 'payNowBtn');
+	$('#expiredDate').attr('required' ,$(this).attr('id') == 'payNowBtn');
+	$('#cvvNumber').attr('required', $(this).attr('id') == 'payNowBtn');
+	$('#billingFname').attr('required', $(this).attr('id') == 'payNowBtn');
+	$('#billingLname').attr('required', $(this).attr('id') == 'payNowBtn');
+	$('#billingPhone').attr('required', $(this).attr('id') == 'payNowBtn');
+	$('#billingAddress').attr('required', $(this).attr('id') == 'payNowBtn');	
+	$('#paymentMethod').attr('value', $(this).val());	
 		//if ($(this).attr('id') == 'payOnPickupBtn')
-		
-		
 });
 
 function setCookie(cname, cvalue, exdays) {

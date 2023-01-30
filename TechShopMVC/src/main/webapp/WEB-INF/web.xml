@@ -7,68 +7,60 @@
 	<welcome-file-list>
 		<welcome-file>Home</welcome-file>
 	</welcome-file-list>							
-	<servlet>
-	    <servlet-name>IndexServlet</servlet-name>
-	    <servlet-class>controller.IndexServlet</servlet-class>
-	</servlet>	
-	<servlet>
-	    <servlet-name>CartServlet</servlet-name>
-	    <servlet-class>controller.CartServlet</servlet-class>
-	</servlet>
-	<servlet>
-	    <servlet-name>AuthenticationServlet</servlet-name>
-	    <servlet-class>controller.AuthenticationServlet</servlet-class>
-	</servlet>	
-	<servlet>
-	    <servlet-name>ProductlServlet</servlet-name>
-	    <servlet-class>controller.ProductlServlet</servlet-class>
-	</servlet>
-	<servlet>
-	    <servlet-name>CheckOutServlet</servlet-name>
-	    <servlet-class>controller.CheckOutServlet</servlet-class>
-	</servlet>
-	<servlet>
-	    <servlet-name>PaymentServlet</servlet-name>
-	    <servlet-class>controller.PaymentServlet</servlet-class>
-	</servlet>
-	<servlet>
-	    <servlet-name>OrderServlet</servlet-name>
-	    <servlet-class>controller.OrderServlet</servlet-class>
-	</servlet>
-	<servlet>
-	    <servlet-name>UserAccountServlet</servlet-name>
-	    <servlet-class>controller.UserAccountServlet</servlet-class>
-	</servlet>			
-	<servlet-mapping>
-	    <servlet-name>IndexServlet</servlet-name>
-	    <url-pattern>/Home</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-	    <servlet-name>AuthenticationServlet</servlet-name>
-	    <url-pattern>/Auth</url-pattern>
-	</servlet-mapping>	
-	<servlet-mapping>
-	    <servlet-name>ProductlServlet</servlet-name>
-	    <url-pattern>/Product</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-	    <servlet-name>CheckOutServlet</servlet-name>
-	    <url-pattern>/Checkout</url-pattern>
-	</servlet-mapping>	
-	<servlet-mapping>
-	    <servlet-name>PaymentServlet</servlet-name>
-	    <url-pattern>/Payment</url-pattern>
-	</servlet-mapping>		
-	<servlet-mapping>
-	    <servlet-name>CartServlet</servlet-name>
-	    <url-pattern>/Cart</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-	    <servlet-name>OrderServlet</servlet-name>
-	    <url-pattern>/Order</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-	    <servlet-name>UserAccountServlet</servlet-name>
-	    <url-pattern>/Account</url-pattern>
-	</servlet-mapping>			
+<!-- 	<servlet> -->
+<!-- 	    <servlet-name>IndexServlet</servlet-name> -->
+<!-- 	    <servlet-class>controller.IndexServlet</servlet-class> -->
+<!-- 	</servlet>	 -->
+<!-- 	<servlet> -->
+<!-- 	    <servlet-name>CartServlet</servlet-name> -->
+<!-- 	    <servlet-class>controller.CartServlet</servlet-class> -->
+<!-- 	</servlet> -->
+<!-- 	<servlet> -->
+<!-- 	    <servlet-name>AuthenticationServlet</servlet-name> -->
+<!-- 	    <servlet-class>controller.AuthenticationServlet</servlet-class> -->
+<!-- 	</servlet>	 -->
+<!-- 	<servlet> -->
+<!-- 	    <servlet-name>ProductlServlet</servlet-name> -->
+<!-- 	    <servlet-class>controller.ProductlServlet</servlet-class> -->
+<!-- 	</servlet> -->
+<!-- 	<servlet> -->
+<!-- 	    <servlet-name>CheckOutServlet</servlet-name> -->
+<!-- 	    <servlet-class>controller.CheckOutServlet</servlet-class> -->
+<!-- 	</servlet> -->
+<!-- 	<servlet> -->
+<!-- 	    <servlet-name>OrderServlet</servlet-name> -->
+<!-- 	    <servlet-class>controller.OrderServlet</servlet-class> -->
+<!-- 	</servlet> -->
+<!-- 	<servlet> -->
+<!-- 	    <servlet-name>UserAccountServlet</servlet-name> -->
+<!-- 	    <servlet-class>controller.UserAccountServlet</servlet-class> -->
+<!-- 	</servlet>			 -->
+<!-- 	<servlet-mapping> -->
+<!-- 	    <servlet-name>IndexServlet</servlet-name> -->
+<!-- 	    <url-pattern>/Home</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+<!-- 	<servlet-mapping> -->
+<!-- 	    <servlet-name>AuthenticationServlet</servlet-name> -->
+<!-- 	    <url-pattern>/Auth</url-pattern> -->
+<!-- 	</servlet-mapping>	 -->
+<!-- 	<servlet-mapping> -->
+<!-- 	    <servlet-name>ProductlServlet</servlet-name> -->
+<!-- 	    <url-pattern>/Product</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+<!-- 	<servlet-mapping> -->
+<!-- 	    <servlet-name>CheckOutServlet</servlet-name> -->
+<!-- 	    <url-pattern>/Checkout</url-pattern> -->
+<!-- 	</servlet-mapping>	 -->	
+<!-- 	<servlet-mapping> -->
+<!-- 	    <servlet-name>CartServlet</servlet-name> -->
+<!-- 	    <url-pattern>/Cart</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+<!-- 	<servlet-mapping> -->
+<!-- 	    <servlet-name>OrderServlet</servlet-name> -->
+<!-- 	    <url-pattern>/Order</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+<!-- 	<servlet-mapping> -->
+<!-- 	    <servlet-name>UserAccountServlet</servlet-name> -->
+<!-- 	    <url-pattern>/Account</url-pattern> -->
+<!-- 	</servlet-mapping>			 -->
 </web-app>

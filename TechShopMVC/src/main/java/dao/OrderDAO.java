@@ -11,6 +11,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import constant.OrderPaymentTypeEnum;
+import constant.OrderReceiveMethodEnum;
+import constant.OrderStatusEnum;
 import entity.Order;
 import entity.Product;
 import model.OrderItemDTO;
@@ -20,20 +23,20 @@ import util.Utility.QueryResult;
 public class OrderDAO{
 	private static final String INSERT_ORDER_SQL = "INSERT INTO orders "
 			+ "(order_number, order_date,"
-			+ " checkout_email, checkout_fullname, checkout_phone,"
-			+ " receiver_fullname, receiver_phone, receiver_address, receive_method_id,"
-			+ " order_status_id, shipping, total,"
-			+ " payment_type_id, payment_date, payment_fullname, payment_source,"
+			+ " user_id, checkout_email, checkout_fullname, checkout_phone,"
+			+ " receiver_fullname, receiver_phone, receiver_address, receive_method,"
+			+ " order_status, shipping, total,"
+			+ " payment_type, payment_date, payment_fullname, payment_source,"
 			+ " billing_fullname, billing_address, billing_phone) "
-			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String INSERT_ORDERITEM_SQL = "INSERT INTO order_item (order_id, product_id, product_name, product_description, product_img_src, price, quantity) "
 			+ "VALUES (?,?,?,?,?,?,?);";
-	private static final String SELECT_ORDER_BY_USEREMAIL_SQL = "SELECT * FROM orders WHERE checkout_email = ?;";
+	private static final String SELECT_ORDER_BY_USERID_SQL = "SELECT * FROM orders WHERE user_id = ?;";
 	private static final String SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL = "SELECT * FROM orders WHERE checkout_email = ? AND order_number = ?;";	
 	private static final String SELECT_ORDERITEM_BY_ORDERID_SQL = "SELECT * FROM order_item where order_id = ?;";	
-	private static final String SELECT_PAYMENTMETHOD_BY_ID_SQL = "SELECT * FROM payment_type where id = ?;";
-	private static final String SELECT_RECEIVEMETHOD_BY_ID_SQL = "SELECT * FROM receive_type where id = ?;";
-	private static final String SELECT_STATUS_BY_ID_SQL = "SELECT * FROM order_status where id = ?;";	
+//	private static final String SELECT_PAYMENTMETHOD_BY_ID_SQL = "SELECT * FROM payment_type where id = ?;";
+//	private static final String SELECT_RECEIVEMETHOD_BY_ID_SQL = "SELECT * FROM receive_type where id = ?;";
+//	private static final String SELECT_STATUS_BY_ID_SQL = "SELECT * FROM order_status where id = ?;";	
 	
 //	public OrderDAO() {
 //		super();
@@ -61,9 +64,9 @@ public class OrderDAO{
 		return totalCost;
 	}
 	
-	public Order insertOrder(String checkOutEmail, String checkOutFullname, String checkOutPhone,
-			String receiverFullname, String receiverPhone, String receiverAddress, String receiveMethodId,
-			String shipping, List<OrderItemDTO> orderItems, String paymentTypeId, String paymentDate,
+	public Order insertOrder(String userID, String checkOutEmail, String checkOutFullname, String checkOutPhone,
+			String receiverFullname, String receiverPhone, String receiverAddress, OrderReceiveMethodEnum receiveMethod,
+			String shipping, List<OrderItemDTO> orderItems, OrderPaymentTypeEnum paymentType, String paymentDate,
 			String paymentFullname, String paymentSource, String billingFullname, String billingAddress,
 			String billingPhone) {
 		Order order = null;
@@ -73,27 +76,28 @@ public class OrderDAO{
 		long totalCost = calculateTotal(shipping, orderItems);
 		ZoneId z = ZoneId.of("Australia/Sydney");
 		ZonedDateTime zdt = ZonedDateTime.now(z);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String orderDate = formatter.format(zdt);
-		String orderStatus = Utility.ORDERSTATUS_RECEIVED;
+		OrderStatusEnum orderStatus = OrderStatusEnum.RECEIVED;
 		String orderNumber = generateOrderNumber("" + zdt.getDayOfMonth() + zdt.getMonthValue() + zdt.getYear(), zdt.getNano());
 		System.out.println("Order Date: " + formatter.format(zdt));
 		try {			
 			insertStm = connection.prepareStatement(INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS);			
 			int currentParam = 0;
 			insertStm.setString(++currentParam, orderNumber);
-			insertStm.setString(++currentParam, orderDate);			
+			insertStm.setString(++currentParam, orderDate);
+			insertStm.setString(++currentParam, userID);		
 			insertStm.setString(++currentParam, checkOutEmail);
 			insertStm.setString(++currentParam, checkOutFullname);
 			insertStm.setString(++currentParam, checkOutPhone);
 			insertStm.setString(++currentParam, receiverFullname);
 			insertStm.setString(++currentParam, receiverPhone);
 			insertStm.setString(++currentParam, receiverAddress);
-			insertStm.setInt(++currentParam, Integer.parseInt(receiveMethodId));
-			insertStm.setInt(++currentParam, Integer.parseInt(orderStatus));			
+			insertStm.setString(++currentParam, receiveMethod.toString());
+			insertStm.setString(++currentParam, orderStatus.toString());			
 			insertStm.setDouble(++currentParam, Double.parseDouble(shipping));
 			insertStm.setDouble(++currentParam, totalCost);		
-			insertStm.setInt(++currentParam, Integer.parseInt(paymentTypeId));
+			insertStm.setString(++currentParam, paymentType.toString());
 			insertStm.setString(++currentParam, paymentDate);
 			insertStm.setString(++currentParam, paymentFullname);
 			insertStm.setString(++currentParam, paymentSource);
@@ -111,8 +115,8 @@ public class OrderDAO{
 					System.out.println("Insert Order successful: " + generatedKeys.getInt(1));
 					order = new Order(generatedKeys.getInt(1) + "", orderNumber, orderDate, checkOutEmail,
 							checkOutFullname, checkOutPhone, receiverFullname, receiverPhone, receiverAddress,
-							Utility.RECEIVEMETHOD_MAP.get(receiveMethodId), Utility.ORDERSTATUS_MAP.get(orderStatus),
-							Double.parseDouble(shipping), totalCost, Utility.PAYMENT_MAP.get(paymentTypeId),
+							receiveMethod, orderStatus,
+							Double.parseDouble(shipping), totalCost, paymentType,
 							paymentDate, paymentFullname, paymentSource, billingFullname, billingAddress, billingPhone);		
 					if(insertOrderItem(generatedKeys.getInt(1), orderItems) == QueryResult.UNSUCCESSFUL) {
 						order = null;
@@ -195,16 +199,20 @@ public class OrderDAO{
 		return items;		
 	}	
 	
-	public List<Order> getOrderByUserEmailAndOrderNumber(String email, String orderNum){
+	public List<Order> getOrderByUserOrEmailAndOrderNumber(String userID, String email, String orderNum){
 		PreparedStatement selectStm = null;
 		List<Order> orders = new ArrayList<Order>();
 		ResultSet result = null;
 		Connection connection = Utility.getConnection();
 		try {			
-			selectStm = orderNum.equalsIgnoreCase("") ? connection.prepareStatement(SELECT_ORDER_BY_USEREMAIL_SQL) : connection.prepareStatement(SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL);
-			selectStm.setString(1, email);
-			if(!orderNum.equalsIgnoreCase(""))
+			if(!userID.equalsIgnoreCase("")) {
+				selectStm = connection.prepareStatement(SELECT_ORDER_BY_USERID_SQL);
+				selectStm.setString(1, userID);
+			}else {
+				selectStm = connection.prepareStatement(SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL);
+				selectStm.setString(1, email);
 				selectStm.setString(2, orderNum);
+			}
 			System.out.println("query: " + selectStm);
 			result = selectStm.executeQuery();			
 			while(result.next()) {
@@ -217,11 +225,11 @@ public class OrderDAO{
 				String receiverFullname = result.getString("receiver_fullname");
 				String receiverPhone = result.getString("receiver_phone");
 				String receiverAddress = result.getString("receiver_address");
-				String receiveMethod = Utility.RECEIVEMETHOD_MAP.get(result.getInt("receive_method_id") + "");
-				String status = Utility.ORDERSTATUS_MAP.get(result.getInt("order_status_id") + "");				
+				OrderReceiveMethodEnum receiveMethod = OrderReceiveMethodEnum.valueOf(result.getString("receive_method"));
+				OrderStatusEnum status = OrderStatusEnum.valueOf(result.getString("order_status"));				
 				double shipping = result.getDouble("shipping");
 				double total = result.getDouble("total");				
-				String paymentType = Utility.PAYMENT_MAP.get(result.getInt("payment_type_id") + "");
+				OrderPaymentTypeEnum paymentType = OrderPaymentTypeEnum.valueOf(result.getString("payment_type"));
 				String paymentDate = result.getString("payment_date");
 				String paymentFullname = result.getString("payment_fullname");
 				String paymentSource = result.getString("payment_source");

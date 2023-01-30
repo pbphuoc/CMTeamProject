@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import entity.User;
 /**
  * Servlet implementation class UserAccountServlet
  */
-//@WebServlet("/UserAccountServlet")
+@WebServlet(urlPatterns = "/Account")
 public class UserAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -63,7 +64,7 @@ public class UserAccountServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		OrderDAO orderDAO = new OrderDAO();
-		List<Order> orderList = orderDAO.getOrderByUserEmailAndOrderNumber(user.getEmail(),"");
+		List<Order> orderList = orderDAO.getOrderByUserOrEmailAndOrderNumber(user.getId(),"" ,"");
 		request.setAttribute("orderList", orderList);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("orderhistory.jsp");
 		dispatcher.forward(request, response);

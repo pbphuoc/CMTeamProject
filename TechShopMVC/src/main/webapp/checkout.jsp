@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page import="constant.OrderReceiveMethodEnum"%>
+<%@page import="constant.OrderPaymentTypeEnum"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,19 +50,28 @@
 							</c:otherwise>
 						</c:choose>
 						<div class="form_container" id="checkOutForm">
-							<form action="Checkout">
+							<form action="Checkout" method="Post" class="needs-validation">
 								<input type="hidden" name="command" value=confirm>
 								<div class="form-row mb-3 emailContainer">
 									<div class="col-md-12">
 										<c:choose>
 											<c:when test="${sessionScope.user == null}">
-												<input type="email" name="email" class="form-control"
-													placeholder="Email Address" aria-describedby="basic-addon1"
-													id="checkOutEmail" required>
+												<c:if test="${error != null}">
+													<input type="email" name="checkOutEmail" class="form-control is-invalid"
+														placeholder="Email Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+														id="checkOutEmail" required>												
+													<div id="checkOutEmailFeedback" class="invalid-feedback">${error}</div>
+												</c:if>
+												<c:if test="${error == null}">
+													<input type="email" name="checkOutEmail" class="form-control"
+														placeholder="Email Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+														id="checkOutEmail" required>												
+													<div id="checkOutEmailFeedback" class="invalid-feedback"></div>												
+												</c:if>													
 											</c:when>
 											<c:otherwise>
-												<input type="email" name="email" class="form-control"
-													placeholder="Email Address" aria-describedby="basic-addon1"
+												<input type="email" name="checkOutEmail" class="form-control"
+													placeholder="Email Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
 													id="checkOutEmail" value="${sessionScope.user.email}"
 													required readonly>
 
@@ -72,14 +83,14 @@
 									<div id="deliveryOptions" class="btn-group btn-group-toggle"
 										data-toggle="buttons">
 										<label class="btn btn-secondary active mr-2"> <input
-											id="optDeliveryLB" type="radio" name="options" 
-											autocomplete="off" checked> Delivery
+											id="optDeliveryLB" type="radio"
+											autocomplete="off" checked value="${OrderReceiveMethodEnum.DELIVERY}"> Delivery
 											
 										</label> <label class="btn btn-secondary"> <input
-											id="optCollectLB" type="radio" name="deliveryoptionsMethod" 
-											autocomplete="off" > Pickup at Store
+											id="optCollectLB" type="radio"
+											autocomplete="off" value="${OrderReceiveMethodEnum.PICKUP}"> Pickup at Store
 										</label>
-										<input id="deliveryMethod" name="deliveryMethod" value="2" hidden="true">
+										<input id="deliveryMethod" name="deliveryMethod" value="${OrderReceiveMethodEnum.DELIVERY}" hidden="true">
 									</div>
 
 								</div>
@@ -89,13 +100,11 @@
 										<div class="form-row mb-3">
 											<div class="form-group col-md-6">
 												<input type="text" name="receiverFirstName" class="form-control"
-													placeholder="First Name" aria-describedby="basic-addon1"
-													id="receiverFirstName" required>
+													placeholder="First Name" id="receiverFirstName" required>
 											</div>
 											<div class="form-group col-md-6">
 												<input type="text" name="receiverLastName" class="form-control"
-													placeholder="Last Name" aria-describedby="basic-addon1"
-													id="receiverLastName" required>
+													placeholder="Last Name" id="receiverLastName" required>
 											</div>
 										</div>
 										<div class="form-row mb-3">
@@ -106,14 +115,12 @@
 											</div>
 											<div class="col-md-12">
 												<input type="text" name="receiverPhoneNumber" class="form-control"
-													placeholder="Phone Number" aria-describedby="basic-addon1"
-													id="receiverPhoneNumber" required>
+													placeholder="Phone Number" id="receiverPhoneNumber" required>
 											</div>
 											<br> <br>
 											<div class="form-group col-md-12">
 												<input type="text" name="receiverAddress" class="form-control"
-													placeholder="Delivery Address"
-													aria-describedby="basic-addon1" id="receiverAddress"
+													placeholder="Delivery Address" id="receiverAddress"
 													required>
 											</div>
 										</div>
@@ -127,13 +134,12 @@
 											<div id="paymentOptions" class="btn-group btn-group-toggle"
 												data-toggle="buttons">
 												<label class="btn btn-secondary active mr-2"> <input
-													id="payNowBtn" type="radio" name="options"
-													autocomplete="off" checked> Pay now
+													id="payNowBtn" type="radio"
+													autocomplete="off" checked value="${OrderPaymentTypeEnum.CARD}"> Pay now
 												</label> <label class="btn btn-secondary"> <input
-													id="payOnPickupBtn" type="radio" name="options" 
-													autocomplete="off"> Pay later
+													id="payOnPickupBtn" type="radio" value="${OrderPaymentTypeEnum.UNPAID}" autocomplete="off" > Pay later
 												</label>
-												<input id="paymentMethod" name="paymentMethod" value="1" hidden="true">
+												<input id="paymentMethod" name="paymentMethod" value="${OrderPaymentTypeEnum.CARD}" hidden="true">
 											</div>
 										</div>
 									</div>
@@ -200,8 +206,7 @@
 									</div>
 								</div>
 								<div class="form-row mb-3">
-									<input class="btn btn-primary ml-0" type="submit"
-										value="Review Order">
+									<button class="btn btn-primary ml-0" type="submit">Proceed</button>
 								</div>
 
 							</form>
@@ -311,6 +316,38 @@
 
 	<jsp:include page="allscript.jsp"></jsp:include>
 	<script src="${pageContext.request.contextPath}/js/checkout.js"></script>
+	<script type="text/javascript">
+	(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		    var forms = document.getElementsByClassName('needs-validation');
+		    // Loop over them and prevent submission
+		    var validation = Array.prototype.filter.call(forms, function(form) {
+		      form.addEventListener('submit', function(event) {
+		        if (form.checkValidity() === false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }	        
+		        validateEmail();		        		        
+		      }, false);
+		    });
+		  }, false);
+		})();
 
+	function validateEmail(){
+		var emailFeedback = $('#checkOutEmailFeedback');
+		var emailLogin = $('#checkOutEmail');
+		var email = $('#checkOutEmail').val();
+		var errorMsg = '';
+		 if(!isEmailFormatValid(email)){
+			errorMsg = 'Please provide a correct email address, e.g test@gmail.com';
+		}
+		setErrorMessage(emailLogin, emailFeedback, errorMsg);
+	}	
+	$('#checkOutEmail').on('focusout', function(){
+		validateEmail();
+	});
+	</script>	
 </body>
 </html>

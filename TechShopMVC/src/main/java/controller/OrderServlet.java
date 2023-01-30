@@ -1,25 +1,29 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import constant.OrderPaymentTypeEnum;
+import constant.OrderReceiveMethodEnum;
 import dao.OrderDAO;
 import dao.ProductDAO;
 import entity.Order;
+import entity.User;
 import model.OrderItemDTO;
 import util.Utility;
 
 /**
  * Servlet implementation class OrderServlet
  */
-//@WebServlet("/OrderServlet")
+@WebServlet(urlPatterns = "/Order")
 public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -104,7 +108,7 @@ public class OrderServlet extends HttpServlet {
 		String emailAddress = request.getParameter("emailAddress") != null ? request.getParameter("emailAddress") : "";
 		String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber") : "";
 		OrderDAO orderDAO = new OrderDAO();
-		List<Order> orders = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress, orderNumber);
+		List<Order> orders = orderDAO.getOrderByUserOrEmailAndOrderNumber("", emailAddress, orderNumber);
 		if(orders.size() != 0) {
 			request.setAttribute("orderList", orders);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("orderhistory.jsp");
@@ -125,37 +129,38 @@ public class OrderServlet extends HttpServlet {
 		throws ServletException, IOException {
 		OrderDAO orderDAO = new OrderDAO();
 		ProductDAO productDAO = new ProductDAO();
+		HttpSession session = request.getSession();
 		
+		String userID = (User)session.getAttribute("user") != null ? ((User)session.getAttribute("user")).getId() : "-1";
 		String checkOutEmail = request.getParameter("checkOutEmail");
 		String checkOutFullname = "";
 		String checkOutPhone = "";
 		String receiverFullname = request.getParameter("receiverFullname");
 		String receiverPhone = request.getParameter("receiverPhone");
 		String receiverAddress = request.getParameter("receiverAddress");
-		String receiveMethodId = request.getParameter("receiveMethod").equals("DELIVERY") ? "2" : "1";
+		OrderReceiveMethodEnum receiveMethod = OrderReceiveMethodEnum.valueOf(request.getParameter("receiveMethod"));
 		String shipping = "0";
-		String paymentTypeId = request.getParameter("paymentType").equals("CARD")? "1":"0";
+		OrderPaymentTypeEnum paymentType = OrderPaymentTypeEnum.valueOf(request.getParameter("paymentType"));
 		String paymentDate = "";
 		String paymentFullname = request.getParameter("cardHolderName");	
 		String paymentSource = request.getParameter("cardNumber");	
 		String billingFullname = request.getParameter("billingFullname");	
 		String billingAddress = request.getParameter("billingPhone");	
 		String billingPhone = request.getParameter("billingAddress");	
-		HttpSession session = request.getSession();
 		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
 		List<OrderItemDTO> items = productDAO.getAllProductInCartByID(cartItems);	
 		
-		Order order = orderDAO.insertOrder(checkOutEmail, checkOutFullname, checkOutPhone,
-				receiverFullname, receiverPhone, receiverAddress, receiveMethodId,
-				shipping, items, paymentTypeId, paymentDate,
+		Order order = orderDAO.insertOrder(userID, checkOutEmail, checkOutFullname, checkOutPhone,
+				receiverFullname, receiverPhone, receiverAddress, receiveMethod,
+				shipping, items, paymentType, paymentDate,
 				paymentFullname, paymentSource, billingFullname, billingAddress,
 				billingPhone);
 		if (order != null) {
 			request.setAttribute("order",order);
 			request.setAttribute("items", items);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("confirmation.jsp");
-			dispatcher.forward(request, response);		
 			session.setAttribute("cartItems", null);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("confirmation.jsp");
+			dispatcher.forward(request, response);					
 		}
 	}
 	
@@ -163,7 +168,7 @@ public class OrderServlet extends HttpServlet {
 		OrderDAO orderDAO = new OrderDAO();
 		String emailAddress = request.getParameter("emailAddress") != null ? request.getParameter("emailAddress") : "";
 		String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber") : "";
-		Order order = orderDAO.getOrderByUserEmailAndOrderNumber(emailAddress, orderNumber).get(0);
+		Order order = orderDAO.getOrderByUserOrEmailAndOrderNumber("", emailAddress, orderNumber).get(0);
 		List<OrderItemDTO> items = orderDAO.getOrderItemByOrderID(order.getId());
 		request.setAttribute("order",order);
 		request.setAttribute("items", items);

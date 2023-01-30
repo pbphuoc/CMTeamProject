@@ -51,5 +51,5 @@ public class SearchFilterDTO {
 //		SearchFilterDTO other = (SearchFilterDTO) obj;
 //		return Objects.equals(id, other.id);
 //	}	
-	
+	// remove !!!
 }

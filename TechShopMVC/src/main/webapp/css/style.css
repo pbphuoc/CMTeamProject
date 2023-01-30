@@ -1662,3 +1662,13 @@ table .tableTotal {
 	margin-bottom: 2em;
 	text-align: center;
 }
+
+.comfirmationOrderName h1{
+	font-size: 30px;
+	font-weight: 700;
+}
+
+.comfirmationOrderName h2{
+	font-size: 25px;
+	font-weight: 600;
+}

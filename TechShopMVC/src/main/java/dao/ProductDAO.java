@@ -521,24 +521,24 @@ public class ProductDAO {
 		return cartList;
 	}
 	
-	public QueryResult updateStockByProductID(String productID, int quantity) {
-		QueryResult rs = Utility.QueryResult.UNSUCCESSFUL;		
-		Connection connection = Utility.getConnection();
-		PreparedStatement stm = null;
-		int currentParam = 0;
-		try
-		{			
-			stm = connection.prepareStatement(UPDATE_STOCK_BY_PRODUCTID_SQL);
-			stm.setInt(++currentParam, quantity);
-			stm.setString(++currentParam, productID);
-			rs = Utility.getResultCode(stm.executeUpdate());
-					
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			Utility.close(connection, stm, null);
-		}
-		return rs;
-	}	
+//	public QueryResult updateStockByProductID(String productID, int quantity) {
+//		QueryResult rs = Utility.QueryResult.UNSUCCESSFUL;		
+//		Connection connection = Utility.getConnection();
+//		PreparedStatement stm = null;
+//		int currentParam = 0;
+//		try
+//		{			
+//			stm = connection.prepareStatement(UPDATE_STOCK_BY_PRODUCTID_SQL);
+//			stm.setInt(++currentParam, quantity);
+//			stm.setString(++currentParam, productID);
+//			rs = Utility.getResultCode(stm.executeUpdate());
+//					
+//		}catch (SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			Utility.close(connection, stm, null);
+//		}
+//		return rs;
+//	}	
 
 }

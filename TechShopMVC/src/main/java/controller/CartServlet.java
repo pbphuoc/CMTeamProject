@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import model.OrderItemDTO;
 /**
  * Servlet implementation class CartServlet
  */
+@WebServlet(urlPatterns = "/Cart")
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -33,8 +35,11 @@ public class CartServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		System.out.println("-----------------------------");
+		System.out.println("doGet Cart Servlet called");
+		System.out.println("Current command: " + request.getParameter("command"));
 		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
-
 		String productID = request.getParameter("productID") != null ? request.getParameter("productID") : "";
 
 		try {

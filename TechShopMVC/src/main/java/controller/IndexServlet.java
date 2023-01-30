@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,9 +17,11 @@ import util.BCrypt;
 /**
  * Servlet implementation class IndexServlet
  */
+@WebServlet(urlPatterns = "/Home")
 public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
+    // Singleton Pattern for ALL DAO
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -63,9 +66,11 @@ public class IndexServlet extends HttpServlet {
 		List<Product> products = productDAO.getPopularProducts();
 		List<Brand> brands = productDAO.getAllBrands();
 		List<Category> categories = productDAO.getAllCategory();
+		
 		request.setAttribute("productList", products);
 		request.setAttribute("brandList", brands);
 		request.setAttribute("categoryList", categories);
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 		dispatcher.forward(request, response);
 	}

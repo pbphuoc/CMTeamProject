@@ -40,14 +40,14 @@
 									<c:when
 										test="${error != null}">
 										<input type="email" class="form-control is-invalid"
-											placeholder="Email Address" id="emailLogin" name="emailLogin"
+											placeholder="Email Address" id="emailLogin" name="emailLogin" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
 											required>
 										<div id="emailLoginFeedback" class="invalid-feedback">
 											${error}</div>
 									</c:when>
 									<c:otherwise>
 										<input type="email" class="form-control"
-											placeholder="Email Address" id="emailLogin" name="emailLogin"
+											placeholder="Email Address" id="emailLogin" name="emailLogin" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
 											required>
 										<div id="emailLoginFeedback" class="invalid-feedback"></div>
 									</c:otherwise>
@@ -97,7 +97,7 @@
 		          event.stopPropagation();
 		        }	        
 		        validateEmail();
-		        validatePassword()
+		        validatePassword();
 		        		        
 		      }, false);
 		    });

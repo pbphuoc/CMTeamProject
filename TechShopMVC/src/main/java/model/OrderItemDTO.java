@@ -17,6 +17,7 @@ public class OrderItemDTO {
 //		this.product = product;
 //		this.quantity = quantity;
 //	}	
+	// NO NO NO
 
 	public Product getProduct() {
 		return product;
