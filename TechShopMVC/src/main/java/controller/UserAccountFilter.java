@@ -13,19 +13,21 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import constant.GlobalConstant;
+
 /**
  * Servlet Filter implementation class UserAccountFilter
  */
-@WebFilter(urlPatterns = {"/Account"})
-public class UserAccountFilter extends HttpFilter implements Filter {
-       
-    /**
-     * @see HttpFilter#HttpFilter()
-     */
-    public UserAccountFilter() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+@WebFilter(urlPatterns = { GlobalConstant.ACCOUNT_URL })
+public class UserAccountFilter implements Filter {
+
+	/**
+	 * @see HttpFilter#HttpFilter()
+	 */
+	public UserAccountFilter() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Filter#destroy()
@@ -37,20 +39,21 @@ public class UserAccountFilter extends HttpFilter implements Filter {
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpSession session = httpRequest.getSession(false);
-		
-		boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
-		String userAccountURI = httpRequest.getContextPath() + "/Account";
+
+		boolean isLoggedIn = (session != null && session.getAttribute(GlobalConstant.USER) != null);
+		String userAccountURI = httpRequest.getContextPath() + GlobalConstant.ACCOUNT_URL;
 		boolean isUserAccountRequest = httpRequest.getRequestURI().equals(userAccountURI);
-		
-		if(!isLoggedIn && isUserAccountRequest) {
+
+		if (!isLoggedIn && isUserAccountRequest) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/Auth?command=getLoginForm");
 			dispatcher.forward(request, response);
-		}else {
+		} else {
 			chain.doFilter(request, response);
-		}		
+		}
 	}
 
 	/**

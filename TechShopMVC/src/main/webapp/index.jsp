@@ -24,7 +24,6 @@
 		<div id="banner1" class="carousel slide" data-ride="carousel">
 			<ol class="carousel-indicators">
 				<li data-target="#banner1" data-slide-to="0" class="active"></li>
-<!-- 				<li data-target="#banner1" data-slide-to="1"></li>				 -->
 			</ol>
 			<div class="carousel-inner">
 				<div class="carousel-item active">
@@ -38,7 +37,6 @@
 										<p>We have a wide range of computers, laptops, cellphones,
 											smart watches and accessories.</p>
 										<a class="read_more" href="Product?command=search&keywords=">View All </a> 
-<!-- 										<a href="contact.html">Contact </a> -->
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -52,30 +50,6 @@
 						</div>
 					</div>
 				</div>
-<!-- 				<div class="carousel-item"> -->
-<!-- 					<div class="container"> -->
-<!-- 						<div class="carousel-caption"> -->
-<!-- 							<div class="row"> -->
-<!-- 								<div class="col-md-6"> -->
-<!-- 									<div class="text-bg"> -->
-<!-- 										<span>Computer And Laptop</span> -->
-<!-- 										<h1>Accessories</h1> -->
-<!-- 										<p>We have a wide range of computers, laptops, cellphones, -->
-<!-- 											smart watches and accessories.</p> -->
-<!-- 										<a href="Product?command=search&keywords=">View All </a>  -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="col-md-6"> -->
-<!-- 									<div class="text_img"> -->
-<!-- 										<figure> -->
-<!-- 											<img src="../images/pct.png" alt="#" /> -->
-<!-- 										</figure> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div>				 -->
 			</div>
 			<a class="carousel-control-prev" href="#banner1" role="button"
 				data-slide="prev"> <i class="fa fa-chevron-left"
@@ -136,8 +110,6 @@
 			</div>			
 		</div>
 	</div>
-	
-
 	<div class="products">
 		<div class="container">
 			<div class="row">

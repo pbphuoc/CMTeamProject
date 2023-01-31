@@ -10,13 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import constant.GlobalConstant;
 import dao.ProductDAO;
 import model.OrderItemDTO;
 
 /**
  * Servlet implementation class CartServlet
  */
-@WebServlet(urlPatterns = "/Cart")
+@WebServlet(urlPatterns = GlobalConstant.CART_URL)
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -34,26 +36,28 @@ public class CartServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
 		System.out.println("-----------------------------");
 		System.out.println("doGet Cart Servlet called");
-		System.out.println("Current command: " + request.getParameter("command"));
-		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
-		String productID = request.getParameter("productID") != null ? request.getParameter("productID") : "";
+		System.out.println("Current command: " + request.getParameter(GlobalConstant.COMMAND));
+		String command = request.getParameter(GlobalConstant.COMMAND) != null
+				? request.getParameter(GlobalConstant.COMMAND)
+				: GlobalConstant.BLANK;
+		String productID = request.getParameter(GlobalConstant.PRODUCT_ID) != null
+				? request.getParameter(GlobalConstant.PRODUCT_ID)
+				: GlobalConstant.BLANK;
 
 		try {
 			switch (command) {
-			case "increase":
+			case GlobalConstant.INCREASE:
 				increase(request, response, productID);
 				break;
-			case "decrease":
+			case GlobalConstant.DECREASE:
 				decrease(request, response, productID);
 				break;
-			case "remove":
+			case GlobalConstant.REMOVE:
 				remove(request, response, productID);
 				break;
-			case "viewCart":
+			case GlobalConstant.VIEW_CART:
 				getCartPage(request, response);
 				break;
 			default:
@@ -61,7 +65,6 @@ public class CartServlet extends HttpServlet {
 				break;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			throw new ServletException(e);
 		}
 	}
@@ -72,22 +75,21 @@ public class CartServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
 	protected void getCartPage(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		ProductDAO cartDAO = new ProductDAO();
 		HttpSession session = request.getSession();
-		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
+		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute(GlobalConstant.CART_ITEM);
+
 		if (cartItems == null || cartItems.size() == 0) {
-			response.sendRedirect("cart.jsp");
+			response.sendRedirect(GlobalConstant.CART_JSP);
 		} else {
 			List<OrderItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
-			request.setAttribute("cartItemDetails", cartItemDetails);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
+			request.setAttribute(GlobalConstant.ORDER_ITEM_DTO, cartItemDetails);
+			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CART_JSP);
 			dispatcher.forward(request, response);
 		}
 	}
@@ -95,18 +97,18 @@ public class CartServlet extends HttpServlet {
 	protected void remove(HttpServletRequest request, HttpServletResponse response, String productID)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
+		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute(GlobalConstant.CART_ITEM);
 		cartItems.remove(productID);
-		session.setAttribute("cartItems", cartItems);
-		response.getWriter().append(cartItems.size()+"");
+		session.setAttribute(GlobalConstant.CART_ITEM, cartItems);
+		response.getWriter().append(cartItems.size() + "");
 	}
 
 	protected void increase(HttpServletRequest request, HttpServletResponse response, String productID)
 			throws ServletException, IOException {
-//		ProductDAO cartDAO = new ProductDAO();
 		HttpSession session = request.getSession();
-		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
+		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute(GlobalConstant.CART_ITEM);
 		HashMap<String, Integer> cartList = new HashMap<String, Integer>();
+
 		if (cartItems == null) {
 			cartItems = cartList;
 			cartItems.put(productID, 1);
@@ -115,21 +117,24 @@ public class CartServlet extends HttpServlet {
 		} else {
 			cartItems.put(productID, cartItems.get(productID) + 1);
 		}
-		session.setAttribute("cartItems", cartItems);
-		response.getWriter().append(cartItems.size()+"");
+
+		session.setAttribute(GlobalConstant.CART_ITEM, cartItems);
+		response.getWriter().append(cartItems.size() + "");
 	}
 
 	protected void decrease(HttpServletRequest request, HttpServletResponse response, String productID)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
+		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute(GlobalConstant.CART_ITEM);
+
 		if (cartItems.containsKey(productID)) {
 			cartItems.put(productID, cartItems.get(productID) - 1);
 		}
 		if (cartItems.get(productID) == 0) {
 			cartItems.remove(productID);
 		}
-		session.setAttribute("cartItems", cartItems);
-		response.getWriter().append(cartItems.size()+"");
+
+		session.setAttribute(GlobalConstant.CART_ITEM, cartItems);
+		response.getWriter().append(cartItems.size() + "");
 	}
 }

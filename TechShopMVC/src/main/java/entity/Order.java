@@ -18,9 +18,7 @@ public class Order {
 	private String receiverFullname;
 	private String receiverPhone;
 	private String receiverAddress;
-//	private String receiveMethod;
 	private OrderReceiveMethodEnum receiveMethod;
-//	private String paymentType;
 	private OrderPaymentTypeEnum paymentType;
 	private String paymentDate;
 	private OrderStatusEnum status;
@@ -31,25 +29,6 @@ public class Order {
 	private String billingPhone;
 	private String paymentName;
 	private String paymentSource;
-
-//	public Order(String id, String orderNumber, String date, String checkOutEmail, String checkOutFullname,
-//			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
-//			String receiveMethod, String paymentType, String status, double shipping, double total) {
-//		this.id = id;
-//		this.orderNumber = orderNumber;
-//		this.date = date;
-//		this.checkOutEmail = checkOutEmail;
-//		this.checkOutFullname = checkOutFullname;
-//		this.checkOutPhone = checkOutPhone;
-//		this.receiverFullname = receiverFullname;
-//		this.receiverPhone = receiverPhone;
-//		this.receiverAddress = receiverAddress;
-//		this.receiveMethod = receiveMethod;
-//		this.paymentType = paymentType;
-//		this.status = status;
-//		this.shipping = shipping;
-//		this.total = total;
-//	}
 
 	public Order(String id, String orderNumber, String date, String checkOutEmail, String checkOutFullname,
 			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
@@ -118,17 +97,9 @@ public class Order {
 		return receiverAddress;
 	}
 
-//	public String getReceiveMethod() {
-//		return receiveMethod;
-//	}
-
 	public OrderReceiveMethodEnum getReceiveMethod() {
 		return receiveMethod;
 	}
-
-//	public String getPaymentType() {
-//		return paymentType;
-//	}	
 
 	public OrderPaymentTypeEnum getPaymentType() {
 		return paymentType;
@@ -169,5 +140,4 @@ public class Order {
 	public String getPaymentSource() {
 		return paymentSource;
 	}
-
 }

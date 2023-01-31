@@ -188,7 +188,10 @@
 						<div class="row our_products">
 							<c:forEach var="product" items="${products}">
 								<div class="col-md-4">
-									<div class="product_box">
+									<div class="product_box productOverlayCover">
+										<div class="productOverlay" onclick="productOverlayOff()">
+											<p>Item added!</p>
+										</div>									
 										<form>
 											<div class="productThumbnailContainer">
 												<a
@@ -215,7 +218,7 @@
 												<div class="col-md-5">
 													<c:choose>
 														<c:when test="${product.getStock() > 0}">
-															<button class="productButton" type="button"
+															<button class="productButton addbutton" type="button"
 																onclick="increase(${product.id})">Add To Cart</button>
 														</c:when>
 														<c:otherwise>

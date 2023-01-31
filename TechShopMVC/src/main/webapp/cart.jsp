@@ -47,7 +47,7 @@
 		</div>
 		<div class="cartItemWrapper">
 		<% double subTotal = 0; %>
-		<c:forEach var="item" items="${cartItemDetails}">
+		<c:forEach var="item" items="${items}">
 				<div class="itemTable">
 					<div class="cartCol1">
 						<div class="itemInfor">

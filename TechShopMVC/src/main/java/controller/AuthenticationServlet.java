@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import constant.GlobalConstant;
 import dao.UserDAO;
 import entity.User;
 import util.Utility;
@@ -15,124 +17,125 @@ import util.Utility;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet(urlPatterns = "/Auth")
+@WebServlet(urlPatterns = GlobalConstant.AUTH_URL)
 public class AuthenticationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AuthenticationServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	public AuthenticationServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		System.out.println("-----------------------------");
 		System.out.println("doGet Authentication Servlet called");
-		System.out.println("Current command: " + request.getParameter("command"));
-//		System.out.println("Current User: " + getCurrentUser(request));
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		String command = request.getParameter("command") != null ? request.getParameter("command") : "";
+		System.out.println("Current command: " + request.getParameter(GlobalConstant.COMMAND));
+		String command = request.getParameter(GlobalConstant.COMMAND) != null
+				? request.getParameter(GlobalConstant.COMMAND)
+				: GlobalConstant.BLANK;
 		try {
 			switch (command) {
-			case "login":			
+			case GlobalConstant.LOGIN:
 				login(request, response);
 				break;
-			case "logout":			
+			case GlobalConstant.LOGOUT:
 				logout(request, response);
-				break;				
-			case "getLoginForm":
-				getLoginPage(request, response);	
 				break;
-			case "getRegisterForm":
+			case GlobalConstant.GET_LOGIN_FORM:
+				getLoginPage(request, response);
+				break;
+			case GlobalConstant.GET_REGISTER_FORM:
 				getRegisterPage(request, response);
 				break;
-			case "register":
+			case GlobalConstant.REGISTER:
 				register(request, response);
 				break;
 			default:
 				getLoginPage(request, response);
 				break;
-			}			
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw new ServletException(e);
 		}
-		
 	}
 
-	/**	
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		System.out.println("-----------------------------");
-		System.out.println("doPost Login Servlet called");	
+		System.out.println("doPost Login Servlet called");
 		doGet(request, response);
 	}
-	
-	private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	private void register(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String fullname = request.getParameter("fullnameRegister");
 		String email = request.getParameter("emailRegister");
 		String password = request.getParameter("passwordRegister");
 		String mobile = request.getParameter("mobileRegister");
+
 		UserDAO userDAO = new UserDAO();
 		User user = userDAO.insertUser(email, password, fullname, mobile);
-//		User user = userDAO.userExist(email);
-		if(user != null) {
-			String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
-			System.out.println("prev Url" + prevUrl);				
+
+		if (user != null) {
+			String prevUrl = Utility.getCorrectPrevUrl(request.getParameter(GlobalConstant.PREV_URL));
 			HttpSession session = request.getSession();
-			session.setAttribute("user", user);
-			response.sendRedirect(prevUrl);											
-		}else {			
-			request.setAttribute("error", "This email address has been registered already");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
-			dispatcher.forward(request, response);			
-		}
-	}	
-	
-	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("emailLogin");
-		String password = request.getParameter("passwordLogin");	
-		UserDAO userDAO = new UserDAO();
-		User user = userDAO.authenticateUser(email, password);		
-		if(user != null) {			
-			String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
-			System.out.println("prev Url" + prevUrl);		
-			HttpSession session = request.getSession();
-			session.setAttribute("user", user);
-			response.sendRedirect(prevUrl);				
-		}else {
-//			session.setAttribute("user", null);
-			request.setAttribute("error", "Incorrect Email or Password. Please try again");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-			dispatcher.forward(request, response);				
+			session.setAttribute(GlobalConstant.USER, user);
+			response.sendRedirect(prevUrl);
+		} else {
+			request.setAttribute(GlobalConstant.ERROR, GlobalConstant.EMAIL_REGISTERED_ALREADY);
+			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.REGISTER_JSP);
+			dispatcher.forward(request, response);
 		}
 	}
-	
+
+	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String email = request.getParameter("emailLogin");
+		String password = request.getParameter("passwordLogin");
+
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.authenticateUser(email, password);
+
+		if (user != null) {
+			String prevUrl = Utility.getCorrectPrevUrl(request.getParameter(GlobalConstant.PREV_URL));
+			HttpSession session = request.getSession();
+			session.setAttribute(GlobalConstant.USER, user);
+			response.sendRedirect(prevUrl);
+		} else {
+			request.setAttribute(GlobalConstant.ERROR, GlobalConstant.INCORRECT_LOGIN_DETAIL);
+			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.LOGIN_JSP);
+			dispatcher.forward(request, response);
+		}
+	}
+
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
-		System.out.println("prev Url" + prevUrl);			
+		String prevUrl = Utility.getCorrectPrevUrl(request.getParameter(GlobalConstant.PREV_URL));
 		HttpSession session = request.getSession();
-		session.setAttribute("user", null);
+		session.setAttribute(GlobalConstant.USER, null);
 		response.sendRedirect(prevUrl);
-	}	
-	
-	private void getRegisterPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
-		System.out.println("prevUrl: " + prevUrl);		
-		response.sendRedirect("register.jsp?prevUrl="+prevUrl);		
-	}		
-	
-	private void getLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));		
-		System.out.println("prevUrl: " + prevUrl);		
-		response.sendRedirect("login.jsp?prevUrl="+prevUrl);	
-	}	
+	}
+
+	private void getRegisterPage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String prevUrl = Utility.getCorrectPrevUrl(request.getParameter(GlobalConstant.PREV_URL));
+		response.sendRedirect("register.jsp?prevUrl=" + prevUrl);
+	}
+
+	private void getLoginPage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String prevUrl = Utility.getCorrectPrevUrl(request.getParameter("prevUrl"));
+		response.sendRedirect("login.jsp?prevUrl=" + prevUrl);
+	}
 }

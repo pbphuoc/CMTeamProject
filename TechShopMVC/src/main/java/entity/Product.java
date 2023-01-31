@@ -1,6 +1,6 @@
 package entity;
 
-import util.Utility;
+import constant.GlobalConstant;
 
 public class Product {
 	private String id;
@@ -25,19 +25,18 @@ public class Product {
 		this.imgSrc = imgSrc;
 		this.stock = stock;
 	}
-	
+
 	public Product(String id, String name, String description, double newPrice, String imgSrc) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.newPrice = newPrice;
 		this.imgSrc = imgSrc;
-	}	
-	
+	}
+
 	public String getId() {
 		return id;
 	}
-
 
 	public String getName() {
 		return name;
@@ -70,18 +69,18 @@ public class Product {
 	public int getStock() {
 		return stock;
 	}
-	
+
 	public String getStockStatus() {
 		if (stock == 0)
-			return Utility.STOCKSTATUS_OUTOFSTOCK;
+			return GlobalConstant.STOCKSTATUS_OUTOFSTOCK;
 		else
-			return Utility.STOCKSTATUS_INSTOCK;
+			return GlobalConstant.STOCKSTATUS_INSTOCK;
 	}
-	
+
 	public String getStockStatusDescription() {
 		if (stock == 0)
-			return Utility.AVAILABILITY_MAP.get(Utility.STOCKSTATUS_OUTOFSTOCK);
+			return GlobalConstant.AVAILABILITY_MAP.get(GlobalConstant.STOCKSTATUS_OUTOFSTOCK);
 		else
-			return Utility.AVAILABILITY_MAP.get(Utility.STOCKSTATUS_INSTOCK);
+			return GlobalConstant.AVAILABILITY_MAP.get(GlobalConstant.STOCKSTATUS_INSTOCK);
 	}
 }

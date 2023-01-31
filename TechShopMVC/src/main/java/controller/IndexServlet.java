@@ -8,70 +8,63 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import constant.GlobalConstant;
 import dao.ProductDAO;
 import entity.Brand;
 import entity.Category;
 import entity.Product;
-import util.BCrypt;
 
 /**
  * Servlet implementation class IndexServlet
  */
-@WebServlet(urlPatterns = "/Home")
+@WebServlet(urlPatterns = GlobalConstant.HOME_URL)
 public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    // Singleton Pattern for ALL DAO
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public IndexServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public IndexServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		System.out.println("-----------------------------");
-		System.out.println("doGet Index Servlet called");		
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-//		String action = request.getServletPath();
-//		try {
-//			switch(action) {
-//				case "/Home":
-//					getIndexPage(request, response);
-//			}
-//		}catch (Exception e) {
-//			// TODO: handle exception
-//			throw new ServletException(e);
-//		}
+		System.out.println("doGet Index Servlet called");
 		getIndexPage(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("-----------------------------");
 		System.out.println("doPost Index Servlet called");
 		doGet(request, response);
 	}
-	
-	private void getIndexPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	private void getIndexPage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		ProductDAO productDAO = new ProductDAO();
 		List<Product> products = productDAO.getPopularProducts();
 		List<Brand> brands = productDAO.getAllBrands();
 		List<Category> categories = productDAO.getAllCategory();
-		
+
 		request.setAttribute("productList", products);
 		request.setAttribute("brandList", brands);
 		request.setAttribute("categoryList", categories);
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.INDEX_JSP);
 		dispatcher.forward(request, response);
 	}
 

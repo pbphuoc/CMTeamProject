@@ -1,9 +1,5 @@
 package constant;
 
 public enum OrderPaymentTypeEnum {
-	UNPAID,
-	CARD,
-	PAYATSTORE,
-	TRANSFER,
-	REFUNDED
+	UNPAID, CARD, PAYATSTORE, TRANSFER, REFUNDED
 }

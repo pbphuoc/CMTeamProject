@@ -230,7 +230,7 @@
 
 				</div>
 				<div class="card-body pt-0">
-					<c:forEach var="item" items="${CartItemDetails}">
+					<c:forEach var="item" items="${items}">
 						<div class="cartItemRow row justify-content-between">
 							<div class="col-auto col-md-7">
 								<div class="media flex-column flex-sm-row">
