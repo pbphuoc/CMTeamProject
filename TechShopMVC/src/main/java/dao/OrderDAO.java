@@ -24,9 +24,8 @@ public class OrderDAO {
 	private static final String INSERT_ORDER_SQL = "INSERT INTO orders " + "(order_number, order_date,"
 			+ " user_id, checkout_email, checkout_fullname, checkout_phone,"
 			+ " receiver_fullname, receiver_phone, receiver_address, receive_method,"
-			+ " order_status, shipping, total," + " payment_type, payment_date, payment_fullname, payment_source,"
-			+ " billing_fullname, billing_address, billing_phone) "
-			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			+ " order_status, shipping, total, payment_type, payment_date, payment_id) "
+			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String INSERT_ORDERITEM_SQL = "INSERT INTO order_item (order_id, product_id, product_name, product_description, product_img_src, price, quantity) "
 			+ "VALUES (?,?,?,?,?,?,?);";
 	private static final String SELECT_ORDER_BY_USERID_SQL = "SELECT * FROM orders WHERE user_id = ?;";
@@ -53,23 +52,22 @@ public class OrderDAO {
 		return totalCost;
 	}
 
-	public Order insertOrder(String userID, String checkOutEmail, String checkOutFullname, String checkOutPhone,
+	public Order insertOrder(String orderNumber, String userID, String checkOutEmail, String checkOutFullname, String checkOutPhone,
 			String receiverFullname, String receiverPhone, String receiverAddress, OrderReceiveMethodEnum receiveMethod,
-			String shipping, List<OrderItemDTO> orderItems, OrderPaymentTypeEnum paymentType, String paymentDate,
-			String paymentFullname, String paymentSource, String billingFullname, String billingAddress,
-			String billingPhone) {
+			double shipping, double total, List<OrderItemDTO> orderItems, OrderPaymentTypeEnum paymentType, String paymentDate,
+			String paymentID) {
 		Order order = null;
 		PreparedStatement insertStm = null;
 		ResultSet generatedKeys = null;
 		Connection connection = Utility.getConnection();
-		long totalCost = calculateTotal(shipping, orderItems);
+//		long totalCost = calculateTotal(shipping, orderItems);
 		ZoneId z = ZoneId.of("Australia/Sydney");
 		ZonedDateTime zdt = ZonedDateTime.now(z);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String orderDate = formatter.format(zdt);
 		OrderStatusEnum orderStatus = OrderStatusEnum.RECEIVED;
-		String orderNumber = generateOrderNumber("" + zdt.getDayOfMonth() + zdt.getMonthValue() + zdt.getYear(),
-				zdt.getNano());
+//		String orderNumber = generateOrderNumber("" + zdt.getDayOfMonth() + zdt.getMonthValue() + zdt.getYear(),
+//				zdt.getNano());
 		System.out.println("Order Date: " + formatter.format(zdt));
 		try {
 			insertStm = connection.prepareStatement(INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS);
@@ -85,15 +83,12 @@ public class OrderDAO {
 			insertStm.setString(++currentParam, receiverAddress);
 			insertStm.setString(++currentParam, receiveMethod.toString());
 			insertStm.setString(++currentParam, orderStatus.toString());
-			insertStm.setDouble(++currentParam, Double.parseDouble(shipping));
-			insertStm.setDouble(++currentParam, totalCost);
+			insertStm.setDouble(++currentParam, shipping);
+			insertStm.setDouble(++currentParam, total);
 			insertStm.setString(++currentParam, paymentType.toString());
 			insertStm.setString(++currentParam, paymentDate);
-			insertStm.setString(++currentParam, paymentFullname);
-			insertStm.setString(++currentParam, paymentSource);
-			insertStm.setString(++currentParam, billingFullname);
-			insertStm.setString(++currentParam, billingAddress);
-			insertStm.setString(++currentParam, billingPhone);
+			insertStm.setString(++currentParam, paymentID);
+			System.out.println("query: " + insertStm);
 			if (Utility.getResultCode(insertStm.executeUpdate()) == Utility.QueryResult.UNSUCCESSFUL) {
 				System.out.println("Insert Order failed");
 				return order;
@@ -103,8 +98,8 @@ public class OrderDAO {
 					System.out.println("Insert Order successful: " + generatedKeys.getInt(1));
 					order = new Order(generatedKeys.getInt(1) + "", orderNumber, orderDate, checkOutEmail,
 							checkOutFullname, checkOutPhone, receiverFullname, receiverPhone, receiverAddress,
-							receiveMethod, orderStatus, Double.parseDouble(shipping), totalCost, paymentType,
-							paymentDate, paymentFullname, paymentSource, billingFullname, billingAddress, billingPhone);
+							receiveMethod, orderStatus, shipping, total, paymentType,
+							paymentDate, paymentID);
 					if (insertOrderItem(generatedKeys.getInt(1), orderItems) == Utility.QueryResult.UNSUCCESSFUL) {
 						order = null;
 						System.out.println("Insert Order Item failed");
@@ -218,15 +213,10 @@ public class OrderDAO {
 				double total = result.getDouble("total");
 				OrderPaymentTypeEnum paymentType = OrderPaymentTypeEnum.valueOf(result.getString("payment_type"));
 				String paymentDate = result.getString("payment_date");
-				String paymentFullname = result.getString("payment_fullname");
-				String paymentSource = result.getString("payment_source");
-				String billingFullname = result.getString("billing_fullname");
-				String billingAddress = result.getString("billing_address");
-				String billingPhone = result.getString("billing_phone");
+				String paymentID = result.getString("payment_id");
 				orders.add(new Order(orderID, orderNumber, orderDate, checkoutEmail, checkoutFullname, checkoutPhone,
 						receiverFullname, receiverPhone, receiverAddress, receiveMethod, status, shipping, total,
-						paymentType, paymentDate, paymentFullname, paymentSource, billingFullname, billingAddress,
-						billingPhone));
+						paymentType, paymentDate, paymentID));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

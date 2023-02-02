@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="constant.OrderReceiveMethodEnum"%>
 <%@page import="constant.OrderPaymentTypeEnum"%>
+<%@page import="constant.GlobalConstant"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +19,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <jsp:include page="allref.jsp"></jsp:include>
+<script src="${GlobalConstant.PAYPAL_API}" data-page-type="checkout"></script>
 </head>
 <!-- body -->
 <body class="main-layout">
@@ -27,11 +29,11 @@
 	</jsp:include>
 	<div id="checkoutBody" class="projectContainer">
 		<div class="row">
-			<div id="checkoutLeft" class="col-md-7">
+			<div id="checkoutLeft" class="col-md-4">
 				<c:if test="${sessionScope.user == null}">
 					<div class="row mb-5">
 						<div id="checkoutMember" class="col">
-							<h1>Already A User?</h1>
+							<h1>Are you a member?</h1>
 							<jsp:include page="loginButton.jsp">
 								<jsp:param name="curUrl"
 									value="${requestScope['javax.servlet.forward.request_uri']}" />
@@ -41,176 +43,14 @@
 				</c:if>
 				<div class="row">
 					<div class="col">
-						<c:choose>
-							<c:when test="${sessionScope.user == null}">
-								<h1 id="checkOutLabel">Or Check Out As Guest</h1>
-							</c:when>
-							<c:otherwise>
-								<h1 id="checkOutLabel">Member Checkout</h1>
-							</c:otherwise>
-						</c:choose>
 						<div class="form_container" id="checkOutForm">
-							<form action="Checkout" method="Post" class="needs-validation">
-								<input type="hidden" name="command" value=confirm>
-								<div class="form-row mb-3 emailContainer">
-									<div class="col-md-12">
-										<c:choose>
-											<c:when test="${sessionScope.user == null}">
-												<c:if test="${error != null}">
-													<input type="email" name="checkOutEmail" class="form-control is-invalid"
-														placeholder="Email Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-														id="checkOutEmail" required>												
-													<div id="checkOutEmailFeedback" class="invalid-feedback">${error}</div>
-												</c:if>
-												<c:if test="${error == null}">
-													<input type="email" name="checkOutEmail" class="form-control"
-														placeholder="Email Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-														id="checkOutEmail" required>												
-													<div id="checkOutEmailFeedback" class="invalid-feedback"></div>												
-												</c:if>													
-											</c:when>
-											<c:otherwise>
-												<input type="email" name="checkOutEmail" class="form-control"
-													placeholder="Email Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-													id="checkOutEmail" value="${sessionScope.user.email}"
-													required readonly>
-
-											</c:otherwise>
-										</c:choose>
-									</div>
+							<!-- 							<form class="needs-validation"> -->
+							<div class="form-row mb-3">
+								<div class="col">
+									<h1>Payment</h1>
+									<div id="paypal-button-container"></div>
 								</div>
-								<div class="form-row mb-3">
-									<div id="deliveryOptions" class="btn-group btn-group-toggle"
-										data-toggle="buttons">
-										<label class="btn btn-secondary active mr-2"> <input
-											id="optDeliveryLB" type="radio"
-											autocomplete="off" checked value="${OrderReceiveMethodEnum.DELIVERY}"> Delivery
-											
-										</label> <label class="btn btn-secondary"> <input
-											id="optCollectLB" type="radio"
-											autocomplete="off" value="${OrderReceiveMethodEnum.PICKUP}"> Pickup at Store
-										</label>
-										<input id="deliveryMethod" name="deliveryMethod" value="${OrderReceiveMethodEnum.DELIVERY}" hidden="true">
-									</div>
-
-								</div>
-								<div id="deliveryBox" class="row">
-									<div class="col">
-										<h1 id="deliveryOrPickup">Delivery information</h1>
-										<div class="form-row mb-3">
-											<div class="form-group col-md-6">
-												<input type="text" name="receiverFirstName" class="form-control"
-													placeholder="First Name" id="receiverFirstName" required>
-											</div>
-											<div class="form-group col-md-6">
-												<input type="text" name="receiverLastName" class="form-control"
-													placeholder="Last Name" id="receiverLastName" required>
-											</div>
-										</div>
-										<div class="form-row mb-3">
-											<div class="col-md-1.1">
-												<select id="countryCodeList" class="form-select">
-													<option value="australia" selected>+61</option>
-												</select>
-											</div>
-											<div class="col-md-12">
-												<input type="text" name="receiverPhoneNumber" class="form-control"
-													placeholder="Phone Number" id="receiverPhoneNumber" required>
-											</div>
-											<br> <br>
-											<div class="form-group col-md-12">
-												<input type="text" name="receiverAddress" class="form-control"
-													placeholder="Delivery Address" id="receiverAddress"
-													required>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div id="guestAddress" class="row">
-									<div class="col">
-										<h1>Payment</h1>
-										<div class="form-row mb-3 saveCardLabelContainer">
-											<div id="paymentOptions" class="btn-group btn-group-toggle"
-												data-toggle="buttons">
-												<label class="btn btn-secondary active mr-2"> <input
-													id="payNowBtn" type="radio"
-													autocomplete="off" checked value="${OrderPaymentTypeEnum.CARD}"> Pay now
-												</label> <label class="btn btn-secondary"> <input
-													id="payOnPickupBtn" type="radio" value="${OrderPaymentTypeEnum.UNPAID}" autocomplete="off" > Pay later
-												</label>
-												<input id="paymentMethod" name="paymentMethod" value="${OrderPaymentTypeEnum.CARD}" hidden="true">
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div id="creditCardField" class="row">
-									<div class="col">
-										<h1>Billing Information</h1>
-										<div class="form-row mb-3">
-
-											<div class="form-group col-md-6">
-												<input type="text" name="billingFname" class="form-control"
-													placeholder="First Name" aria-describedby="basic-addon1"
-													id="billingFname" required>
-											</div>
-											<div class="form-group col-md-6">
-												<input type="text" name="billingLname" class="form-control"
-													placeholder="Last Name" aria-describedby="basic-addon1"
-													id="billingLname" required>
-											</div>
-											<div class="form-group col-md-6">
-												<input type="text" name="billingPhone" class="form-control"
-													placeholder="Phone number" aria-describedby="basic-addon1"
-													id="billingPhone" required>
-											</div>
-											<div class="form-group col-md-12">
-												<input type="text" name="billingAddress"
-													class="form-control" placeholder="Address"
-													aria-describedby="basic-addon1" id="billingAddress"
-													required>
-											</div>
-
-										</div>
-
-
-
-										<div id="paymentForm">
-											<div class="form-row mb-3 icons">
-												<img src="https://img.icons8.com/color/48/000000/visa.png" />
-												<img
-													src="https://img.icons8.com/color/48/000000/mastercard-logo.png" />
-												<img
-													src="https://img.icons8.com/color/48/000000/maestro.png" />
-											</div>
-											<!-- payment option -->
-											<span>Cardholder's name:</span> <input type="text"
-												class="paymentBox" id="cardHolderName" name="cardHolderName"
-												placeholder="Linda Williams" required> <span>Card
-												Number:</span> <input type="number" class="paymentBox"
-												id="cardNumber" name="cardNumber"
-												placeholder="0125 6780 4567 9909" required>
-											<div class="row">
-												<div class="col-4 cardSpan">
-													<span>Expiry date:</span> <input type="date"
-														placeholder="YY/MM" id="expiredDate" name="expiredDate"
-														required>
-												</div>
-												<div class="col-4 cardSpan">
-													<span>CVV:</span> <input type="number" placeholder="XYZ"
-														id="cvvNumber" name="cvvNumber" required>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="form-row mb-3">
-									<button class="btn btn-primary ml-0" type="submit">Proceed</button>
-								</div>
-
-							</form>
-
+							</div>
 						</div>
 					</div>
 				</div>
@@ -218,7 +58,7 @@
 
 
 
-			<div id="checkoutRight" class="col-md-5">
+			<div id="checkoutRight" class="col-md-8">
 				<h1>Order Detail</h1>
 				<div class="card-header card-1">
 					<p class="card-text text-muted mt-md-4  mb-2 space">
@@ -230,7 +70,10 @@
 
 				</div>
 				<div class="card-body pt-0">
+					<c:set var="totalCost"></c:set>
 					<c:forEach var="item" items="${items}">
+						<c:set var="totalCost"
+							value="${totalCost + item.product.newPrice * item.quantity}"></c:set>
 						<div class="cartItemRow row justify-content-between">
 							<div class="col-auto col-md-7">
 								<div class="media flex-column flex-sm-row">
@@ -249,7 +92,7 @@
 								</p>
 							</div>
 							<div class=" pl-0 flex-sm-col col-auto  my-auto ">
-								<p class="rowPrice">
+								<p class="formattedPrice itemPrice">
 									<b><c:out value="${item.product.newPrice * item.quantity }" /></b>
 								</p>
 							</div>
@@ -265,9 +108,9 @@
 									</p>
 								</div>
 								<div class="flex-sm-col col-auto">
-									<p class="mb-1 subTotalPrice">
-										<b>0</b>
-										<input id="subtotal" name="subtotal" value="0">
+									<p class="mb-1 formattedPrice">
+										<b>${totalCost}</b>
+										<!-- 										<input id="subtotal" name="subtotal" value="0"> -->
 									</p>
 								</div>
 							</div>
@@ -278,7 +121,7 @@
 									</p>
 								</div>
 								<div class="flex-sm-col col-auto">
-									<p class="mb-1 shippingCost">
+									<p id="shippingCost" class="mb-1 formattedPrice">
 										<b>0</b>
 									</p>
 								</div>
@@ -288,25 +131,17 @@
 								<div class="col-4">
 									<p>
 										<b>Total</b>
-			
+
 									</p>
 								</div>
 								<div class="flex-sm-col col-auto">
-									<p class="mb-1 subTotalPrice">
-										<b>0</b>
-										
+									<p class="mb-1 formattedPrice" id="totalCost">
+										<b>${totalCost}</b>
 									</p>
 								</div>
-								<input id="total" name="total" value="0" hidden="true">
+								<!-- 								<input id="total" name="total" value="0" hidden="true"> -->
 							</div>
 							<hr class="my-0">
-						</div>
-					</div>
-					<div class="row mb-5 mt-4 ">
-						<div class="col-md-7 col-lg-6 mx-auto">
-							<button type="button"
-								class="btn btn-block btn-outline-primary btn-lg">ADD
-								GIFT CODE</button>
 						</div>
 					</div>
 				</div>
@@ -315,39 +150,48 @@
 	</div>
 
 	<jsp:include page="allscript.jsp"></jsp:include>
-	<script src="${pageContext.request.contextPath}/js/checkout.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/paypal/paypal-api.js"></script>
 	<script type="text/javascript">
-	(function() {
-		  'use strict';
-		  window.addEventListener('load', function() {
-		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-		    var forms = document.getElementsByClassName('needs-validation');
-		    // Loop over them and prevent submission
-		    var validation = Array.prototype.filter.call(forms, function(form) {
-		      form.addEventListener('submit', function(event) {
-		        if (form.checkValidity() === false) {
-		          event.preventDefault();
-		          event.stopPropagation();
-		        }	        
-		        validateEmail();		        		        
-		      }, false);
-		    });
-		  }, false);
+		$(document).ready(function() {
+			formatPriceOnLoad();
+		});
+
+		(function() {
+			'use strict';
+			window.addEventListener('load',
+					function() {
+						// Fetch all the forms we want to apply custom Bootstrap validation styles to
+						var forms = document
+								.getElementsByClassName('needs-validation');
+						// Loop over them and prevent submission
+						var validation = Array.prototype.filter.call(forms,
+								function(form) {
+									form.addEventListener('submit', function(
+											event) {
+										if (form.checkValidity() === false) {
+											event.preventDefault();
+											event.stopPropagation();
+										}
+										validateEmail();
+									}, false);
+								});
+					}, false);
 		})();
 
-	function validateEmail(){
-		var emailFeedback = $('#checkOutEmailFeedback');
-		var emailLogin = $('#checkOutEmail');
-		var email = $('#checkOutEmail').val();
-		var errorMsg = '';
-		 if(!isEmailFormatValid(email)){
-			errorMsg = 'Please provide a correct email address, e.g test@gmail.com';
+		function validateEmail() {
+			var emailFeedback = $('#checkOutEmailFeedback');
+			var emailLogin = $('#checkOutEmail');
+			var email = $('#checkOutEmail').val();
+			var errorMsg = '';
+			if (!isEmailFormatValid(email)) {
+				errorMsg = 'Please provide a correct email address, e.g test@gmail.com';
+			}
+			setErrorMessage(emailLogin, emailFeedback, errorMsg);
 		}
-		setErrorMessage(emailLogin, emailFeedback, errorMsg);
-	}	
-	$('#checkOutEmail').on('focusout', function(){
-		validateEmail();
-	});
-	</script>	
+		$('#checkOutEmail').on('focusout', function() {
+			validateEmail();
+		});
+	</script>
 </body>
 </html>

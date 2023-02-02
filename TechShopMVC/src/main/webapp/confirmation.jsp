@@ -26,20 +26,19 @@
 				<a href="Home"><img src="../images/logo.png" alt="#" /></a>
 			</div>
 			<div class="comfirmationOrderName ">
-				<h1>Order ${not order.orderNumber.equals('') ? '#'+= order.orderNumber : ''} ${order.status}</h1>
-				<h2>${order.date}</h1>
-				<h3>${order.paymentDate}</h1>					
+				<h1>THANK YOU</h1>
+				<h2>Order ${not order.orderNumber.equals('') ? '#'+= order.orderNumber : ''}
+					${order.status}</h2>
+				<h3>${order.date}</h3>
 			</div>
 
 		</div>
 
-		<form class="confirmationForm" action="Order">
-			<input type="hidden" name="command" value="submitOrder">
-			<div class="reviewBox row col-xl-8">
-			
-				<div class="card-body pt-0 reviewUserDetail reviewDetail">
+		<div class="confirmationForm">
+			<div class="reviewBox row col-xl-10">
+				<div class="card-body pt-0 reviewUserDetail">
 					<div>
-						<h1 class="confirmationTitle">Contact information</h1>							
+						<h1 class="confirmationTitle">Contact information</h1>
 						<div class="confirmationDetail">
 							<p class="mb-0">
 								<b>Email Address</b>
@@ -54,7 +53,8 @@
 							<p class="mb-0">
 								<b>Delivery Method</b>
 							</p>
-							<input class="mb-0 confirmationInput" name="receiveMethod"value="${order.receiveMethod}">
+							<input class="mb-0 confirmationInput" name="receiveMethod"
+								value="${order.receiveMethod}">
 						</div>
 						<br>
 					</div>
@@ -75,89 +75,40 @@
 							<input class="confirmationInput" name="receiverPhone"
 								value="${order.receiverPhone}" readonly>
 						</div>
-
-						<c:choose>
-							<c:when test="${not order.receiverAddress.equals('')}">
-								<div class="confirmationDetail">
-									<p class="mb-0">
-										<b>Receiver Delivery Address</b>
-									</p>
-									<input class="confirmationInput" name="receiverAddress"
-										value="${order.receiverAddress}" readonly>
-
-								</div>
-								<br>
-							</c:when>
-							<c:otherwise>
-								<br>
-							</c:otherwise>
-						</c:choose>
+						<div class="confirmationDetail">
+							<p class="mb-0">
+								<b>Receiver Delivery Address</b>
+							</p>
+							<input class="confirmationInput" name="receiverAddress"
+								value="${order.receiverAddress}" readonly>
+						</div>
 					</div>
 					<div>
 						<h1 class="confirmationTitle">Payment Information</h1>
-						<c:choose>
-							<c:when test="${order.paymentType.equals(OrderPaymentTypeEnum.UNPAID)}">
-								<div class="confirmationDetail">
-									<p class="mb-0">
-										<b>Payment Status</b>
-									</p>
-									<input class="mb-0 confirmationInput" name="paymentType" value="${order.paymentType}" readonly>
-								</div>
-								<br>
-							</c:when>
-							<c:otherwise>
-
-								<div class="confirmationDetail">
-									<p class="mb-0">
-										<b>Payment Status</b>
-									</p>
-									<input class="mb-0 confirmationInput" name="paymentType" value="${order.paymentType}">
-								</div>
-								<div class="confirmationDetail">
-									<p class="mb-0">
-										<b>Cardholder's name</b>
-									</p>
-									<input class="mb-0 confirmationInput" name="cardHolderName" value="${order.paymentName}">
-								</div>
-								<div class="confirmationDetail">
-									<p class="mb-0">
-										<b>Card Number</b>
-									</p>
-									<input class="mb-0 confirmationInput" name="cardNumber" value="${order.paymentSource}">
-								</div>
-								<br>
-								<h1 class="confirmationTitle">Billing Information</h1>
-
-								<div class="confirmationDetail">
-									<p class="mb-0">
-										<b>Billing Fullname</b>
-									</p>
-									<input class="confirmationInput" name="billingFullname"
-										value="${order.billingFullname}" readonly>
-								</div>
-								<div class="confirmationDetail">
-									<p class="mb-0">
-										<b>Billing Phone</b>
-									</p>
-									<input class="confirmationInput" name="billingPhone"
-										value="${order.billingPhone}" readonly>
-								</div>
-								<div class="confirmationDetail">
-									<p class="mb-0">
-										<b>Billing Address</b>
-									</p>
-									<input class="confirmationInput" name="billingAddress"
-										value="${order.billingAddress}" readonly>
-								</div>
-								<br>
-								
-							</c:otherwise>
-						</c:choose>
+						<div class="confirmationDetail">
+							<p class="mb-0">
+								<b>Payment Status</b>
+							</p>
+							<input class="mb-0 confirmationInput" name="paymentType"
+								value="${order.paymentType}" readonly>
+						</div>
+						<div class="confirmationDetail">
+							<c:if test="${not empty order.paymentDate}">
+								<p class="mb-0">
+									<b>Payment Date</b>
+								</p>
+								<input class="mb-0 confirmationInput" name="paymentDate"
+									value="${order.paymentDate}" readonly>
+							</c:if>
+						</div>
 					</div>
 				</div>
-				<div class="card-body pt-0 reviewOrderDetail reviewDetail">
+				<div class="card-body pt-0 reviewOrderDetail">
 					<h1 class="confirmationTitle">Detail</h1>
+					<c:set var="totalCost"></c:set>
 					<c:forEach var="item" items="${items}">
+						<c:set var="totalCost"
+							value="${totalCost + item.product.newPrice * item.quantity}"></c:set>
 						<div class="cartItemRow row justify-content-between">
 							<div class="col-auto col-md-7">
 								<div class="media flex-column flex-sm-row">
@@ -174,7 +125,7 @@
 								</p>
 							</div>
 							<div class=" pl-0 flex-sm-col col-auto  my-auto ">
-								<p class="rowPrice">
+								<p class="formattedPrice itemPrice">
 									<b><c:out value="${item.product.newPrice * item.quantity }" /></b>
 								</p>
 							</div>
@@ -190,9 +141,7 @@
 									</p>
 								</div>
 								<div class="flex-sm-col col-auto">
-									<p class="mb-1 subTotalPrice">
-										<!-- <b>0</b> -->
-									</p>
+									<p class="mb-1 formattedPrice">${totalCost}</p>
 								</div>
 							</div>
 							<br>
@@ -203,8 +152,8 @@
 									</p>
 								</div>
 								<div class="flex-sm-col col-auto">
-									<p class="mb-1 shippingCost">
-										<b>0</b>
+									<p class="mb-1 shippingCost formattedPrice">
+										<b>${order.shipping}</b>
 									</p>
 								</div>
 							</div>
@@ -216,8 +165,8 @@
 									</p>
 								</div>
 								<div class="flex-sm-col col-auto">
-									<p class="mb-1 subTotalPrice">
-										<b>0</b>
+									<p class="mb-1 formattedPrice">
+										<b>${order.total}</b>
 									</p>
 								</div>
 							</div>
@@ -226,26 +175,21 @@
 					</div>
 					<div class="row mb-5 mt-4 ">
 						<div class="col-md-7 col-lg-6 mx-auto">
-							<c:choose>
-								<c:when test="${order.orderNumber.equals('')}">		
-									<input class="btn btn-primary ml-0 submitOrder" type="submit"
-										value="Submit Order">
-								</c:when>
-								<c:otherwise>
-									<a href="Home">
-									<input class="btn btn-primary ml-0 submitOrder" type="text"
-										value="Back To Home">					
-									</a>
-								</c:otherwise>
-							</c:choose>
+							<a href="Home"> <input
+								class="btn btn-primary ml-0 submitOrder" type="text"
+								value="Back To Home">
+							</a>
 						</div>
 					</div>
 				</div>
-
 			</div>
-		</form>
+		</div>
 	</div>
 	<jsp:include page="allscript.jsp"></jsp:include>
-	<script src="${pageContext.request.contextPath}/js/checkout.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			formatPriceOnLoad();
+		});
+	</script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +20,8 @@
 <!-- body -->
 <body class="main-layout">
 	<jsp:include page="header.jsp">
-			<jsp:param name="curUrl" value="${requestScope['javax.servlet.forward.request_uri']}" />
+		<jsp:param name="curUrl"
+			value="${requestScope['javax.servlet.forward.request_uri']}" />
 	</jsp:include>
 	<div id="cartContainer" class="container">
 		<div class="row">
@@ -34,7 +35,7 @@
 					</h1>
 				</div>
 			</div>
-		</div>		
+		</div>
 		<div class="tableWrapper">
 			<table class="tableInfor">
 				<tr>
@@ -46,8 +47,9 @@
 			</table>
 		</div>
 		<div class="cartItemWrapper">
-		<% double subTotal = 0; %>
-		<c:forEach var="item" items="${items}">
+			<c:set var="totalCost"></c:set>				
+			<c:forEach var="item" items="${items}">
+			<c:set var="totalCost" value="${totalCost + item.product.newPrice * item.quantity}"></c:set>
 				<div class="itemTable">
 					<div class="cartCol1">
 						<div class="itemInfor">
@@ -83,12 +85,12 @@
 					</div>
 					<div class="cartCol2">
 						<div
-							class="unitPrice <c:if test="${item.product.stock == 0}">crossOutText</c:if>">
+							class="formattedPrice unitPrice <c:if test="${item.product.stock == 0}">crossOutText</c:if>">
 							<c:out value='${item.product.newPrice}' />
 						</div>
 						<div class="totalPrice">
-							<div class="itemPrice">
-								<c:out value='${item.product.newPrice * item.quantity}' />
+							<div class="itemPrice formattedPrice">
+								${item.product.newPrice * item.quantity}
 							</div>
 							<div class="itemRemove">
 								<button onclick="remove(${item.product.id})">
@@ -102,31 +104,31 @@
 				</div>
 			</c:forEach>
 		</div>
-		<div class="paymentWrapper">
-			<div class="subTotal">
-				<div class="summary">Subtotal</div>
-				<p class="subTotalPrice">
-			
-			</p>
+		<c:if test="${not empty items}">
+			<div class="paymentWrapper">
+				<div class="subTotal">
+					<div class="summary">Subtotal</div>
+					<p class="subTotalPrice formattedPrice">${totalCost}</p>
+				</div>
+				<div id="checkOutNow">
+					<a href="Checkout?command=payment">
+						<button>
+							<i class="fa-solid fa-dollar-sign"></i>Check Out Now
+						</button>
+					</a>
+				</div>
 			</div>
-			<div class="checkOutNow">
-				<a href="Checkout?command=moreInfo">
-					<button>
-						<i class="fa-solid fa-dollar-sign"></i>Check Out Now
-					</button>
-				</a>
-			</div>
-		</div>
-		
+		</c:if>
+
 	</div>
-	<jsp:include page="footer.jsp"></jsp:include>	
+	<jsp:include page="footer.jsp"></jsp:include>
 	<jsp:include page="allscript.jsp"></jsp:include>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			formatPriceOnLoad();
+				formatPriceOnLoad();
 			}
-		)
-	</script>	
+		);
+	</script>
 </body>
 </html>
 

@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import constant.OrderPaymentTypeEnum;
 import constant.OrderReceiveMethodEnum;
 import constant.OrderStatusEnum;
+import util.Utility;
 
 public class Order {
 	private String id;
@@ -24,17 +25,12 @@ public class Order {
 	private OrderStatusEnum status;
 	private double shipping;
 	private double total;
-	private String billingFullname;
-	private String billingAddress;
-	private String billingPhone;
-	private String paymentName;
-	private String paymentSource;
+	private String paymentID;
 
 	public Order(String id, String orderNumber, String date, String checkOutEmail, String checkOutFullname,
 			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
 			OrderReceiveMethodEnum receiveMethod, OrderStatusEnum status, double shipping, double total,
-			OrderPaymentTypeEnum paymentType, String paymentDate, String paymentName, String paymentSource,
-			String billingFullname, String billingAddress, String billingPhone) {
+			OrderPaymentTypeEnum paymentType, String paymentDate, String paymentID) {
 		this.id = id;
 		this.orderNumber = orderNumber;
 		this.date = date;
@@ -50,11 +46,7 @@ public class Order {
 		this.total = total;
 		this.paymentType = paymentType;
 		this.paymentDate = paymentDate;
-		this.paymentName = paymentName;
-		this.paymentSource = paymentSource;
-		this.billingFullname = billingFullname;
-		this.billingAddress = billingAddress;
-		this.billingPhone = billingPhone;
+		this.paymentID = paymentID;
 	}
 
 	public String getId() {
@@ -66,11 +58,7 @@ public class Order {
 	}
 
 	public String getDate() {
-		if (!date.equalsIgnoreCase("")) {
-			LocalDate originalFormat = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-			date = originalFormat.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-		}
-		return date;
+		return Utility.convertYMDToDMY(date);
 	}
 
 	public String getCheckOutEmail() {
@@ -106,7 +94,7 @@ public class Order {
 	}
 
 	public String getPaymentDate() {
-		return paymentDate;
+		return Utility.convertYMDToDMY(paymentDate);
 	}
 
 	public OrderStatusEnum getStatus() {
@@ -121,23 +109,8 @@ public class Order {
 		return total;
 	}
 
-	public String getBillingFullname() {
-		return billingFullname;
+	public String getPaymentID() {
+		return paymentID;
 	}
 
-	public String getBillingAddress() {
-		return billingAddress;
-	}
-
-	public String getBillingPhone() {
-		return billingPhone;
-	}
-
-	public String getPaymentName() {
-		return paymentName;
-	}
-
-	public String getPaymentSource() {
-		return paymentSource;
-	}
 }

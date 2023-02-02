@@ -3,6 +3,8 @@ package controller;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,12 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import constant.GlobalConstant;
 import constant.OrderPaymentTypeEnum;
 import constant.OrderReceiveMethodEnum;
 import dao.OrderDAO;
 import dao.ProductDAO;
 import entity.Order;
+import entity.PaypalResponse;
 import entity.User;
 import model.OrderItemDTO;
 
@@ -110,6 +115,10 @@ public class OrderServlet extends HttpServlet {
 
 	protected void submitOrder(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String requestBodyData = request.getReader().lines().collect(Collectors.joining());		
+		System.out.println("order data: " + requestBodyData);
+		PaypalResponse paypalResponse = new Gson().fromJson(requestBodyData, PaypalResponse.class); 
+		
 		OrderDAO orderDAO = new OrderDAO();
 		ProductDAO productDAO = new ProductDAO();
 		HttpSession session = request.getSession();
@@ -119,33 +128,36 @@ public class OrderServlet extends HttpServlet {
 		String userID = (User) session.getAttribute(GlobalConstant.USER) != null
 				? ((User) session.getAttribute(GlobalConstant.USER)).getId()
 				: GlobalConstant.GUEST_ID;
-		String checkOutEmail = request.getParameter("checkOutEmail");
-		String checkOutFullname = GlobalConstant.BLANK;
+		String orderNumber = paypalResponse.getOrderOrderNumber();
+		String checkOutEmail = paypalResponse.getPayerEmail();
+		String checkOutFullname = paypalResponse.getPayerFullname();
 		String checkOutPhone = GlobalConstant.BLANK;
-		String receiverFullname = request.getParameter("receiverFullname");
-		String receiverPhone = request.getParameter("receiverPhone");
-		String receiverAddress = request.getParameter("receiverAddress");
-		OrderReceiveMethodEnum receiveMethod = OrderReceiveMethodEnum.valueOf(request.getParameter("receiveMethod"));
-		String shipping = GlobalConstant.DEFAULT_SHIPPING;
-		OrderPaymentTypeEnum paymentType = OrderPaymentTypeEnum.valueOf(request.getParameter("paymentType"));
-		String paymentDate = GlobalConstant.BLANK;
-		String paymentFullname = request.getParameter("cardHolderName");
-		String paymentSource = request.getParameter("cardNumber");
-		String billingFullname = request.getParameter("billingFullname");
-		String billingAddress = request.getParameter("billingPhone");
-		String billingPhone = request.getParameter("billingAddress");
+		String receiverFullname = paypalResponse.getReceiverFullname();
+		String receiverPhone = GlobalConstant.BLANK;
+		String receiverAddress = paypalResponse.getReceiverAddress();
+		OrderReceiveMethodEnum receiveMethod = OrderReceiveMethodEnum.DELIVERY;
+		double shipping = paypalResponse.getShipping();
+		double total = paypalResponse.getTotal();
+		OrderPaymentTypeEnum paymentType = paypalResponse.getPaymentType();
+		String paymentDate = paypalResponse.getPaymentDate();
+		String paymentID = paypalResponse.getPaymentID();
 
-		Order order = orderDAO.insertOrder(userID, checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname,
-				receiverPhone, receiverAddress, receiveMethod, shipping, items, paymentType, paymentDate,
-				paymentFullname, paymentSource, billingFullname, billingAddress, billingPhone);
-
-		if (order != null) {
-			request.setAttribute(GlobalConstant.ORDER, order);
-			request.setAttribute(GlobalConstant.ORDER_ITEM_DTO, items);
+		Order order = orderDAO.insertOrder(orderNumber, userID, checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname,
+				receiverPhone, receiverAddress, receiveMethod, shipping, total, items, paymentType, paymentDate,
+				paymentID);
+		
+		if(order != null) {
 			session.setAttribute(GlobalConstant.CART_ITEM, null);
-			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CONFIRMATION_JSP);
-			dispatcher.forward(request, response);
+			response.getWriter().append(GlobalConstant.ORDER_URL + "?command=" + GlobalConstant.VIEW_ORDER_DETAIL + "&emailAddress=" + checkOutEmail + "&orderNumber=" + orderNumber);
 		}
+
+//		if (order != null) {			
+//			request.setAttribute(GlobalConstant.ORDER, order);
+//			request.setAttribute(GlobalConstant.ORDER_ITEM_DTO, items);
+//			session.setAttribute(GlobalConstant.CART_ITEM, null);
+//			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CONFIRMATION_JSP);
+//			dispatcher.forward(request, response);
+//		}
 	}
 
 	private void viewOrderDetail(HttpServletRequest request, HttpServletResponse response)

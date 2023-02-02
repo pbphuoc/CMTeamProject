@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,6 +36,14 @@ public class Utility {
 				: prevUrl;
 		newPrevUrl = newPrevUrl.charAt(0) == '/' ? newPrevUrl.substring(1) : newPrevUrl;
 		return newPrevUrl;
+	}
+	
+	public static String convertYMDToDMY(String date) {
+		if (date.equalsIgnoreCase(""))
+			return date;
+
+		LocalDate originalFormat = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		return originalFormat.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));		
 	}
 
 	public static Connection getConnection() {

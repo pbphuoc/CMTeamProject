@@ -1594,6 +1594,7 @@ table .tableTotal {
 }
 .confirmationInput{
 	text-align: right;
+	width: 70%;
 }
 
 .reviewBox {
@@ -1607,12 +1608,11 @@ table .tableTotal {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
-	
 }
 
-.reviewDetail {
-	width: 100%;
+.reviewOrderDetail {
 	margin-top: 1.5rem;
+	width: 50%;
 }
 
 .submitOrder {
@@ -1621,7 +1621,7 @@ table .tableTotal {
 
 .reviewUserDetail {
 	margin-top: 1.5rem;
-	width: 60%;
+	width: 50%;
 }
 .reviewOrderDetail p {
 	font-size: 1.5rem;
@@ -1671,4 +1671,12 @@ table .tableTotal {
 .comfirmationOrderName h2{
 	font-size: 25px;
 	font-weight: 600;
+}
+
+.hidden{
+	display: none
+}
+
+.shown{
+	display: block;
 }
