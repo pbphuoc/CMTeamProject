@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page import="constant.GlobalConstant"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,11 +16,11 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
-<jsp:include page="allref.jsp"></jsp:include>
+<jsp:include page="${GlobalConstant.ALLREF_JSP}"></jsp:include>
 </head>
 <!-- body -->
 <body class="main-layout">
-	<jsp:include page="header.jsp">
+	<jsp:include page="${GlobalConstant.HEADER_JSP}">
 		<jsp:param name="curUrl"
 			value="${requestScope['javax.servlet.forward.request_uri']}" />
 	</jsp:include>
@@ -47,9 +48,10 @@
 			</table>
 		</div>
 		<div class="cartItemWrapper">
-			<c:set var="totalCost"></c:set>				
+			<c:set var="totalCost"></c:set>
 			<c:forEach var="item" items="${items}">
-			<c:set var="totalCost" value="${totalCost + item.product.newPrice * item.quantity}"></c:set>
+				<c:set var="totalCost"
+					value="${totalCost + item.product.newPrice * item.quantity}"></c:set>
 				<div class="itemTable">
 					<div class="cartCol1">
 						<div class="itemInfor">
@@ -90,8 +92,7 @@
 						</div>
 						<div class="totalPrice">
 							<div class="itemPrice formattedPrice">
-								${item.product.newPrice * item.quantity}
-							</div>
+								${item.product.newPrice * item.quantity}</div>
 							<div class="itemRemove">
 								<button onclick="remove(${item.product.id})">
 									<i class="fa fa-trash-o"></i> <span class="cartDelete"><span
@@ -121,8 +122,8 @@
 		</c:if>
 
 	</div>
-	<jsp:include page="footer.jsp"></jsp:include>
-	<jsp:include page="allscript.jsp"></jsp:include>
+	<jsp:include page="${GlobalConstant.FOOTER_JSP}"></jsp:include>
+	<jsp:include page="${GlobalConstant.ALLSCRIPT_JSP}"></jsp:include>
 	<script type="text/javascript">
 		$(document).ready(function(){
 				formatPriceOnLoad();

@@ -257,16 +257,17 @@ function setCartSize(response) {
 }
 
 function increase(productID, stock, obj) {
-	var quantity = Number($(obj).siblings("span").text());
-	quantity++;
-	$(obj).siblings("span").text(quantity);
-	var cartCol2 = $(obj).closest('.itemTable').find('.cartCol2');
-	let totalPrice = Number(cartCol2.find('.unitPrice').text().replace(/[^0-9.-]+/g, "")) * quantity;
-	cartCol2.find('.totalPrice').find('.itemPrice').text(formatter.format(totalPrice));
-	subTotal();
-
-	if (stock != undefined && quantity != undefined && quantity == stock)
-		$(obj).prop('disabled', true);
+	if(obj !== undefined){
+		var quantity = Number($(obj).siblings("span").text());
+		quantity++;
+		$(obj).siblings("span").text(quantity);
+		var cartCol2 = $(obj).closest('.itemTable').find('.cartCol2');
+		let totalPrice = Number(cartCol2.find('.unitPrice').text().replace(/[^0-9.-]+/g, "")) * quantity;
+		cartCol2.find('.totalPrice').find('.itemPrice').text(formatter.format(totalPrice));
+		subTotal();	
+		if (stock != undefined && quantity != undefined && quantity == stock)
+			$(obj).prop('disabled', true);		
+	} 
 
 	ajaxToServlet('Cart', 'POST', { 'command': 'increase', 'productID': productID }, setCartSize);
 }

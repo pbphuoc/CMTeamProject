@@ -1,6 +1,7 @@
- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page import="constant.GlobalConstant"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,10 +16,10 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
-<jsp:include page="allref.jsp"></jsp:include>
+<jsp:include page="${GlobalConstant.ALLREF_JSP}"></jsp:include>
 </head>
 <body class="main-layout">
-	<jsp:include page="header.jsp"></jsp:include>
+	<jsp:include page="${GlobalConstant.HEADER_JSP}"></jsp:include>
 	<div class="container">
 		<div class="projectContainer">
 			<div class="row">
@@ -31,46 +32,52 @@
 			<div class="row">
 				<div class="col-md-8 m-auto">
 					<div class="form_container">
-						<form action="Auth" method="Post" class="needs-validation"
-							novalidate>
-							<input type="hidden" name="command" value="register"> <input
-								type="hidden" name="prevUrl" value="${param['prevUrl']}">
+						<form action="${GlobalConstant.AUTH_URL}" method="Post"
+							class="needs-validation" novalidate>
+							<input type="hidden" name="${GlobalConstant.COMMAND}"
+								value="${GlobalConstant.REGISTER}"> <input type="hidden"
+								name="${GlobalConstant.PREV_URL}"
+								value="${param[GlobalConstant.PREV_URL]}">
 							<div class="form-group">
 								<label for="fullnameRegister">Full Name</label> <input
-									type="text" class="form-control" name="fullnameRegister"
-									id="fullnameRegister" placeholder="Please enter your full name"
-									required>
+									type="text" class="form-control"
+									name="${GlobalConstant.FULLNAME_REGISTER}"
+									id="${GlobalConstant.FULLNAME_REGISTER}"
+									placeholder="Please enter your full name" required>
 								<div id="fullnameRegisterFeedback" class="invalid-feedback">
 								</div>
 							</div>
 							<div class="form-group">
 								<c:choose>
 									<c:when test="${error != null}">
-										<label for="emailRegister">Email Address</label>
+										<label for="${GlobalConstant.EMAIL_REGISTER}">Email
+											Address</label>
 										<input type="email" class="form-control is-invalid"
-											name="emailRegister" id="emailRegister"
+											name="${GlobalConstant.EMAIL_REGISTER}"
+											id="${GlobalConstant.EMAIL_REGISTER}"
 											placeholder="Please enter your email address"
-											aria-label="Username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-											required>
+											pattern="${GlobalConstant.EMAIL_PATTERN}" required>
 										<div id="emailRegisterFeedback" class="invalid-feedback">
 											${error}</div>
 									</c:when>
 									<c:otherwise>
-										<label for="emailRegister">Email Address</label>
-										<input type="email" class="form-control" name="emailRegister"
-											id="emailRegister"
+										<label for="${GlobalConstant.EMAIL_REGISTER}">Email
+											Address</label>
+										<input type="email" class="form-control"
+											name="${GlobalConstant.EMAIL_REGISTER}"
+											id="${GlobalConstant.EMAIL_REGISTER}"
 											placeholder="Please enter your email address"
-											aria-label="Username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-											required>
+											pattern="${GlobalConstant.EMAIL_PATTERN}" required>
 										<div id="emailRegisterFeedback" class="invalid-feedback"></div>
 									</c:otherwise>
 								</c:choose>
 							</div>
 							<div class="form-group">
-								<label for="passwordRegister">Password</label> <input
-									type="password" class="form-control" name="passwordRegister"
-									id="passwordRegister" placeholder="Please enter your password"
-									aria-label="Password" aria-describedby="basic-addon1" required>
+								<label for="${GlobalConstant.PASSWORD_REGISTER}">Password</label>
+								<input type="password" class="form-control"
+									name="${GlobalConstant.PASSWORD_REGISTER}"
+									id="${GlobalConstant.PASSWORD_REGISTER}"
+									placeholder="Please enter your password" required>
 								<div id="passwordRegisterFeedback" class="invalid-feedback">
 								</div>
 							</div>
@@ -84,11 +91,11 @@
 									class="invalid-feedback"></div>
 							</div>
 							<div class="form-group">
-								<label for="mobileRegister">Mobile Number</label> <input
-									type="tel" class="form-control" name="mobileRegister"
-									id="mobileRegister"
-									placeholder="Please enter your mobile number"
-									aria-label="Mobile" aria-describedby="basic-addon1" required>
+								<label for="${GlobalConstant.MOBILE_REGISTER}">Mobile
+									Number</label> <input type="tel" class="form-control"
+									name="${GlobalConstant.MOBILE_REGISTER}"
+									id="${GlobalConstant.MOBILE_REGISTER}"
+									placeholder="Please enter your mobile number" required>
 								<div id="mobileRegisterFeedback" class="invalid-feedback">
 								</div>
 							</div>
@@ -99,8 +106,8 @@
 			</div>
 		</div>
 	</div>
-	<jsp:include page="footer.jsp"></jsp:include>
-	<jsp:include page="allscript.jsp"></jsp:include>
+	<jsp:include page="${GlobalConstant.FOOTER_JSP}"></jsp:include>
+	<jsp:include page="${GlobalConstant.ALLSCRIPT_JSP}"></jsp:include>
 	<script type="text/javascript">
 		(function() {
 			'use strict';
@@ -187,21 +194,21 @@
 			}
 			setErrorMessage(mobileRegister, mobileFeedback, errorMsg);
 		}
-		$('#fullnameRegister').on('focusout', function(){
+		$('#fullnameRegister').on('focusout', function() {
 			validateFullname();
-		});		
-		$('#emailRegister').on('focusout', function(){
+		});
+		$('#emailRegister').on('focusout', function() {
 			validateEmail();
-		});		
-		$('#passwordRegister').on('focusout', function(){
+		});
+		$('#passwordRegister').on('focusout', function() {
 			validatePassword();
-		});		
-		$('#confirmPasswordRegister').on('focusout', function(){
+		});
+		$('#confirmPasswordRegister').on('focusout', function() {
 			validateConfirmPassword();
-		});		
-		$('#mobileRegister').on('focusout', function(){
+		});
+		$('#mobileRegister').on('focusout', function() {
 			validateMobile();
-		});		
+		});
 	</script>
 </body>
 </html>

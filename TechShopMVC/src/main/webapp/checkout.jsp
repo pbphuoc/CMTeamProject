@@ -18,12 +18,12 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
-<jsp:include page="allref.jsp"></jsp:include>
 <script src="${GlobalConstant.PAYPAL_API}" data-page-type="checkout"></script>
+<jsp:include page="${GlobalConstant.ALLREF_JSP}"></jsp:include>
 </head>
 <!-- body -->
 <body class="main-layout">
-	<jsp:include page="header.jsp">
+	<jsp:include page="${GlobalConstant.HEADER_JSP}">
 		<jsp:param name="curUrl"
 			value="${requestScope['javax.servlet.forward.request_uri']}" />
 	</jsp:include>
@@ -34,7 +34,7 @@
 					<div class="row mb-5">
 						<div id="checkoutMember" class="col">
 							<h1>Are you a member?</h1>
-							<jsp:include page="loginButton.jsp">
+							<jsp:include page="${GlobalConstant.LOGIN_BUTTON_JSP}">
 								<jsp:param name="curUrl"
 									value="${requestScope['javax.servlet.forward.request_uri']}" />
 							</jsp:include>
@@ -44,7 +44,6 @@
 				<div class="row">
 					<div class="col">
 						<div class="form_container" id="checkOutForm">
-							<!-- 							<form class="needs-validation"> -->
 							<div class="form-row mb-3">
 								<div class="col">
 									<h1>Payment</h1>
@@ -55,19 +54,15 @@
 					</div>
 				</div>
 			</div>
-
-
-
 			<div id="checkoutRight" class="col-md-8">
 				<h1>Order Detail</h1>
 				<div class="card-header card-1">
 					<p class="card-text text-muted mt-md-4  mb-2 space">
 						<a href="Cart"> <span
 							class=" small text-muted ml-2 cursor-pointer">EDIT
-								SHOPPING BAG</span>
+								SHOPPING CART</span>
 						</a>
 					</p>
-
 				</div>
 				<div class="card-body pt-0">
 					<c:set var="totalCost"></c:set>
@@ -84,8 +79,6 @@
 									</p>
 								</div>
 							</div>
-
-
 							<div class=" pl-0 flex-sm-col col-auto  my-auto">
 								<p class="boxed-1">
 									<c:out value="${item.quantity}" />
@@ -126,12 +119,10 @@
 									</p>
 								</div>
 							</div>
-
 							<div class="row justify-content-between">
 								<div class="col-4">
 									<p>
 										<b>Total</b>
-
 									</p>
 								</div>
 								<div class="flex-sm-col col-auto">
@@ -149,7 +140,7 @@
 		</div>
 	</div>
 
-	<jsp:include page="allscript.jsp"></jsp:include>
+	<jsp:include page="${GlobalConstant.ALLSCRIPT_JSP}"></jsp:include>
 	<script
 		src="${pageContext.request.contextPath}/js/paypal/paypal-api.js"></script>
 	<script type="text/javascript">

@@ -74,7 +74,7 @@ public class CheckOutServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);		
+		doGet(request, response);
 	}
 
 	protected void getCheckoutPage(HttpServletRequest request, HttpServletResponse response)
@@ -89,51 +89,4 @@ public class CheckOutServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CHECKOUT_JSP);
 		dispatcher.forward(request, response);
 	}
-
-//	protected void getConfirmation(HttpServletRequest request, HttpServletResponse response)
-//			throws ServletException, IOException {		
-//		ProductDAO cartDAO = new ProductDAO();
-//		UserDAO userDao = new UserDAO();
-//		HttpSession session = request.getSession();
-//
-//		String checkOutEmail = request.getParameter("checkOutEmail");
-//		if (session.getAttribute(GlobalConstant.USER) == null && userDao.userExist(checkOutEmail)) {
-//			request.setAttribute(GlobalConstant.ERROR, GlobalConstant.EMAIL_FOUND_PLEASE_LOG_IN);
-//			RequestDispatcher dispatcher = request.getRequestDispatcher("Checkout?command=moreInfo");
-//			dispatcher.forward(request, response);
-//		} else {
-//			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session
-//					.getAttribute(GlobalConstant.CART_ITEM);
-//			List<OrderItemDTO> items = cartDAO.getAllProductInCartByID(cartItems);
-//			String id = "";
-//			String orderNumber = "";
-//			String date = "";
-//			String checkOutFullname = "";
-//			String checkOutPhone = "";
-//			String paymentDate = "";
-//			double shipping = 0;
-//			double total = 0;
-//
-//			String receiverFullname = request.getParameter("receiverFirstName") + " "
-//					+ request.getParameter("receiverLastName");
-//			String receiverPhone = request.getParameter("receiverPhoneNumber");
-//			String receiverAddress = request.getParameter("receiverAddress");
-//
-//			OrderReceiveMethodEnum receiveMethod = OrderReceiveMethodEnum
-//					.valueOf(request.getParameter("deliveryMethod"));
-//			OrderPaymentTypeEnum paymentType = OrderPaymentTypeEnum.valueOf(request.getParameter("paymentMethod"));
-//			OrderStatusEnum status = OrderStatusEnum.REVIEWING;
-//
-//			String paymentID = "";
-//
-//			Order order = new Order(id, orderNumber, date, checkOutEmail, checkOutFullname, checkOutPhone,
-//					receiverFullname, receiverPhone, receiverAddress, receiveMethod, status, shipping, total,
-//					paymentType, paymentDate, paymentID);
-//
-//			request.setAttribute(GlobalConstant.ORDER, order);
-//			request.setAttribute(GlobalConstant.ORDER_ITEM_DTO, items);
-//			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CONFIRMATION_JSP);
-//			dispatcher.forward(request, response);
-//		}
-//	}
 }

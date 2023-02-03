@@ -12,15 +12,16 @@ public class GlobalConstant {
 	public static final String DO_DB_URL = "jdbc:mysql://techiladb-do-user-13228925-0.b.db.ondigitalocean.com:25060/cm_project";
 	public static final String DO_DB_USERNAME = "doadmin";
 	public static final String DO_DB_PASSWORD = "AVNS_kt3ZJPXPT-M9qh-YgQJ";
-	
-	//Paypal API
+
+	// Paypal API
 //	public static final String CLIENT_ID = "AZmg1ZSNmhnaCGzKgw_Sl3Smj-PbLF-CMoTFksM5lWWztu_KFn39MM1hKyQ_k9H-FCmyLoOexSk9lrMv";
 	public static final String CLIENT_ID = "AX8CKD2lJ1qKmUNV_JPYuz0XXqkYrEOJpSrgLgkm1-IW8YEI-X8FuWZ18_6vOpE1r4Fp1TJezbrrqcwx";
 //	public static final String CLIENT_SECRET = "ENIR5vyUWvsn50d-a6x46MKrRGYRpsCCYCnFi8-wvnaC2eq_3b2QzaOCqE9EDxyUcQQ2T3qTTWXy1fgb";
 	public static final String SANDBOX = "sandbox";
-	public static final String PAYPAL_API = "https://www.paypal.com/sdk/js?client-id=" + CLIENT_ID + "&currency=AUD&intent=capture";
+	public static final String PAYPAL_API = "https://www.paypal.com/sdk/js?client-id=" + CLIENT_ID
+			+ "&currency=AUD&intent=capture";
 	public static final String PAYMENT_COMPLETED = "COMPLETED";
-	
+
 	// jsp
 	public static final String REGISTER_JSP = "register.jsp";
 	public static final String LOGIN_JSP = "login.jsp";
@@ -32,6 +33,13 @@ public class GlobalConstant {
 	public static final String TRACK_ORDER_JSP = "trackOrder.jsp";
 	public static final String PRODUCT_JSP = "product.jsp";
 	public static final String SEARCH_JSP = "search.jsp";
+	public static final String ALLREF_JSP = "allref.jsp";
+	public static final String HEADER_JSP = "header.jsp";
+	public static final String FOOTER_JSP = "footer.jsp";
+	public static final String ALLSCRIPT_JSP = "allscript.jsp";
+	public static final String LOGIN_BUTTON_JSP = "loginButton.jsp";
+	public static final String IS_INVALID = "is-invalid";
+	public static final String EMAIL_PATTERN = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
 
 	// shared
 	public static final String BLANK = "";
@@ -62,6 +70,12 @@ public class GlobalConstant {
 	public static final String GET_LOGIN_FORM = "getLoginForm";
 	public static final String GET_REGISTER_FORM = "getRegisterForm";
 	public static final String REGISTER = "register";
+	public static final String FULLNAME_REGISTER = "fullnameRegister";
+	public static final String EMAIL_REGISTER = "emailRegister";
+	public static final String PASSWORD_REGISTER = "passwordRegister";
+	public static final String MOBILE_REGISTER = "mobileRegister";
+	public static final String EMAIL_LOGIN = "emailLogin";
+	public static final String PASSWORD_LOGIN = "passwordLogin";
 
 	// Index Servlet
 	public static final String HOME_URL = "/Home";
@@ -76,8 +90,6 @@ public class GlobalConstant {
 	// Checkout Servlet
 	public static final String CHECKOUT_URL = "/Checkout";
 	public static final String PAYMENT = "payment";
-//	public static final String CONFIRM = "confirm";
-	public static final String PAYPAL_TRANSACTION_AUTHORIZED = "paypalTransactionAuthorized";
 
 	// Order Servlet
 	public static final String ORDER_URL = "/Order";
