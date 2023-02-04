@@ -7,11 +7,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import constant.GlobalConstant;
+import controller.AuthenticationServlet;
 
 public class Utility {
 	private static final Logger logger = LogManager.getLogger(Utility.class);
@@ -40,7 +44,11 @@ public class Utility {
 			Class.forName("com.mysql.jdbc.Driver");
 			return DriverManager.getConnection(GlobalConstant.DO_DB_URL, GlobalConstant.DO_DB_USERNAME,
 					GlobalConstant.DO_DB_PASSWORD);
-		} catch (Exception e) {
+		} catch (SQLException e) {
+			logger.error(e.toString());
+		} catch (ClassNotFoundException e) {
+			logger.error(e.toString());
+		}catch (NullPointerException e) {
 			logger.error(e.toString());
 		}
 		return null;
@@ -54,7 +62,7 @@ public class Utility {
 				stm.close();
 			if (connection != null)
 				connection.close();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			logger.error(e.toString());
 		}
 	}

@@ -14,10 +14,9 @@ public class GlobalConstant {
 	public static final String DO_DB_PASSWORD = "AVNS_kt3ZJPXPT-M9qh-YgQJ";
 
 	// Paypal API
-//	public static final String CLIENT_ID = "AZmg1ZSNmhnaCGzKgw_Sl3Smj-PbLF-CMoTFksM5lWWztu_KFn39MM1hKyQ_k9H-FCmyLoOexSk9lrMv";
-	public static final String CLIENT_ID = "AX8CKD2lJ1qKmUNV_JPYuz0XXqkYrEOJpSrgLgkm1-IW8YEI-X8FuWZ18_6vOpE1r4Fp1TJezbrrqcwx";
+	public static final String CLIENT_ID = "AZmg1ZSNmhnaCGzKgw_Sl3Smj-PbLF-CMoTFksM5lWWztu_KFn39MM1hKyQ_k9H-FCmyLoOexSk9lrMv";
+//	public static final String CLIENT_ID = "AX8CKD2lJ1qKmUNV_JPYuz0XXqkYrEOJpSrgLgkm1-IW8YEI-X8FuWZ18_6vOpE1r4Fp1TJezbrrqcwx";
 //	public static final String CLIENT_SECRET = "ENIR5vyUWvsn50d-a6x46MKrRGYRpsCCYCnFi8-wvnaC2eq_3b2QzaOCqE9EDxyUcQQ2T3qTTWXy1fgb";
-	public static final String SANDBOX = "sandbox";
 	public static final String PAYPAL_API = "https://www.paypal.com/sdk/js?client-id=" + CLIENT_ID
 			+ "&currency=AUD&intent=capture";
 	public static final String PAYMENT_COMPLETED = "COMPLETED";

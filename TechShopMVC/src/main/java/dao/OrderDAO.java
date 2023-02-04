@@ -17,12 +17,10 @@ import org.apache.logging.log4j.Logger;
 import constant.OrderPaymentTypeEnum;
 import constant.OrderReceiveMethodEnum;
 import constant.OrderStatusEnum;
-import controller.AuthenticationServlet;
 import entity.Order;
 import entity.Product;
 import model.OrderItemDTO;
 import util.Utility;
-import util.Utility.QueryResult;
 
 public class OrderDAO {
 	private static final String INSERT_ORDER_SQL = "INSERT INTO orders " + "(order_number, order_date,"
@@ -36,11 +34,11 @@ public class OrderDAO {
 	private static final String SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL = "SELECT * FROM orders WHERE checkout_email = ? AND order_number = ?;";
 	private static final String SELECT_ORDERITEM_BY_ORDERID_SQL = "SELECT * FROM order_item where order_id = ?;";
 	private static final Logger logger = LogManager.getLogger(OrderDAO.class);
-	
-	public Order insertOrder(String orderNumber, String userID, String checkOutEmail, String checkOutFullname, String checkOutPhone,
-			String receiverFullname, String receiverPhone, String receiverAddress, OrderReceiveMethodEnum receiveMethod,
-			double shipping, double total, List<OrderItemDTO> orderItems, OrderPaymentTypeEnum paymentType, String paymentDate,
-			String paymentID) {
+
+	public Order insertOrder(String orderNumber, String userID, String checkOutEmail, String checkOutFullname,
+			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
+			OrderReceiveMethodEnum receiveMethod, double shipping, double total, List<OrderItemDTO> orderItems,
+			OrderPaymentTypeEnum paymentType, String paymentDate, String paymentID) {
 		Order order = null;
 		PreparedStatement insertStm = null;
 		ResultSet generatedKeys = null;
@@ -79,17 +77,22 @@ public class OrderDAO {
 					System.out.println("Insert Order successful: " + generatedKeys.getInt(1));
 					order = new Order(generatedKeys.getInt(1) + "", orderNumber, orderDate, checkOutEmail,
 							checkOutFullname, checkOutPhone, receiverFullname, receiverPhone, receiverAddress,
-							receiveMethod, orderStatus, shipping, total, paymentType,
-							paymentDate, paymentID);
+							receiveMethod, orderStatus, shipping, total, paymentType, paymentDate, paymentID);
 					if (insertOrderItem(generatedKeys.getInt(1), orderItems) == Utility.QueryResult.UNSUCCESSFUL) {
 						order = null;
 						System.out.println("Insert Order Item failed");
 					}
+					logger.error(String.format("Detail Insert Order: Order Number %s - UserID %s - Payer Email %s - Payment Status %s - Items %s", orderNumber, userID, checkOutEmail, paymentType, orderItems));
 					return order;
 				}
 			}
+			logger.debug("Detail Insert Order: Order Number %s - UserID %s - Payer Email %s - Payment Status %s - Items %s", orderNumber, userID, checkOutEmail, paymentType, orderItems );			
 		} catch (SQLException e) {
 			logger.error(e.toString());
+			logger.error("Detail Insert Order: Order Number %s - UserID %s - Payer Email %s - Payment Status %s - Items %s", orderNumber, userID, checkOutEmail, paymentType, orderItems );
+		} catch (NullPointerException e) {
+			logger.error(e.toString());
+			logger.error("Detail Insert Order: Order Number %s - UserID %s - Payer Email %s - Payment Status %s - Items %s", orderNumber, userID, checkOutEmail, paymentType, orderItems );
 		} finally {
 			Utility.close(connection, insertStm, generatedKeys);
 		}
@@ -125,6 +128,8 @@ public class OrderDAO {
 			return Utility.QueryResult.SUCCESSFUL;
 		} catch (SQLException e) {
 			logger.error(e.toString());
+		} catch (NullPointerException e) {
+			logger.error(e.toString());
 		} finally {
 			Utility.close(connection, insertStm, null);
 		}
@@ -151,6 +156,8 @@ public class OrderDAO {
 				items.add(new OrderItemDTO(product, quantity));
 			}
 		} catch (SQLException e) {
+			logger.error(e.toString());
+		} catch (NullPointerException e) {
 			logger.error(e.toString());
 		} finally {
 			Utility.close(connection, selectStm, result);
@@ -197,8 +204,9 @@ public class OrderDAO {
 						paymentType, paymentDate, paymentID));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// TODO: handle exception
+			logger.error(e.toString());
+		} catch (NullPointerException e) {
+			logger.error(e.toString());
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}

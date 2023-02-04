@@ -83,4 +83,11 @@ public class Product {
 		else
 			return GlobalConstant.AVAILABILITY_MAP.get(GlobalConstant.STOCKSTATUS_INSTOCK);
 	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", oldPrice=" + oldPrice
+				+ ", newPrice=" + newPrice + ", brandID=" + brandID + ", categoryID=" + categoryID + ", imgSrc="
+				+ imgSrc + ", stock=" + stock + "]";
+	}
 }
