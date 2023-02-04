@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import constant.GlobalConstant;
 import dao.OrderDAO;
 import entity.Order;
@@ -21,6 +24,7 @@ import entity.User;
 @WebServlet(urlPatterns = GlobalConstant.ACCOUNT_URL)
 public class UserAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LogManager.getLogger(UserAccountServlet.class);
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -52,7 +56,7 @@ public class UserAccountServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			throw new ServletException(e);
+			logger.error(e.toString());
 		}
 	}
 

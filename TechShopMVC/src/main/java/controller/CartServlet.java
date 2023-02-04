@@ -141,7 +141,7 @@ public class CartServlet extends HttpServlet {
 		}
 	}
 
-	protected void decrease(HttpServletRequest request, HttpServletResponse response, String productID){
+	protected void decrease(HttpServletRequest request, HttpServletResponse response, String productID) {
 		try {
 			HttpSession session = request.getSession();
 			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session

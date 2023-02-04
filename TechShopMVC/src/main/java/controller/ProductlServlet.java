@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import constant.GlobalConstant;
 import dao.ProductDAO;
 import entity.Product;
@@ -21,7 +24,7 @@ import model.SearchFilterDTO;
 @WebServlet(urlPatterns = GlobalConstant.PRODUCT_URL)
 public class ProductlServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private static final Logger logger = LogManager.getLogger(ProductlServlet.class);
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -52,7 +55,7 @@ public class ProductlServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			throw new ServletException(e);
+			logger.error(e.toString());
 		}
 	}
 

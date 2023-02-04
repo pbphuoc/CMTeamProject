@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import constant.GlobalConstant;
 import constant.OrderPaymentTypeEnum;
 import constant.OrderReceiveMethodEnum;
@@ -29,6 +32,7 @@ import model.OrderItemDTO;
 @WebServlet(urlPatterns = GlobalConstant.CHECKOUT_URL)
 public class CheckOutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LogManager.getLogger(CheckOutServlet.class);
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -63,7 +67,7 @@ public class CheckOutServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			throw new ServletException(e);
+			logger.error(e.toString());
 		}
 	}
 

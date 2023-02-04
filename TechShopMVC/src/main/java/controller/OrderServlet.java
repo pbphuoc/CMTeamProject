@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.gson.Gson;
 
 import constant.GlobalConstant;
@@ -31,6 +34,7 @@ import model.OrderItemDTO;
 @WebServlet(urlPatterns = GlobalConstant.ORDER_URL)
 public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LogManager.getLogger(OrderServlet.class);
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -73,7 +77,7 @@ public class OrderServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			throw new ServletException(e);
+			logger.error(e.toString());
 		}
 	}
 
@@ -115,10 +119,10 @@ public class OrderServlet extends HttpServlet {
 
 	protected void submitOrder(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String requestBodyData = request.getReader().lines().collect(Collectors.joining());		
+		String requestBodyData = request.getReader().lines().collect(Collectors.joining());
 		System.out.println("order data: " + requestBodyData);
-		PaypalResponse paypalResponse = new Gson().fromJson(requestBodyData, PaypalResponse.class); 
-		
+		PaypalResponse paypalResponse = new Gson().fromJson(requestBodyData, PaypalResponse.class);
+
 		OrderDAO orderDAO = new OrderDAO();
 		ProductDAO productDAO = new ProductDAO();
 		HttpSession session = request.getSession();
@@ -142,13 +146,14 @@ public class OrderServlet extends HttpServlet {
 		String paymentDate = paypalResponse.getPaymentDate();
 		String paymentID = paypalResponse.getPaymentID();
 
-		Order order = orderDAO.insertOrder(orderNumber, userID, checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname,
-				receiverPhone, receiverAddress, receiveMethod, shipping, total, items, paymentType, paymentDate,
-				paymentID);
-		
-		if(order != null) {
+		Order order = orderDAO.insertOrder(orderNumber, userID, checkOutEmail, checkOutFullname, checkOutPhone,
+				receiverFullname, receiverPhone, receiverAddress, receiveMethod, shipping, total, items, paymentType,
+				paymentDate, paymentID);
+
+		if (order != null) {
 			session.setAttribute(GlobalConstant.CART_ITEM, null);
-			response.getWriter().append(GlobalConstant.ORDER_URL + "?command=" + GlobalConstant.VIEW_ORDER_DETAIL + "&emailAddress=" + checkOutEmail + "&orderNumber=" + orderNumber);
+			response.getWriter().append(GlobalConstant.ORDER_URL + "?command=" + GlobalConstant.VIEW_ORDER_DETAIL
+					+ "&emailAddress=" + checkOutEmail + "&orderNumber=" + orderNumber);
 		}
 
 //		if (order != null) {			
