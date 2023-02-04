@@ -1,10 +1,8 @@
 package controller;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,28 +25,16 @@ public class CartServlet extends HttpServlet {
 	private static final Logger logger = LogManager.getLogger(CartServlet.class);
 
 	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public CartServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		System.out.println("-----------------------------");
-		System.out.println("doGet Cart Servlet called");
-		System.out.println("Current command: " + request.getParameter(GlobalConstant.COMMAND));
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		String command = request.getParameter(GlobalConstant.COMMAND) != null
 				? request.getParameter(GlobalConstant.COMMAND)
 				: GlobalConstant.BLANK;
 		String productID = request.getParameter(GlobalConstant.PRODUCT_ID) != null
 				? request.getParameter(GlobalConstant.PRODUCT_ID)
-				: GlobalConstant.BLANK;
+				: GlobalConstant.VIEW_CART;
 		logger.info(command + " - " + productID);
 		try {
 			switch (command) {
@@ -62,9 +48,6 @@ public class CartServlet extends HttpServlet {
 				remove(request, response, productID);
 				break;
 			case GlobalConstant.VIEW_CART:
-				getCartPage(request, response);
-				break;
-			default:
 				getCartPage(request, response);
 				break;
 			}

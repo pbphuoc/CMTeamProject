@@ -1,13 +1,14 @@
 package controller;
 
-import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import constant.GlobalConstant;
 import dao.ProductDAO;
@@ -21,51 +22,38 @@ import entity.Product;
 @WebServlet(urlPatterns = GlobalConstant.HOME_URL)
 public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public IndexServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	private static final Logger logger = LogManager.getLogger(IndexServlet.class);
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		System.out.println("-----------------------------");
-		System.out.println("doGet Index Servlet called");
-		getIndexPage(request, response);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			logger.info("Get Home");
+			getIndexPage(request, response);
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		System.out.println("-----------------------------");
-		System.out.println("doPost Index Servlet called");
-		doGet(request, response);
-	}
+	private void getIndexPage(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			ProductDAO productDAO = new ProductDAO();
+			List<Product> products = productDAO.getPopularProducts();
+			List<Brand> brands = productDAO.getAllBrands();
+			List<Category> categories = productDAO.getAllCategory();
 
-	private void getIndexPage(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		ProductDAO productDAO = new ProductDAO();
-		List<Product> products = productDAO.getPopularProducts();
-		List<Brand> brands = productDAO.getAllBrands();
-		List<Category> categories = productDAO.getAllCategory();
+			request.setAttribute("productList", products);
+			request.setAttribute("brandList", brands);
+			request.setAttribute("categoryList", categories);
 
-		request.setAttribute("productList", products);
-		request.setAttribute("brandList", brands);
-		request.setAttribute("categoryList", categories);
-
-		RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.INDEX_JSP);
-		dispatcher.forward(request, response);
+			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.INDEX_JSP);
+			dispatcher.forward(request, response);
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
 	}
 
 }

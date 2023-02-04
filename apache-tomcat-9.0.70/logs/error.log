@@ -1,0 +1,2 @@
+2023-02-04 00:40:42 ERROR AuthenticationServlet:38 - First Error Log
+2023-02-04 00:40:42 ERROR AuthenticationServlet:67 - java.lang.NullPointerException: Cannot invoke "String.hashCode()" because "command" is null

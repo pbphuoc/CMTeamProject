@@ -11,9 +11,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import constant.OrderPaymentTypeEnum;
 import constant.OrderReceiveMethodEnum;
 import constant.OrderStatusEnum;
+import controller.AuthenticationServlet;
 import entity.Order;
 import entity.Product;
 import model.OrderItemDTO;
@@ -31,27 +35,8 @@ public class OrderDAO {
 	private static final String SELECT_ORDER_BY_USERID_SQL = "SELECT * FROM orders WHERE user_id = ?;";
 	private static final String SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL = "SELECT * FROM orders WHERE checkout_email = ? AND order_number = ?;";
 	private static final String SELECT_ORDERITEM_BY_ORDERID_SQL = "SELECT * FROM order_item where order_id = ?;";
-
-	private String generateOrderNumber(String date, int second) {
-		if (second < 0)
-			second = second * -1;
-		String first4DigitInSecond = (second * 10000) + "";
-		return date + first4DigitInSecond.substring(0, 8);
-	}
-
-	private long calculateTotal(String shipping, List<OrderItemDTO> orderItems) {
-		long totalCost = 0;
-		try {
-			totalCost = Long.parseLong(shipping);
-			for (OrderItemDTO item : orderItems) {
-				totalCost += item.getProduct().getNewPrice() * item.getQuantity();
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-		return totalCost;
-	}
-
+	private static final Logger logger = LogManager.getLogger(OrderDAO.class);
+	
 	public Order insertOrder(String orderNumber, String userID, String checkOutEmail, String checkOutFullname, String checkOutPhone,
 			String receiverFullname, String receiverPhone, String receiverAddress, OrderReceiveMethodEnum receiveMethod,
 			double shipping, double total, List<OrderItemDTO> orderItems, OrderPaymentTypeEnum paymentType, String paymentDate,
@@ -60,16 +45,12 @@ public class OrderDAO {
 		PreparedStatement insertStm = null;
 		ResultSet generatedKeys = null;
 		Connection connection = Utility.getConnection();
-//		long totalCost = calculateTotal(shipping, orderItems);
-		ZoneId z = ZoneId.of("Australia/Sydney");
-		ZonedDateTime zdt = ZonedDateTime.now(z);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String orderDate = formatter.format(zdt);
-		OrderStatusEnum orderStatus = OrderStatusEnum.RECEIVED;
-//		String orderNumber = generateOrderNumber("" + zdt.getDayOfMonth() + zdt.getMonthValue() + zdt.getYear(),
-//				zdt.getNano());
-		System.out.println("Order Date: " + formatter.format(zdt));
 		try {
+			ZoneId z = ZoneId.of("Australia/Sydney");
+			ZonedDateTime zdt = ZonedDateTime.now(z);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String orderDate = formatter.format(zdt);
+			OrderStatusEnum orderStatus = OrderStatusEnum.RECEIVED;
 			insertStm = connection.prepareStatement(INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS);
 			int currentParam = 0;
 			insertStm.setString(++currentParam, orderNumber);
@@ -108,8 +89,7 @@ public class OrderDAO {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// TODO: handle exception
+			logger.error(e.toString());
 		} finally {
 			Utility.close(connection, insertStm, generatedKeys);
 		}
@@ -144,8 +124,7 @@ public class OrderDAO {
 			}
 			return Utility.QueryResult.SUCCESSFUL;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// TODO: handle exception
+			logger.error(e.toString());
 		} finally {
 			Utility.close(connection, insertStm, null);
 		}
@@ -172,8 +151,7 @@ public class OrderDAO {
 				items.add(new OrderItemDTO(product, quantity));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// TODO: handle exception
+			logger.error(e.toString());
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}

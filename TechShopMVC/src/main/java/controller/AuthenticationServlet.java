@@ -29,11 +29,10 @@ public class AuthenticationServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		String command = request.getParameter(GlobalConstant.COMMAND) != null
 				? request.getParameter(GlobalConstant.COMMAND)
-				: GlobalConstant.BLANK;
+				: GlobalConstant.GET_LOGIN_FORM;
 		logger.info(command);
 		try {
 			switch (command) {
@@ -51,9 +50,6 @@ public class AuthenticationServlet extends HttpServlet {
 				break;
 			case GlobalConstant.REGISTER:
 				register(request, response);
-				break;
-			default:
-				getLoginPage(request, response);
 				break;
 			}
 		} catch (Exception e) {

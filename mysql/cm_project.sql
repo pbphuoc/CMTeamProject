@@ -295,9 +295,10 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `password` varchar(90) NOT NULL,
   `fullname` varchar(45) NOT NULL,
   `phone_number` varchar(45) NOT NULL,
+  `salt` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -309,7 +310,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (13,'ff.pbphuoc@gmail.com','test','phuoc pham','0450028815'),(14,'phuocpham@gmail.com','test1','Ba Phuoc Pham','0450028815'),(15,'phuoc1@gmail.com','phuoc1','phuoc 1','04123456789'),(16,'phuoc2@gmail.com','phuoc2','phuoc 2','04999888777'),(17,'phuoc3@gmail.com','phuoc3','phuoc3','a'),(18,'phuocpham2@gmail.com','test','phuoc pham','0412345678'),(19,'minh@gmail.com','123456','hoang minh','0999888777');
+INSERT INTO `user` VALUES (13,'ff.pbphuoc@gmail.com','$2a$15$r8JEqXPuNUueB6JUXRynaeQJEvUTCdOuc9RQeI650VKEnR3IfCRae','phuoc pham','0450028815','$2a$15$r8JEqXPuNUueB6JUXRynae'),(14,'phuocpham@gmail.com','$2a$15$u8u7rdvVjge6oZlx6o7KFuNO22cVwA6Ohdz5xPGslC2FQtLIr53Ua','Ba Phuoc Pham','0450028815','$2a$15$u8u7rdvVjge6oZlx6o7KFu'),(15,'phuoc1@gmail.com','$2a$15$1ePQN3D6UgiBYq5KUoyvuOQDNtiYkogA1vXnNRyGg6UWPLM.ALPmO','phuoc 1','04123456789','$2a$15$1ePQN3D6UgiBYq5KUoyvuO'),(16,'phuoc2@gmail.com','$2a$15$IWMN3.icrfvXnTzVH8ogTu0Jj/3VD2oHVlWZ0jXuipgjMAzL5n2ou','phuoc 2','04999888777','$2a$15$IWMN3.icrfvXnTzVH8ogTu'),(17,'phuoc3@gmail.com','$2a$15$E4t4NwFMJERePjSWNHox1OcI/yY4Q0ZR2m5A/MxCyDEIk1c7NPqZ2','phuoc3','a','$2a$15$E4t4NwFMJERePjSWNHox1O'),(18,'phuocpham2@gmail.com','$2a$15$N1IEFCqwTYrjOxib6G42.esE18nOpDnbrLx1GkZUNoLOjoz0RC2lK','phuoc pham','0412345678','$2a$15$N1IEFCqwTYrjOxib6G42.e'),(19,'minh@gmail.com','$2a$15$cRLOINv0qlYTJJIxGBw3HOdtdORdpEGfx9TeKBb9rDe9NcKcI0Joe','hoang minh','0999888777','$2a$15$cRLOINv0qlYTJJIxGBw3HO');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -322,4 +323,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-17 13:44:27
+-- Dump completed on 2023-01-19 20:08:52

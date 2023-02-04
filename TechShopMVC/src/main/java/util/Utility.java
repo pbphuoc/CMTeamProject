@@ -7,27 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import constant.GlobalConstant;
 
 public class Utility {
-
+	private static final Logger logger = LogManager.getLogger(Utility.class);
 	public enum QueryResult {
 		SUCCESSFUL, UNSUCCESSFUL
-	}
-
-	public static Entry getEntryByKey(Map<?, ?> theMap, Object theKey, Object theDefaultKey) {
-		Entry defaultEntry = null;
-		for (Entry entry : theMap.entrySet()) {
-			if (entry.getKey().equals(theKey))
-				return entry;
-			else if (entry.getKey().equals(theDefaultKey))
-				defaultEntry = entry;
-		}
-		return defaultEntry;
 	}
 
 	public static String getCorrectPrevUrl(String prevUrl) {
@@ -51,12 +40,8 @@ public class Utility {
 			Class.forName("com.mysql.jdbc.Driver");
 			return DriverManager.getConnection(GlobalConstant.DO_DB_URL, GlobalConstant.DO_DB_USERNAME,
 					GlobalConstant.DO_DB_PASSWORD);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error(e.toString());
 		}
 		return null;
 	}
@@ -69,9 +54,8 @@ public class Utility {
 				stm.close();
 			if (connection != null)
 				connection.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error(e.toString());
 		}
 	}
 
