@@ -11,7 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import constant.GlobalConstant;
+import controller.CheckOutServlet;
 import entity.Brand;
 import entity.Category;
 import entity.Product;
@@ -65,8 +69,10 @@ public class ProductDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
+			logger.error(e.toString());
+		} catch (NullPointerException e) {
+			logger.error(e.toString());
+		}finally {
 			Utility.close(connection, selectStm, result);
 		}
 		return products;
@@ -107,7 +113,9 @@ public class ProductDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e.toString());
+		} catch (NullPointerException e) {
+			logger.error(e.toString());
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
@@ -217,7 +225,7 @@ public class ProductDAO {
 			for (String keyword : newKeywords) {
 				selectStm.setString(++currentParam, "%" + keyword + "%");
 			}
-			System.out.println("Query: " + selectStm.toString());
+			logger.info("Query: " + selectStm.toString());
 			result = selectStm.executeQuery();
 			while (result.next()) {
 				String id = result.getInt("id") + "";
@@ -236,7 +244,9 @@ public class ProductDAO {
 				updateCountInEachFilter(availabilityFilters, allAvailabilityFilters, product.getStockStatus());
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e.toString());
+		} catch (NullPointerException e) {
+			logger.error(e.toString());
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
@@ -309,7 +319,7 @@ public class ProductDAO {
 			selectStm.setInt(++currentParam, MAX_LIMIT_SQL);
 			selectStm.setInt(++currentParam, 0);
 
-			System.out.println("Query before limit and offset: " + selectStm.toString());
+			logger.info("Query before limit and offset: " + selectStm.toString());
 			result = selectStm.executeQuery();
 			while (result.next()) {
 				++rowCountBeforeLimit;
@@ -324,7 +334,7 @@ public class ProductDAO {
 			if (!page.equalsIgnoreCase(""))
 				selectStm.setInt(++currentParam, (Integer.parseInt(page) - 1) * Integer.parseInt(perPage));
 
-			System.out.println("Query after limit and offset: " + selectStm.toString());
+			logger.info("Query after limit and offset: " + selectStm.toString());
 			result.close();
 			result = selectStm.executeQuery();
 			while (result.next()) {
@@ -342,7 +352,9 @@ public class ProductDAO {
 				filteredProducts.add(product);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e.toString());
+		} catch (NullPointerException e) {
+			logger.error(e.toString());
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
@@ -370,7 +382,9 @@ public class ProductDAO {
 			int stock = result.getInt("stock");
 			product = new Product(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc, stock);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e.toString());
+		} catch (NullPointerException e) {
+			logger.error(e.toString());
 		} finally {
 			Utility.close(connection, selectStm, null);
 		}
@@ -390,8 +404,10 @@ public class ProductDAO {
 				medias.add(result.getString("src"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
+			logger.error(e.toString());
+		} catch (NullPointerException e) {
+			logger.error(e.toString());
+		}finally {
 			Utility.close(connection, selectStm, result);
 		}
 		return medias;
@@ -410,8 +426,10 @@ public class ProductDAO {
 				return price;
 			price = result.getDouble("new_price");
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
+			logger.error(e.toString());
+		} catch (NullPointerException e) {
+			logger.error(e.toString());
+		}finally {
 			Utility.close(connection, selectStm, result);
 		}
 		return price;
@@ -432,7 +450,9 @@ public class ProductDAO {
 				brands.add(new Brand(id, name, imgSrc));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e.toString());
+		} catch (NullPointerException e) {
+			logger.error(e.toString());
 		} finally {
 			Utility.close(connection, selectStm, rs);
 			;
@@ -455,8 +475,10 @@ public class ProductDAO {
 				categories.add(new Category(id, name, imgSrc));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
+			logger.error(e.toString());
+		} catch (NullPointerException e) {
+			logger.error(e.toString());
+		}finally {
 			Utility.close(connection, selectStm, rs);
 			;
 		}
@@ -526,6 +548,8 @@ public class ProductDAO {
 		for (Map.Entry<String, Integer> cI : cartItems.entrySet()) {
 			Product product = getProductByID((String) cI.getKey());
 			int quantity = Math.min(product.getStock(), (int) cI.getValue());
+			logger.info("Stock: " + product.getStock() + " - Quantity: " + (int) cI.getValue()
+					+ " - Order Quantity: " + quantity);
 			cartList.add(new OrderItemDTO(product, quantity));
 		}
 		return cartList;
