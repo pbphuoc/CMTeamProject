@@ -1,4 +1,56 @@
-2023-02-04 00:40:42 ERROR AuthenticationServlet:38 - First Error Log
-2023-02-04 00:40:42 ERROR AuthenticationServlet:67 - java.lang.NullPointerException: Cannot invoke "String.hashCode()" because "command" is null
-2023-02-04 16:44:02 ERROR OrderDAO:85 - Detail Insert Order: Order Number %s - UserID %s - Payer Email %s - Payment Status %s - Items %s
-2023-02-04 16:50:18 ERROR OrderDAO:85 - Detail Insert Order: Order Number 3L999315N65951931 - UserID -1 - Payer Email frank2@gmail.com - Payment Status CARD - Items [OrderItemDTO [product=Product [id=32, name=Samsung Galaxy S22 Ultra (8GB - 128GB), description=True to the previously rumored information, the new flagship model of the Korean giant was launched with the name Samsung Galaxy S22 Ultra with many valuable improvements. This high-end phone model from Samsung has many changes from design, configuration to camera. So what's new with this super product, how much does it cost and should you buy it? Let's find out the details right below!, oldPrice=2200.0, newPrice=2100.0, brandID=3, categoryID=3, imgSrc=/images/product/32/product_phone4_1.jpg, stock=10], quantity=1]]
+2023-02-04 23:33:07 ERROR CheckOutServlet:72 - java.lang.NullPointerException: Cannot invoke "java.util.HashMap.entrySet()" because "cartItems" is null
+2023-02-04 23:33:13 ERROR CheckOutServlet:72 - java.lang.NullPointerException: Cannot invoke "java.util.HashMap.entrySet()" because "cartItems" is null
+2023-02-04 23:35:41 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-04 23:35:52 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:09:59 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:11:33 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:13:28 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:13:30 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:15:31 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:17:43 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:19:23 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:19:28 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:20:06 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:20:17 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:20:52 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:20:53 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:20:54 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:20:55 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 00:22:05 ERROR OrderServlet:174 - java.util.UnknownFormatConversionException: Conversion = 'i'
+2023-02-05 04:32:28 ERROR CheckOutServlet:106 - java.lang.NullPointerException: Cannot invoke "java.util.HashMap.entrySet()" because "cartItems" is null
+2023-02-05 04:50:41 ERROR OrderServlet:154 - java.lang.NullPointerException: Cannot invoke "entity.PaypalResponse.getOrderOrderNumber()" because "paypalResponse" is null
+2023-02-05 06:39:42 ERROR OrderServlet:187 - java.lang.IllegalArgumentException: Id cannot be null
+2023-02-05 06:49:18 ERROR OrderServlet:186 - java.lang.IllegalArgumentException: Id cannot be null
+2023-02-05 07:02:31 ERROR OrderServlet:186 - java.lang.IllegalArgumentException: Id cannot be null
+2023-02-05 07:17:01 ERROR OrderServlet:186 - java.lang.IllegalArgumentException: Id cannot be null
+2023-02-05 07:30:51 ERROR OrderServlet:186 - java.lang.IllegalArgumentException: Id cannot be null
+2023-02-05 07:38:28 ERROR OrderServlet:188 - java.lang.IllegalArgumentException: Id cannot be null
+2023-02-05 09:10:42 ERROR PaymentServices:180 - response-code: 0	details: null
+2023-02-05 10:18:36 ERROR PaymentServices:181 - response-code: 0	details: null
+2023-02-05 10:31:31 ERROR PaymentServices:169 - response-code: 0	details: null
+2023-02-05 10:35:04 ERROR CheckOutServlet:106 - response-code: 0	details: null
+2023-02-05 10:37:12 ERROR CheckOutServlet:106 - response-code: 0	details: null
+2023-02-05 10:37:46 ERROR CheckOutServlet:106 - response-code: 0	details: null
+2023-02-05 10:38:00 ERROR CheckOutServlet:106 - response-code: 0	details: null
+2023-02-05 11:24:13 ERROR PaymentServices:168 - response-code: 0	details: null
+2023-02-05 11:30:47 ERROR PaymentServices:168 - response-code: 0	details: null
+2023-02-05 12:30:32 ERROR PaymentServices:169 - response-code: 0	details: null
+2023-02-05 12:31:05 ERROR OrderServlet:188 - java.lang.NullPointerException: Cannot invoke "String.equalsIgnoreCase(String)" because "paymentDate" is null
+2023-02-05 16:16:21 ERROR PaymentServices:171 - response-code: 0	details: null
+2023-02-05 16:49:52 ERROR PaymentServices:186 - java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+2023-02-05 17:23:23 ERROR PaymentServices:185 - java.net.ProtocolException: Invalid HTTP method: PATCH
+2023-02-05 17:31:53 ERROR PaymentServices:188 - java.net.ProtocolException: Invalid HTTP method: PATCH
+2023-02-05 17:51:43 ERROR OrderServlet:114 - org.apache.jasper.JasperException: An exception occurred processing [orderhistory.jsp] at line [52]
+
+49: 							  <tbody>
+50: 							    <tr>
+51: 							      <th scope="row">${order.orderNumber}</th>
+52: 							      <td>${order.date}</td>
+53: 							      <td>${order.checkOutEmail}</td>
+54: 							      <td>${order.receiverFullname}</td>
+55: 							      <td>${order.receiveMethod}</td>
+
+
+Stacktrace:
+2023-02-05 20:03:51 ERROR CheckOutServlet:161 - org.apache.jasper.JasperException: javax.el.ELException: Error reading [orderDate] on type [entity.Order]
+2023-02-05 20:18:09 ERROR CheckOutServlet:161 - java.lang.NullPointerException: Cannot invoke "java.util.HashMap.entrySet()" because "cartItems" is null

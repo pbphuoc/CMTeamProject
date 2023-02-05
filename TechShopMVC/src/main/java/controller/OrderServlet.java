@@ -1,6 +1,10 @@
 package controller;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,16 +21,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.gson.Gson;
+import com.paypal.api.payments.PayerInfo;
+import com.paypal.api.payments.Payment;
+import com.paypal.api.payments.ShippingAddress;
+import com.paypal.api.payments.Transaction;
 
 import constant.GlobalConstant;
 import constant.OrderPaymentTypeEnum;
 import constant.OrderReceiveMethodEnum;
+import constant.OrderStatusEnum;
 import dao.OrderDAO;
 import dao.ProductDAO;
 import entity.Order;
-import entity.PaypalResponse;
 import entity.User;
 import model.OrderItemDTO;
+import service.PaymentServices;
+import util.Utility;
 
 /**
  * Servlet implementation class OrderServlet
@@ -48,10 +58,7 @@ public class OrderServlet extends HttpServlet {
 		try {
 			switch (command) {
 			case GlobalConstant.GET_TRACK_ORDER_FORM:
-				getTrackOrderForm(request, response);
-				break;
-			case GlobalConstant.SUBMIT_ORDER:
-				submitOrder(request, response);
+				response.sendRedirect(GlobalConstant.TRACK_ORDER_JSP);
 				break;
 			case GlobalConstant.TRACK_ORDER:
 				trackOrder(request, response);
@@ -86,7 +93,7 @@ public class OrderServlet extends HttpServlet {
 					: GlobalConstant.BLANK;
 			String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber")
 					: GlobalConstant.BLANK;
-			OrderDAO orderDAO = new OrderDAO();
+			OrderDAO orderDAO = OrderDAO.getOrderDAO();
 			List<Order> orders = orderDAO.getOrderByUserOrEmailAndOrderNumber(GlobalConstant.BLANK, emailAddress,
 					orderNumber);
 
@@ -104,60 +111,9 @@ public class OrderServlet extends HttpServlet {
 		}
 	}
 
-	private void getTrackOrderForm(HttpServletRequest request, HttpServletResponse response) {
-		try {
-			response.sendRedirect(GlobalConstant.TRACK_ORDER_JSP);
-		} catch (Exception e) {
-			logger.error(e.toString());
-		}
-	}
-
-	protected void submitOrder(HttpServletRequest request, HttpServletResponse response) {
-		try {
-			String requestBodyData = request.getReader().lines().collect(Collectors.joining());
-			PaypalResponse paypalResponse = new Gson().fromJson(requestBodyData, PaypalResponse.class);
-			logger.debug("Paypal Reponse json: " + requestBodyData);
-
-			OrderDAO orderDAO = new OrderDAO();
-			ProductDAO productDAO = new ProductDAO();
-			HttpSession session = request.getSession();
-			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
-			List<OrderItemDTO> items = productDAO.getAllProductInCartByID(cartItems);
-
-			String userID = (User) session.getAttribute(GlobalConstant.USER) != null
-					? ((User) session.getAttribute(GlobalConstant.USER)).getId()
-					: GlobalConstant.GUEST_ID;
-			String orderNumber = paypalResponse.getOrderOrderNumber();
-			String checkOutEmail = paypalResponse.getPayerEmail();
-			String checkOutFullname = paypalResponse.getPayerFullname();
-			String checkOutPhone = GlobalConstant.BLANK;
-			String receiverFullname = paypalResponse.getReceiverFullname();
-			String receiverPhone = GlobalConstant.BLANK;
-			String receiverAddress = paypalResponse.getReceiverAddress();
-			OrderReceiveMethodEnum receiveMethod = OrderReceiveMethodEnum.DELIVERY;
-			double shipping = paypalResponse.getShipping();
-			double total = paypalResponse.getTotal();
-			OrderPaymentTypeEnum paymentType = paypalResponse.getPaymentType();
-			String paymentDate = paypalResponse.getPaymentDate();
-			String paymentID = paypalResponse.getPaymentID();
-
-			Order order = orderDAO.insertOrder(orderNumber, userID, checkOutEmail, checkOutFullname, checkOutPhone,
-					receiverFullname, receiverPhone, receiverAddress, receiveMethod, shipping, total, items,
-					paymentType, paymentDate, paymentID);
-
-			if (order != null) {
-				session.setAttribute(GlobalConstant.CART_ITEM, null);
-				response.getWriter().append(GlobalConstant.ORDER_URL + "?command=" + GlobalConstant.VIEW_ORDER_DETAIL
-						+ "&emailAddress=" + checkOutEmail + "&orderNumber=" + orderNumber);
-			}
-		} catch (Exception e) {
-			logger.error(e.toString());
-		}
-	}
-
 	private void viewOrderDetail(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			OrderDAO orderDAO = new OrderDAO();
+			OrderDAO orderDAO = OrderDAO.getOrderDAO();
 			String emailAddress = request.getParameter("emailAddress") != null ? request.getParameter("emailAddress")
 					: GlobalConstant.BLANK;
 			String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber")

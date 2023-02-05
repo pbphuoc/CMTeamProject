@@ -77,7 +77,7 @@ public class AuthenticationServlet extends HttpServlet {
 		String password = request.getParameter(GlobalConstant.PASSWORD_REGISTER);
 		String mobile = request.getParameter(GlobalConstant.MOBILE_REGISTER);
 
-		UserDAO userDAO = new UserDAO();
+		UserDAO userDAO = UserDAO.getUserDAO();
 		User user = userDAO.insertUser(email, password, fullname, mobile);
 
 		if (user != null) {
@@ -97,7 +97,7 @@ public class AuthenticationServlet extends HttpServlet {
 			String email = request.getParameter(GlobalConstant.EMAIL_LOGIN);
 			String password = request.getParameter(GlobalConstant.PASSWORD_LOGIN);
 
-			UserDAO userDAO = new UserDAO();
+			UserDAO userDAO = UserDAO.getUserDAO();
 			User user = userDAO.authenticateUser(email, password);
 
 			if (user != null) {

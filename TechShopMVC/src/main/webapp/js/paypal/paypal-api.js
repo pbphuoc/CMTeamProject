@@ -13,8 +13,8 @@ for (const fundingSource of fundingSources) {
 		},
 		// Sets up the transaction when a payment button is clicked
 		createOrder: (data, actions) => {
-//			const totalItemCost = getPriceValue($('#totalCost').text());
-			const totalItemCost = 0.5;
+			const totalItemCost = getPriceValue($('#totalCost').text());
+//			const totalItemCost = 0.5;
 			const shippingCost = 0;
 			return actions.order.create({
 				purchase_units: [{
@@ -41,7 +41,7 @@ for (const fundingSource of fundingSources) {
 			var shippingCost = data.shipping_address.state === 'QLD' ? '15.00' : '25.00';
 			var totalItemCost = getPriceValue($('#totalCost').text());
 			$('#shippingCost').text(formatter.format(shippingCost));
-			totalItemCost = 0.5;
+//			totalItemCost = 0.5;
 			shippingCost = 0.5;	
 			return actions.order.patch([
 				{

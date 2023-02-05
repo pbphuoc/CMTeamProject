@@ -50,7 +50,7 @@ public class UserAccountServlet extends HttpServlet {
 		try {
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute(GlobalConstant.USER);
-			OrderDAO orderDAO = new OrderDAO();
+			OrderDAO orderDAO = OrderDAO.getOrderDAO();
 			List<Order> orderList = orderDAO.getOrderByUserOrEmailAndOrderNumber(user.getId(), GlobalConstant.BLANK,
 					GlobalConstant.BLANK);
 

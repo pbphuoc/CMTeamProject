@@ -1,31 +1,751 @@
-2023-02-04 00:40:42 INFO  AuthenticationServlet:37 - First Info Log
-2023-02-04 01:03:31 INFO  CartServlet:52 - increase - 35
-2023-02-04 01:05:00 INFO  CartServlet:52 - increase - 34
-2023-02-04 01:06:08 INFO  CartServlet:52 - increase - 37
-2023-02-04 01:06:11 INFO  CartServlet:52 - viewCart - 
-2023-02-04 01:06:15 INFO  CartServlet:52 - increase - 34
-2023-02-04 01:06:21 INFO  CartServlet:52 - viewCart - 
-2023-02-04 01:06:23 INFO  CartServlet:52 - increase - 35
-2023-02-04 01:06:24 INFO  CartServlet:52 - viewCart - 
-2023-02-04 01:06:26 INFO  CartServlet:52 - viewCart - 
-2023-02-04 16:29:56 INFO  IndexServlet:33 - Get Home
-2023-02-04 16:29:57 INFO  IndexServlet:33 - Get Home
-2023-02-04 16:30:03 INFO  CartServlet:38 - increase - 37
-2023-02-04 16:30:06 INFO  CartServlet:38 - viewCart - viewCart
-2023-02-04 16:30:07 INFO  CheckOutServlet:36 - payment
-2023-02-04 16:38:37 INFO  CheckOutServlet:36 - payment
-2023-02-04 16:41:06 INFO  CheckOutServlet:36 - payment
-2023-02-04 16:41:42 INFO  IndexServlet:33 - Get Home
-2023-02-04 16:41:57 INFO  CartServlet:38 - increase - 31
-2023-02-04 16:41:58 INFO  CartServlet:38 - viewCart - viewCart
-2023-02-04 16:41:59 INFO  CheckOutServlet:36 - payment
-2023-02-04 16:44:01 INFO  OrderServlet:47 - submitOrder
-2023-02-04 16:44:02 INFO  OrderServlet:47 - viewOrderDetail
-2023-02-04 16:48:17 INFO  IndexServlet:33 - Get Home
-2023-02-04 16:48:19 INFO  IndexServlet:33 - Get Home
-2023-02-04 16:48:30 INFO  IndexServlet:33 - Get Home
-2023-02-04 16:49:02 INFO  CartServlet:38 - increase - 32
-2023-02-04 16:49:04 INFO  CartServlet:38 - viewCart - viewCart
-2023-02-04 16:49:05 INFO  CheckOutServlet:36 - payment
-2023-02-04 16:50:17 INFO  OrderServlet:47 - submitOrder
-2023-02-04 16:50:18 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-04 20:44:54 INFO  IndexServlet:33 - Get Home
+2023-02-04 20:44:57 INFO  IndexServlet:33 - Get Home
+2023-02-04 20:44:59 INFO  IndexServlet:33 - Get Home
+2023-02-04 20:45:04 INFO  IndexServlet:33 - Get Home
+2023-02-04 20:45:55 INFO  IndexServlet:33 - Get Home
+2023-02-04 20:46:02 INFO  CartServlet:38 - increase - 30
+2023-02-04 20:46:03 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-04 20:46:04 INFO  CheckOutServlet:36 - payment
+2023-02-04 20:47:05 INFO  OrderServlet:47 - submitOrder
+2023-02-04 20:47:06 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-04 20:47:37 INFO  IndexServlet:33 - Get Home
+2023-02-04 20:47:44 INFO  CartServlet:38 - increase - 34
+2023-02-04 20:47:45 INFO  CartServlet:38 - increase - 34
+2023-02-04 20:47:45 INFO  CartServlet:38 - increase - 35
+2023-02-04 20:47:47 INFO  CartServlet:38 - increase - 36
+2023-02-04 20:47:49 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-04 20:47:51 INFO  CheckOutServlet:36 - payment
+2023-02-04 20:48:40 INFO  OrderServlet:47 - submitOrder
+2023-02-04 20:48:41 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-04 23:25:43 INFO  IndexServlet:33 - Get Home
+2023-02-04 23:25:45 INFO  IndexServlet:33 - Get Home
+2023-02-04 23:26:12 INFO  IndexServlet:33 - Get Home
+2023-02-04 23:26:18 INFO  CartServlet:38 - increase - 28
+2023-02-04 23:26:19 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-04 23:26:21 INFO  CheckOutServlet:36 - payment
+2023-02-04 23:28:11 INFO  CheckOutServlet:36 - payment
+2023-02-04 23:29:36 INFO  CheckOutServlet:36 - payment
+2023-02-04 23:32:58 INFO  IndexServlet:33 - Get Home
+2023-02-04 23:32:59 INFO  IndexServlet:33 - Get Home
+2023-02-04 23:33:07 INFO  CheckOutServlet:36 - payment
+2023-02-04 23:33:13 INFO  CheckOutServlet:36 - payment
+2023-02-04 23:33:20 INFO  IndexServlet:33 - Get Home
+2023-02-04 23:33:25 INFO  CartServlet:38 - increase - 31
+2023-02-04 23:33:28 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-04 23:33:30 INFO  CheckOutServlet:36 - payment
+2023-02-04 23:34:32 INFO  IndexServlet:33 - Get Home
+2023-02-04 23:34:34 INFO  IndexServlet:33 - Get Home
+2023-02-04 23:34:41 INFO  CartServlet:38 - increase - 42
+2023-02-04 23:34:43 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-04 23:34:44 INFO  CheckOutServlet:36 - payment
+2023-02-04 23:34:50 INFO  CheckOutServlet:36 - payment
+2023-02-04 23:35:39 INFO  OrderServlet:47 - submitOrder
+2023-02-04 23:35:40 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-04 23:35:51 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-04 23:36:25 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-04 23:36:27 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:07:58 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:08:00 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:08:15 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:08:27 INFO  CartServlet:38 - increase - 32
+2023-02-05 00:08:28 INFO  CartServlet:38 - increase - 28
+2023-02-05 00:08:29 INFO  CartServlet:38 - increase - 29
+2023-02-05 00:08:30 INFO  CartServlet:38 - increase - 28
+2023-02-05 00:08:32 INFO  CartServlet:38 - increase - 30
+2023-02-05 00:08:33 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 00:08:35 INFO  CheckOutServlet:36 - payment
+2023-02-05 00:09:57 INFO  OrderServlet:47 - submitOrder
+2023-02-05 00:09:59 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:11:32 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:13:28 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:13:29 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:15:31 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:17:42 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:19:19 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:19:21 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:19:23 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:19:27 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:20:01 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:20:03 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:20:06 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:20:17 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:20:47 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:20:49 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:20:51 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:20:53 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:20:54 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:20:54 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:21:51 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:21:53 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:21:56 INFO  AuthenticationServlet:36 - getLoginForm
+2023-02-05 00:21:57 INFO  AuthenticationServlet:36 - login
+2023-02-05 00:22:00 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:22:02 INFO  UserAccountServlet:35 - viewOrders
+2023-02-05 00:22:04 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 00:25:53 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:25:56 INFO  IndexServlet:33 - Get Home
+2023-02-05 00:26:06 INFO  OrderServlet:47 - viewOrderDetail
+2023-02-05 01:35:14 INFO  IndexServlet:33 - Get Home
+2023-02-05 01:35:16 INFO  IndexServlet:33 - Get Home
+2023-02-05 01:35:20 INFO  CartServlet:38 - increase - 40
+2023-02-05 01:35:21 INFO  CartServlet:38 - increase - 37
+2023-02-05 01:35:22 INFO  CartServlet:38 - increase - 35
+2023-02-05 01:35:25 INFO  CartServlet:38 - increase - 35
+2023-02-05 01:35:25 INFO  CartServlet:38 - increase - 36
+2023-02-05 01:36:04 INFO  IndexServlet:33 - Get Home
+2023-02-05 01:36:06 INFO  IndexServlet:33 - Get Home
+2023-02-05 01:36:09 INFO  CartServlet:38 - increase - 42
+2023-02-05 01:36:10 INFO  CartServlet:38 - increase - 42
+2023-02-05 01:36:11 INFO  CartServlet:38 - increase - 41
+2023-02-05 01:36:12 INFO  CartServlet:38 - increase - 40
+2023-02-05 01:36:13 INFO  CartServlet:38 - increase - 37
+2023-02-05 01:39:21 INFO  IndexServlet:33 - Get Home
+2023-02-05 01:39:23 INFO  IndexServlet:33 - Get Home
+2023-02-05 01:39:28 INFO  CartServlet:38 - increase - 42
+2023-02-05 01:39:29 INFO  CartServlet:38 - increase - 42
+2023-02-05 01:39:30 INFO  CartServlet:38 - increase - 42
+2023-02-05 01:39:31 INFO  CartServlet:38 - increase - 41
+2023-02-05 01:39:32 INFO  CartServlet:38 - increase - 40
+2023-02-05 01:47:39 INFO  IndexServlet:33 - Get Home
+2023-02-05 01:47:41 INFO  IndexServlet:33 - Get Home
+2023-02-05 01:47:44 INFO  CartServlet:38 - increase - 42
+2023-02-05 01:47:45 INFO  CartServlet:38 - increase - 41
+2023-02-05 01:47:46 INFO  CartServlet:38 - increase - 38
+2023-02-05 01:47:48 INFO  CartServlet:38 - increase - 38
+2023-02-05 01:47:48 INFO  CartServlet:38 - increase - 37
+2023-02-05 01:51:14 INFO  IndexServlet:33 - Get Home
+2023-02-05 01:51:16 INFO  IndexServlet:33 - Get Home
+2023-02-05 01:51:20 INFO  CartServlet:38 - increase - 42
+2023-02-05 01:55:15 INFO  IndexServlet:33 - Get Home
+2023-02-05 01:55:17 INFO  IndexServlet:33 - Get Home
+2023-02-05 01:55:21 INFO  CartServlet:38 - increase - 41
+2023-02-05 01:55:22 INFO  CartServlet:38 - increase - 41
+2023-02-05 01:55:22 INFO  CartServlet:38 - increase - 42
+2023-02-05 01:55:25 INFO  CartServlet:38 - increase - 28
+2023-02-05 02:01:59 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:02:01 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:02:04 INFO  CartServlet:38 - increase - 40
+2023-02-05 02:02:05 INFO  CartServlet:38 - increase - 40
+2023-02-05 02:02:06 INFO  CartServlet:38 - increase - 40
+2023-02-05 02:02:07 INFO  CartServlet:38 - increase - 37
+2023-02-05 02:02:08 INFO  CartServlet:38 - increase - 34
+2023-02-05 02:03:55 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:03:57 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:04:01 INFO  CartServlet:38 - increase - 42
+2023-02-05 02:04:02 INFO  CartServlet:38 - increase - 42
+2023-02-05 02:04:03 INFO  CartServlet:38 - increase - 41
+2023-02-05 02:04:04 INFO  CartServlet:38 - increase - 40
+2023-02-05 02:06:48 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:06:50 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:06:55 INFO  CartServlet:38 - increase - 42
+2023-02-05 02:06:56 INFO  CartServlet:38 - increase - 42
+2023-02-05 02:06:57 INFO  CartServlet:38 - increase - 42
+2023-02-05 02:06:57 INFO  CartServlet:38 - increase - 41
+2023-02-05 02:06:58 INFO  CartServlet:38 - increase - 40
+2023-02-05 02:14:51 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:14:53 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:14:57 INFO  CartServlet:38 - increase - 42
+2023-02-05 02:14:58 INFO  CartServlet:38 - increase - 41
+2023-02-05 02:19:58 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:20:00 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:20:03 INFO  CartServlet:38 - increase - 42
+2023-02-05 02:20:03 INFO  CartServlet:38 - increase - 42
+2023-02-05 02:20:04 INFO  CartServlet:38 - increase - 42
+2023-02-05 02:20:05 INFO  CartServlet:38 - increase - 41
+2023-02-05 02:20:06 INFO  CartServlet:38 - increase - 38
+2023-02-05 02:24:41 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:24:43 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:24:50 INFO  CartServlet:38 - increase - 41
+2023-02-05 02:29:43 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:29:45 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:29:49 INFO  CartServlet:38 - increase - 41
+2023-02-05 02:32:10 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:32:12 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:32:41 INFO  CartServlet:38 - increase - 40
+2023-02-05 02:32:44 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 02:32:45 INFO  CheckOutServlet:36 - payment
+2023-02-05 02:33:19 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:33:21 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:33:26 INFO  CartServlet:38 - increase - 42
+2023-02-05 02:33:28 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 02:33:30 INFO  CartServlet:38 - remove - 42
+2023-02-05 02:33:31 INFO  IndexServlet:33 - Get Home
+2023-02-05 02:33:35 INFO  CartServlet:38 - increase - 41
+2023-02-05 02:34:45 INFO  IndexServlet:33 - Get Home
+2023-02-05 04:24:42 INFO  IndexServlet:33 - Get Home
+2023-02-05 04:32:28 INFO  CheckOutServlet:48 - payment
+2023-02-05 04:32:49 INFO  IndexServlet:33 - Get Home
+2023-02-05 04:32:51 INFO  IndexServlet:33 - Get Home
+2023-02-05 04:32:56 INFO  CartServlet:38 - increase - 41
+2023-02-05 04:33:00 INFO  CartServlet:38 - increase - 40
+2023-02-05 04:33:01 INFO  CartServlet:38 - increase - 42
+2023-02-05 04:33:02 INFO  CartServlet:38 - increase - 40
+2023-02-05 04:33:03 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 04:33:06 INFO  CheckOutServlet:48 - detail
+2023-02-05 04:33:09 INFO  CheckOutServlet:48 - payment
+2023-02-05 04:35:46 INFO  CheckOutServlet:48 - confirm
+2023-02-05 04:36:48 INFO  IndexServlet:33 - Get Home
+2023-02-05 04:36:56 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 04:36:58 INFO  CheckOutServlet:48 - detail
+2023-02-05 04:37:00 INFO  CheckOutServlet:48 - payment
+2023-02-05 04:49:07 INFO  IndexServlet:33 - Get Home
+2023-02-05 04:49:09 INFO  IndexServlet:33 - Get Home
+2023-02-05 04:49:18 INFO  IndexServlet:33 - Get Home
+2023-02-05 04:49:22 INFO  CartServlet:38 - increase - 37
+2023-02-05 04:49:23 INFO  CartServlet:38 - increase - 37
+2023-02-05 04:49:25 INFO  CartServlet:38 - increase - 28
+2023-02-05 04:49:26 INFO  CartServlet:38 - increase - 29
+2023-02-05 04:49:27 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 04:49:29 INFO  CheckOutServlet:48 - detail
+2023-02-05 04:49:31 INFO  CheckOutServlet:48 - payment
+2023-02-05 04:50:29 INFO  CheckOutServlet:48 - confirm
+2023-02-05 04:50:41 INFO  OrderServlet:47 - submitOrder
+2023-02-05 06:37:59 INFO  IndexServlet:33 - Get Home
+2023-02-05 06:38:01 INFO  IndexServlet:33 - Get Home
+2023-02-05 06:38:05 INFO  IndexServlet:33 - Get Home
+2023-02-05 06:38:12 INFO  CartServlet:38 - increase - 38
+2023-02-05 06:38:13 INFO  CartServlet:38 - increase - 38
+2023-02-05 06:38:15 INFO  CartServlet:38 - increase - 29
+2023-02-05 06:38:17 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 06:38:19 INFO  CheckOutServlet:48 - detail
+2023-02-05 06:38:21 INFO  CheckOutServlet:48 - payment
+2023-02-05 06:39:20 INFO  CheckOutServlet:48 - confirm
+2023-02-05 06:39:42 INFO  OrderServlet:58 - submitOrder
+2023-02-05 06:44:13 INFO  IndexServlet:33 - Get Home
+2023-02-05 06:44:14 INFO  IndexServlet:33 - Get Home
+2023-02-05 06:44:21 INFO  IndexServlet:33 - Get Home
+2023-02-05 06:44:26 INFO  CartServlet:38 - increase - 40
+2023-02-05 06:44:27 INFO  CartServlet:38 - increase - 37
+2023-02-05 06:44:29 INFO  CartServlet:38 - increase - 41
+2023-02-05 06:44:31 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 06:44:34 INFO  CheckOutServlet:48 - detail
+2023-02-05 06:44:43 INFO  CheckOutServlet:48 - payment
+2023-02-05 06:45:39 INFO  CheckOutServlet:48 - confirm
+2023-02-05 06:47:41 INFO  IndexServlet:33 - Get Home
+2023-02-05 06:47:43 INFO  IndexServlet:33 - Get Home
+2023-02-05 06:47:46 INFO  IndexServlet:33 - Get Home
+2023-02-05 06:47:51 INFO  CartServlet:38 - increase - 42
+2023-02-05 06:47:53 INFO  CartServlet:38 - increase - 41
+2023-02-05 06:47:53 INFO  CartServlet:38 - increase - 40
+2023-02-05 06:47:55 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 06:47:59 INFO  CheckOutServlet:48 - detail
+2023-02-05 06:48:02 INFO  CheckOutServlet:48 - payment
+2023-02-05 06:48:39 INFO  CheckOutServlet:48 - confirm
+2023-02-05 06:49:18 INFO  OrderServlet:58 - submitOrder
+2023-02-05 06:59:59 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:00:01 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:00:05 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:00:09 INFO  CartServlet:38 - increase - 40
+2023-02-05 07:00:10 INFO  CartServlet:38 - increase - 40
+2023-02-05 07:00:11 INFO  CartServlet:38 - increase - 40
+2023-02-05 07:00:12 INFO  CartServlet:38 - increase - 31
+2023-02-05 07:00:14 INFO  CartServlet:38 - increase - 28
+2023-02-05 07:00:16 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 07:00:18 INFO  CheckOutServlet:48 - detail
+2023-02-05 07:00:20 INFO  CheckOutServlet:48 - payment
+2023-02-05 07:02:17 INFO  CheckOutServlet:48 - confirm
+2023-02-05 07:02:31 INFO  OrderServlet:58 - submitOrder
+2023-02-05 07:13:40 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:13:42 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:13:46 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:13:56 INFO  CartServlet:38 - increase - 28
+2023-02-05 07:13:57 INFO  CartServlet:38 - increase - 29
+2023-02-05 07:13:58 INFO  CartServlet:38 - increase - 30
+2023-02-05 07:13:59 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 07:14:01 INFO  CheckOutServlet:48 - detail
+2023-02-05 07:14:05 INFO  CheckOutServlet:48 - payment
+2023-02-05 07:15:14 INFO  CheckOutServlet:48 - confirm
+2023-02-05 07:17:01 INFO  OrderServlet:58 - submitOrder
+2023-02-05 07:29:19 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:29:21 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:29:26 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:29:33 INFO  CartServlet:38 - increase - 41
+2023-02-05 07:29:36 INFO  CartServlet:38 - increase - 40
+2023-02-05 07:29:37 INFO  CartServlet:38 - increase - 40
+2023-02-05 07:29:39 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 07:29:41 INFO  CheckOutServlet:48 - detail
+2023-02-05 07:29:43 INFO  CheckOutServlet:48 - payment
+2023-02-05 07:30:48 INFO  CheckOutServlet:48 - confirm
+2023-02-05 07:30:51 INFO  OrderServlet:58 - submitOrder
+2023-02-05 07:37:03 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:37:05 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:37:10 INFO  AuthenticationServlet:36 - getLoginForm
+2023-02-05 07:37:15 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:37:22 INFO  CartServlet:38 - increase - 40
+2023-02-05 07:37:23 INFO  CartServlet:38 - increase - 37
+2023-02-05 07:37:24 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 07:37:27 INFO  CheckOutServlet:48 - detail
+2023-02-05 07:37:28 INFO  CheckOutServlet:48 - payment
+2023-02-05 07:38:21 INFO  CheckOutServlet:48 - confirm
+2023-02-05 07:38:28 INFO  OrderServlet:58 - submitOrder
+2023-02-05 07:44:26 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:44:28 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:44:32 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:44:35 INFO  CartServlet:38 - increase - 40
+2023-02-05 07:44:36 INFO  CartServlet:38 - increase - 40
+2023-02-05 07:44:38 INFO  CartServlet:38 - increase - 34
+2023-02-05 07:44:39 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 07:44:41 INFO  CheckOutServlet:48 - detail
+2023-02-05 07:44:45 INFO  CheckOutServlet:48 - payment
+2023-02-05 07:45:35 INFO  CheckOutServlet:48 - confirm
+2023-02-05 07:45:43 INFO  OrderServlet:58 - submitOrder
+2023-02-05 07:51:24 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:51:26 INFO  IndexServlet:33 - Get Home
+2023-02-05 07:51:32 INFO  CartServlet:38 - increase - 31
+2023-02-05 07:51:33 INFO  CartServlet:38 - increase - 31
+2023-02-05 07:51:35 INFO  CartServlet:38 - increase - 27
+2023-02-05 07:51:36 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 07:51:40 INFO  CheckOutServlet:48 - detail
+2023-02-05 07:51:42 INFO  CheckOutServlet:48 - payment
+2023-02-05 07:52:36 INFO  CheckOutServlet:48 - confirm
+2023-02-05 07:52:43 INFO  OrderServlet:58 - submitOrder
+2023-02-05 08:00:29 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:00:31 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:00:35 INFO  CartServlet:38 - increase - 40
+2023-02-05 08:00:36 INFO  CartServlet:38 - increase - 37
+2023-02-05 08:00:37 INFO  CartServlet:38 - increase - 37
+2023-02-05 08:00:39 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 08:00:42 INFO  CheckOutServlet:48 - detail
+2023-02-05 08:00:46 INFO  CheckOutServlet:48 - payment
+2023-02-05 08:01:23 INFO  CheckOutServlet:48 - confirm
+2023-02-05 08:05:12 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:05:22 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:05:26 INFO  CartServlet:38 - increase - 40
+2023-02-05 08:05:27 INFO  CartServlet:38 - increase - 41
+2023-02-05 08:05:28 INFO  CartServlet:38 - increase - 40
+2023-02-05 08:05:30 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 08:05:31 INFO  CheckOutServlet:48 - detail
+2023-02-05 08:05:33 INFO  CheckOutServlet:48 - payment
+2023-02-05 08:06:06 INFO  CheckOutServlet:48 - confirm
+2023-02-05 08:06:36 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:06:36 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:06:41 INFO  CartServlet:38 - increase - 40
+2023-02-05 08:06:42 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 08:06:44 INFO  CheckOutServlet:48 - detail
+2023-02-05 08:06:46 INFO  CheckOutServlet:48 - payment
+2023-02-05 08:07:18 INFO  CheckOutServlet:48 - confirm
+2023-02-05 08:12:48 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:12:56 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:13:00 INFO  CartServlet:38 - increase - 35
+2023-02-05 08:13:01 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 08:13:03 INFO  CheckOutServlet:48 - detail
+2023-02-05 08:13:05 INFO  CheckOutServlet:48 - payment
+2023-02-05 08:13:33 INFO  CheckOutServlet:48 - confirm
+2023-02-05 08:28:28 INFO  OrderServlet:58 - submitOrder
+2023-02-05 08:33:50 INFO  OrderServlet:58 - submitOrder
+2023-02-05 08:35:38 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:35:40 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:35:44 INFO  CartServlet:38 - increase - 40
+2023-02-05 08:35:45 INFO  CartServlet:38 - increase - 40
+2023-02-05 08:35:45 INFO  CartServlet:38 - increase - 40
+2023-02-05 08:35:46 INFO  CartServlet:38 - increase - 37
+2023-02-05 08:35:50 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 08:35:53 INFO  CheckOutServlet:48 - detail
+2023-02-05 08:35:55 INFO  CheckOutServlet:48 - payment
+2023-02-05 08:37:44 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:37:46 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:37:54 INFO  ProductlServlet:37 - search
+2023-02-05 08:37:59 INFO  CartServlet:38 - increase - 1
+2023-02-05 08:38:01 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 08:38:09 INFO  CheckOutServlet:48 - detail
+2023-02-05 08:38:11 INFO  CheckOutServlet:48 - payment
+2023-02-05 08:39:48 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:39:55 INFO  ProductlServlet:37 - search
+2023-02-05 08:39:57 INFO  CartServlet:38 - increase - 1
+2023-02-05 08:39:58 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 08:40:00 INFO  CheckOutServlet:48 - detail
+2023-02-05 08:40:01 INFO  CheckOutServlet:48 - payment
+2023-02-05 08:40:59 INFO  CheckOutServlet:48 - confirm
+2023-02-05 08:41:08 INFO  OrderServlet:58 - submitOrder
+2023-02-05 08:45:42 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:45:43 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:46:16 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:46:18 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:46:24 INFO  CartServlet:38 - increase - 35
+2023-02-05 08:46:25 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 08:46:27 INFO  CheckOutServlet:48 - detail
+2023-02-05 08:46:29 INFO  CheckOutServlet:48 - payment
+2023-02-05 08:47:10 INFO  CheckOutServlet:48 - confirm
+2023-02-05 08:47:20 INFO  OrderServlet:58 - submitOrder
+2023-02-05 08:50:24 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:50:25 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:50:29 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:50:32 INFO  CartServlet:38 - increase - 36
+2023-02-05 08:50:35 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 08:50:36 INFO  CheckOutServlet:48 - detail
+2023-02-05 08:50:39 INFO  CheckOutServlet:48 - payment
+2023-02-05 08:51:15 INFO  CheckOutServlet:48 - confirm
+2023-02-05 08:53:42 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:53:44 INFO  IndexServlet:33 - Get Home
+2023-02-05 08:53:49 INFO  CartServlet:38 - increase - 42
+2023-02-05 08:53:50 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 08:53:52 INFO  CheckOutServlet:48 - detail
+2023-02-05 08:53:54 INFO  CheckOutServlet:48 - payment
+2023-02-05 08:54:27 INFO  CheckOutServlet:48 - confirm
+2023-02-05 09:09:49 INFO  IndexServlet:33 - Get Home
+2023-02-05 09:09:51 INFO  IndexServlet:33 - Get Home
+2023-02-05 09:09:56 INFO  CartServlet:38 - increase - 40
+2023-02-05 09:09:57 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 09:09:58 INFO  CheckOutServlet:48 - detail
+2023-02-05 09:10:00 INFO  CheckOutServlet:48 - payment
+2023-02-05 09:10:39 INFO  CheckOutServlet:48 - confirm
+2023-02-05 10:17:35 INFO  IndexServlet:33 - Get Home
+2023-02-05 10:17:37 INFO  IndexServlet:33 - Get Home
+2023-02-05 10:17:41 INFO  IndexServlet:33 - Get Home
+2023-02-05 10:17:44 INFO  IndexServlet:33 - Get Home
+2023-02-05 10:17:49 INFO  CartServlet:38 - increase - 31
+2023-02-05 10:17:50 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 10:17:52 INFO  CheckOutServlet:48 - detail
+2023-02-05 10:17:53 INFO  CheckOutServlet:48 - payment
+2023-02-05 10:18:34 INFO  CheckOutServlet:48 - confirm
+2023-02-05 10:20:50 INFO  OrderServlet:58 - submitOrder
+2023-02-05 10:30:08 INFO  IndexServlet:33 - Get Home
+2023-02-05 10:30:10 INFO  IndexServlet:33 - Get Home
+2023-02-05 10:30:20 INFO  CartServlet:38 - increase - 39
+2023-02-05 10:30:25 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 10:30:26 INFO  CheckOutServlet:48 - detail
+2023-02-05 10:30:28 INFO  CheckOutServlet:48 - payment
+2023-02-05 10:31:28 INFO  CheckOutServlet:48 - confirm
+2023-02-05 10:34:40 INFO  IndexServlet:33 - Get Home
+2023-02-05 10:34:42 INFO  IndexServlet:33 - Get Home
+2023-02-05 10:34:56 INFO  CartServlet:38 - increase - 37
+2023-02-05 10:34:57 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 10:34:59 INFO  CheckOutServlet:48 - detail
+2023-02-05 10:35:01 INFO  CheckOutServlet:48 - payment
+2023-02-05 10:36:56 INFO  IndexServlet:33 - Get Home
+2023-02-05 10:36:58 INFO  IndexServlet:33 - Get Home
+2023-02-05 10:37:04 INFO  CartServlet:38 - increase - 30
+2023-02-05 10:37:05 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 10:37:07 INFO  CheckOutServlet:48 - detail
+2023-02-05 10:37:09 INFO  CheckOutServlet:48 - payment
+2023-02-05 10:37:44 INFO  CheckOutServlet:48 - payment
+2023-02-05 10:37:51 INFO  CheckOutServlet:48 - detail
+2023-02-05 10:37:58 INFO  CheckOutServlet:48 - payment
+2023-02-05 10:52:10 INFO  IndexServlet:33 - Get Home
+2023-02-05 10:52:28 INFO  IndexServlet:33 - Get Home
+2023-02-05 10:52:38 INFO  CartServlet:38 - increase - 39
+2023-02-05 10:52:39 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 10:52:41 INFO  CheckOutServlet:48 - detail
+2023-02-05 10:52:43 INFO  CheckOutServlet:48 - payment
+2023-02-05 10:53:19 INFO  CheckOutServlet:48 - confirm
+2023-02-05 11:23:09 INFO  IndexServlet:33 - Get Home
+2023-02-05 11:23:11 INFO  IndexServlet:33 - Get Home
+2023-02-05 11:23:21 INFO  CartServlet:38 - increase - 39
+2023-02-05 11:23:24 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 11:23:26 INFO  CheckOutServlet:48 - detail
+2023-02-05 11:23:27 INFO  CheckOutServlet:48 - payment
+2023-02-05 11:24:11 INFO  CheckOutServlet:48 - confirm
+2023-02-05 11:24:35 INFO  OrderServlet:58 - submitOrder
+2023-02-05 11:29:44 INFO  IndexServlet:33 - Get Home
+2023-02-05 11:29:46 INFO  IndexServlet:33 - Get Home
+2023-02-05 11:29:49 INFO  CartServlet:38 - increase - 39
+2023-02-05 11:29:50 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 11:29:51 INFO  CheckOutServlet:48 - detail
+2023-02-05 11:29:53 INFO  CheckOutServlet:48 - payment
+2023-02-05 11:30:44 INFO  CheckOutServlet:48 - confirm
+2023-02-05 11:51:59 INFO  IndexServlet:33 - Get Home
+2023-02-05 11:52:01 INFO  IndexServlet:33 - Get Home
+2023-02-05 11:52:05 INFO  CartServlet:38 - increase - 41
+2023-02-05 11:52:06 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 11:52:08 INFO  CheckOutServlet:47 - detail
+2023-02-05 11:52:10 INFO  CheckOutServlet:47 - payment
+2023-02-05 11:52:55 INFO  CheckOutServlet:47 - confirm
+2023-02-05 12:29:46 INFO  IndexServlet:33 - Get Home
+2023-02-05 12:29:48 INFO  IndexServlet:33 - Get Home
+2023-02-05 12:29:55 INFO  CartServlet:38 - increase - 41
+2023-02-05 12:29:56 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 12:29:57 INFO  CheckOutServlet:47 - detail
+2023-02-05 12:29:59 INFO  CheckOutServlet:47 - payment
+2023-02-05 12:30:29 INFO  CheckOutServlet:47 - confirm
+2023-02-05 12:31:02 INFO  OrderServlet:58 - submitOrder
+2023-02-05 16:15:16 INFO  IndexServlet:33 - Get Home
+2023-02-05 16:15:18 INFO  IndexServlet:33 - Get Home
+2023-02-05 16:15:21 INFO  CartServlet:38 - increase - 41
+2023-02-05 16:15:34 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 16:15:35 INFO  CheckOutServlet:47 - detail
+2023-02-05 16:15:37 INFO  CheckOutServlet:47 - payment
+2023-02-05 16:16:19 INFO  CheckOutServlet:47 - confirm
+2023-02-05 16:48:50 INFO  IndexServlet:33 - Get Home
+2023-02-05 16:48:52 INFO  IndexServlet:33 - Get Home
+2023-02-05 16:48:56 INFO  CartServlet:38 - increase - 41
+2023-02-05 16:49:00 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 16:49:09 INFO  CheckOutServlet:47 - detail
+2023-02-05 16:49:12 INFO  CheckOutServlet:47 - payment
+2023-02-05 16:49:49 INFO  CheckOutServlet:47 - confirm
+2023-02-05 17:22:05 INFO  IndexServlet:33 - Get Home
+2023-02-05 17:22:07 INFO  IndexServlet:33 - Get Home
+2023-02-05 17:22:11 INFO  CartServlet:38 - increase - 41
+2023-02-05 17:22:32 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 17:22:35 INFO  CheckOutServlet:47 - detail
+2023-02-05 17:22:37 INFO  CheckOutServlet:47 - payment
+2023-02-05 17:23:21 INFO  CheckOutServlet:47 - confirm
+2023-02-05 17:30:51 INFO  IndexServlet:33 - Get Home
+2023-02-05 17:30:53 INFO  IndexServlet:33 - Get Home
+2023-02-05 17:31:01 INFO  CartServlet:38 - increase - 41
+2023-02-05 17:31:08 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 17:31:10 INFO  CheckOutServlet:47 - detail
+2023-02-05 17:31:12 INFO  CheckOutServlet:47 - payment
+2023-02-05 17:31:51 INFO  CheckOutServlet:47 - confirm
+2023-02-05 17:39:42 INFO  IndexServlet:33 - Get Home
+2023-02-05 17:39:44 INFO  IndexServlet:33 - Get Home
+2023-02-05 17:39:47 INFO  CartServlet:38 - increase - 41
+2023-02-05 17:39:55 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 17:39:58 INFO  CheckOutServlet:47 - detail
+2023-02-05 17:40:00 INFO  CheckOutServlet:47 - payment
+2023-02-05 17:40:38 INFO  CheckOutServlet:47 - confirm
+2023-02-05 17:42:58 INFO  IndexServlet:33 - Get Home
+2023-02-05 17:42:59 INFO  IndexServlet:33 - Get Home
+2023-02-05 17:43:04 INFO  CartServlet:38 - increase - 41
+2023-02-05 17:43:05 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 17:43:11 INFO  CheckOutServlet:47 - detail
+2023-02-05 17:43:13 INFO  CheckOutServlet:47 - payment
+2023-02-05 17:44:30 INFO  CheckOutServlet:47 - confirm
+2023-02-05 17:48:41 INFO  IndexServlet:33 - Get Home
+2023-02-05 17:48:43 INFO  IndexServlet:33 - Get Home
+2023-02-05 17:48:53 INFO  CartServlet:38 - increase - 41
+2023-02-05 17:48:59 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 17:49:02 INFO  CheckOutServlet:47 - detail
+2023-02-05 17:49:04 INFO  CheckOutServlet:47 - payment
+2023-02-05 17:49:35 INFO  CheckOutServlet:47 - confirm
+2023-02-05 17:49:44 INFO  OrderServlet:58 - submitOrder
+2023-02-05 17:50:24 INFO  IndexServlet:33 - Get Home
+2023-02-05 17:50:26 INFO  OrderServlet:58 - getTrackOrderForm
+2023-02-05 17:50:30 INFO  OrderServlet:58 - trackOrder
+2023-02-05 17:50:34 INFO  OrderServlet:58 - trackOrder
+2023-02-05 17:51:35 INFO  OrderServlet:58 - getTrackOrderForm
+2023-02-05 17:51:42 INFO  OrderServlet:58 - trackOrder
+2023-02-05 17:53:27 INFO  OrderServlet:58 - trackOrder
+2023-02-05 17:53:30 INFO  OrderServlet:58 - viewOrderDetail
+2023-02-05 18:18:35 INFO  IndexServlet:33 - Get Home
+2023-02-05 18:23:19 INFO  IndexServlet:33 - Get Home
+2023-02-05 18:23:21 INFO  IndexServlet:33 - Get Home
+2023-02-05 18:23:33 INFO  CartServlet:38 - increase - 42
+2023-02-05 18:23:34 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 18:23:36 INFO  CheckOutServlet:47 - detail
+2023-02-05 18:23:38 INFO  CheckOutServlet:47 - payment
+2023-02-05 18:24:15 INFO  CheckOutServlet:47 - confirm
+2023-02-05 18:26:27 INFO  IndexServlet:33 - Get Home
+2023-02-05 18:26:28 INFO  IndexServlet:33 - Get Home
+2023-02-05 18:26:44 INFO  CartServlet:38 - increase - 41
+2023-02-05 18:26:46 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 18:26:48 INFO  CheckOutServlet:47 - detail
+2023-02-05 18:26:50 INFO  CheckOutServlet:47 - payment
+2023-02-05 18:27:25 INFO  CheckOutServlet:47 - confirm
+2023-02-05 18:40:10 INFO  IndexServlet:33 - Get Home
+2023-02-05 18:40:12 INFO  IndexServlet:33 - Get Home
+2023-02-05 18:40:15 INFO  CartServlet:38 - increase - 41
+2023-02-05 18:40:16 INFO  CartServlet:38 - increase - 41
+2023-02-05 18:40:17 INFO  CartServlet:38 - increase - 41
+2023-02-05 18:40:18 INFO  CartServlet:38 - increase - 38
+2023-02-05 18:40:19 INFO  CartServlet:38 - increase - 34
+2023-02-05 18:40:20 INFO  CartServlet:38 - increase - 28
+2023-02-05 18:40:21 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 18:40:26 INFO  CheckOutServlet:47 - detail
+2023-02-05 18:40:29 INFO  CheckOutServlet:47 - payment
+2023-02-05 18:41:21 INFO  CheckOutServlet:47 - confirm
+2023-02-05 18:42:27 INFO  OrderServlet:58 - submitOrder
+2023-02-05 18:57:48 INFO  IndexServlet:33 - Get Home
+2023-02-05 18:57:50 INFO  IndexServlet:33 - Get Home
+2023-02-05 19:02:45 INFO  IndexServlet:33 - Get Home
+2023-02-05 19:02:47 INFO  IndexServlet:33 - Get Home
+2023-02-05 19:02:55 INFO  CartServlet:38 - increase - 40
+2023-02-05 19:02:56 INFO  CartServlet:38 - increase - 41
+2023-02-05 19:02:56 INFO  CartServlet:38 - increase - 41
+2023-02-05 19:02:58 INFO  CartServlet:38 - increase - 41
+2023-02-05 19:02:59 INFO  CartServlet:38 - increase - 34
+2023-02-05 19:03:00 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 19:03:07 INFO  CheckOutServlet:47 - detail
+2023-02-05 19:03:10 INFO  CheckOutServlet:47 - payment
+2023-02-05 19:04:34 INFO  CheckOutServlet:47 - payment
+2023-02-05 19:05:47 INFO  CheckOutServlet:47 - payment
+2023-02-05 19:07:39 INFO  CheckOutServlet:47 - payment
+2023-02-05 19:07:54 INFO  CheckOutServlet:47 - payment
+2023-02-05 19:08:13 INFO  CheckOutServlet:47 - payment
+2023-02-05 19:09:40 INFO  CheckOutServlet:47 - confirm
+2023-02-05 19:13:30 INFO  OrderServlet:57 - submitOrder
+2023-02-05 19:13:50 INFO  IndexServlet:33 - Get Home
+2023-02-05 19:14:11 INFO  ProductlServlet:37 - search
+2023-02-05 19:17:10 INFO  IndexServlet:33 - Get Home
+2023-02-05 19:17:12 INFO  IndexServlet:33 - Get Home
+2023-02-05 19:17:18 INFO  CartServlet:38 - increase - 34
+2023-02-05 19:17:19 INFO  CartServlet:38 - increase - 35
+2023-02-05 19:17:21 INFO  CartServlet:38 - increase - 34
+2023-02-05 19:17:22 INFO  CartServlet:38 - increase - 36
+2023-02-05 19:17:22 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 19:17:30 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 19:17:37 INFO  CheckOutServlet:47 - detail
+2023-02-05 19:17:44 INFO  CheckOutServlet:47 - payment
+2023-02-05 19:19:09 INFO  CheckOutServlet:47 - confirm
+2023-02-05 19:20:04 INFO  CheckOutServlet:47 - confirm
+2023-02-05 19:20:40 INFO  CheckOutServlet:47 - confirm
+2023-02-05 19:23:27 INFO  IndexServlet:33 - Get Home
+2023-02-05 19:23:33 INFO  CartServlet:38 - increase - 29
+2023-02-05 19:23:34 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 19:23:36 INFO  CheckOutServlet:47 - detail
+2023-02-05 19:23:38 INFO  CheckOutServlet:47 - payment
+2023-02-05 19:24:46 INFO  CheckOutServlet:47 - confirm
+2023-02-05 19:25:13 INFO  OrderServlet:57 - submitOrder
+2023-02-05 19:26:29 INFO  OrderServlet:57 - submitOrder
+2023-02-05 19:45:06 INFO  IndexServlet:33 - Get Home
+2023-02-05 19:45:08 INFO  IndexServlet:33 - Get Home
+2023-02-05 19:45:21 INFO  CartServlet:38 - increase - 40
+2023-02-05 19:45:22 INFO  CartServlet:38 - increase - 41
+2023-02-05 19:45:23 INFO  CartServlet:38 - increase - 40
+2023-02-05 19:45:24 INFO  CartServlet:38 - increase - 37
+2023-02-05 19:45:25 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 19:45:27 INFO  CheckOutServlet:48 - detail
+2023-02-05 19:45:29 INFO  CheckOutServlet:48 - payment
+2023-02-05 20:02:23 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:02:25 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:02:33 INFO  CartServlet:38 - increase - 28
+2023-02-05 20:02:35 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 20:02:36 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:02:38 INFO  AuthenticationServlet:36 - getLoginForm
+2023-02-05 20:02:39 INFO  AuthenticationServlet:36 - login
+2023-02-05 20:02:41 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:02:43 INFO  CheckOutServlet:49 - payment
+2023-02-05 20:03:48 INFO  CheckOutServlet:49 - confirm
+2023-02-05 20:06:21 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:06:23 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:06:30 INFO  CartServlet:38 - increase - 27
+2023-02-05 20:06:31 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 20:06:33 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:06:35 INFO  AuthenticationServlet:36 - getLoginForm
+2023-02-05 20:06:36 INFO  AuthenticationServlet:36 - login
+2023-02-05 20:06:38 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:06:40 INFO  CheckOutServlet:49 - payment
+2023-02-05 20:07:19 INFO  CheckOutServlet:49 - confirm
+2023-02-05 20:08:26 INFO  CheckOutServlet:49 - confirm
+2023-02-05 20:18:04 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:18:05 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:18:09 INFO  CheckOutServlet:49 - confirm
+2023-02-05 20:18:34 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:18:44 INFO  CartServlet:38 - increase - 40
+2023-02-05 20:18:46 INFO  CartServlet:38 - increase - 40
+2023-02-05 20:18:49 INFO  CartServlet:38 - increase - 29
+2023-02-05 20:18:50 INFO  CartServlet:38 - increase - 28
+2023-02-05 20:18:50 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 20:18:53 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:18:56 INFO  AuthenticationServlet:36 - getLoginForm
+2023-02-05 20:18:57 INFO  AuthenticationServlet:36 - login
+2023-02-05 20:19:00 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:19:03 INFO  CheckOutServlet:49 - payment
+2023-02-05 20:20:08 INFO  CheckOutServlet:49 - confirm
+2023-02-05 20:20:35 INFO  OrderServlet:57 - submitOrder
+2023-02-05 20:21:37 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:21:41 INFO  UserAccountServlet:35 - viewOrders
+2023-02-05 20:21:43 INFO  OrderServlet:57 - viewOrderDetail
+2023-02-05 20:21:47 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:21:51 INFO  AuthenticationServlet:36 - logout
+2023-02-05 20:21:51 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:21:56 INFO  CartServlet:38 - increase - 33
+2023-02-05 20:21:57 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 20:22:00 INFO  CartServlet:38 - increase - 33
+2023-02-05 20:22:01 INFO  CartServlet:38 - increase - 33
+2023-02-05 20:22:02 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:22:04 INFO  CheckOutServlet:49 - payment
+2023-02-05 20:22:49 INFO  CheckOutServlet:49 - confirm
+2023-02-05 20:26:38 INFO  OrderServlet:57 - submitOrder
+2023-02-05 20:26:45 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:26:52 INFO  CartServlet:38 - increase - 29
+2023-02-05 20:26:52 INFO  CartServlet:38 - increase - 30
+2023-02-05 20:26:54 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 20:27:06 INFO  CartServlet:38 - increase - 30
+2023-02-05 20:27:07 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:27:45 INFO  CheckOutServlet:49 - payment
+2023-02-05 20:30:27 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:30:29 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:30:35 INFO  CartServlet:38 - increase - 40
+2023-02-05 20:30:38 INFO  CartServlet:38 - increase - 40
+2023-02-05 20:30:39 INFO  CartServlet:38 - increase - 41
+2023-02-05 20:30:40 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 20:30:42 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:30:45 INFO  CheckOutServlet:49 - payment
+2023-02-05 20:32:02 INFO  CheckOutServlet:49 - confirm
+2023-02-05 20:32:33 INFO  OrderServlet:57 - submitOrder
+2023-02-05 20:33:32 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:33:37 INFO  CartServlet:38 - increase - 28
+2023-02-05 20:33:39 INFO  CartServlet:38 - increase - 27
+2023-02-05 20:33:40 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 20:33:42 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:33:44 INFO  AuthenticationServlet:36 - getLoginForm
+2023-02-05 20:33:45 INFO  AuthenticationServlet:36 - login
+2023-02-05 20:33:47 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:33:50 INFO  CheckOutServlet:49 - payment
+2023-02-05 20:34:50 INFO  CheckOutServlet:49 - confirm
+2023-02-05 20:40:25 INFO  OrderServlet:57 - submitOrder
+2023-02-05 20:40:31 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:41:06 INFO  CartServlet:38 - increase - 32
+2023-02-05 20:41:07 INFO  CartServlet:38 - increase - 29
+2023-02-05 20:41:08 INFO  CartServlet:38 - increase - 30
+2023-02-05 20:41:10 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 20:41:12 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:41:14 INFO  AuthenticationServlet:36 - logout
+2023-02-05 20:41:14 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:41:16 INFO  CheckOutServlet:49 - payment
+2023-02-05 20:42:36 INFO  CheckOutServlet:49 - confirm
+2023-02-05 20:45:03 INFO  OrderServlet:57 - submitOrder
+2023-02-05 20:45:52 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:50:49 INFO  CartServlet:38 - increase - 32
+2023-02-05 20:50:50 INFO  CartServlet:38 - increase - 32
+2023-02-05 20:50:51 INFO  CartServlet:38 - increase - 32
+2023-02-05 20:50:52 INFO  CartServlet:38 - increase - 32
+2023-02-05 20:50:54 INFO  AuthenticationServlet:36 - getLoginForm
+2023-02-05 20:50:55 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 20:50:56 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:50:58 INFO  CheckOutServlet:49 - payment
+2023-02-05 20:52:10 INFO  CheckOutServlet:49 - confirm
+2023-02-05 20:56:46 INFO  OrderServlet:57 - submitOrder
+2023-02-05 20:57:52 INFO  IndexServlet:33 - Get Home
+2023-02-05 20:57:56 INFO  CartServlet:38 - increase - 29
+2023-02-05 20:57:57 INFO  CartServlet:38 - increase - 29
+2023-02-05 20:57:58 INFO  CartServlet:38 - increase - 29
+2023-02-05 20:57:59 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 20:58:08 INFO  CheckOutServlet:49 - detail
+2023-02-05 20:58:11 INFO  CheckOutServlet:49 - payment
+2023-02-05 20:59:20 INFO  CheckOutServlet:49 - confirm
+2023-02-05 21:05:28 INFO  IndexServlet:33 - Get Home
+2023-02-05 21:05:41 INFO  CartServlet:38 - increase - 36
+2023-02-05 21:05:43 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 21:05:48 INFO  OrderServlet:57 - submitOrder
+2023-02-05 21:06:09 INFO  CheckOutServlet:49 - detail
+2023-02-05 21:06:11 INFO  CheckOutServlet:49 - payment
+2023-02-05 21:07:32 INFO  CheckOutServlet:49 - confirm
+2023-02-05 21:08:06 INFO  OrderServlet:57 - submitOrder
+2023-02-05 21:08:16 INFO  IndexServlet:33 - Get Home
+2023-02-05 21:08:21 INFO  CartServlet:38 - increase - 40
+2023-02-05 21:08:22 INFO  CartServlet:38 - increase - 41
+2023-02-05 21:08:22 INFO  CartServlet:38 - increase - 42
+2023-02-05 21:08:23 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 21:08:26 INFO  CheckOutServlet:49 - detail
+2023-02-05 21:08:28 INFO  CheckOutServlet:49 - payment
+2023-02-05 21:09:36 INFO  CheckOutServlet:49 - confirm
+2023-02-05 21:09:48 INFO  OrderServlet:57 - submitOrder
+2023-02-05 21:10:50 INFO  IndexServlet:33 - Get Home
+2023-02-05 21:10:58 INFO  IndexServlet:33 - Get Home
+2023-02-05 21:11:06 INFO  CartServlet:38 - increase - 29
+2023-02-05 21:11:07 INFO  CartServlet:38 - increase - 30
+2023-02-05 21:11:08 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 21:11:09 INFO  CheckOutServlet:49 - detail
+2023-02-05 21:11:11 INFO  CheckOutServlet:49 - payment
+2023-02-05 21:11:58 INFO  CheckOutServlet:49 - confirm
+2023-02-05 21:12:53 INFO  OrderServlet:57 - submitOrder
+2023-02-05 21:13:23 INFO  IndexServlet:33 - Get Home
+2023-02-05 21:16:49 INFO  IndexServlet:33 - Get Home
+2023-02-05 21:16:52 INFO  IndexServlet:33 - Get Home
+2023-02-05 21:17:45 INFO  CartServlet:38 - increase - 42
+2023-02-05 21:17:46 INFO  CartServlet:38 - increase - 39
+2023-02-05 21:17:47 INFO  CartServlet:38 - increase - 36
+2023-02-05 21:17:49 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 21:18:05 INFO  CheckOutServlet:49 - detail
+2023-02-05 21:18:17 INFO  CheckOutServlet:49 - payment
+2023-02-05 21:19:34 INFO  CheckOutServlet:49 - confirm
+2023-02-05 21:19:44 INFO  OrderServlet:57 - submitOrder
+2023-02-05 21:19:52 INFO  IndexServlet:33 - Get Home
+2023-02-05 21:20:02 INFO  CartServlet:38 - increase - 41
+2023-02-05 21:20:03 INFO  CartServlet:38 - increase - 38
+2023-02-05 21:20:04 INFO  CartServlet:38 - increase - 35
+2023-02-05 21:20:05 INFO  CartServlet:38 - viewCart - viewCart
+2023-02-05 21:20:10 INFO  CheckOutServlet:49 - detail
+2023-02-05 21:20:12 INFO  CheckOutServlet:49 - payment
+2023-02-05 21:21:08 INFO  CheckOutServlet:49 - confirm

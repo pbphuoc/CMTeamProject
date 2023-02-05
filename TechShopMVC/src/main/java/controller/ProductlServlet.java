@@ -53,7 +53,7 @@ public class ProductlServlet extends HttpServlet {
 
 	private void getProductDetail(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			ProductDAO productDAO = new ProductDAO();
+			ProductDAO productDAO = ProductDAO.getProductDAO();
 			String id = request.getParameter("productID");
 			Product product = productDAO.getProductByID(id);
 			List<String> medias = productDAO.getAllMediaByProductID(id);
@@ -89,7 +89,7 @@ public class ProductlServlet extends HttpServlet {
 			String page = (request.getParameter("page") != null) ? request.getParameter("page")
 					: GlobalConstant.DEFAULT_PAGE;
 
-			ProductDAO productDAO = new ProductDAO();
+			ProductDAO productDAO = ProductDAO.getProductDAO();
 			Object[] listOfProductAndFilters = productDAO.searchProductByNameWithFilters(searchKeywords, brands,
 					categories, priceMin, priceMax, availabilities, sortBy, perPage, page);
 			List<Product> products = (List<Product>) listOfProductAndFilters[0];

@@ -112,7 +112,7 @@
 					<p class="subTotalPrice formattedPrice">${totalCost}</p>
 				</div>
 				<div id="checkOutNow">
-					<a href="Checkout?command=payment">
+					<a href="Checkout?command=detail">
 						<button>
 							<i class="fa-solid fa-dollar-sign"></i>Check Out Now
 						</button>

@@ -40,7 +40,7 @@ public class IndexServlet extends HttpServlet {
 
 	private void getIndexPage(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			ProductDAO productDAO = new ProductDAO();
+			ProductDAO productDAO = ProductDAO.getProductDAO();
 			List<Product> products = productDAO.getPopularProducts();
 			List<Brand> brands = productDAO.getAllBrands();
 			List<Category> categories = productDAO.getAllCategory();

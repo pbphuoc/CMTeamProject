@@ -18,7 +18,6 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
-<script src="${GlobalConstant.PAYPAL_API}" data-page-type="checkout"></script>
 <jsp:include page="${GlobalConstant.ALLREF_JSP}"></jsp:include>
 </head>
 <!-- body -->
@@ -47,7 +46,7 @@
 							<div class="form-row mb-3">
 								<div class="col">
 									<h1>Payment</h1>
-									<div id="paypal-button-container"></div>
+									<button class="btn btn-primary" onclick="location.href='Checkout?command=payment';">Proceed To Payment</button>
 								</div>
 							</div>
 						</div>
@@ -141,8 +140,6 @@
 	</div>
 
 	<jsp:include page="${GlobalConstant.ALLSCRIPT_JSP}"></jsp:include>
-	<script
-		src="${pageContext.request.contextPath}/js/paypal/paypal-api.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			formatPriceOnLoad();

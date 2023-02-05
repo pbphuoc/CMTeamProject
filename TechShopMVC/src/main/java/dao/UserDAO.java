@@ -18,6 +18,16 @@ public class UserDAO {
 	private static final String SELECT_USER_BY_EMAIL_AND_PASSWORD_SQL = "SELECT * FROM user WHERE email = ? AND password = ?;";
 	private static final String SELECT_SALT_BY_EMAIL_SQL = "SELECT salt FROM user WHERE email = ?;";
 
+	private static UserDAO userDAO;
+	
+	private UserDAO() {}
+	
+	public static UserDAO getUserDAO() {
+		if(userDAO == null)
+			userDAO = new UserDAO();
+		return userDAO;
+	}
+	
 	public User insertUser(String email, String password, String fullname, String mobile) {
 		Connection connection = Utility.getConnection();
 		PreparedStatement insertStm = null;

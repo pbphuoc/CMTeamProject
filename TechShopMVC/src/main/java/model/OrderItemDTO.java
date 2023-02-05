@@ -31,4 +31,8 @@ public class OrderItemDTO {
 	public String toString() {
 		return "OrderItemDTO [product=" + product + ", quantity=" + quantity + "]";
 	}
+	
+	public double getSubtotal() {
+		return product.getNewPrice() * quantity;
+	}
 }

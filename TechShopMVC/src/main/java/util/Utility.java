@@ -5,9 +5,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -16,9 +18,11 @@ import org.apache.logging.log4j.Logger;
 
 import constant.GlobalConstant;
 import controller.AuthenticationServlet;
+import model.OrderItemDTO;
 
 public class Utility {
 	private static final Logger logger = LogManager.getLogger(Utility.class);
+
 	public enum QueryResult {
 		SUCCESSFUL, UNSUCCESSFUL
 	}
@@ -30,13 +34,32 @@ public class Utility {
 		newPrevUrl = newPrevUrl.charAt(0) == '/' ? newPrevUrl.substring(1) : newPrevUrl;
 		return newPrevUrl;
 	}
-	
+
 	public static String convertYMDToDMY(String date) {
 		if (date.equalsIgnoreCase(""))
 			return date;
 
 		LocalDate originalFormat = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		return originalFormat.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));		
+		return originalFormat.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+	}
+
+	public static String get2DFPrice(double price) {
+		if (price == 0)
+			return "0.00";
+		DecimalFormat df = new DecimalFormat("#.00");
+		return df.format(price);
+	}
+
+	public static double calculateTotalCost(List<OrderItemDTO> items) {
+		double totalCost = 0;
+		for (OrderItemDTO item : items) {
+			totalCost += item.getSubtotal();
+		}
+		return totalCost;
+	}
+	
+	public static double calculateShippingCost(String address) {
+		return 0.5;
 	}
 
 	public static Connection getConnection() {
@@ -48,7 +71,7 @@ public class Utility {
 			logger.error(e.toString());
 		} catch (ClassNotFoundException e) {
 			logger.error(e.toString());
-		}catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			logger.error(e.toString());
 		}
 		return null;

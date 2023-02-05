@@ -70,7 +70,7 @@ public class CartServlet extends HttpServlet {
 
 	protected void getCartPage(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			ProductDAO cartDAO = new ProductDAO();
+			ProductDAO cartDAO = ProductDAO.getProductDAO();
 			HttpSession session = request.getSession();
 			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session
 					.getAttribute(GlobalConstant.CART_ITEM);

@@ -17,7 +17,6 @@ import entity.Category;
 import entity.Product;
 import model.SearchFilterDTO;
 import util.Utility;
-import util.Utility.QueryResult;
 import model.OrderItemDTO;
 
 public class ProductDAO {
@@ -31,7 +30,17 @@ public class ProductDAO {
 	private static final String SELECT_MEDIA_BY_PRODUCTID_SQL = "SELECT * FROM media where product_id = ?; ";
 	private static final String UPDATE_STOCK_BY_PRODUCTID_SQL = "UPDATE product SET stock = stock - ? WHERE id = ?;";
 
+	private static ProductDAO productDAO;
+	
 	private static final int MAX_LIMIT_SQL = 999999;
+	
+	private ProductDAO() {}
+	
+	public static ProductDAO getProductDAO() {
+		if(productDAO == null)
+			productDAO = new ProductDAO();
+		return productDAO;
+	}
 
 	public List<Product> getPopularProducts() {
 		List<Product> products = new ArrayList<Product>();
@@ -517,8 +526,6 @@ public class ProductDAO {
 		for (Map.Entry<String, Integer> cI : cartItems.entrySet()) {
 			Product product = getProductByID((String) cI.getKey());
 			int quantity = Math.min(product.getStock(), (int) cI.getValue());
-			System.out.println("Stock: " + product.getStock() + " - Quantity: " + (int) cI.getValue()
-					+ " - Order Quantity: " + quantity);
 			cartList.add(new OrderItemDTO(product, quantity));
 		}
 		return cartList;

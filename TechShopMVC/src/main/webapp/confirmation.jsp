@@ -26,10 +26,12 @@
 				<a href="Home"><img src="../images/logo.png" alt="#" /></a>
 			</div>
 			<div class="comfirmationOrderName ">
-				<h1>THANK YOU</h1>
-				<h2>Order ${not order.orderNumber.equals('') ? '#'+= order.orderNumber : ''}
-					${order.status}</h2>
-				<h3>${order.date}</h3>
+				<c:if test="${not empty order.orderNumber}">
+					<h1>THANK YOU</h1>
+				</c:if>
+				<h2>Order ${not empty order.orderNumber ? '#'+= order.orderNumber : ''}
+					${order.orderStatus}</h2>
+				<h3>${order.orderDate}</h3>
 			</div>
 
 		</div>
@@ -46,6 +48,24 @@
 							<input class="confirmationInput" name="checkOutEmail"
 								value="${order.checkOutEmail}" readonly>
 						</div>
+						<c:if test="${not empty order.checkOutFullname}">
+							<div class="confirmationDetail">
+								<p class="mb-0">
+									<b>Fullname</b>
+								</p>
+								<input class="confirmationInput" name="checkOutFullname"
+									value="${order.checkOutFullname}" readonly>
+							</div>
+						</c:if>
+						<c:if test="${not empty order.checkOutPhone}">
+							<div class="confirmationDetail">
+								<p class="mb-0">
+									<b>Phone Number</b>
+								</p>
+								<input class="confirmationInput" name="checkOutFullname"
+									value="${order.checkOutPhone}" readonly>
+							</div>
+						</c:if>						
 
 						<br>
 						<h1 class="confirmationTitle">Receiving information</h1>
@@ -62,7 +82,7 @@
 
 						<div class="confirmationDetail">
 							<p class="mb-0">
-								<b>Receiver Full Name</b>
+								<b>Recipient Full Name</b>
 							</p>
 							<input class="confirmationInput" name="receiverFullname"
 								value="${order.receiverFullname}" readonly>
@@ -70,14 +90,14 @@
 
 						<div class="confirmationDetail">
 							<p class="mb-0">
-								<b>Receiver Phone Number</b>
+								<b>Recipient Phone Number</b>
 							</p>
 							<input class="confirmationInput" name="receiverPhone"
 								value="${order.receiverPhone}" readonly>
 						</div>
 						<div class="confirmationDetail">
 							<p class="mb-0">
-								<b>Receiver Delivery Address</b>
+								<b>Recipient Address</b>
 							</p>
 							<input class="confirmationInput" name="receiverAddress"
 								value="${order.receiverAddress}" readonly>
@@ -105,10 +125,7 @@
 				</div>
 				<div class="card-body pt-0 reviewOrderDetail">
 					<h1 class="confirmationTitle">Detail</h1>
-					<c:set var="totalCost"></c:set>
 					<c:forEach var="item" items="${items}">
-						<c:set var="totalCost"
-							value="${totalCost + item.product.newPrice * item.quantity}"></c:set>
 						<div class="cartItemRow row justify-content-between">
 							<div class="col-auto col-md-7">
 								<div class="media flex-column flex-sm-row">
@@ -141,7 +158,7 @@
 									</p>
 								</div>
 								<div class="flex-sm-col col-auto">
-									<p class="mb-1 formattedPrice">${totalCost}</p>
+									<p class="mb-1 formattedPrice">${order.totalCost - order.shippingCost}</p>
 								</div>
 							</div>
 							<br>
@@ -153,7 +170,7 @@
 								</div>
 								<div class="flex-sm-col col-auto">
 									<p class="mb-1 shippingCost formattedPrice">
-										<b>${order.shipping}</b>
+										<b>${order.shippingCost}</b>
 									</p>
 								</div>
 							</div>
@@ -166,7 +183,7 @@
 								</div>
 								<div class="flex-sm-col col-auto">
 									<p class="mb-1 formattedPrice">
-										<b>${order.total}</b>
+										<b>${order.totalCost}</b>
 									</p>
 								</div>
 							</div>
@@ -175,10 +192,23 @@
 					</div>
 					<div class="row mb-5 mt-4 ">
 						<div class="col-md-7 col-lg-6 mx-auto">
-							<a href="Home"> <input
-								class="btn btn-primary ml-0 submitOrder" type="text"
-								value="Back To Home">
-							</a>
+							<c:if test="${not empty order.orderNumber}">
+								<a href="Home"> <input
+									class="btn btn-primary ml-0 submitOrder" type="button"
+									value="Back To Home">
+								</a>
+							</c:if>
+							<c:if test="${empty order.orderNumber}">
+								<form action="/Checkout" method="POST">
+									<input type="hidden" name="paymentId"
+										value="${param.paymentId}" /> <input type="hidden"
+										name="PayerID" value="${param.PayerID}" /> <input
+										type="hidden" name="command" value="submitOrder" /> <input
+										class="btn btn-primary ml-0 submitOrder" type="submit"
+										value="Place Order">
+								</form>
+							</c:if>
+
 						</div>
 					</div>
 				</div>

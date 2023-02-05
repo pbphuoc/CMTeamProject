@@ -49,13 +49,13 @@
 							  <tbody>
 							    <tr>
 							      <th scope="row">${order.orderNumber}</th>
-							      <td>${order.date}</td>
+							      <td>${order.orderDate}</td>
 							      <td>${order.checkOutEmail}</td>
 							      <td>${order.receiverFullname}</td>
 							      <td>${order.receiveMethod}</td>
 							      <td>${order.paymentType}</td>
-							      <td>${order.status}</td>
-							      <td>${order.total}</td>
+							      <td>${order.orderStatus}</td>
+							      <td>${order.totalCost}</td>
 							      <td><a class="btn btn-info" href="Order?command=viewOrderDetail&emailAddress=${order.checkOutEmail}&orderNumber=${order.orderNumber}">View</a></td>
 							    </tr>
 							  </tbody>						  
