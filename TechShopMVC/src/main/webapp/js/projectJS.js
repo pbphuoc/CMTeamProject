@@ -53,7 +53,7 @@ $('#paymentOptions input').change(function() {
 	$('#billingPhone').attr('required', $(this).attr('id') == 'payNowBtn');
 	$('#billingAddress').attr('required', $(this).attr('id') == 'payNowBtn');
 	$('#paymentMethod').attr('value', $(this).val());
-	//if ($(this).attr('id') == 'payOnPickupBtn')
+	
 });
 
 function setCookie(cname, cvalue, exdays) {
