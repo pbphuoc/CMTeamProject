@@ -7,6 +7,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -34,13 +35,12 @@ public class UserAccountFilter implements Filter {
 			boolean isUserAccountRequest = httpRequest.getRequestURI().equals(userAccountURI);
 
 			if (!isLoggedIn && isUserAccountRequest) {
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Auth?command=getLoginForm");
-				dispatcher.forward(request, response);
+				((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN);	
 			} else {
 				chain.doFilter(request, response);
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 }

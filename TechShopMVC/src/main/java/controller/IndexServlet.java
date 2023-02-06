@@ -33,9 +33,8 @@ public class IndexServlet extends HttpServlet {
 			logger.info("Get Home");
 			getIndexPage(request, response);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
-
 	}
 
 	private void getIndexPage(HttpServletRequest request, HttpServletResponse response) {
@@ -52,7 +51,7 @@ public class IndexServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.INDEX_JSP);
 			dispatcher.forward(request, response);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 

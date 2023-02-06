@@ -1,6 +1,6 @@
 package entity;
 
-import constant.GlobalConstant;
+import constant.StockStatusEnum;
 
 public class Product {
 	private String id;
@@ -72,16 +72,16 @@ public class Product {
 
 	public String getStockStatus() {
 		if (stock == 0)
-			return GlobalConstant.STOCKSTATUS_OUTOFSTOCK;
+			return StockStatusEnum.OUTOFSTOCK.toString();
 		else
-			return GlobalConstant.STOCKSTATUS_INSTOCK;
+			return StockStatusEnum.INSTOCK.toString();
 	}
 
 	public String getStockStatusDescription() {
 		if (stock == 0)
-			return GlobalConstant.AVAILABILITY_MAP.get(GlobalConstant.STOCKSTATUS_OUTOFSTOCK);
+			return StockStatusEnum.OUTOFSTOCK.getValue();
 		else
-			return GlobalConstant.AVAILABILITY_MAP.get(GlobalConstant.STOCKSTATUS_INSTOCK);
+			return StockStatusEnum.INSTOCK.getValue();
 	}
 
 	@Override

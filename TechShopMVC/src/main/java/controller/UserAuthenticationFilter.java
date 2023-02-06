@@ -49,7 +49,7 @@ public class UserAuthenticationFilter implements Filter {
 				dispatcher.forward(request, response);
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 }

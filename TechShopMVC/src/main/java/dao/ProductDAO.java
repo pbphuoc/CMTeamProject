@@ -15,11 +15,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import constant.GlobalConstant;
-import controller.CheckOutServlet;
+import constant.SortByEnum;
+import constant.StockStatusEnum;
 import entity.Brand;
 import entity.Category;
 import entity.Product;
-import model.SearchFilterDTO;
+import model.SearchFilter;
 import util.Utility;
 import model.OrderItemDTO;
 
@@ -35,13 +36,15 @@ public class ProductDAO {
 	private static final String UPDATE_STOCK_BY_PRODUCTID_SQL = "UPDATE product SET stock = stock - ? WHERE id = ?;";
 
 	private static ProductDAO productDAO;
-	
+	private static final Logger logger = LogManager.getLogger(ProductDAO.class);
+
 	private static final int MAX_LIMIT_SQL = 999999;
-	
-	private ProductDAO() {}
-	
+
+	private ProductDAO() {
+	}
+
 	public static ProductDAO getProductDAO() {
-		if(productDAO == null)
+		if (productDAO == null)
 			productDAO = new ProductDAO();
 		return productDAO;
 	}
@@ -69,10 +72,10 @@ public class ProductDAO {
 			}
 
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
-		}finally {
+			logger.error(e.getMessage());
+		} finally {
 			Utility.close(connection, selectStm, result);
 		}
 		return products;
@@ -88,37 +91,90 @@ public class ProductDAO {
 		return pagingMap;
 	}
 
-	public Map<String, SearchFilterDTO> getAllSearchFilterFromMap(Map<String, String> filterMap) {
-		Map<String, SearchFilterDTO> allFilters = new LinkedHashMap<String, SearchFilterDTO>();
-		for (Entry entry : filterMap.entrySet()) {
-			allFilters.put((String) entry.getKey(),
-					new SearchFilterDTO((String) entry.getKey(), (String) entry.getValue()));
-		}
-		return allFilters;
+	public Map<String, SearchFilter> loadStockStatusFilter() {
+		return new LinkedHashMap<String, SearchFilter>() {
+			{
+				put(StockStatusEnum.INSTOCK.toString(),
+						new SearchFilter(StockStatusEnum.INSTOCK.toString(), StockStatusEnum.INSTOCK.getValue()));
+				put(StockStatusEnum.OUTOFSTOCK.toString(),
+						new SearchFilter(StockStatusEnum.OUTOFSTOCK.toString(), StockStatusEnum.OUTOFSTOCK.getValue()));
+			}
+		};
 	}
 
-	public Map<String, SearchFilterDTO> getAllSearchFilterFromDB(String query) {
-		Map<String, SearchFilterDTO> filters = new LinkedHashMap<String, SearchFilterDTO>();
+//	public Map<String, SearchFilter> loadResultPerPage() {
+//		return new LinkedHashMap<String, SearchFilter>() {
+//			{		
+//				put(ResultPerPageEnum.SHOW16.toString(), new SearchFilter(ResultPerPageEnum.SHOW16.toString(), ResultPerPageEnum.SHOW16.getValue()));
+//				put(ResultPerPageEnum.SHOW32.toString(), new SearchFilter(ResultPerPageEnum.SHOW32.toString(), ResultPerPageEnum.SHOW32.getValue()));
+//				put(ResultPerPageEnum.SHOW64.toString(), new SearchFilter(ResultPerPageEnum.SHOW64.toString(), ResultPerPageEnum.SHOW64.getValue()));
+//				put(ResultPerPageEnum.SHOW128.toString(), new SearchFilter(ResultPerPageEnum.SHOW128.toString(), ResultPerPageEnum.SHOW128.getValue()));
+//			}
+//		};
+//	}
+
+	public Map<String, String> loadResultPerPage() {
+		return new LinkedHashMap<String, String>() {
+			{
+				for (Integer resultPerPage : GlobalConstant.RESULT_PER_PAGE_LIST) {
+					put(resultPerPage + "", "");
+				}
+			}
+		};
+	}
+
+//	public Map<String, SearchFilter> loadSortBy() {
+//		return new LinkedHashMap<String, SearchFilter>() {
+//			{			
+//				put(SortByEnum.RELEVANCY.toString(), new SearchFilter(SortByEnum.RELEVANCY.toString(), SortByEnum.RELEVANCY.getValue()));
+//				put(SortByEnum.PRICELOWTOHIGH.toString(), new SearchFilter(SortByEnum.PRICELOWTOHIGH.toString(), SortByEnum.PRICELOWTOHIGH.getValue()));
+//				put(SortByEnum.PRICEHIGHTOLOW.toString(), new SearchFilter(SortByEnum.PRICEHIGHTOLOW.toString(), SortByEnum.PRICEHIGHTOLOW.getValue()));
+//				put(SortByEnum.NAMEATOZ.toString(), new SearchFilter(SortByEnum.NAMEATOZ.toString(), SortByEnum.NAMEATOZ.getValue()));
+//				put(SortByEnum.NAMEZTOA.toString(), new SearchFilter(SortByEnum.NAMEZTOA.toString(), SortByEnum.NAMEZTOA.getValue()));
+//				put(SortByEnum.OLDTONEW.toString(), new SearchFilter(SortByEnum.OLDTONEW.toString(), SortByEnum.OLDTONEW.getValue()));
+//				put(SortByEnum.NEWTOOLD.toString(), new SearchFilter(SortByEnum.NEWTOOLD.toString(), SortByEnum.NEWTOOLD.getValue()));
+//			}
+//		};
+//	}		
+
+	public Map<String, String> loadSortBy() {
+		return new LinkedHashMap<String, String>() {
+			{
+				put(SortByEnum.RELEVANCY.toString(), "");
+				put(SortByEnum.PRICELOWTOHIGH.toString(), "");
+				put(SortByEnum.PRICEHIGHTOLOW.toString(), "");
+				put(SortByEnum.NAMEATOZ.toString(), "");
+				put(SortByEnum.NAMEZTOA.toString(), "");
+				put(SortByEnum.OLDTONEW.toString(), "");
+				put(SortByEnum.NEWTOOLD.toString(), "");
+			}
+		};
+	}
+
+	public Map<String, SearchFilter> loadSearchFilterFromDB(String query) {
+		Map<String, SearchFilter> filters = new LinkedHashMap<String, SearchFilter>();
 		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
+
 		try {
 			selectStm = connection.prepareStatement(query);
 			result = selectStm.executeQuery();
+
 			while (result.next()) {
 				String id = result.getInt("id") + "";
 				String name = result.getString("name");
-				SearchFilterDTO filter = new SearchFilterDTO(id, name);
+				SearchFilter filter = new SearchFilter(id, name);
 				filters.put(id, filter);
 			}
-
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
+
 		return filters;
 	}
 
@@ -126,7 +182,7 @@ public class ProductDAO {
 		String whereClause = "";
 		boolean inWhereClause = false;
 		for (String statement : statements) {
-			if (!statement.equalsIgnoreCase("")) {
+			if (!statement.isEmpty()) {
 				if (!inWhereClause) {
 					inWhereClause = true;
 					whereClause += GlobalConstant.WHERE_QUERY + statement;
@@ -153,73 +209,102 @@ public class ProductDAO {
 		return nameStm;
 	}
 
-	public String getBrandCondition(String[] brands) {
-		String brandStm = "";
-		if (brands.length == 1)
-			brandStm = "brand_id = ?";
-		else if (brands.length > 1) {
-			brandStm = "brand_id in (";
-			for (int i = 0; i < brands.length; i++) {
-				brandStm += "?";
-				if (i != brands.length - 1)
-					brandStm += ",";
-			}
-			brandStm += ")";
-		}
-		return brandStm;
-	}
+//	public String getBrandCondition(String[] brands) {
+//		String brandStm = "";
+//		if (brands.length == 1)
+//			brandStm = "brand_id = ?";
+//		else if (brands.length > 1) {
+//			brandStm = "brand_id in (";
+//			for (int i = 0; i < brands.length; i++) {
+//				brandStm += "?";
+//				if (i != brands.length - 1)
+//					brandStm += ",";
+//			}
+//			brandStm += ")";
+//		}
+//		return brandStm;
+//	}
+//
+//	public String getCategoryCondition(String[] categories) {
+//		String categoryStm = "";
+//		if (categories.length == 1)
+//			categoryStm = "category_id = ?";
+//		else if (categories.length > 1) {
+//			categoryStm = "category_id in (";
+//			for (int i = 0; i < categories.length; i++) {
+//				categoryStm += "?";
+//				if (i != categories.length - 1)
+//					categoryStm += ",";
+//			}
+//			categoryStm += ")";
+//		}
+//		return categoryStm;
+//	}
 
-	public String getCategoryCondition(String[] categories) {
-		String categoryStm = "";
-		if (categories.length == 1)
-			categoryStm = "category_id = ?";
-		else if (categories.length > 1) {
-			categoryStm = "category_id in (";
-			for (int i = 0; i < categories.length; i++) {
-				categoryStm += "?";
-				if (i != categories.length - 1)
-					categoryStm += ",";
+	public String getColumnCondition(String[] conditions, String columnName) {
+		String conditionStm = "";
+		if (conditions.length == 1)
+			conditionStm = columnName + " = ?";
+		else if (conditions.length > 1) {
+			conditionStm = columnName + " in (";
+			for (int i = 0; i < conditions.length; i++) {
+				conditionStm += "?";
+				if (i != conditions.length - 1)
+					conditionStm += ",";
 			}
-			categoryStm += ")";
+			conditionStm += ")";
 		}
-		return categoryStm;
+		return conditionStm;
 	}
 
 	public String getAvailabilityCondition(String[] availabilities) {
 		String availabilityStm = "";
-		if (availabilities.length == 1 && availabilities[0].equalsIgnoreCase("1"))
+		if (availabilities.length == 1 && availabilities[0].equalsIgnoreCase(StockStatusEnum.INSTOCK.toString()))
 			availabilityStm = "stock > 0";
-		else if (availabilities.length == 1 && availabilities[0].equalsIgnoreCase("0"))
+		else if (availabilities.length == 1
+				&& availabilities[0].equalsIgnoreCase(StockStatusEnum.OUTOFSTOCK.toString()))
 			availabilityStm = "stock = 0";
 
 		return availabilityStm;
 	}
 
 	public String getSortCondition(String sorter) {
-		String sorterStm = "";
-		int sortBy = Integer.parseInt(sorter);
-		if (sortBy > 0)
-			sorterStm = " order by ? ";
-		else if (sortBy < 0)
-			sorterStm = " order by ? desc";
-
-		return sorterStm;
+		SortByEnum sortBy = SortByEnum.valueOf(sorter);
+		switch (sortBy) {
+		case RELEVANCY:
+			return "";
+		case PRICELOWTOHIGH:
+			return " order by ?";
+		case NAMEATOZ:
+			return " order by ?";
+		case OLDTONEW:
+			return " order by ?";
+		case PRICEHIGHTOLOW:
+			return " order by ? desc";
+		case NAMEZTOA:
+			return " order by ? desc";
+		case NEWTOOLD:
+			return " order by ? desc";
+		default:
+			return "";
+		}
 	}
 
 	public Object[] searchProductByName(String[] keywords) {
-		Map<String, SearchFilterDTO> allBrandFilters = getAllSearchFilterFromDB(SELECT_ALL_BRAND_SQL);
-		Map<String, SearchFilterDTO> brandFilters = new HashMap<String, SearchFilterDTO>();
-		Map<String, SearchFilterDTO> allCategoryFilters = getAllSearchFilterFromDB(SELECT_ALL_CATEGORY_SQL);
-		Map<String, SearchFilterDTO> categoryFilters = new HashMap<String, SearchFilterDTO>();
-		Map<String, SearchFilterDTO> allAvailabilityFilters = getAllSearchFilterFromMap(
-				GlobalConstant.AVAILABILITY_MAP);
-		Map<String, SearchFilterDTO> availabilityFilters = new HashMap<String, SearchFilterDTO>();
+		Map<String, SearchFilter> allBrandFilters = loadSearchFilterFromDB(SELECT_ALL_BRAND_SQL);
+		Map<String, SearchFilter> brandFilters = new HashMap<String, SearchFilter>();
+		Map<String, SearchFilter> allCategoryFilters = loadSearchFilterFromDB(SELECT_ALL_CATEGORY_SQL);
+		Map<String, SearchFilter> categoryFilters = new HashMap<String, SearchFilter>();
+		Map<String, SearchFilter> allStockStatusFilters = loadStockStatusFilter();
+		Map<String, SearchFilter> stockStatusFilters = new HashMap<String, SearchFilter>();
 		String[] newKeywords = getAllPossibleMatchedKeywords(keywords);
+
 		int currentParam = 0;
 		String searchProductSQL = GlobalConstant.SELECT_FROM_SUB_QUERY + getNameCondition(newKeywords);
 		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
+
 		try {
 			selectStm = connection.prepareStatement(searchProductSQL);
 			for (String keyword : newKeywords) {
@@ -241,61 +326,58 @@ public class ProductDAO {
 						stock);
 				updateCountInEachFilter(brandFilters, allBrandFilters, brandID);
 				updateCountInEachFilter(categoryFilters, allCategoryFilters, categoryID);
-				updateCountInEachFilter(availabilityFilters, allAvailabilityFilters, product.getStockStatus());
+				updateCountInEachFilter(stockStatusFilters, allStockStatusFilters, product.getStockStatus());
 			}
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
-		return new Object[] { brandFilters, categoryFilters, availabilityFilters };
+		return new Object[] { brandFilters, categoryFilters, stockStatusFilters };
 	}
 
 	public Object[] searchProductByNameWithFilters(String[] keywords, String[] selectedBrands,
 			String[] selectedCategories, String priceMin, String priceMax, String[] selectedAvailabilities,
 			String selectedSorter, String perPage, String page) {
 		Object[] originalSearchResultAndFilter = searchProductByName(keywords);
-		Map<String, SearchFilterDTO> allBrandFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[0];
-		Map<String, SearchFilterDTO> allCategoryFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[1];
-		Map<String, SearchFilterDTO> allAvailabilityFilters = (Map<String, SearchFilterDTO>) originalSearchResultAndFilter[2];
-		Map<String, SearchFilterDTO> allSorters = getAllSearchFilterFromMap(GlobalConstant.SORTBY_MAP);
-		Map<String, SearchFilterDTO> allResultPerPages = getAllSearchFilterFromMap(GlobalConstant.RESULTPERPAGE_MAP);
+		Map<String, SearchFilter> allBrandFilters = (Map<String, SearchFilter>) originalSearchResultAndFilter[0];
+		Map<String, SearchFilter> allCategoryFilters = (Map<String, SearchFilter>) originalSearchResultAndFilter[1];
+		Map<String, SearchFilter> allStockStatusFilters = (Map<String, SearchFilter>) originalSearchResultAndFilter[2];
+
+		Map<String, String> allSortBy = loadSortBy();
+		Map<String, String> allResultPerPages = loadResultPerPage();
 		Map<String, String> pagingMap = null;
+
 		List<Product> filteredProducts = new ArrayList<Product>();
 		String[] newKeywords = getAllPossibleMatchedKeywords(keywords);
 		int currentParam = 0;
 
 		setSelectedSearchFilter(allBrandFilters, selectedBrands);
 		setSelectedSearchFilter(allCategoryFilters, selectedCategories);
-		setSelectedSearchFilter(allAvailabilityFilters, selectedAvailabilities);
-		setSelectedSearchFilter(allSorters, new String[] { selectedSorter });
-		setSelectedSearchFilter(allResultPerPages, new String[] { perPage });
+		setSelectedSearchFilter(allStockStatusFilters, selectedAvailabilities);
 
-		String priceMinCondition = "";
-		String priceMaxCondition = "";
-		if (!priceMin.equalsIgnoreCase(""))
-			priceMinCondition = "new_price >= ?";
-		if (!priceMax.equalsIgnoreCase(""))
-			priceMaxCondition = "new_price <= ?";
+		setSelectedSetting(allSortBy, selectedSorter);
+		setSelectedSetting(allResultPerPages, perPage);
+
+		String priceMinCondition = priceMin.isEmpty() ? "" : "new_price >= ?";
+		String priceMaxCondition = priceMax.isEmpty() ? "" : "new_price <= ?";
 
 		String searchProductSQL = GlobalConstant.SELECT_FROM_SUB_QUERY + getNameCondition(newKeywords)
-				+ getWhereClause(new String[] { getBrandCondition(selectedBrands),
-						getCategoryCondition(selectedCategories), getAvailabilityCondition(selectedAvailabilities),
-						priceMinCondition, priceMaxCondition });
+				+ getWhereClause(new String[] { getColumnCondition(selectedBrands, "brand_id"),
+						getColumnCondition(selectedCategories, "category_id"),
+						getAvailabilityCondition(selectedAvailabilities), priceMinCondition, priceMaxCondition });
 
-		searchProductSQL += getSortCondition(selectedSorter);
-
-		if (!perPage.equalsIgnoreCase(""))
-			searchProductSQL += " limit ? ";
-		if (!page.equalsIgnoreCase(""))
-			searchProductSQL += " offset ? ";
+		searchProductSQL += selectedSorter.isEmpty() ? "" : getSortCondition(selectedSorter);
+		searchProductSQL += perPage.isEmpty() ? "" : " limit ? ";
+		searchProductSQL += page.isEmpty() ? "" : " offset ? ";
 
 		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
 		int rowCountBeforeLimit = 0;
+
 		try {
 			selectStm = connection.prepareStatement(searchProductSQL);
 			for (String keyword : newKeywords) {
@@ -307,26 +389,25 @@ public class ProductDAO {
 			for (String category : selectedCategories) {
 				selectStm.setString(++currentParam, category);
 			}
-			if (!priceMin.equalsIgnoreCase(""))
+			if (!priceMin.isEmpty())
 				selectStm.setInt(++currentParam, Integer.parseInt(priceMin));
-			if (!priceMax.equalsIgnoreCase(""))
+			if (!priceMax.isEmpty())
 				selectStm.setInt(++currentParam, Integer.parseInt(priceMax));
-			if (!selectedSorter.equalsIgnoreCase("") && Integer.parseInt(selectedSorter) != 0) {
-				int sortBy = (Integer.parseInt(selectedSorter) > 0) ? Integer.parseInt(selectedSorter)
-						: -1 * Integer.parseInt(selectedSorter);
-				selectStm.setInt(++currentParam, sortBy);
+			if (!selectedSorter.isEmpty() && !selectedSorter.equalsIgnoreCase(SortByEnum.RELEVANCY.toString())) {
+				selectStm.setInt(++currentParam, SortByEnum.valueOf(selectedSorter).getSortByValue());
 			}
 			selectStm.setInt(++currentParam, MAX_LIMIT_SQL);
 			selectStm.setInt(++currentParam, 0);
 
-			logger.info("Query before limit and offset: " + selectStm.toString());
+			logger.debug("Query before limit and offset: " + selectStm.toString());
 			result = selectStm.executeQuery();
 			while (result.next()) {
 				++rowCountBeforeLimit;
 			}
 
 			pagingMap = getPagingMap((int) Math.ceil((double) rowCountBeforeLimit / Double.parseDouble(perPage)));
-			setSelectedPage(pagingMap, page);
+
+			setSelectedSetting(pagingMap, page);
 			currentParam = currentParam - 2;
 
 			if (!perPage.equalsIgnoreCase(""))
@@ -334,7 +415,7 @@ public class ProductDAO {
 			if (!page.equalsIgnoreCase(""))
 				selectStm.setInt(++currentParam, (Integer.parseInt(page) - 1) * Integer.parseInt(perPage));
 
-			logger.info("Query after limit and offset: " + selectStm.toString());
+			logger.debug("Query after limit and offset: " + selectStm.toString());
 			result.close();
 			result = selectStm.executeQuery();
 			while (result.next()) {
@@ -352,13 +433,13 @@ public class ProductDAO {
 				filteredProducts.add(product);
 			}
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
-		return new Object[] { filteredProducts, allBrandFilters, allCategoryFilters, allAvailabilityFilters, allSorters,
+		return new Object[] { filteredProducts, allBrandFilters, allCategoryFilters, allStockStatusFilters, allSortBy,
 				allResultPerPages, pagingMap, rowCountBeforeLimit };
 	}
 
@@ -382,9 +463,9 @@ public class ProductDAO {
 			int stock = result.getInt("stock");
 			product = new Product(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc, stock);
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} finally {
 			Utility.close(connection, selectStm, null);
 		}
@@ -404,10 +485,10 @@ public class ProductDAO {
 				medias.add(result.getString("src"));
 			}
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
-		}finally {
+			logger.error(e.getMessage());
+		} finally {
 			Utility.close(connection, selectStm, result);
 		}
 		return medias;
@@ -426,10 +507,10 @@ public class ProductDAO {
 				return price;
 			price = result.getDouble("new_price");
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
-		}finally {
+			logger.error(e.getMessage());
+		} finally {
 			Utility.close(connection, selectStm, result);
 		}
 		return price;
@@ -450,12 +531,11 @@ public class ProductDAO {
 				brands.add(new Brand(id, name, imgSrc));
 			}
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} finally {
 			Utility.close(connection, selectStm, rs);
-			;
 		}
 		return brands;
 	}
@@ -475,36 +555,46 @@ public class ProductDAO {
 				categories.add(new Category(id, name, imgSrc));
 			}
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
-		}finally {
+			logger.error(e.getMessage());
+		} finally {
 			Utility.close(connection, selectStm, rs);
 			;
 		}
 		return categories;
 	}
 
-	private void updateCountInEachFilter(Map<String, SearchFilterDTO> existingFilters,
-			Map<String, SearchFilterDTO> allFilters, String filterID) {
-		if (!existingFilters.containsKey(filterID))
-			existingFilters.put(filterID, allFilters.get(filterID));
-		existingFilters.get(filterID).setStock(existingFilters.get(filterID).getStock() + 1);
+	private void updateCountInEachFilter(Map<String, SearchFilter> filtersToBeUpdated,
+			Map<String, SearchFilter> originalFilters, String filterID) {
+		if (!filtersToBeUpdated.containsKey(filterID))
+			filtersToBeUpdated.put(filterID, originalFilters.get(filterID));
+		filtersToBeUpdated.get(filterID).setStock(filtersToBeUpdated.get(filterID).getStock() + 1);
+
 	}
 
-	private void setSelectedSearchFilter(Map<String, SearchFilterDTO> searchFilters, String[] selectedFilters) {
-		for (String selectedDTO : selectedFilters) {
-			if (searchFilters.containsKey(selectedDTO))
-				searchFilters.get(selectedDTO).setSelected("selected");
+	private void setSelectedSearchFilter(Map<String, SearchFilter> searchFilters, String[] selectedFilters) {
+		for (String selectedFilter : selectedFilters) {
+			if (searchFilters.containsKey(selectedFilter))
+				searchFilters.get(selectedFilter).setSelected(true);
 		}
 	}
 
-	private void setSelectedPage(Map<String, String> paginationMap, String selectedPage) {
-		for (Entry entry : paginationMap.entrySet()) {
-			if (((String) entry.getKey()).equalsIgnoreCase(selectedPage))
-				paginationMap.put((String) entry.getKey(), "selected");
+//	private void setSelectedPage(Map<String, String> paginationMap, String selectedPage) {
+//	for (Entry entry : paginationMap.entrySet()) {
+//		if (((String) entry.getKey()).equalsIgnoreCase(selectedPage))
+//			paginationMap.put((String) entry.getKey(), "selected");
+//		else
+//			paginationMap.put((String) entry.getKey(), "");
+//	}
+//}	
+
+	private void setSelectedSetting(Map<String, String> settingMaps, String selectedSetting) {
+		for (Entry entry : settingMaps.entrySet()) {
+			if (((String) entry.getKey()).equalsIgnoreCase(selectedSetting))
+				settingMaps.put((String) entry.getKey(), "selected");
 			else
-				paginationMap.put((String) entry.getKey(), "");
+				settingMaps.put((String) entry.getKey(), "");
 		}
 	}
 
@@ -548,8 +638,8 @@ public class ProductDAO {
 		for (Map.Entry<String, Integer> cI : cartItems.entrySet()) {
 			Product product = getProductByID((String) cI.getKey());
 			int quantity = Math.min(product.getStock(), (int) cI.getValue());
-			logger.info("Stock: " + product.getStock() + " - Quantity: " + (int) cI.getValue()
-					+ " - Order Quantity: " + quantity);
+			logger.info("Stock: " + product.getStock() + " - Quantity: " + (int) cI.getValue() + " - Order Quantity: "
+					+ quantity);
 			cartList.add(new OrderItemDTO(product, quantity));
 		}
 		return cartList;

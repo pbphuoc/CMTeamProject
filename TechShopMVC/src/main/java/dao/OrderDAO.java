@@ -1,8 +1,5 @@
 package dao;
 
-import java.lang.reflect.Array;
-import java.security.SecureRandom;
-import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,6 +36,7 @@ public class OrderDAO {
 	private static final String SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL = "SELECT * FROM orders WHERE checkout_email = ? AND order_number = ?;";
 	private static final String SELECT_ORDERITEM_BY_ORDERID_SQL = "SELECT * FROM order_item where order_id = ?;";
 	private static final String DELETE_ORDER = "DELETE FROM orders WHERE id = ?;";
+
 	private static final Logger logger = LogManager.getLogger(OrderDAO.class);
 
 	private static OrderDAO orderDAO;
@@ -56,18 +54,16 @@ public class OrderDAO {
 		if (nano < 0)
 			nano = nano * -1;
 		StringBuffer sb = new StringBuffer();
-		char ch[] = paymentID.substring(paymentID.length()/2).toCharArray();
-	 	for(int i = 0; i < ch.length; i++) {
-	 		String hexString = Integer.toHexString(ch[i]);
-	 		sb.append(hexString);
-	 	}
-	 	String hexaPaymentID = sb.toString();
-	 	System.out.println("hexaPaymentID: " + hexaPaymentID);
-	 	long seed = System.currentTimeMillis();
-	 	Random rng = new Random(seed);
-	 	String result = hexaPaymentID + (nano * rng.nextInt());
-	 	System.out.println("generated order number: " + result);
-	 	return result.length() > 10 ? result.substring(0, 10) : result; 
+		char ch[] = paymentID.substring(paymentID.length() / 2).toCharArray();
+		for (int i = 0; i < ch.length; i++) {
+			String hexString = Integer.toHexString(ch[i]);
+			sb.append(hexString);
+		}
+		String hexaPaymentID = sb.toString();
+		long seed = System.currentTimeMillis();
+		Random rng = new Random(seed);
+		String result = hexaPaymentID + (nano * rng.nextInt());
+		return result.length() > 15 ? result.substring(0, 15) : result;
 	}
 
 	public Order insertOrder(String userID, String checkOutEmail, String checkOutFullname, String checkOutPhone,
@@ -123,17 +119,15 @@ public class OrderDAO {
 							orderNumber, userID, checkOutEmail, paymentType, orderItems.toString()));
 			return order;
 		} catch (SQLException e) {
-			logger.error(e.toString());
-			logger.error(String.format(
-					"Insert Order failed"
-							+ ": UserID %s - Payer Email %s - Payment Status %s - Items %s",
-					userID, checkOutEmail, paymentType, orderItems.toString()));
+			logger.error(e.getMessage());
+			logger.error(
+					String.format("Insert Order failed" + ": UserID %s - Payer Email %s - Payment Status %s - Items %s",
+							userID, checkOutEmail, paymentType, orderItems.toString()));
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
-			logger.error(String.format(
-					"Insert Order failed"
-							+ ": UserID %s - Payer Email %s - Payment Status %s - Items %s",
-					userID, checkOutEmail, paymentType, orderItems.toString()));
+			logger.error(e.getMessage());
+			logger.error(
+					String.format("Insert Order failed" + ": UserID %s - Payer Email %s - Payment Status %s - Items %s",
+							userID, checkOutEmail, paymentType, orderItems.toString()));
 		} finally {
 			Utility.close(connection, insertStm, generatedKeys);
 		}
@@ -185,11 +179,11 @@ public class OrderDAO {
 			}
 			return Utility.QueryResult.SUCCESSFUL;
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 			logger.error(String.format("Insert Order Item Batch failed: Query %s - Result %s ",
 					executedQueries.toString(), Arrays.toString(batchResults)));
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 			logger.error(String.format("Insert Order Item failed: Order ID %s - Order Items %s ", orderID,
 					orderItems.toString()));
 		} finally {
@@ -222,10 +216,10 @@ public class OrderDAO {
 						productID, productName, productDescription, productImgSrc, price, quantity));
 			}
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 			logger.error(String.format("Get Order Item DTO failed %s", id));
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 			logger.error(String.format("Get Order Item DTO failed %s", id));
 		} finally {
 			Utility.close(connection, selectStm, result);
@@ -275,12 +269,12 @@ public class OrderDAO {
 						orderNum, userID, email, paymentType, status));
 			}
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 			logger.error(String.format(
 					"Get Order By User || Email && Order Number failed Order Number %s - UserID %s - Payer Email %s",
 					orderNum, userID, email));
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 			logger.error(String.format(
 					"Get Order By User || Email && Order Number failed Order Number %s - UserID %s - Payer Email %s",
 					orderNum, userID, email));
@@ -304,10 +298,10 @@ public class OrderDAO {
 			}
 			logger.debug("Delete Order " + (successful ? "successful" : "failed") + String.format(": Order ID %s", id));
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 			logger.error("Delete Order failed" + String.format(": Order ID %s", id));
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 			logger.error("Delete Order failed" + String.format(": Order ID %s", id));
 		} finally {
 			Utility.close(connection, deleteStm, result);

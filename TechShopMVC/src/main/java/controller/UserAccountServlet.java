@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import constant.GlobalConstant;
 import dao.OrderDAO;
 import entity.Order;
-import entity.User;
+import model.UserSession;
 
 /**
  * Servlet implementation class UserAccountServlet
@@ -42,23 +42,23 @@ public class UserAccountServlet extends HttpServlet {
 				break;
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
 	protected void viewOrders(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			HttpSession session = request.getSession();
-			User user = (User) session.getAttribute(GlobalConstant.USER);
+			UserSession user = (UserSession) session.getAttribute(GlobalConstant.USER);
 			OrderDAO orderDAO = OrderDAO.getOrderDAO();
 			List<Order> orderList = orderDAO.getOrderByUserOrEmailAndOrderNumber(user.getId(), GlobalConstant.BLANK,
 					GlobalConstant.BLANK);
 
-			request.setAttribute("orderList", orderList);
+			request.setAttribute(GlobalConstant.ORDER_LIST, orderList);
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.ORDER_HISTORY_JSP);
 			dispatcher.forward(request, response);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 }

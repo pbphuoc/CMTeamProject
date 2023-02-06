@@ -9,11 +9,10 @@ import java.sql.Statement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import controller.CheckOutServlet;
 import entity.User;
+import model.UserSession;
 import util.BCrypt;
 import util.Utility;
-import util.Utility.QueryResult;
 
 public class UserDAO {
 
@@ -23,20 +22,22 @@ public class UserDAO {
 	private static final String SELECT_SALT_BY_EMAIL_SQL = "SELECT salt FROM user WHERE email = ?;";
 
 	private static UserDAO userDAO;
-	
-	private UserDAO() {}
-	
+	private static final Logger logger = LogManager.getLogger(UserDAO.class);
+
+	private UserDAO() {
+	}
+
 	public static UserDAO getUserDAO() {
-		if(userDAO == null)
+		if (userDAO == null)
 			userDAO = new UserDAO();
 		return userDAO;
 	}
-	
-	public User insertUser(String email, String password, String fullname, String mobile) {
+
+	public UserSession insertUser(String email, String password, String fullname, String mobile) {
 		Connection connection = Utility.getConnection();
 		PreparedStatement insertStm = null;
 		ResultSet generatedKeys = null;
-		User user = null;
+		UserSession user = null;
 		try {
 			insertStm = connection.prepareStatement(INSERT_USER_SQL, Statement.RETURN_GENERATED_KEYS);
 			if (userExist(email))
@@ -51,17 +52,20 @@ public class UserDAO {
 			if (Utility.getResultCode(insertStm.executeUpdate()) == Utility.QueryResult.SUCCESSFUL) {
 				generatedKeys = insertStm.getGeneratedKeys();
 				if (generatedKeys.next()) {
-					user = new User(generatedKeys.getInt(1) + "", email, fullname, mobile);
+					user = new UserSession(generatedKeys.getInt(1) + "", email, fullname, mobile);
 				}
 			}
-			logger.debug("Detail Insert User: - UserID %s - UserEmail %s - UserFullname %s - UserMobile %s", email, fullname, mobile);
+			logger.debug("Detail Insert User: - UserID %s - UserEmail %s - UserFullname %s - UserMobile %s", email,
+					fullname, mobile);
 			return user;
 		} catch (SQLException e) {
-			logger.error(e.toString());
-			logger.error("Detail Insert User: - UserID %s - UserEmail %s - UserFullname %s - UserMobile %s", email, fullname, mobile);
-		}catch (NullPointerException e) {
-			logger.error(e.toString());
-			logger.error("Detail Insert User: - UserID %s - UserEmail %s - UserFullname %s - UserMobile %s", email, fullname, mobile);
+			logger.error(e.getMessage());
+			logger.error("Detail Insert User: - UserID %s - UserEmail %s - UserFullname %s - UserMobile %s", email,
+					fullname, mobile);
+		} catch (NullPointerException e) {
+			logger.error(e.getMessage());
+			logger.error("Detail Insert User: - UserID %s - UserEmail %s - UserFullname %s - UserMobile %s", email,
+					fullname, mobile);
 		} finally {
 			Utility.close(connection, insertStm, generatedKeys);
 		}
@@ -82,9 +86,9 @@ public class UserDAO {
 				return userExist;
 			userExist = true;
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
@@ -104,20 +108,21 @@ public class UserDAO {
 				salt = result.getString("salt");
 			return salt;
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
 		return salt;
 	}
 
-	public User authenticateUser(String email, String password) {
-		User user = null;
+	public UserSession authenticateUser(String email, String password) {
+		UserSession user = null;
 		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
+
 		try {
 			String salt = getSaltByEmail(email);
 			String hashedPass = BCrypt.hashpw(password, salt);
@@ -125,14 +130,16 @@ public class UserDAO {
 			selectStm.setString(1, email);
 			selectStm.setString(2, hashedPass);
 			result = selectStm.executeQuery();
+
 			if (!result.next())
 				return user;
-			user = new User(result.getString("id"), result.getString("email"), result.getString("fullname"),
+
+			user = new UserSession(result.getString("id"), result.getString("email"), result.getString("fullname"),
 					result.getString("phone_number"));
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}

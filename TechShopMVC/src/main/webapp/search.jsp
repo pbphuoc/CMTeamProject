@@ -40,16 +40,6 @@
 				<div class="row filter">
 					<div class="col-md-12">
 						<h2>Brand</h2>
-<!-- 						<p class="selectedFilter" id="selectedBrands"> -->
-<!-- 							<ul> -->
-<%-- 								<c:forEach var="entry" items="${brandFilters.entrySet()}"> --%>
-<%-- 									<c:if --%>
-<%-- 										test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'> --%>
-<%-- 										<li>${entry.getValue().getName()}</li> --%>
-<%-- 									</c:if> --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</ul> -->
-<!-- 						</p> -->
 						<select id="brandSelect" multiple data-live-search="true"
 							title="Filter By Brand" class="queryFilter">
 							<c:forEach var="entry" items="${brandFilters.entrySet()}">
@@ -64,16 +54,6 @@
 				<div class="row filter">
 					<div class="col-md-12">
 						<h2>Category</h2>
-<!-- 						<p class="selectedFilter" id="selectedCategories"> -->
-<!-- 							<ul> -->
-<%-- 								<c:forEach var="entry" items="${categoryFilters.entrySet()}"> --%>
-<%-- 									<c:if --%>
-<%-- 										test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'> --%>
-<%-- 										<li>${entry.getValue().getName()}</li> --%>
-<%-- 									</c:if> --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</ul> -->
-<!-- 						</p> -->
 						<select id="categorySelect" multiple data-live-search="true"
 							title="Filter By Category" class="queryFilter">
 							<c:forEach var="entry" items="${categoryFilters.entrySet()}">
@@ -88,16 +68,6 @@
 				<div class="row filter">
 					<div class="col-md-12">
 						<h2>Availability</h2>
-<!-- 						<p class="selectedFilter" id="selectedAvailabilities"> -->
-<!-- 							<ul> -->
-<%-- 								<c:forEach var="entry" items="${availabilityFilters.entrySet()}"> --%>
-<%-- 									<c:if --%>
-<%-- 										test='${!entry.getValue().getSelected().equalsIgnoreCase("")}'> --%>
-<%-- 										<li>${entry.getValue().getName()}</li> --%>
-<%-- 									</c:if> --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</ul> -->
-<!-- 						</p> -->
 						<select id="availabilitySelect" multiple data-live-search="true"
 							title="Filter By Availability" class="queryFilter">
 							<c:forEach var="entry" items="${availabilityFilters.entrySet()}">
@@ -167,17 +137,17 @@
 						<h2>Results Per Page</h2>
 						<div id="maxPerPageButtonGroup" class="btn-group" role="group" data-toggle="buttons-radio">
 						<c:forEach var="entry" items="${resultPerPage.entrySet()}">
-						  <button type="button" class="btn btn-default maxPerPageButton ${entry.getValue().getSelected()}" value="${entry.getKey()}">${entry.getKey()}</button>							
+						  <button type="button" class="btn btn-default maxPerPageButton ${entry.getValue()}" value="${entry.getKey()}">${entry.getKey()}</button>							
 						</c:forEach>						 
 						</div>						
 					</div>									
 					<div class="col-md-6">
-						<h2>Sort By</h2>
+						<h2>Sort By</h2>											
 						<select id="sorter" class="form-select queryFilter"
 							aria-label="Default select example">
 							<c:forEach var="entry" items="${sorters.entrySet()}">
-								<option value="${entry.getKey()}" ${entry.getValue().getSelected()}>
-								${entry.getValue().getName()}
+								<option value="${entry.getKey()}" ${entry.getValue()}>
+								${entry.getKey()}
 								</option>
 							</c:forEach>							
 						</select>

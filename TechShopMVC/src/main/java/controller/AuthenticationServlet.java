@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import constant.GlobalConstant;
 import dao.UserDAO;
 import entity.User;
+import model.UserSession;
 import util.Utility;
 
 /**
@@ -53,7 +54,7 @@ public class AuthenticationServlet extends HttpServlet {
 				break;
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -65,7 +66,7 @@ public class AuthenticationServlet extends HttpServlet {
 		try {
 			doGet(request, response);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 
 	}
@@ -78,7 +79,7 @@ public class AuthenticationServlet extends HttpServlet {
 		String mobile = request.getParameter(GlobalConstant.MOBILE_REGISTER);
 
 		UserDAO userDAO = UserDAO.getUserDAO();
-		User user = userDAO.insertUser(email, password, fullname, mobile);
+		UserSession user = userDAO.insertUser(email, password, fullname, mobile);
 
 		if (user != null) {
 			String prevUrl = Utility.getCorrectPrevUrl(request.getParameter(GlobalConstant.PREV_URL));
@@ -98,7 +99,7 @@ public class AuthenticationServlet extends HttpServlet {
 			String password = request.getParameter(GlobalConstant.PASSWORD_LOGIN);
 
 			UserDAO userDAO = UserDAO.getUserDAO();
-			User user = userDAO.authenticateUser(email, password);
+			UserSession user = userDAO.authenticateUser(email, password);
 
 			if (user != null) {
 				String prevUrl = Utility.getCorrectPrevUrl(request.getParameter(GlobalConstant.PREV_URL));

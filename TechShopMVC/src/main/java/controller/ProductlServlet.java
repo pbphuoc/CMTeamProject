@@ -1,10 +1,8 @@
 package controller;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import constant.GlobalConstant;
 import dao.ProductDAO;
 import entity.Product;
-import model.SearchFilterDTO;
+import model.SearchFilter;
 
 /**
  * Servlet implementation class ProductDetailServlet
@@ -47,7 +45,7 @@ public class ProductlServlet extends HttpServlet {
 				break;
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -63,7 +61,7 @@ public class ProductlServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.PRODUCT_JSP);
 			dispatcher.forward(request, response);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -93,19 +91,21 @@ public class ProductlServlet extends HttpServlet {
 			Object[] listOfProductAndFilters = productDAO.searchProductByNameWithFilters(searchKeywords, brands,
 					categories, priceMin, priceMax, availabilities, sortBy, perPage, page);
 			List<Product> products = (List<Product>) listOfProductAndFilters[0];
-			Map<String, SearchFilterDTO> brandFilters = (Map<String, SearchFilterDTO>) listOfProductAndFilters[1];
-			Map<String, SearchFilterDTO> categoryFilters = (Map<String, SearchFilterDTO>) listOfProductAndFilters[2];
-			Map<String, SearchFilterDTO> availabilityFilters = (Map<String, SearchFilterDTO>) listOfProductAndFilters[3];
-			Map<String, SearchFilterDTO> sorters = (Map<String, SearchFilterDTO>) listOfProductAndFilters[4];
-			Map<String, SearchFilterDTO> resultPerPage = (Map<String, SearchFilterDTO>) listOfProductAndFilters[5];
+			Map<String, SearchFilter> brandFilters = (Map<String, SearchFilter>) listOfProductAndFilters[1];
+			Map<String, SearchFilter> categoryFilters = (Map<String, SearchFilter>) listOfProductAndFilters[2];
+			Map<String, SearchFilter> stockStatusFilters = (Map<String, SearchFilter>) listOfProductAndFilters[3];
+
+			Map<String, String> sorters = (Map<String, String>) listOfProductAndFilters[4];
+			Map<String, String> resultPerPage = (Map<String, String>) listOfProductAndFilters[5];
 			Map<String, String> pagingMap = (Map<String, String>) listOfProductAndFilters[6];
+
 			int totalResult = (int) listOfProductAndFilters[7];
 
 			request.setAttribute("keyword", request.getParameter("keywords"));
 			request.setAttribute("products", products);
 			request.setAttribute("brandFilters", brandFilters);
 			request.setAttribute("categoryFilters", categoryFilters);
-			request.setAttribute("availabilityFilters", availabilityFilters);
+			request.setAttribute("availabilityFilters", stockStatusFilters);
 			request.setAttribute("sorters", sorters);
 			request.setAttribute("priceMin", priceMin);
 			request.setAttribute("priceMax", priceMax);
@@ -116,7 +116,7 @@ public class ProductlServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.SEARCH_JSP);
 			dispatcher.forward(request, response);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 }

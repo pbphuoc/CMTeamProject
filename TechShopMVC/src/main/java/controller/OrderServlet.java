@@ -1,42 +1,18 @@
 package controller;
 
-import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.google.gson.Gson;
-import com.paypal.api.payments.PayerInfo;
-import com.paypal.api.payments.Payment;
-import com.paypal.api.payments.ShippingAddress;
-import com.paypal.api.payments.Transaction;
-
 import constant.GlobalConstant;
-import constant.OrderPaymentTypeEnum;
-import constant.OrderReceiveMethodEnum;
-import constant.OrderStatusEnum;
 import dao.OrderDAO;
-import dao.ProductDAO;
 import entity.Order;
-import entity.User;
 import model.OrderItemDTO;
-import service.PaymentServices;
-import util.Utility;
 
 /**
  * Servlet implementation class OrderServlet
@@ -71,7 +47,7 @@ public class OrderServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -83,7 +59,7 @@ public class OrderServlet extends HttpServlet {
 		try {
 			doGet(request, response);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -107,7 +83,7 @@ public class OrderServlet extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -127,7 +103,7 @@ public class OrderServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CONFIRMATION_JSP);
 			dispatcher.forward(request, response);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 }

@@ -52,7 +52,7 @@ public class CartServlet extends HttpServlet {
 				break;
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -64,7 +64,7 @@ public class CartServlet extends HttpServlet {
 		try {
 			doGet(request, response);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -84,7 +84,7 @@ public class CartServlet extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -97,7 +97,7 @@ public class CartServlet extends HttpServlet {
 			session.setAttribute(GlobalConstant.CART_ITEM, cartItems);
 			response.getWriter().append(cartItems.size() + "");
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -120,7 +120,7 @@ public class CartServlet extends HttpServlet {
 			session.setAttribute(GlobalConstant.CART_ITEM, cartItems);
 			response.getWriter().append(cartItems.size() + "");
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -140,7 +140,7 @@ public class CartServlet extends HttpServlet {
 			session.setAttribute(GlobalConstant.CART_ITEM, cartItems);
 			response.getWriter().append(cartItems.size() + "");
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 }

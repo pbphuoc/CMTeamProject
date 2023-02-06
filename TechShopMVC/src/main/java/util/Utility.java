@@ -8,16 +8,12 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import constant.GlobalConstant;
-import controller.AuthenticationServlet;
 import model.OrderItemDTO;
 
 public class Utility {
@@ -57,7 +53,7 @@ public class Utility {
 		}
 		return totalCost;
 	}
-	
+
 	public static double calculateShippingCost(String address) {
 		return 0.5;
 	}
@@ -68,11 +64,11 @@ public class Utility {
 			return DriverManager.getConnection(GlobalConstant.DO_DB_URL, GlobalConstant.DO_DB_USERNAME,
 					GlobalConstant.DO_DB_PASSWORD);
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (ClassNotFoundException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -86,7 +82,7 @@ public class Utility {
 			if (connection != null)
 				connection.close();
 		} catch (SQLException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 

@@ -4,7 +4,7 @@
 <header>
 	<div class="header">
 		<div class="container-fluid">
-			<div class="row alignItemCenter">
+			<div class="row alignItemCenter" onmouseleave="mouseOffHelp()">
 				<div class="col-xl col-lg col-md col-sm ">
 					<div class="navbar-brand">
 						<div class="center-desk" class="d-inline-flex">
@@ -22,7 +22,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xl col-lg col-md col-sm ">
+				<div class="col-xl col-lg col-md col-sm">
 					<nav class="navigation navbar navbar-expand-xl navbar-dark ">
 						<button class="navbar-toggler" type="button"
 							data-toggle="collapse" data-target="#navbarsExample04"
@@ -32,12 +32,11 @@
 						</button>
 						<div class="collapse navbar-collapse" id="navbarsExample04">
 							<ul class="navbar-nav mr-auto">
-<!-- 								<li class="nav-item "><a class="nav-link" href="Home">Home</a></li> -->
-								<li class="nav-item dropdown">
-									  <a class="nav-link dropdown-toggle" href="" id="menuBarHelpDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<li id="helpLi" class="nav-item dropdown" onmouseenter="mouseOverHelp()">
+									  <a class="nav-link dropdown-toggle" id="menuBarHelpDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										Help
 									 </a>
-									 <div class="dropdown-menu" aria-labelledby="menuBarHelpDropdownLink">									      
+									 <div class="dropdown-menu" id="trackOrderDiv" aria-labelledby="menuBarHelpDropdownLink">									      
 									   <a class="dropdown-item" href="Order?command=getTrackOrderForm">Track Order</a>									   
 									  </div>
 								</li>									
@@ -57,7 +56,7 @@
 									<c:otherwise>
 									  <li class="nav-item dropdown">
 									    <a class="nav-link dropdown-toggle" href="" id="menuBarUsernameDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									      Hi ${sessionScope.user.name}
+									      Hi ${sessionScope.user.fullname}
 									    </a>
 									    <div class="dropdown-menu" aria-labelledby="menuBarUsernameDropdownLink">									      
 									      <a class="dropdown-item" href="Account?command=viewOrders">Order History</a>
@@ -74,3 +73,15 @@
 		</div>
 	</div>
 </header>
+<<script type="text/javascript">
+	function mouseOverHelp(){
+		document.getElementById("helpLi").classList.add("show");
+		document.getElementById("trackOrderDiv").classList.add("show");
+		document.getElementById("menuBarHelpDropdownLink").setAttribute("aria-expanded", true);
+	}
+	function mouseOffHelp(){
+		document.getElementById("helpLi").classList.remove("show");
+		document.getElementById("trackOrderDiv").classList.remove("show");
+		document.getElementById("menuBarHelpDropdownLink").setAttribute("aria-expanded", false);
+	}
+</script>

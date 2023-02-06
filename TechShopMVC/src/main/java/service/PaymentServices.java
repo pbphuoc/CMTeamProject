@@ -17,7 +17,6 @@ import com.paypal.api.payments.Details;
 import com.paypal.api.payments.Item;
 import com.paypal.api.payments.ItemList;
 import com.paypal.api.payments.Links;
-import com.paypal.api.payments.Patch;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentExecution;
@@ -128,7 +127,7 @@ public class PaymentServices {
 					GlobalConstant.PAYPAL_MODE);
 			return Payment.get(apiContext, paymentId);
 		} catch (PayPalRESTException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -143,9 +142,11 @@ public class PaymentServices {
 			APIContext apiContext = new APIContext(GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET,
 					GlobalConstant.PAYPAL_MODE);
 
-			return payment.execute(apiContext, paymentExecution);
+			payment.execute(apiContext, paymentExecution);
+			
+			return Payment.get(apiContext, paymentId);
 		} catch (PayPalRESTException e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -156,7 +157,7 @@ public class PaymentServices {
 					GlobalConstant.PAYPAL_MODE);
 			String total = (Double.parseDouble(subTotal) + Double.parseDouble(shippingCost)) + "";
 
-			String url = GlobalConstant.PATCH_URI_SANDBOX + paymentId;
+			String url = GlobalConstant.PATCH_URI + paymentId;
 			CloseableHttpClient client = HttpClients.createDefault();
 			HttpPatch httpPatch = new HttpPatch(url);
 
@@ -174,7 +175,7 @@ public class PaymentServices {
 			logger.debug(EntityUtils.toString(response.getEntity()));
 			return true;
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 		return false;
 	}

@@ -30,8 +30,8 @@ import constant.OrderStatusEnum;
 import dao.OrderDAO;
 import dao.ProductDAO;
 import entity.Order;
-import entity.User;
 import model.OrderItemDTO;
+import model.UserSession;
 import service.PaymentServices;
 import util.Utility;
 
@@ -65,10 +65,10 @@ public class CheckOutServlet extends HttpServlet {
 				break;
 			case GlobalConstant.SUBMIT_ORDER:
 				submitOrder(request, response);
-				break;				
+				break;
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -80,7 +80,7 @@ public class CheckOutServlet extends HttpServlet {
 		try {
 			doGet(request, response);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -96,7 +96,7 @@ public class CheckOutServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CHECKOUT_JSP);
 			dispatcher.forward(request, response);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -104,23 +104,46 @@ public class CheckOutServlet extends HttpServlet {
 		try {
 			ProductDAO productDAO = ProductDAO.getProductDAO();
 			HttpSession session = request.getSession();
-			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
+			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute(GlobalConstant.CART_ITEM);
 			List<OrderItemDTO> items = productDAO.getAllProductInCartByID(cartItems);
 
 			PaymentServices paymentServices = PaymentServices.getPaymentServices();
 			String approvalLink = paymentServices.authorizePayment(items);
-			System.out.println("approval link: " + approvalLink);
 			response.sendRedirect(approvalLink);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
 
+//	protected void collectOrderDetail(HttpServletRequest request, HttpServletResponse response) {
+//		ProductDAO productDAO = ProductDAO.getProductDAO();
+//		HttpSession session = request.getSession();
+//		HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute(GlobalConstant.CART_ITEM);
+//		List<OrderItemDTO> items = productDAO.getAllProductInCartByID(cartItems);
+//		
+//		String paymentID = request.getParameter("paymentId");
+//		PaymentServices paymentServices = PaymentServices.getPaymentServices();
+//		Payment payment = paymentServices.getPaymentDetails(paymentID);
+//		PayerInfo payerInfo = payment.getPayer().getPayerInfo();
+//		Transaction transaction = payment.getTransactions().get(0);
+//		Details details = transaction.getAmount().getDetails();
+//		ShippingAddress shippingAddress = transaction.getItemList().getShippingAddress();
+//		
+//		String paymentID = request.getParameter("paymentId");
+//		String PayerID = request.getParameter("PayerID");
+//		PaymentServices paymentServices = PaymentServices.getPaymentServices();
+//		Payment payment = paymentServices.executePayment(paymentID, PayerID);
+//		PayerInfo payerInfo = payment.getPayer().getPayerInfo();
+//		Transaction transaction = payment.getTransactions().get(0);
+//		ShippingAddress shippingAddress = transaction.getItemList().getShippingAddress();		
+//		
+//	}
+//	
 	protected void getConfirmationPage(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			ProductDAO productDAO = ProductDAO.getProductDAO();
 			HttpSession session = request.getSession();
-			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
+			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute(GlobalConstant.CART_ITEM);
 			List<OrderItemDTO> items = productDAO.getAllProductInCartByID(cartItems);
 
 			String paymentID = request.getParameter("paymentId");
@@ -152,10 +175,11 @@ public class CheckOutServlet extends HttpServlet {
 			if (Double.parseDouble(currentShippingCost) != shippingCost)
 				paymentServices.updateShippingCost(shippingCost + "", currentSubtotal, paymentID);
 
-			if ((User) session.getAttribute(GlobalConstant.USER) != null) {
-				checkOutEmail = ((User) session.getAttribute(GlobalConstant.USER)).getEmail();
-				checkOutFullname = ((User) session.getAttribute(GlobalConstant.USER)).getName();
-				checkOutPhone = ((User) session.getAttribute(GlobalConstant.USER)).getPhoneNumber();
+			UserSession user = (UserSession) session.getAttribute(GlobalConstant.USER);
+			if (user != null) {
+				checkOutEmail = user.getEmail();
+				checkOutFullname = user.getFullname();
+				checkOutPhone = user.getPhoneNumber();
 			}
 
 			Order order = new Order(checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname, receiverPhone,
@@ -166,16 +190,16 @@ public class CheckOutServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CONFIRMATION_JSP);
 			dispatcher.forward(request, response);
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
 	}
-	
+
 	protected void submitOrder(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			OrderDAO orderDAO = OrderDAO.getOrderDAO();
 			ProductDAO productDAO = ProductDAO.getProductDAO();
 			HttpSession session = request.getSession();
-			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute("cartItems");
+			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute(GlobalConstant.CART_ITEM);
 			List<OrderItemDTO> items = productDAO.getAllProductInCartByID(cartItems);
 
 			String paymentID = request.getParameter("paymentId");
@@ -197,14 +221,15 @@ public class CheckOutServlet extends HttpServlet {
 					shippingAddress.getCountryCode());
 			String paymentDate = payment.getUpdateTime();
 			String userID = GlobalConstant.GUEST_ID;
-			
-			if ((User) session.getAttribute(GlobalConstant.USER) != null) {
-				userID = ((User) session.getAttribute(GlobalConstant.USER)).getId();				
-				checkOutEmail = ((User) session.getAttribute(GlobalConstant.USER)).getEmail();
-				checkOutFullname = ((User) session.getAttribute(GlobalConstant.USER)).getName();
-				checkOutPhone = ((User) session.getAttribute(GlobalConstant.USER)).getPhoneNumber();
-			}			
-			
+
+			UserSession user = (UserSession) session.getAttribute(GlobalConstant.USER);
+			if (user != null) {
+				userID = user.getId();
+				checkOutEmail = user.getEmail();
+				checkOutFullname = user.getFullname();
+				checkOutPhone = user.getPhoneNumber();
+			}
+
 			OrderReceiveMethodEnum receiveMethod = OrderReceiveMethodEnum.DELIVERY;
 			OrderPaymentTypeEnum paymentType = OrderPaymentTypeEnum.CARD;
 			OrderStatusEnum status = OrderStatusEnum.RECEIVED;
@@ -233,7 +258,7 @@ public class CheckOutServlet extends HttpServlet {
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error(e.getMessage());
 		}
-	}	
+	}
 }

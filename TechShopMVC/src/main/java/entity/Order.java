@@ -44,11 +44,11 @@ public class Order {
 		this.paymentDate = paymentDate;
 		this.paymentID = paymentID;
 	}
-	
-	public Order(String checkOutEmail, String checkOutFullname,
-			String checkOutPhone, String receiverFullname, String receiverPhone, String receiverAddress,
-			OrderReceiveMethodEnum receiveMethod, OrderStatusEnum orderStatus, double shippingCost, double totalCost,
-			OrderPaymentTypeEnum paymentType, String paymentDate, String paymentID) {
+
+	public Order(String checkOutEmail, String checkOutFullname, String checkOutPhone, String receiverFullname,
+			String receiverPhone, String receiverAddress, OrderReceiveMethodEnum receiveMethod,
+			OrderStatusEnum orderStatus, double shippingCost, double totalCost, OrderPaymentTypeEnum paymentType,
+			String paymentDate, String paymentID) {
 		this.checkOutEmail = checkOutEmail;
 		this.checkOutFullname = checkOutFullname;
 		this.checkOutPhone = checkOutPhone;
