@@ -58,3 +58,14 @@ TechShopMVC/.classpath
 TechShopMVC/.settings/org.eclipse.wst.common.project.facet.core.xml
 TechShopMVC/.classpath
 TechShopMVC/.settings/org.eclipse.wst.common.project.facet.core.xml
+apache-tomcat-9.0.70/logs/debug.log
+apache-tomcat-9.0.70/logs/error.log
+apache-tomcat-9.0.70/logs/info.log
+deployment/ROOT.war
+Servers/Tomcat v9.0 Server at localhost-config/catalina.policy
+Servers/Tomcat v9.0 Server at localhost-config/catalina.properties
+Servers/Tomcat v9.0 Server at localhost-config/context.xml
+Servers/Tomcat v9.0 Server at localhost-config/server.xml
+Servers/Tomcat v9.0 Server at localhost-config/tomcat-users.xml
+Servers/Tomcat v9.0 Server at localhost-config/web.xml
+TechShopMVC/.settings/org.eclipse.wst.common.project.facet.core.xml
