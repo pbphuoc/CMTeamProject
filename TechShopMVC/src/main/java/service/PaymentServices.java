@@ -128,6 +128,7 @@ public class PaymentServices {
 			return Payment.get(apiContext, paymentId);
 		} catch (PayPalRESTException e) {
 			logger.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -147,6 +148,7 @@ public class PaymentServices {
 			return Payment.get(apiContext, paymentId);
 		} catch (PayPalRESTException e) {
 			logger.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -175,6 +177,7 @@ public class PaymentServices {
 			logger.debug(EntityUtils.toString(response.getEntity()));
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error(e.getMessage());
 		}
 		return false;

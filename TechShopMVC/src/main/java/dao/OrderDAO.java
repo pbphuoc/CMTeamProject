@@ -9,7 +9,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -28,14 +27,14 @@ public class OrderDAO {
 	private static final String INSERT_ORDER_SQL = "INSERT INTO orders (order_number, order_date,"
 			+ " user_id, checkout_email, checkout_fullname, checkout_phone,"
 			+ " receiver_fullname, receiver_phone, receiver_address, receive_method,"
-			+ " order_status, shipping, total, payment_type, payment_date, payment_id) "
-			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			+ " order_status, shipping, total, payment_type) " + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String INSERT_ORDERITEM_SQL = "INSERT INTO order_item (order_id, product_id, product_name, product_description, product_img_src, price, quantity) "
 			+ "VALUES (?,?,?,?,?,?,?);";
 	private static final String SELECT_ORDER_BY_USERID_SQL = "SELECT * FROM orders WHERE user_id = ?;";
 	private static final String SELECT_ORDER_BY_USEREMAIL_AND_ORDERNUMBER_SQL = "SELECT * FROM orders WHERE checkout_email = ? AND order_number = ?;";
 	private static final String SELECT_ORDERITEM_BY_ORDERID_SQL = "SELECT * FROM order_item where order_id = ?;";
 	private static final String DELETE_ORDER = "DELETE FROM orders WHERE id = ?;";
+	private static final String UPDATE_ORDER = "UPDATE orders SET order_status = ?, payment_date = ?, payment_id = ? WHERE id = ?;";
 
 	private static final Logger logger = LogManager.getLogger(OrderDAO.class);
 
@@ -50,146 +49,245 @@ public class OrderDAO {
 		return orderDAO;
 	}
 
-	private String generateOrderNumber(String paymentID, int nano) {
-		if (nano < 0)
-			nano = nano * -1;
-		StringBuffer sb = new StringBuffer();
-		char ch[] = paymentID.substring(paymentID.length() / 2).toCharArray();
-		for (int i = 0; i < ch.length; i++) {
-			String hexString = Integer.toHexString(ch[i]);
-			sb.append(hexString);
-		}
-		String hexaPaymentID = sb.toString();
+	private String generateOrderNumber(int nano) {
 		long seed = System.currentTimeMillis();
 		Random rng = new Random(seed);
-		String result = hexaPaymentID + (nano * rng.nextInt());
-		return result.length() > 15 ? result.substring(0, 15) : result;
+		int result = nano * rng.nextInt() * rng.nextInt();
+		if (result < 0)
+			result = result * -1;
+		String orderNumber = result + "";
+		return orderNumber.length() > 15 ? orderNumber.substring(0, 15) : orderNumber;
 	}
 
-	public Order insertOrder(String userID, String checkOutEmail, String checkOutFullname, String checkOutPhone,
-			String receiverFullname, String receiverPhone, String receiverAddress, OrderReceiveMethodEnum receiveMethod,
-			double shipping, double total, List<OrderItemDTO> orderItems, OrderPaymentTypeEnum paymentType,
-			String paymentDate, String paymentID) {
-		Order order = null;
+	public Object[] insertOrder(String userID, Order order, List<OrderItemDTO> orderItems) {
 		PreparedStatement insertStm = null;
 		ResultSet generatedKeys = null;
 		Connection connection = Utility.getConnection();
+
+		List<OrderItemDTO> insertedOrderItems = orderItems;
 		boolean successful = false;
+
 		try {
+			connection.setAutoCommit(false);
+			insertStm = connection.prepareStatement(INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS);
+
 			ZoneId z = ZoneId.of("Australia/Sydney");
 			ZonedDateTime zdt = ZonedDateTime.now(z);
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			String orderDate = formatter.format(zdt);
-			String orderNumber = generateOrderNumber(paymentID, zdt.getNano());
-			OrderStatusEnum orderStatus = OrderStatusEnum.RECEIVED;
-			insertStm = connection.prepareStatement(INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS);
-			int currentParam = 0;
-			insertStm.setString(++currentParam, orderNumber);
-			insertStm.setString(++currentParam, orderDate);
-			insertStm.setString(++currentParam, userID);
-			insertStm.setString(++currentParam, checkOutEmail);
-			insertStm.setString(++currentParam, checkOutFullname);
-			insertStm.setString(++currentParam, checkOutPhone);
-			insertStm.setString(++currentParam, receiverFullname);
-			insertStm.setString(++currentParam, receiverPhone);
-			insertStm.setString(++currentParam, receiverAddress);
-			insertStm.setString(++currentParam, receiveMethod.toString());
-			insertStm.setString(++currentParam, orderStatus.toString());
-			insertStm.setDouble(++currentParam, shipping);
-			insertStm.setDouble(++currentParam, total);
-			insertStm.setString(++currentParam, paymentType.toString());
-			insertStm.setString(++currentParam, paymentDate);
-			insertStm.setString(++currentParam, paymentID);
+			String orderNumber = generateOrderNumber(zdt.getNano());
+
+			insertStm = mapInsertOrderData(insertStm, orderNumber, orderDate, userID, order);
+
 			logger.debug("Insert Order query: " + insertStm.toString());
-			if (Utility.getResultCode(insertStm.executeUpdate()) == Utility.QueryResult.SUCCESSFUL) {
+			if (insertStm.executeUpdate() != 0) {
 				generatedKeys = insertStm.getGeneratedKeys();
 				if (generatedKeys.next()) {
-					order = new Order(generatedKeys.getInt(1) + "", orderNumber, orderDate, checkOutEmail,
-							checkOutFullname, checkOutPhone, receiverFullname, receiverPhone, receiverAddress,
-							receiveMethod, orderStatus, shipping, total, paymentType, paymentDate, paymentID);
-					if (insertOrderItem(generatedKeys.getInt(1), orderItems) == Utility.QueryResult.UNSUCCESSFUL) {
-						order = null;
+
+					successful = insertOrderItem(connection, generatedKeys.getInt(1),
+							orderItems);
+					
+					if (successful) {
+						order.setId(generatedKeys.getInt(1) + "");
+						order.setOrderNumber(orderNumber);
+						order.setOrderDate(orderDate);
+						insertedOrderItems = orderItems;
+						System.out.println("inserted order item: " + insertedOrderItems.toString());
 					} else {
-						successful = true;
+						insertedOrderItems = null;
 					}
 				}
 			}
+
 			logger.debug("Insert Order " + (successful ? "successful" : "failed")
-					+ String.format(": Order Number %s - UserID %s - Payer Email %s - Payment Status %s - Items %s",
-							orderNumber, userID, checkOutEmail, paymentType, orderItems.toString()));
-			return order;
+					+ String.format(": Order Detail %s", order));
+
+			return new Object[] { successful, order, insertedOrderItems };
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
-			logger.error(
-					String.format("Insert Order failed" + ": UserID %s - Payer Email %s - Payment Status %s - Items %s",
-							userID, checkOutEmail, paymentType, orderItems.toString()));
+			logger.error("Insert Order " + (successful ? "successful" : "failed")
+					+ String.format(": Order Detail %s", order));
+//			Utility.rollBack(connection);
+			e.printStackTrace();
 		} catch (NullPointerException e) {
 			logger.error(e.getMessage());
-			logger.error(
-					String.format("Insert Order failed" + ": UserID %s - Payer Email %s - Payment Status %s - Items %s",
-							userID, checkOutEmail, paymentType, orderItems.toString()));
+			logger.error("Insert Order " + (successful ? "successful" : "failed")
+					+ String.format(": Order Detail %s", order));
+//			Utility.rollBack(connection);
+			e.printStackTrace();
 		} finally {
 			Utility.close(connection, insertStm, generatedKeys);
 		}
-		return order;
+		return null;
 	}
 
-	public Utility.QueryResult insertOrderItem(int orderID, List<OrderItemDTO> orderItems) {
-		PreparedStatement insertStm = null;
-		Connection connection = Utility.getConnection();
-		int[] batchResults = null;
-		List<String> executedQueries = new ArrayList<String>() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public String toString() {
-				return super.toString() + System.getProperty("line.separator");
-			}
-		};
+	public PreparedStatement mapInsertOrderData(PreparedStatement insertStm, String orderNumber, String orderDate,
+			String userID, Order order) {
 		try {
-			insertStm = connection.prepareStatement(INSERT_ORDERITEM_SQL, Statement.RETURN_GENERATED_KEYS);
-			int batchCount = 0;
-			int successCount = 0;
+			insertStm.setString(1, orderNumber);
+			insertStm.setString(2, orderDate);
+			insertStm.setString(3, userID);
+			insertStm.setString(4, order.getCheckOutEmail());
+			insertStm.setString(5, order.getCheckOutFullname());
+			insertStm.setString(6, order.getCheckOutPhone());
+			insertStm.setString(7, order.getReceiverFullname());
+			insertStm.setString(8, order.getReceiverPhone());
+			insertStm.setString(9, order.getReceiverAddress());
+			insertStm.setString(10, order.getReceiveMethod().toString());
+			insertStm.setString(11, order.getOrderStatus().toString());
+			insertStm.setDouble(12, order.getShippingCost());
+			insertStm.setDouble(13, order.getTotalCost());
+			insertStm.setString(14, order.getPaymentType().toString());
+			return insertStm;
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public PreparedStatement mapInsertOrderItemData(PreparedStatement insertStm, OrderItemDTO item, int orderID) {
+		try {
+			insertStm.setInt(1, orderID);
+			insertStm.setString(2, item.getProduct().getId());
+			insertStm.setString(3, item.getProduct().getName());
+			insertStm.setString(4, item.getProduct().getDescription());
+			insertStm.setString(5, item.getProduct().getImgSrc());
+			insertStm.setDouble(6, item.getProduct().getNewPrice());
+			insertStm.setInt(7, item.getQuantity());
+			return insertStm;
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+//	public boolean retryFailedQueries(String failedQuery, OrderItemDTO failedItem, int orderID) {
+//		Statement retryStm = null;
+//		PreparedStatement minimalDataStm = null;
+//		Connection connection = Utility.getConnection();
+//		boolean successful = false;
+//		String logMessage = "";
+//		try {
+//			retryStm = connection.createStatement();
+//			if (retryStm.executeUpdate(failedQuery) == 0) {
+//				minimalDataStm = connection.prepareStatement(INSERT_ORDERITEM_MINIMAL_DATA_SQL);
+//				minimalDataStm.setInt(1, orderID);
+//				minimalDataStm.setString(2, failedItem.getProduct().getId());
+//				minimalDataStm.setDouble(3, failedItem.getProduct().getNewPrice());
+//				minimalDataStm.setInt(4, failedItem.getQuantity());
+//
+//				if (minimalDataStm.executeUpdate() == 0) {
+//					logMessage = String.format(
+//							"Insert Order Item Batch failed even after Full Data Retry and Minimal Data Try: Query %s - Order Item Detail %s ",
+//							failedQuery, failedItem);
+//				} else {
+//					logMessage = String.format(
+//							"Minimal Data Insert Order Item Retry succesful - Still need to update with Product Name, Description and Image Source: Query %s - Order Item Detail %s ",
+//							failedQuery, failedItem);
+//					successful = true;
+//				}
+//			} else {
+//				logMessage = String.format(
+//						"Full Data Insert Order Item Retry succesful: Query %s - Order Item Detail %s ", failedQuery,
+//						failedItem);
+//				successful = true;
+//			}
+//			logger.debug(logMessage);
+//			return successful;
+//		} catch (SQLException e) {
+//			logger.error(e.getMessage());
+//			logger.error(String.format(
+//					"Insert Order Item Batch failed even after Full Data Retry and Minimal Data Try: Query %s - Order Item Detail %s ",
+//					failedQuery, failedItem));
+//		} catch (NullPointerException e) {
+//			logger.error(e.getMessage());
+//			logger.error(String.format(
+//					"Insert Order Item Batch failed even after Full Data Retry and Minimal Data Try: Query %s - Order Item Detail %s ",
+//					failedQuery, failedItem));
+//		} finally {
+//			Utility.close(retryStm);
+//			Utility.close(connection, minimalDataStm, null);
+//		}
+//		return false;
+//	}
+
+	public boolean insertOrderItem(Connection connection, int orderID, List<OrderItemDTO> orderItems) {
+		PreparedStatement insertStm = null;
+		List<String> allExecutedQueries = new ArrayList<String>();
+
+		try {
+			insertStm = connection.prepareStatement(INSERT_ORDERITEM_SQL);
+			int totalBatchCount = 0;
 			for (OrderItemDTO item : orderItems) {
-				int currentParam = 0;
-				insertStm.setInt(++currentParam, orderID);
-				insertStm.setString(++currentParam, item.getProduct().getId());
-				insertStm.setString(++currentParam, item.getProduct().getName());
-				insertStm.setString(++currentParam, item.getProduct().getDescription());
-				insertStm.setString(++currentParam, item.getProduct().getImgSrc());
-				insertStm.setDouble(++currentParam, item.getProduct().getNewPrice());
-				insertStm.setInt(++currentParam, item.getQuantity());
-				executedQueries.add(insertStm.toString());
-				insertStm.addBatch();
-				++batchCount;
-				if (batchCount % 1000 == 0 || batchCount == orderItems.size()) {
-					batchResults = insertStm.executeBatch();
-					successCount = batchResults.length;
-					if (successCount != batchCount) {
-						logger.debug(String.format("Insert Order Item Batch failed: Query %s - Result %s ",
-								executedQueries.toString(), Arrays.toString(batchResults)));
-						return Utility.QueryResult.UNSUCCESSFUL;
-					} else {
-						logger.debug(String.format("Insert Order Item Batch successful: Query %s - Result %s ",
-								executedQueries.toString(), Arrays.toString(batchResults)));
-						batchCount = 0;
-						executedQueries.clear();
+				insertStm = mapInsertOrderItemData(insertStm, item, orderID);
+				if (insertStm != null) {
+					allExecutedQueries.add(insertStm.toString());
+					insertStm.addBatch();
+					++totalBatchCount;
+					if (totalBatchCount % 1000 == 0 || totalBatchCount == orderItems.size()) {
+						insertStm.executeBatch();
 					}
 				}
 			}
-			return Utility.QueryResult.SUCCESSFUL;
+			connection.commit();
+			connection.setAutoCommit(true);
+			return true;
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
-			logger.error(String.format("Insert Order Item Batch failed: Query %s - Result %s ",
-					executedQueries.toString(), Arrays.toString(batchResults)));
+			logger.error(String.format("Insert Order Item Batch failed: Query %s", allExecutedQueries.toString()));
+			Utility.rollBack(connection);
+			e.printStackTrace();
 		} catch (NullPointerException e) {
 			logger.error(e.getMessage());
-			logger.error(String.format("Insert Order Item failed: Order ID %s - Order Items %s ", orderID,
-					orderItems.toString()));
+			logger.error(String.format("Insert Order Item Batch failed: Query %s", allExecutedQueries.toString()));
+			Utility.rollBack(connection);
+			e.printStackTrace();
 		} finally {
-			Utility.close(connection, insertStm, null);
+			Utility.close(null, insertStm, null);
 		}
-		return Utility.QueryResult.UNSUCCESSFUL;
+
+		return false;
+	}
+
+	public boolean receiveOrder(Order order) {
+		PreparedStatement updateStm = null;
+		ResultSet result = null;
+		Connection connection = Utility.getConnection();
+		try {
+			updateStm = connection.prepareStatement(UPDATE_ORDER);
+			updateStm.setString(1, order.getOrderStatus().toString());
+			updateStm.setString(2, Utility.convertDMYToYMD(order.getPaymentDate()));
+			updateStm.setString(3, order.getPaymentID());
+			updateStm.setString(4, order.getId());
+			logger.debug("Update Order query: " + updateStm.toString());
+
+			if (updateStm.executeUpdate() == 0) {
+				logger.debug(String.format("Update Order Detail failed %s", order.toString()));
+				return false;
+			} else {
+				logger.debug("Update Order Detail succesful");
+				return true;
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			logger.error(String.format("Update Order Detail failed %s", order.toString()));
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			logger.error(e.getMessage());
+			logger.error(String.format("Update Order Detail failed %s", order.toString()));
+			e.printStackTrace();
+		} finally {
+			Utility.close(connection, updateStm, result);
+		}
+		return false;
 	}
 
 	public List<OrderItemDTO> getOrderItemByOrderID(String id) {

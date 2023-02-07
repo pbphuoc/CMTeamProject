@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@page import="constant.OrderPaymentTypeEnum"%>
+<%@page import="constant.OrderStatusEnum"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +26,7 @@
 				<a href="Home"><img src="../images/logo.png" alt="#" /></a>
 			</div>
 			<div class="comfirmationOrderName ">
-				<c:if test="${not empty order.orderNumber}">
+				<c:if test="${order.orderStatus == OrderStatusEnum.RECEIVED}">
 					<h1>THANK YOU</h1>
 				</c:if>
 				<h2>Order ${not empty order.orderNumber ? '#'+= order.orderNumber : ''}
@@ -192,18 +192,23 @@
 					</div>
 					<div class="row mb-5 mt-4 ">
 						<div class="col-md-7 col-lg-6 mx-auto">
-							<c:if test="${not empty order.orderNumber}">
+							<c:if test="${order.orderStatus == OrderStatusEnum.RECEIVED}">
 								<a href="Home"> <input
 									class="btn btn-primary ml-0 submitOrder" type="button"
 									value="Back To Home">
 								</a>
 							</c:if>
-							<c:if test="${empty order.orderNumber}">
+							<c:if test="${order.orderStatus == OrderStatusEnum.REVIEWING}">
 								<form action="/Checkout" method="POST">
 									<input type="hidden" name="paymentId"
 										value="${param.paymentId}" /> <input type="hidden"
 										name="PayerID" value="${param.PayerID}" /> <input
-										type="hidden" name="command" value="submitOrder" /> <input
+										type="hidden" name="command" value="submitOrder" />
+										<input type="hidden" name="checkOutEmail"
+										value="${order.checkOutEmail}"/>
+										<input type="hidden" name="orderNumber"
+										value="${order.orderNumber}"/> 										 
+										 <input
 										class="btn btn-primary ml-0 submitOrder" type="submit"
 										value="Place Order">
 								</form>

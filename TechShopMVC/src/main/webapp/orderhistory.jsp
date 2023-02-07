@@ -55,7 +55,7 @@
 							      <td>${order.receiveMethod}</td>
 							      <td>${order.paymentType}</td>
 							      <td>${order.orderStatus}</td>
-							      <td>${order.totalCost}</td>
+							      <td class="formattedPrice">${order.totalCost}</td>
 							      <td><a class="btn btn-info" href="Order?command=viewOrderDetail&emailAddress=${order.checkOutEmail}&orderNumber=${order.orderNumber}">View</a></td>
 							    </tr>
 							  </tbody>						  

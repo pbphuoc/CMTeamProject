@@ -1,5 +1,10 @@
 package entity;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 import constant.OrderPaymentTypeEnum;
 import constant.OrderReceiveMethodEnum;
 import constant.OrderStatusEnum;
@@ -17,7 +22,7 @@ public class Order {
 	private String receiverAddress = "";
 	private OrderReceiveMethodEnum receiveMethod;
 	private OrderPaymentTypeEnum paymentType;
-	private String paymentDate;
+	private String paymentDate = "";
 	private OrderStatusEnum orderStatus;
 	private double shippingCost;
 	private double totalCost;
@@ -47,8 +52,7 @@ public class Order {
 
 	public Order(String checkOutEmail, String checkOutFullname, String checkOutPhone, String receiverFullname,
 			String receiverPhone, String receiverAddress, OrderReceiveMethodEnum receiveMethod,
-			OrderStatusEnum orderStatus, double shippingCost, double totalCost, OrderPaymentTypeEnum paymentType,
-			String paymentDate, String paymentID) {
+			OrderStatusEnum orderStatus, double shippingCost, double totalCost, OrderPaymentTypeEnum paymentType) {
 		this.checkOutEmail = checkOutEmail;
 		this.checkOutFullname = checkOutFullname;
 		this.checkOutPhone = checkOutPhone;
@@ -60,8 +64,6 @@ public class Order {
 		this.shippingCost = shippingCost;
 		this.totalCost = totalCost;
 		this.paymentType = paymentType;
-		this.paymentDate = paymentDate;
-		this.paymentID = paymentID;
 	}
 
 	public String getId() {
@@ -124,8 +126,48 @@ public class Order {
 		return totalCost;
 	}
 
-	public String getPaymentID() {
-		return paymentID;
+	public void setId(String id) {
+		this.id = id;
 	}
 
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public String getPaymentID() {
+		return paymentID;
+	}	
+
+	public void setPaymentID(String paymentID) {
+		this.paymentID = paymentID;
+	}
+
+	public void setPaymentDate(String paymentDate) {
+		String formattedPaymentDate = paymentDate;
+		
+		if (!formattedPaymentDate.equalsIgnoreCase("")) {
+			Instant instant = Instant.parse(formattedPaymentDate);
+			ZoneId zone = ZoneId.of("Australia/Sydney");
+			formattedPaymentDate = LocalDate.ofInstant(instant, zone).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		}		
+		
+		this.paymentDate = formattedPaymentDate;
+	}
+
+	public void setOrderStatus(OrderStatusEnum orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	@Override
+	public String toString() {
+		return "Order [orderNumber=" + orderNumber + ", orderDate=" + orderDate + ", checkOutEmail=" + checkOutEmail
+				+ ", checkOutFullname=" + checkOutFullname + ", checkOutPhone=" + checkOutPhone + ", receiverFullname="
+				+ receiverFullname + ", receiverPhone=" + receiverPhone + ", receiverAddress=" + receiverAddress
+				+ ", receiveMethod=" + receiveMethod + ", paymentType=" + paymentType + ", paymentDate=" + paymentDate
+				+ ", orderStatus=" + orderStatus + ", shippingCost=" + shippingCost + ", totalCost=" + totalCost + "]";
+	}
 }

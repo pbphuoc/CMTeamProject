@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -104,7 +105,8 @@ public class CheckOutServlet extends HttpServlet {
 		try {
 			ProductDAO productDAO = ProductDAO.getProductDAO();
 			HttpSession session = request.getSession();
-			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute(GlobalConstant.CART_ITEM);
+			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session
+					.getAttribute(GlobalConstant.CART_ITEM);
 			List<OrderItemDTO> items = productDAO.getAllProductInCartByID(cartItems);
 
 			PaymentServices paymentServices = PaymentServices.getPaymentServices();
@@ -141,9 +143,11 @@ public class CheckOutServlet extends HttpServlet {
 //	
 	protected void getConfirmationPage(HttpServletRequest request, HttpServletResponse response) {
 		try {
+			OrderDAO orderDAO = OrderDAO.getOrderDAO();
 			ProductDAO productDAO = ProductDAO.getProductDAO();
 			HttpSession session = request.getSession();
-			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute(GlobalConstant.CART_ITEM);
+			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session
+					.getAttribute(GlobalConstant.CART_ITEM);
 			List<OrderItemDTO> items = productDAO.getAllProductInCartByID(cartItems);
 
 			String paymentID = request.getParameter("paymentId");
@@ -154,102 +158,93 @@ public class CheckOutServlet extends HttpServlet {
 			Details details = transaction.getAmount().getDetails();
 			ShippingAddress shippingAddress = transaction.getItemList().getShippingAddress();
 
-			String currentShippingCost = details.getShipping();
-			String currentSubtotal = details.getSubtotal();
+			OrderReceiveMethodEnum receiveMethod = OrderReceiveMethodEnum.DELIVERY;
+			OrderPaymentTypeEnum paymentType = OrderPaymentTypeEnum.CARD;
+			OrderStatusEnum orderStatus = OrderStatusEnum.REVIEWING;
 			String checkOutEmail = payerInfo.getEmail();
 			String checkOutFullname = payerInfo.getFirstName() + " " + payerInfo.getLastName();
 			String checkOutPhone = payerInfo.getPhone();
 			String receiverFullname = shippingAddress.getRecipientName();
 			String receiverPhone = shippingAddress.getPhone();
+			System.out.println("receiver: " + shippingAddress.toString());
+			String currentSubtotal = details.getSubtotal();
+			String currentShippingCost = details.getShipping();
 			String addressLine2 = shippingAddress.getLine2() != null ? shippingAddress.getLine2() : "";
 			String receiverAddress = String.format("%s %s %s %s %s %s", shippingAddress.getLine1(), addressLine2,
 					shippingAddress.getCity(), shippingAddress.getState(), shippingAddress.getPostalCode(),
 					shippingAddress.getCountryCode());
-			String paymentDate = "";
-			OrderReceiveMethodEnum receiveMethod = OrderReceiveMethodEnum.DELIVERY;
-			OrderPaymentTypeEnum paymentType = OrderPaymentTypeEnum.CARD;
-			OrderStatusEnum status = OrderStatusEnum.REVIEWING;
-			double shippingCost = Utility.calculateShippingCost(receiverAddress);
-			double total = Utility.calculateTotalCost(items) + shippingCost;
+			double expectedShippingCost = Utility.calculateShippingCost(receiverAddress);
+			double expectedTotalCost = Utility.calculateTotalCost(items) + expectedShippingCost;
 
-			if (Double.parseDouble(currentShippingCost) != shippingCost)
-				paymentServices.updateShippingCost(shippingCost + "", currentSubtotal, paymentID);
+			if (Double.parseDouble(currentShippingCost) != expectedShippingCost) {
+				if (paymentServices.updateShippingCost(expectedShippingCost + "", currentSubtotal, paymentID))
+					payment = paymentServices.getPaymentDetails(paymentID);
+			}
+			double authorizedTotalCost = Double.parseDouble(payment.getTransactions().get(0).getAmount().getTotal());
+			double authorizedShippingCost = Double
+					.parseDouble(payment.getTransactions().get(0).getAmount().getDetails().getShipping());
 
-			UserSession user = (UserSession) session.getAttribute(GlobalConstant.USER);
-			if (user != null) {
-				checkOutEmail = user.getEmail();
-				checkOutFullname = user.getFullname();
-				checkOutPhone = user.getPhoneNumber();
+			if (expectedTotalCost == authorizedTotalCost && expectedShippingCost == authorizedShippingCost) {
+				String userID = GlobalConstant.GUEST_ID;
+				UserSession user = (UserSession) session.getAttribute(GlobalConstant.USER);
+
+				if (user != null) {
+					userID = user.getId();
+					checkOutEmail = user.getEmail();
+					checkOutFullname = user.getFullname();
+					checkOutPhone = user.getPhoneNumber();
+				}
+
+				Order order = new Order(checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname, receiverPhone,
+						receiverAddress, receiveMethod, orderStatus, authorizedShippingCost, authorizedTotalCost,
+						paymentType);
+
+				Object[] results = orderDAO.insertOrder(userID, order, items);
+
+				boolean successful = (boolean) results[0];
+				Order insertedOrder = (Order) results[1];
+				List<OrderItemDTO> insertedItems = (List<OrderItemDTO>) results[2];
+
+				if (successful) {
+					request.setAttribute(GlobalConstant.ORDER, insertedOrder);
+					request.setAttribute(GlobalConstant.ORDER_ITEM_DTO, insertedItems);
+//					session.setAttribute(GlobalConstant.CART_ITEM, null);
+					RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CONFIRMATION_JSP);
+					dispatcher.forward(request, response);
+				}
 			}
 
-			Order order = new Order(checkOutEmail, checkOutFullname, checkOutPhone, receiverFullname, receiverPhone,
-					receiverAddress, receiveMethod, status, shippingCost, total, paymentType, paymentDate, paymentID);
-
-			request.setAttribute(GlobalConstant.ORDER, order);
-			request.setAttribute(GlobalConstant.ORDER_ITEM_DTO, items);
-			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CONFIRMATION_JSP);
-			dispatcher.forward(request, response);
+//			request.setAttribute(GlobalConstant.ORDER, order);
+//			request.setAttribute(GlobalConstant.ORDER_ITEM_DTO, items);
+//			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CONFIRMATION_JSP);
+//			dispatcher.forward(request, response);
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error(e.getMessage());
 		}
 	}
 
 	protected void submitOrder(HttpServletRequest request, HttpServletResponse response) {
 		try {
+			String checkOutEmail = request.getParameter("checkOutEmail");
+			String orderNumber = request.getParameter("orderNumber");
 			OrderDAO orderDAO = OrderDAO.getOrderDAO();
-			ProductDAO productDAO = ProductDAO.getProductDAO();
-			HttpSession session = request.getSession();
-			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session.getAttribute(GlobalConstant.CART_ITEM);
-			List<OrderItemDTO> items = productDAO.getAllProductInCartByID(cartItems);
+			Order order = orderDAO.getOrderByUserOrEmailAndOrderNumber("", checkOutEmail, orderNumber).get(0);
+			List<OrderItemDTO> items = orderDAO.getOrderItemByOrderID(order.getId());
 
 			String paymentID = request.getParameter("paymentId");
 			String PayerID = request.getParameter("PayerID");
 			PaymentServices paymentServices = PaymentServices.getPaymentServices();
 			Payment payment = paymentServices.executePayment(paymentID, PayerID);
-			PayerInfo payerInfo = payment.getPayer().getPayerInfo();
-			Transaction transaction = payment.getTransactions().get(0);
-			ShippingAddress shippingAddress = transaction.getItemList().getShippingAddress();
 
-			String checkOutEmail = payerInfo.getEmail();
-			String checkOutFullname = payerInfo.getFirstName() + " " + payerInfo.getLastName();
-			String checkOutPhone = payerInfo.getPhone();
-			String receiverFullname = shippingAddress.getRecipientName();
-			String receiverPhone = shippingAddress.getPhone();
-			String addressLine2 = shippingAddress.getLine2() != null ? shippingAddress.getLine2() : "";
-			String receiverAddress = String.format("%s %s %s %s %s %s", shippingAddress.getLine1(), addressLine2,
-					shippingAddress.getCity(), shippingAddress.getState(), shippingAddress.getPostalCode(),
-					shippingAddress.getCountryCode());
-			String paymentDate = payment.getUpdateTime();
-			String userID = GlobalConstant.GUEST_ID;
+			if (payment.getState().equalsIgnoreCase("approved")) {
+				order.setPaymentID(paymentID);
+				order.setPaymentDate(payment.getUpdateTime());
+				order.setOrderStatus(OrderStatusEnum.RECEIVED);
+				boolean successful = orderDAO.receiveOrder(order);
 
-			UserSession user = (UserSession) session.getAttribute(GlobalConstant.USER);
-			if (user != null) {
-				userID = user.getId();
-				checkOutEmail = user.getEmail();
-				checkOutFullname = user.getFullname();
-				checkOutPhone = user.getPhoneNumber();
-			}
-
-			OrderReceiveMethodEnum receiveMethod = OrderReceiveMethodEnum.DELIVERY;
-			OrderPaymentTypeEnum paymentType = OrderPaymentTypeEnum.CARD;
-			OrderStatusEnum status = OrderStatusEnum.RECEIVED;
-			double shippingCost = Double
-					.parseDouble(payment.getTransactions().get(0).getAmount().getDetails().getShipping());
-			double totalCost = Double.parseDouble(payment.getTransactions().get(0).getAmount().getTotal());
-			double expectedTotalCost = Utility.calculateTotalCost(items)
-					+ Utility.calculateShippingCost(receiverAddress);
-
-			if (!paymentDate.equalsIgnoreCase("")) {
-				Instant instant = Instant.parse(paymentDate);
-				ZoneId zone = ZoneId.of("Australia/Sydney");
-				paymentDate = LocalDate.ofInstant(instant, zone).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-			}
-
-			if (expectedTotalCost == totalCost) {
-				Order order = orderDAO.insertOrder(userID, checkOutEmail, checkOutFullname, checkOutPhone,
-						receiverFullname, receiverPhone, receiverAddress, receiveMethod, shippingCost, totalCost, items,
-						paymentType, paymentDate, paymentID);
-				if (order != null) {
+				if (successful) {
+					HttpSession session = request.getSession();
 					request.setAttribute(GlobalConstant.ORDER, order);
 					request.setAttribute(GlobalConstant.ORDER_ITEM_DTO, items);
 					session.setAttribute(GlobalConstant.CART_ITEM, null);
@@ -257,7 +252,42 @@ public class CheckOutServlet extends HttpServlet {
 					dispatcher.forward(request, response);
 				}
 			}
+
+//			PayerInfo payerInfo = payment.getPayer().getPayerInfo();
+//			Transaction transaction = payment.getTransactions().get(0);
+//			ShippingAddress shippingAddress = transaction.getItemList().getShippingAddress();
+//
+//			String checkOutEmail = payerInfo.getEmail();
+//			String checkOutFullname = payerInfo.getFirstName() + " " + payerInfo.getLastName();
+//			String checkOutPhone = payerInfo.getPhone();
+//			String receiverFullname = shippingAddress.getRecipientName();
+//			String receiverPhone = shippingAddress.getPhone();
+//			String addressLine2 = shippingAddress.getLine2() != null ? shippingAddress.getLine2() : "";
+//			String receiverAddress = String.format("%s %s %s %s %s %s", shippingAddress.getLine1(), addressLine2,
+//					shippingAddress.getCity(), shippingAddress.getState(), shippingAddress.getPostalCode(),
+//					shippingAddress.getCountryCode());
+
+//			String userID = GlobalConstant.GUEST_ID;
+
+//			UserSession user = (UserSession) session.getAttribute(GlobalConstant.USER);
+//			if (user != null) {
+//				userID = user.getId();
+//				checkOutEmail = user.getEmail();
+//				checkOutFullname = user.getFullname();
+//				checkOutPhone = user.getPhoneNumber();
+//			}
+
+//			OrderReceiveMethodEnum receiveMethod = OrderReceiveMethodEnum.DELIVERY;
+//			OrderPaymentTypeEnum paymentType = OrderPaymentTypeEnum.CARD;
+//			OrderStatusEnum status = OrderStatusEnum.RECEIVED;
+//			double shippingCost = Double
+//					.parseDouble(payment.getTransactions().get(0).getAmount().getDetails().getShipping());
+//			double totalCost = Double.parseDouble(payment.getTransactions().get(0).getAmount().getTotal());
+//			double expectedTotalCost = Utility.calculateTotalCost(items)
+//					+ Utility.calculateShippingCost(receiverAddress);
+
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error(e.getMessage());
 		}
 	}

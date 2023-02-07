@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -38,6 +39,14 @@ public class Utility {
 		LocalDate originalFormat = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		return originalFormat.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 	}
+	
+	public static String convertDMYToYMD(String date) {
+		if (date.equalsIgnoreCase(""))
+			return date;
+
+		LocalDate originalFormat = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		return originalFormat.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	}	
 
 	public static String get2DFPrice(double price) {
 		if (price == 0)
@@ -72,6 +81,24 @@ public class Utility {
 		}
 		return null;
 	}
+	
+	public static void rollBack(Connection connection) {
+		try {
+			if (connection != null)
+				connection.rollback();;
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public static void close(Statement stm) {
+		try {
+			if (stm != null)
+				stm.close();
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+		}
+	}	
 
 	public static void close(Connection connection, PreparedStatement stm, ResultSet rs) {
 		try {
