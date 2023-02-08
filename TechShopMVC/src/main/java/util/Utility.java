@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,10 +21,6 @@ import model.OrderItemDTO;
 
 public class Utility {
 	private static final Logger logger = LogManager.getLogger(Utility.class);
-
-	public enum QueryResult {
-		SUCCESSFUL, UNSUCCESSFUL
-	}
 
 	public static String getCorrectPrevUrl(String prevUrl) {
 		String newPrevUrl = (prevUrl == null || prevUrl.equalsIgnoreCase(GlobalConstant.BLANK))
@@ -63,7 +61,7 @@ public class Utility {
 		return totalCost;
 	}
 
-	public static double calculateShippingCost(String address) {
+	public static double calculateShippingCost(String addressLine1, String addressLine2, String city, String state, String postCode, String countryCode) {
 		return 0.5;
 	}
 
@@ -112,11 +110,13 @@ public class Utility {
 			logger.error(e.getMessage());
 		}
 	}
-
-	public static Utility.QueryResult getResultCode(int code) {
-		if (code > 0)
-			return Utility.QueryResult.SUCCESSFUL;
-
-		return Utility.QueryResult.UNSUCCESSFUL;
+	
+	public static void handleError(HttpServletResponse response, int errorCode) {
+		try {
+			response.sendError(errorCode);
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+		}
 	}
 }

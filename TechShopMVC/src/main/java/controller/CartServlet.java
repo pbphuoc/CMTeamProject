@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import constant.GlobalConstant;
 import dao.ProductDAO;
 import model.OrderItemDTO;
+import util.Utility;
 
 /**
  * Servlet implementation class CartServlet
@@ -35,24 +36,31 @@ public class CartServlet extends HttpServlet {
 		String productID = request.getParameter(GlobalConstant.PRODUCT_ID) != null
 				? request.getParameter(GlobalConstant.PRODUCT_ID)
 				: GlobalConstant.VIEW_CART;
+
 		logger.info(command + " - " + productID);
+
 		try {
 			switch (command) {
 			case GlobalConstant.INCREASE:
 				increase(request, response, productID);
 				break;
+
 			case GlobalConstant.DECREASE:
 				decrease(request, response, productID);
 				break;
+
 			case GlobalConstant.REMOVE:
 				remove(request, response, productID);
 				break;
+
 			case GlobalConstant.VIEW_CART:
 				getCartPage(request, response);
 				break;
 			}
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -63,14 +71,15 @@ public class CartServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			doGet(request, response);
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	protected void getCartPage(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			ProductDAO cartDAO = ProductDAO.getProductDAO();
 			HttpSession session = request.getSession();
 			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session
 					.getAttribute(GlobalConstant.CART_ITEM);
@@ -78,13 +87,17 @@ public class CartServlet extends HttpServlet {
 			if (cartItems == null || cartItems.size() == 0) {
 				response.sendRedirect(GlobalConstant.CART_JSP);
 			} else {
+				ProductDAO cartDAO = ProductDAO.getProductDAO();
 				List<OrderItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
+
 				request.setAttribute(GlobalConstant.ORDER_ITEM_DTO, cartItemDetails);
 				RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CART_JSP);
 				dispatcher.forward(request, response);
 			}
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -93,11 +106,15 @@ public class CartServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session
 					.getAttribute(GlobalConstant.CART_ITEM);
+
 			cartItems.remove(productID);
+
 			session.setAttribute(GlobalConstant.CART_ITEM, cartItems);
 			response.getWriter().append(cartItems.size() + "");
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -106,10 +123,9 @@ public class CartServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session
 					.getAttribute(GlobalConstant.CART_ITEM);
-			HashMap<String, Integer> cartList = new HashMap<String, Integer>();
 
 			if (cartItems == null) {
-				cartItems = cartList;
+				cartItems = new HashMap<String, Integer>();
 				cartItems.put(productID, 1);
 			} else if (cartItems.size() >= 0 && cartItems.containsKey(productID) == false) {
 				cartItems.put(productID, 1);
@@ -119,8 +135,10 @@ public class CartServlet extends HttpServlet {
 
 			session.setAttribute(GlobalConstant.CART_ITEM, cartItems);
 			response.getWriter().append(cartItems.size() + "");
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -139,8 +157,10 @@ public class CartServlet extends HttpServlet {
 
 			session.setAttribute(GlobalConstant.CART_ITEM, cartItems);
 			response.getWriter().append(cartItems.size() + "");
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 }

@@ -15,6 +15,7 @@ import constant.GlobalConstant;
 import dao.ProductDAO;
 import entity.Product;
 import model.SearchFilter;
+import util.Utility;
 
 /**
  * Servlet implementation class ProductDetailServlet
@@ -32,27 +33,34 @@ public class ProductlServlet extends HttpServlet {
 		String command = request.getParameter(GlobalConstant.COMMAND) != null
 				? request.getParameter(GlobalConstant.COMMAND)
 				: GlobalConstant.BLANK;
+
 		logger.info(command);
+
 		try {
 			switch (command) {
 			case GlobalConstant.VIEW_PRODUCT_DETAIL:
 				getProductDetail(request, response);
 				break;
+
 			case GlobalConstant.SEARCH:
 				searchProductWithFilter(request, response);
 				break;
+
 			case GlobalConstant.BLANK:
 				break;
 			}
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	private void getProductDetail(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			ProductDAO productDAO = ProductDAO.getProductDAO();
 			String id = request.getParameter("productID");
+
+			ProductDAO productDAO = ProductDAO.getProductDAO();
 			Product product = productDAO.getProductByID(id);
 			List<String> medias = productDAO.getAllMediaByProductID(id);
 
@@ -60,8 +68,10 @@ public class ProductlServlet extends HttpServlet {
 			request.setAttribute("medias", medias);
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.PRODUCT_JSP);
 			dispatcher.forward(request, response);
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -90,11 +100,11 @@ public class ProductlServlet extends HttpServlet {
 			ProductDAO productDAO = ProductDAO.getProductDAO();
 			Object[] listOfProductAndFilters = productDAO.searchProductByNameWithFilters(searchKeywords, brands,
 					categories, priceMin, priceMax, availabilities, sortBy, perPage, page);
+
 			List<Product> products = (List<Product>) listOfProductAndFilters[0];
 			Map<String, SearchFilter> brandFilters = (Map<String, SearchFilter>) listOfProductAndFilters[1];
 			Map<String, SearchFilter> categoryFilters = (Map<String, SearchFilter>) listOfProductAndFilters[2];
 			Map<String, SearchFilter> stockStatusFilters = (Map<String, SearchFilter>) listOfProductAndFilters[3];
-
 			Map<String, String> sorters = (Map<String, String>) listOfProductAndFilters[4];
 			Map<String, String> resultPerPage = (Map<String, String>) listOfProductAndFilters[5];
 			Map<String, String> pagingMap = (Map<String, String>) listOfProductAndFilters[6];
@@ -115,8 +125,10 @@ public class ProductlServlet extends HttpServlet {
 
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.SEARCH_JSP);
 			dispatcher.forward(request, response);
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 }

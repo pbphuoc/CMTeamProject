@@ -15,6 +15,7 @@ import constant.GlobalConstant;
 import dao.OrderDAO;
 import entity.Order;
 import model.UserSession;
+import util.Utility;
 
 /**
  * Servlet implementation class UserAccountServlet
@@ -32,17 +33,22 @@ public class UserAccountServlet extends HttpServlet {
 		String command = request.getParameter(GlobalConstant.COMMAND) != null
 				? request.getParameter(GlobalConstant.COMMAND)
 				: GlobalConstant.BLANK;
+
 		logger.info(command);
+
 		try {
 			switch (command) {
 			case GlobalConstant.VIEW_ORDER:
 				viewOrders(request, response);
 				break;
+
 			case GlobalConstant.BLANK:
 				break;
 			}
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -57,8 +63,10 @@ public class UserAccountServlet extends HttpServlet {
 			request.setAttribute(GlobalConstant.ORDER_LIST, orderList);
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.ORDER_HISTORY_JSP);
 			dispatcher.forward(request, response);
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 }

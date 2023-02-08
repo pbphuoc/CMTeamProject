@@ -33,7 +33,6 @@ public class ProductDAO {
 	private static final String SELECT_ALL_BRAND_SQL = "SELECT * FROM brand;";
 	private static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM category;";
 	private static final String SELECT_MEDIA_BY_PRODUCTID_SQL = "SELECT * FROM media where product_id = ?; ";
-	private static final String UPDATE_STOCK_BY_PRODUCTID_SQL = "UPDATE product SET stock = stock - ? WHERE id = ?;";
 
 	private static ProductDAO productDAO;
 	private static final Logger logger = LogManager.getLogger(ProductDAO.class);
@@ -54,9 +53,11 @@ public class ProductDAO {
 		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
+		
 		try {
 			selectStm = connection.prepareStatement(SELECT_LATEST16_PRODUCT_SQL);
 			result = selectStm.executeQuery();
+			
 			while (result.next()) {
 				String id = result.getInt("id") + "";
 				String name = result.getString("name");
@@ -78,16 +79,19 @@ public class ProductDAO {
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
+		
 		return products;
 	}
 
 	public Map<String, String> getPagingMap(int totalPage) {
 		Map<String, String> pagingMap = new LinkedHashMap<String, String>();
 		int currentPage = 1;
+		
 		while (currentPage <= totalPage) {
 			pagingMap.put("" + currentPage, "");
 			++currentPage;
 		}
+		
 		return pagingMap;
 	}
 
@@ -102,17 +106,6 @@ public class ProductDAO {
 		};
 	}
 
-//	public Map<String, SearchFilter> loadResultPerPage() {
-//		return new LinkedHashMap<String, SearchFilter>() {
-//			{		
-//				put(ResultPerPageEnum.SHOW16.toString(), new SearchFilter(ResultPerPageEnum.SHOW16.toString(), ResultPerPageEnum.SHOW16.getValue()));
-//				put(ResultPerPageEnum.SHOW32.toString(), new SearchFilter(ResultPerPageEnum.SHOW32.toString(), ResultPerPageEnum.SHOW32.getValue()));
-//				put(ResultPerPageEnum.SHOW64.toString(), new SearchFilter(ResultPerPageEnum.SHOW64.toString(), ResultPerPageEnum.SHOW64.getValue()));
-//				put(ResultPerPageEnum.SHOW128.toString(), new SearchFilter(ResultPerPageEnum.SHOW128.toString(), ResultPerPageEnum.SHOW128.getValue()));
-//			}
-//		};
-//	}
-
 	public Map<String, String> loadResultPerPage() {
 		return new LinkedHashMap<String, String>() {
 			{
@@ -122,20 +115,6 @@ public class ProductDAO {
 			}
 		};
 	}
-
-//	public Map<String, SearchFilter> loadSortBy() {
-//		return new LinkedHashMap<String, SearchFilter>() {
-//			{			
-//				put(SortByEnum.RELEVANCY.toString(), new SearchFilter(SortByEnum.RELEVANCY.toString(), SortByEnum.RELEVANCY.getValue()));
-//				put(SortByEnum.PRICELOWTOHIGH.toString(), new SearchFilter(SortByEnum.PRICELOWTOHIGH.toString(), SortByEnum.PRICELOWTOHIGH.getValue()));
-//				put(SortByEnum.PRICEHIGHTOLOW.toString(), new SearchFilter(SortByEnum.PRICEHIGHTOLOW.toString(), SortByEnum.PRICEHIGHTOLOW.getValue()));
-//				put(SortByEnum.NAMEATOZ.toString(), new SearchFilter(SortByEnum.NAMEATOZ.toString(), SortByEnum.NAMEATOZ.getValue()));
-//				put(SortByEnum.NAMEZTOA.toString(), new SearchFilter(SortByEnum.NAMEZTOA.toString(), SortByEnum.NAMEZTOA.getValue()));
-//				put(SortByEnum.OLDTONEW.toString(), new SearchFilter(SortByEnum.OLDTONEW.toString(), SortByEnum.OLDTONEW.getValue()));
-//				put(SortByEnum.NEWTOOLD.toString(), new SearchFilter(SortByEnum.NEWTOOLD.toString(), SortByEnum.NEWTOOLD.getValue()));
-//			}
-//		};
-//	}		
 
 	public Map<String, String> loadSortBy() {
 		return new LinkedHashMap<String, String>() {
@@ -181,6 +160,7 @@ public class ProductDAO {
 	public String getWhereClause(String[] statements) {
 		String whereClause = "";
 		boolean inWhereClause = false;
+		
 		for (String statement : statements) {
 			if (!statement.isEmpty()) {
 				if (!inWhereClause) {
@@ -191,11 +171,13 @@ public class ProductDAO {
 				}
 			}
 		}
+		
 		return whereClause;
 	}
 
 	public String getNameCondition(String[] keywords) {
 		String nameStm = "(";
+		
 		if (keywords.length == 1)
 			nameStm += SEARCH_PRODUCT_BY_NAME_SQL;
 		else if (keywords.length > 1) {
@@ -205,44 +187,15 @@ public class ProductDAO {
 					nameStm += " union ";
 			}
 		}
+		
 		nameStm += ") as resultByKeyWords";
+		
 		return nameStm;
 	}
 
-//	public String getBrandCondition(String[] brands) {
-//		String brandStm = "";
-//		if (brands.length == 1)
-//			brandStm = "brand_id = ?";
-//		else if (brands.length > 1) {
-//			brandStm = "brand_id in (";
-//			for (int i = 0; i < brands.length; i++) {
-//				brandStm += "?";
-//				if (i != brands.length - 1)
-//					brandStm += ",";
-//			}
-//			brandStm += ")";
-//		}
-//		return brandStm;
-//	}
-//
-//	public String getCategoryCondition(String[] categories) {
-//		String categoryStm = "";
-//		if (categories.length == 1)
-//			categoryStm = "category_id = ?";
-//		else if (categories.length > 1) {
-//			categoryStm = "category_id in (";
-//			for (int i = 0; i < categories.length; i++) {
-//				categoryStm += "?";
-//				if (i != categories.length - 1)
-//					categoryStm += ",";
-//			}
-//			categoryStm += ")";
-//		}
-//		return categoryStm;
-//	}
-
 	public String getColumnCondition(String[] conditions, String columnName) {
 		String conditionStm = "";
+		
 		if (conditions.length == 1)
 			conditionStm = columnName + " = ?";
 		else if (conditions.length > 1) {
@@ -254,6 +207,7 @@ public class ProductDAO {
 			}
 			conditionStm += ")";
 		}
+		
 		return conditionStm;
 	}
 
@@ -270,21 +224,29 @@ public class ProductDAO {
 
 	public String getSortCondition(String sorter) {
 		SortByEnum sortBy = SortByEnum.valueOf(sorter);
+		
 		switch (sortBy) {
 		case RELEVANCY:
 			return "";
+			
 		case PRICELOWTOHIGH:
 			return " order by ?";
+			
 		case NAMEATOZ:
 			return " order by ?";
+			
 		case OLDTONEW:
 			return " order by ?";
+			
 		case PRICEHIGHTOLOW:
 			return " order by ? desc";
+			
 		case NAMEZTOA:
 			return " order by ? desc";
+			
 		case NEWTOOLD:
 			return " order by ? desc";
+			
 		default:
 			return "";
 		}
@@ -310,8 +272,10 @@ public class ProductDAO {
 			for (String keyword : newKeywords) {
 				selectStm.setString(++currentParam, "%" + keyword + "%");
 			}
+			
 			logger.info("Query: " + selectStm.toString());
 			result = selectStm.executeQuery();
+			
 			while (result.next()) {
 				String id = result.getInt("id") + "";
 				String name = result.getString("name");
@@ -322,12 +286,15 @@ public class ProductDAO {
 				String categoryID = result.getString("category_id");
 				String imgSrc = result.getString("img_src");
 				int stock = result.getInt("stock");
+				
 				Product product = new Product(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc,
 						stock);
+				
 				updateCountInEachFilter(brandFilters, allBrandFilters, brandID);
 				updateCountInEachFilter(categoryFilters, allCategoryFilters, categoryID);
 				updateCountInEachFilter(stockStatusFilters, allStockStatusFilters, product.getStockStatus());
 			}
+			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
@@ -335,6 +302,7 @@ public class ProductDAO {
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
+		
 		return new Object[] { brandFilters, categoryFilters, stockStatusFilters };
 	}
 
@@ -380,6 +348,7 @@ public class ProductDAO {
 
 		try {
 			selectStm = connection.prepareStatement(searchProductSQL);
+
 			for (String keyword : newKeywords) {
 				selectStm.setString(++currentParam, "%" + keyword + "%");
 			}
@@ -389,6 +358,7 @@ public class ProductDAO {
 			for (String category : selectedCategories) {
 				selectStm.setString(++currentParam, category);
 			}
+
 			if (!priceMin.isEmpty())
 				selectStm.setInt(++currentParam, Integer.parseInt(priceMin));
 			if (!priceMax.isEmpty())
@@ -396,28 +366,34 @@ public class ProductDAO {
 			if (!selectedSorter.isEmpty() && !selectedSorter.equalsIgnoreCase(SortByEnum.RELEVANCY.toString())) {
 				selectStm.setInt(++currentParam, SortByEnum.valueOf(selectedSorter).getSortByValue());
 			}
+
 			selectStm.setInt(++currentParam, MAX_LIMIT_SQL);
 			selectStm.setInt(++currentParam, 0);
 
 			logger.debug("Query before limit and offset: " + selectStm.toString());
 			result = selectStm.executeQuery();
+
 			while (result.next()) {
 				++rowCountBeforeLimit;
 			}
 
-			pagingMap = getPagingMap((int) Math.ceil((double) rowCountBeforeLimit / Double.parseDouble(perPage)));
+			int totalPage = (int) Math.ceil((double) rowCountBeforeLimit / Double.parseDouble(perPage));
+			pagingMap = getPagingMap(totalPage);
 
 			setSelectedSetting(pagingMap, page);
 			currentParam = currentParam - 2;
 
-			if (!perPage.equalsIgnoreCase(""))
+			if (!perPage.isEmpty())
 				selectStm.setInt(++currentParam, Integer.parseInt(perPage));
-			if (!page.equalsIgnoreCase(""))
-				selectStm.setInt(++currentParam, (Integer.parseInt(page) - 1) * Integer.parseInt(perPage));
+			if (!page.isEmpty()) {
+				int selectedPage = (Integer.parseInt(page) > totalPage) ? totalPage : Integer.parseInt(page);
+				selectStm.setInt(++currentParam, (selectedPage - 1) * Integer.parseInt(perPage));
+			}
 
 			logger.debug("Query after limit and offset: " + selectStm.toString());
 			result.close();
 			result = selectStm.executeQuery();
+
 			while (result.next()) {
 				String id = result.getInt("id") + "";
 				String name = result.getString("name");
@@ -432,6 +408,7 @@ public class ProductDAO {
 						stock);
 				filteredProducts.add(product);
 			}
+
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
@@ -439,6 +416,7 @@ public class ProductDAO {
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
+
 		return new Object[] { filteredProducts, allBrandFilters, allCategoryFilters, allStockStatusFilters, allSortBy,
 				allResultPerPages, pagingMap, rowCountBeforeLimit };
 	}
@@ -447,12 +425,14 @@ public class ProductDAO {
 		Connection connection = Utility.getConnection();
 		Product product = null;
 		PreparedStatement selectStm = null;
+		
 		try {
 			selectStm = connection.prepareStatement(SELECT_PRODUCT_BY_ID_SQL);
 			selectStm.setString(1, id);
 			ResultSet result = selectStm.executeQuery();
 			if (!result.next())
 				return product;
+			
 			String name = result.getString("name");
 			String description = result.getString("description");
 			double oldPrice = result.getDouble("old_price");
@@ -461,7 +441,9 @@ public class ProductDAO {
 			String categoryID = result.getString("category_id");
 			String imgSrc = result.getString("img_src");
 			int stock = result.getInt("stock");
+			
 			product = new Product(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc, stock);
+			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
@@ -477,13 +459,16 @@ public class ProductDAO {
 		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
+		
 		try {
 			selectStm = connection.prepareStatement(SELECT_MEDIA_BY_PRODUCTID_SQL);
 			selectStm.setString(1, id);
 			result = selectStm.executeQuery();
+			
 			while (result.next()) {
 				medias.add(result.getString("src"));
 			}
+			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
@@ -491,6 +476,7 @@ public class ProductDAO {
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
+		
 		return medias;
 	}
 
@@ -579,15 +565,6 @@ public class ProductDAO {
 				searchFilters.get(selectedFilter).setSelected(true);
 		}
 	}
-
-//	private void setSelectedPage(Map<String, String> paginationMap, String selectedPage) {
-//	for (Entry entry : paginationMap.entrySet()) {
-//		if (((String) entry.getKey()).equalsIgnoreCase(selectedPage))
-//			paginationMap.put((String) entry.getKey(), "selected");
-//		else
-//			paginationMap.put((String) entry.getKey(), "");
-//	}
-//}	
 
 	private void setSelectedSetting(Map<String, String> settingMaps, String selectedSetting) {
 		for (Entry entry : settingMaps.entrySet()) {

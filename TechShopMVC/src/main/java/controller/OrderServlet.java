@@ -13,6 +13,7 @@ import constant.GlobalConstant;
 import dao.OrderDAO;
 import entity.Order;
 import model.OrderItemDTO;
+import util.Utility;
 
 /**
  * Servlet implementation class OrderServlet
@@ -30,24 +31,30 @@ public class OrderServlet extends HttpServlet {
 		String command = request.getParameter(GlobalConstant.COMMAND) != null
 				? request.getParameter(GlobalConstant.COMMAND)
 				: GlobalConstant.BLANK;
+		
 		logger.info(command);
+		
 		try {
 			switch (command) {
 			case GlobalConstant.GET_TRACK_ORDER_FORM:
 				response.sendRedirect(GlobalConstant.TRACK_ORDER_JSP);
 				break;
+				
 			case GlobalConstant.TRACK_ORDER:
 				trackOrder(request, response);
 				break;
+				
 			case GlobalConstant.VIEW_ORDER_DETAIL:
 				viewOrderDetail(request, response);
 				break;
+				
 			case GlobalConstant.BLANK:
 				break;
 			}
+			
 		} catch (Exception e) {
-			// TODO: handle exception
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -58,8 +65,10 @@ public class OrderServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			doGet(request, response);
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -69,6 +78,7 @@ public class OrderServlet extends HttpServlet {
 					: GlobalConstant.BLANK;
 			String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber")
 					: GlobalConstant.BLANK;
+			
 			OrderDAO orderDAO = OrderDAO.getOrderDAO();
 			List<Order> orders = orderDAO.getOrderByUserOrEmailAndOrderNumber(GlobalConstant.BLANK, emailAddress,
 					orderNumber);
@@ -82,18 +92,21 @@ public class OrderServlet extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.TRACK_ORDER_JSP);
 				dispatcher.forward(request, response);
 			}
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);			
 		}
 	}
 
 	private void viewOrderDetail(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			OrderDAO orderDAO = OrderDAO.getOrderDAO();
 			String emailAddress = request.getParameter("emailAddress") != null ? request.getParameter("emailAddress")
 					: GlobalConstant.BLANK;
 			String orderNumber = request.getParameter("orderNumber") != null ? request.getParameter("orderNumber")
 					: GlobalConstant.BLANK;
+			
+			OrderDAO orderDAO = OrderDAO.getOrderDAO();
 			Order order = orderDAO.getOrderByUserOrEmailAndOrderNumber(GlobalConstant.BLANK, emailAddress, orderNumber)
 					.get(0);
 			List<OrderItemDTO> items = orderDAO.getOrderItemByOrderID(order.getId());
@@ -102,8 +115,10 @@ public class OrderServlet extends HttpServlet {
 			request.setAttribute(GlobalConstant.ORDER_ITEM_DTO, items);
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CONFIRMATION_JSP);
 			dispatcher.forward(request, response);
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);			
 		}
 	}
 }

@@ -32,6 +32,11 @@
 				<h2>Order ${not empty order.orderNumber ? '#'+= order.orderNumber : ''}
 					${order.orderStatus}</h2>
 				<h3>${order.orderDate}</h3>
+				<c:if test="${order.orderStatus == OrderStatusEnum.ERROR}">
+					<h1>Sorry.. There have been some problem submitting your
+						order. Paypal Transaction has been voided. Please contact
+						admin@techila.com.au for further support</h1>
+				</c:if>
 			</div>
 
 		</div>
@@ -65,7 +70,7 @@
 								<input class="confirmationInput" name="checkOutFullname"
 									value="${order.checkOutPhone}" readonly>
 							</div>
-						</c:if>						
+						</c:if>
 
 						<br>
 						<h1 class="confirmationTitle">Receiving information</h1>
@@ -76,7 +81,6 @@
 							<input class="mb-0 confirmationInput" name="receiveMethod"
 								value="${order.receiveMethod}">
 						</div>
-						<br>
 					</div>
 					<div>
 
@@ -203,17 +207,17 @@
 									<input type="hidden" name="paymentId"
 										value="${param.paymentId}" /> <input type="hidden"
 										name="PayerID" value="${param.PayerID}" /> <input
-										type="hidden" name="command" value="submitOrder" />
-										<input type="hidden" name="checkOutEmail"
-										value="${order.checkOutEmail}"/>
-										<input type="hidden" name="orderNumber"
-										value="${order.orderNumber}"/> 										 
-										 <input
+										type="hidden" name="command" value="submitOrder" /> <input
 										class="btn btn-primary ml-0 submitOrder" type="submit"
 										value="Place Order">
 								</form>
 							</c:if>
-
+							<c:if test="${order.orderStatus == OrderStatusEnum.ERROR}">
+								<a href="Home"> <input
+									class="btn btn-primary ml-0 submitOrder" type="button"
+									value="Finish">
+								</a>
+							</c:if>
 						</div>
 					</div>
 				</div>

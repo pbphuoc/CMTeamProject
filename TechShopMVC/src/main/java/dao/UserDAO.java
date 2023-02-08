@@ -38,10 +38,12 @@ public class UserDAO {
 		PreparedStatement insertStm = null;
 		ResultSet generatedKeys = null;
 		UserSession user = null;
+		
 		try {
 			insertStm = connection.prepareStatement(INSERT_USER_SQL, Statement.RETURN_GENERATED_KEYS);
 			if (userExist(email))
 				return user;
+			
 			String salt = BCrypt.gensalt(15);
 			String hashedPass = BCrypt.hashpw(password, salt);
 			insertStm.setString(1, email);
@@ -49,15 +51,16 @@ public class UserDAO {
 			insertStm.setString(3, fullname);
 			insertStm.setString(4, mobile);
 			insertStm.setString(5, salt);
-			if (Utility.getResultCode(insertStm.executeUpdate()) == Utility.QueryResult.SUCCESSFUL) {
+			if (insertStm.executeUpdate() > 0) {
 				generatedKeys = insertStm.getGeneratedKeys();
 				if (generatedKeys.next()) {
 					user = new UserSession(generatedKeys.getInt(1) + "", email, fullname, mobile);
 				}
 			}
+			
 			logger.debug("Detail Insert User: - UserID %s - UserEmail %s - UserFullname %s - UserMobile %s", email,
 					fullname, mobile);
-			return user;
+			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			logger.error("Detail Insert User: - UserID %s - UserEmail %s - UserFullname %s - UserMobile %s", email,
@@ -69,6 +72,7 @@ public class UserDAO {
 		} finally {
 			Utility.close(connection, insertStm, generatedKeys);
 		}
+		
 		return user;
 	}
 
@@ -77,14 +81,18 @@ public class UserDAO {
 		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
+		
 		try {
 			selectStm = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL);
 			selectStm.setString(1, email);
 			result = selectStm.executeQuery();
 			System.out.println("query: " + selectStm);
+			
 			if (!result.next())
 				return userExist;
+			
 			userExist = true;
+			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
@@ -92,6 +100,7 @@ public class UserDAO {
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
+		
 		return userExist;
 	}
 
@@ -100,13 +109,17 @@ public class UserDAO {
 		Connection connection = Utility.getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
+		
 		try {
 			selectStm = connection.prepareStatement(SELECT_SALT_BY_EMAIL_SQL);
 			selectStm.setString(1, email);
 			result = selectStm.executeQuery();
+			
 			if (result.next())
 				salt = result.getString("salt");
+			
 			return salt;
+			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
@@ -114,6 +127,7 @@ public class UserDAO {
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
+		
 		return salt;
 	}
 
@@ -136,6 +150,7 @@ public class UserDAO {
 
 			user = new UserSession(result.getString("id"), result.getString("email"), result.getString("fullname"),
 					result.getString("phone_number"));
+			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
@@ -143,6 +158,7 @@ public class UserDAO {
 		} finally {
 			Utility.close(connection, selectStm, result);
 		}
+		
 		return user;
 	}
 }

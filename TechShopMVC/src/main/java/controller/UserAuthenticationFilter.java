@@ -7,12 +7,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import constant.GlobalConstant;
+import util.Utility;
 
 /**
  * Servlet Filter implementation class AdminAuthenticationFIlter
@@ -48,8 +50,10 @@ public class UserAuthenticationFilter implements Filter {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.AUTH_URL);
 				dispatcher.forward(request, response);
 			}
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError((HttpServletResponse) response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);			
 		}
 	}
 }

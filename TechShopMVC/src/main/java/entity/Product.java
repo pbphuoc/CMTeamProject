@@ -70,6 +70,10 @@ public class Product {
 		return stock;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getStockStatus() {
 		if (stock == 0)
 			return StockStatusEnum.OUTOFSTOCK.toString();

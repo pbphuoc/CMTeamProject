@@ -21,6 +21,8 @@ import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentExecution;
 import com.paypal.api.payments.RedirectUrls;
+import com.paypal.api.payments.Authorization;
+import com.paypal.api.payments.Capture;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
@@ -44,22 +46,28 @@ public class PaymentServices {
 		return paymentServices;
 	}
 
-	public String authorizePayment(List<OrderItemDTO> orderItems) throws PayPalRESTException {
-		RedirectUrls redirectUrls = getRedirectURLs();
-		List<Transaction> transactions = getTransactionInformation(orderItems);
-		Payment requestPayment = new Payment();
+	public String authorizePayment(List<OrderItemDTO> orderItems) {
+		try {
+			RedirectUrls redirectUrls = getRedirectURLs();
+			List<Transaction> transactions = getTransactionInformation(orderItems);
+			Payment requestPayment = new Payment();
 
-		requestPayment.setPayer(new Payer().setPaymentMethod("paypal"));
-		requestPayment.setTransactions(transactions);
-		requestPayment.setRedirectUrls(redirectUrls);
-		requestPayment.setIntent("authorize");
+			requestPayment.setPayer(new Payer().setPaymentMethod("paypal"));
+			requestPayment.setTransactions(transactions);
+			requestPayment.setRedirectUrls(redirectUrls);
+			requestPayment.setIntent("authorize");
 
-		APIContext apiContext = new APIContext(GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET,
-				GlobalConstant.PAYPAL_MODE);
+			APIContext apiContext = new APIContext(GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET,
+					GlobalConstant.PAYPAL_MODE);
 
-		Payment approvedPayment = requestPayment.create(apiContext);
+			Payment approvedPayment = requestPayment.create(apiContext);
 
-		return getApprovalLink(approvedPayment);
+			return getApprovalLink(approvedPayment);
+
+		} catch (PayPalRESTException e) {
+			logger.error(e.getMessage());
+			return "";
+		}
 	}
 
 	private RedirectUrls getRedirectURLs() {
@@ -71,45 +79,47 @@ public class PaymentServices {
 	}
 
 	private List<Transaction> getTransactionInformation(List<OrderItemDTO> orderItems) {
-		Details details = new Details();
-		details.setSubtotal(Utility.get2DFPrice(Utility.calculateTotalCost(orderItems)));
-		details.setShipping(Utility.get2DFPrice(0));
-
-		Amount amount = new Amount();
-		amount.setCurrency("AUD");
-		amount.setTotal(Utility.get2DFPrice(Utility.calculateTotalCost(orderItems)));
-		amount.setDetails(details);
-
-		Transaction transaction = new Transaction();
-		transaction.setAmount(amount);
-
-		ItemList itemList = new ItemList();
-		List<Item> items = new ArrayList<>();
-
-		for (OrderItemDTO orderItem : orderItems) {
-			Item item = new Item();
-			item.setCurrency("AUD");
-			item.setName(orderItem.getProduct().getName());
-			item.setDescription(orderItem.getProduct().getDescription());
-			item.setPrice(Utility.get2DFPrice(orderItem.getProduct().getNewPrice()));
-			item.setTax(Utility.get2DFPrice(0));
-			item.setQuantity(orderItem.getQuantity() + "");
-			items.add(item);
-		}
-
-		itemList.setItems(items);
-		transaction.setItemList(itemList);
-
 		List<Transaction> transactions = new ArrayList<>();
-		transactions.add(transaction);
+		try {
+			Details details = new Details();
+			details.setSubtotal(Utility.get2DFPrice(Utility.calculateTotalCost(orderItems)));
+			details.setShipping(Utility.get2DFPrice(0));
 
+			Amount amount = new Amount();
+			amount.setCurrency("AUD");
+			amount.setTotal(Utility.get2DFPrice(Utility.calculateTotalCost(orderItems)));
+			amount.setDetails(details);
+
+			Transaction transaction = new Transaction();
+			transaction.setAmount(amount);
+
+			ItemList itemList = new ItemList();
+			List<Item> items = new ArrayList<>();
+
+			for (OrderItemDTO orderItem : orderItems) {
+				Item item = new Item();
+				item.setCurrency("AUD");
+				item.setName(orderItem.getProduct().getName());
+				item.setDescription(orderItem.getProduct().getDescription());
+				item.setPrice(Utility.get2DFPrice(orderItem.getProduct().getNewPrice()));
+				item.setTax(Utility.get2DFPrice(0));
+				item.setQuantity(orderItem.getQuantity() + "");
+				items.add(item);
+			}
+
+			itemList.setItems(items);
+			transaction.setItemList(itemList);
+			transactions.add(transaction);
+
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
 		return transactions;
-
 	}
 
 	private String getApprovalLink(Payment approvedPayment) {
 		List<Links> links = approvedPayment.getLinks();
-		String approvalLink = null;
+		String approvalLink = "";
 
 		for (Links link : links) {
 			if (link.getRel().equalsIgnoreCase("approval_url")) {
@@ -125,15 +135,16 @@ public class PaymentServices {
 		try {
 			APIContext apiContext = new APIContext(GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET,
 					GlobalConstant.PAYPAL_MODE);
+
 			return Payment.get(apiContext, paymentId);
+
 		} catch (PayPalRESTException e) {
 			logger.error(e.getMessage());
-			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public Payment executePayment(String paymentId, String payerId) {
+	public boolean executePayment(String paymentId, String payerId) {
 		try {
 			PaymentExecution paymentExecution = new PaymentExecution();
 			paymentExecution.setPayerId(payerId);
@@ -144,21 +155,70 @@ public class PaymentServices {
 					GlobalConstant.PAYPAL_MODE);
 
 			payment.execute(apiContext, paymentExecution);
-			
-			return Payment.get(apiContext, paymentId);
+
+			return true;
+
 		} catch (PayPalRESTException e) {
 			logger.error(e.getMessage());
-			e.printStackTrace();
+			return false;
 		}
-		return null;
+	}
+	
+	public boolean captureAuthorization(String paymentId) {
+		try {
+			APIContext apiContext = new APIContext(GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET,
+					GlobalConstant.PAYPAL_MODE);
+			
+			Payment payment = Payment.get(apiContext, paymentId);			
+			String authID = payment.getTransactions().get(0).getRelatedResources().get(0).getAuthorization().getId();
+			
+			Amount amount = new Amount();
+			amount.setCurrency("AUD");
+			amount.setTotal(payment.getTransactions().get(0).getAmount().getTotal());
+
+			Capture capture = new Capture();
+			capture.setAmount(amount);
+			capture.setIsFinalCapture(true);
+			
+			Capture capturedAuth = Authorization.get(apiContext, authID).capture(apiContext, capture);
+			
+			if (capturedAuth.getState().equalsIgnoreCase("completed"))
+				return true;
+			else
+				return false;
+
+		} catch (PayPalRESTException e) {
+			logger.error(e);
+			return false;
+		}
+	}	
+
+	public boolean voidAuthorization(String paymentId) {
+		try {
+			APIContext apiContext = new APIContext(GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET,
+					GlobalConstant.PAYPAL_MODE);
+
+			Payment payment = Payment.get(apiContext, paymentId);
+			String authID = payment.getTransactions().get(0).getRelatedResources().get(0).getAuthorization().getId();
+			Authorization voidedAuth = Authorization.get(apiContext, authID).doVoid(apiContext);
+
+			if (voidedAuth.getState().equalsIgnoreCase("voided"))
+				return true;
+			else
+				return false;
+
+		} catch (PayPalRESTException e) {
+			logger.error(e);
+			return false;
+		}
 	}
 
 	public boolean updateShippingCost(String shippingCost, String subTotal, String paymentId) {
 		try {
 			APIContext apiContext = new APIContext(GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET,
 					GlobalConstant.PAYPAL_MODE);
-			String total = (Double.parseDouble(subTotal) + Double.parseDouble(shippingCost)) + "";
 
+			String total = (Double.parseDouble(subTotal) + Double.parseDouble(shippingCost)) + "";
 			String url = GlobalConstant.PATCH_URI + paymentId;
 			CloseableHttpClient client = HttpClients.createDefault();
 			HttpPatch httpPatch = new HttpPatch(url);
@@ -175,11 +235,15 @@ public class PaymentServices {
 
 			logger.debug(response.getStatusLine().getStatusCode());
 			logger.debug(EntityUtils.toString(response.getEntity()));
-			return true;
+
+			if (response.getStatusLine().getStatusCode() == 200)
+				return true;
+			else
+				return false;
+
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error(e.getMessage());
+			return false;
 		}
-		return false;
 	}
 }

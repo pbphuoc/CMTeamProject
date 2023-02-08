@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import constant.GlobalConstant;
+import util.Utility;
 
 /**
  * Servlet Filter implementation class UserAccountFilter
@@ -39,8 +40,10 @@ public class UserAccountFilter implements Filter {
 			} else {
 				chain.doFilter(request, response);
 			}
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError((HttpServletResponse) response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);			
 		}
 	}
 }

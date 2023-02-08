@@ -27,10 +27,12 @@
 						<h2>${errorCode}</h2>
 						<h1>Oopsss! Sorry.. Something has just gone wrong..</h1>
 						<h3>${errorMessage}</h3>
+						<img src="../images/error.jpg">
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<jsp:include page="allscript.jsp"></jsp:include>	
 </body>
 </html>

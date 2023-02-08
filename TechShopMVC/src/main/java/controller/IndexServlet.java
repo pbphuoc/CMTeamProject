@@ -15,6 +15,7 @@ import dao.ProductDAO;
 import entity.Brand;
 import entity.Category;
 import entity.Product;
+import util.Utility;
 
 /**
  * Servlet implementation class IndexServlet
@@ -32,8 +33,10 @@ public class IndexServlet extends HttpServlet {
 		try {
 			logger.info("Get Home");
 			getIndexPage(request, response);
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -50,8 +53,10 @@ public class IndexServlet extends HttpServlet {
 
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.INDEX_JSP);
 			dispatcher.forward(request, response);
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 

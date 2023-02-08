@@ -12,6 +12,7 @@ import util.Utility;
 
 public class Order {
 	private String id;
+	private String userID;
 	private String orderNumber = "";
 	private String orderDate = "";
 	private String checkOutEmail = "";
@@ -50,9 +51,10 @@ public class Order {
 		this.paymentID = paymentID;
 	}
 
-	public Order(String checkOutEmail, String checkOutFullname, String checkOutPhone, String receiverFullname,
+	public Order(String userID, String checkOutEmail, String checkOutFullname, String checkOutPhone, String receiverFullname,
 			String receiverPhone, String receiverAddress, OrderReceiveMethodEnum receiveMethod,
 			OrderStatusEnum orderStatus, double shippingCost, double totalCost, OrderPaymentTypeEnum paymentType) {
+		this.userID = userID;
 		this.checkOutEmail = checkOutEmail;
 		this.checkOutFullname = checkOutFullname;
 		this.checkOutPhone = checkOutPhone;
@@ -146,6 +148,10 @@ public class Order {
 		this.paymentID = paymentID;
 	}
 
+	public String getUserID() {
+		return userID;
+	}
+	
 	public void setPaymentDate(String paymentDate) {
 		String formattedPaymentDate = paymentDate;
 		
