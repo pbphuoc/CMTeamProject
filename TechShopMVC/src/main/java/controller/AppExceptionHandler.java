@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import constant.GlobalConstant;
+import global.GlobalConstant;
 
 /**
  * Servlet implementation class AppExceptionHandler
@@ -20,7 +20,7 @@ import constant.GlobalConstant;
 @WebServlet("/AppExceptionHandler")
 public class AppExceptionHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LogManager.getLogger(IndexServlet.class);
+	private static final Logger logger = LogManager.getLogger(AppExceptionHandler.class);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -52,7 +52,7 @@ public class AppExceptionHandler extends HttpServlet {
 				request.setAttribute(GlobalConstant.ERROR_MESSAGE, GlobalConstant.ERROR_403_MESSAGE);
 				logger.debug(String.format("Error %d", statusCode));
 				logger.debug(String.format("Requested URI %s", requestUri));
-				logger.debug(String.format("Servlet Name %s", servletName));			
+				logger.debug(String.format("Servlet Name %s", servletName));
 				break;
 
 			case GlobalConstant.ERROR_404:
@@ -61,7 +61,7 @@ public class AppExceptionHandler extends HttpServlet {
 				request.setAttribute(GlobalConstant.ERROR_MESSAGE, GlobalConstant.ERROR_404_MESSAGE);
 				logger.debug(String.format("Error %d", statusCode));
 				logger.debug(String.format("Requested URI %s", requestUri));
-				logger.debug(String.format("Servlet Name %s", servletName));				
+				logger.debug(String.format("Servlet Name %s", servletName));
 				break;
 
 			case GlobalConstant.ERROR_500:
@@ -70,7 +70,7 @@ public class AppExceptionHandler extends HttpServlet {
 				request.setAttribute(GlobalConstant.ERROR_MESSAGE, GlobalConstant.ERROR_500_MESSAGE);
 				logger.error(String.format("Error %d", statusCode));
 				logger.error(String.format("Requested URI %s", requestUri));
-				logger.error(String.format("Servlet Name %s", servletName));				
+				logger.error(String.format("Servlet Name %s", servletName));
 				break;
 
 			default:

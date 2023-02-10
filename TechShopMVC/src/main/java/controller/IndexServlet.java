@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import constant.GlobalConstant;
+import dao.BrandDAO;
+import dao.CategoryDAO;
 import dao.ProductDAO;
 import entity.Brand;
 import entity.Category;
 import entity.Product;
+import global.GlobalConstant;
 import util.Utility;
 
 /**
@@ -42,10 +44,9 @@ public class IndexServlet extends HttpServlet {
 
 	private void getIndexPage(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			ProductDAO productDAO = ProductDAO.getProductDAO();
-			List<Product> products = productDAO.getPopularProducts();
-			List<Brand> brands = productDAO.getAllBrands();
-			List<Category> categories = productDAO.getAllCategory();
+			List<Product> products = ProductDAO.getProductDAO().getFirst16Products();
+			List<Brand> brands = BrandDAO.getBrandDAO().getAllBrands();
+			List<Category> categories = CategoryDAO.getCategoryDAO().getAllCategory();
 
 			request.setAttribute("productList", products);
 			request.setAttribute("brandList", brands);
@@ -53,7 +54,7 @@ public class IndexServlet extends HttpServlet {
 
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.INDEX_JSP);
 			dispatcher.forward(request, response);
-			
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

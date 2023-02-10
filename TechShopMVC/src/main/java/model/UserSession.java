@@ -5,7 +5,7 @@ public class UserSession {
 	private String email;
 	private String fullname;
 	private String phoneNumber;
-	
+
 	public UserSession(String id, String email, String fullname, String phoneNumber) {
 		this.id = id;
 		this.email = email;
@@ -28,5 +28,10 @@ public class UserSession {
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "UserSession [id=" + id + ", email=" + email + ", fullname=" + fullname + ", phoneNumber=" + phoneNumber
+				+ "]";
+	}
 }

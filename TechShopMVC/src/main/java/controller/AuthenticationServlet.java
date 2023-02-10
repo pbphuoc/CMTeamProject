@@ -10,8 +10,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import constant.GlobalConstant;
 import dao.UserDAO;
+import entity.User;
+import global.GlobalConstant;
 import model.UserSession;
 import util.Utility;
 
@@ -31,7 +32,7 @@ public class AuthenticationServlet extends HttpServlet {
 		String command = request.getParameter(GlobalConstant.COMMAND) != null
 				? request.getParameter(GlobalConstant.COMMAND)
 				: GlobalConstant.GET_LOGIN_FORM;
-		
+
 		logger.info(command);
 
 		try {
@@ -56,7 +57,7 @@ public class AuthenticationServlet extends HttpServlet {
 				register(request, response);
 				break;
 			}
-			
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -84,8 +85,7 @@ public class AuthenticationServlet extends HttpServlet {
 			String password = request.getParameter(GlobalConstant.PASSWORD_REGISTER);
 			String mobile = request.getParameter(GlobalConstant.MOBILE_REGISTER);
 
-			UserDAO userDAO = UserDAO.getUserDAO();
-			UserSession user = userDAO.insertUser(email, password, fullname, mobile);
+			UserSession user = UserDAO.getUserDAO().insertUser(new User(email, password, fullname, mobile));
 
 			if (user != null) {
 				String prevUrl = Utility.getCorrectPrevUrl(request.getParameter(GlobalConstant.PREV_URL));
@@ -109,8 +109,7 @@ public class AuthenticationServlet extends HttpServlet {
 			String email = request.getParameter(GlobalConstant.EMAIL_LOGIN);
 			String password = request.getParameter(GlobalConstant.PASSWORD_LOGIN);
 
-			UserDAO userDAO = UserDAO.getUserDAO();
-			UserSession user = userDAO.authenticateUser(email, password);
+			UserSession user = UserDAO.getUserDAO().authenticateUser(email, password);
 
 			if (user != null) {
 				String prevUrl = Utility.getCorrectPrevUrl(request.getParameter(GlobalConstant.PREV_URL));

@@ -6,18 +6,6 @@ function changeProductImage(_src) {
 	document.getElementById("imageViewer").src = _src;
 }
 
-//function loadChechOutForm() {
-//	if (getCookie("username") != "") {
-//		$('#checkoutMember').hide();
-//		$('#guestCheckoutLabel').text('Check Out');
-//		$('#guestEmail').val(getCookie("username"));
-//	} else {
-//		$('#checkoutMember').show();
-//		$('#guestCheckoutLabel').text('Check Out As Guest');
-//		$('#guestEmail').val("");
-//	}
-//}
-
 function redirectLoggedInUser() {
 	if (getCookie("username") != "") {
 		window.location.href = "index.html"
@@ -301,7 +289,7 @@ function setErrorMessage(element, feedback, message) {
 	$(feedback).html(message);
 	if (message == '') {
 		element.addClass('is-valid');
-		element.removeClass('is-invalid');
+		element.removeClass('is-invalid');		
 	} else {
 		element.addClass('is-invalid');
 		element.removeClass('is-valid');
@@ -315,6 +303,7 @@ function isEmailFormatValid(email) {
 
 function isMobileFormatValid(mobile) {
 	var ausMobilePattern = /^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$/;
+	
 	return new RegExp(ausMobilePattern).test(mobile);
 }
 
@@ -330,14 +319,5 @@ $('.addbutton').click(function productOverlayOn(e) {
 $('.productOverlay').click(function productOverlayOff() {
 	$(this).hide();
 })
-
-
-//end cookies functions
-
-//$('#searchBar').change(function(){
-//	alert('test');
-//
-//});
-
 
 

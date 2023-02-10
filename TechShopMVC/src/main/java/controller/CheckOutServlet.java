@@ -19,13 +19,13 @@ import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.ShippingAddress;
 import com.paypal.api.payments.Transaction;
 
-import constant.GlobalConstant;
-import constant.OrderPaymentTypeEnum;
-import constant.OrderReceiveMethodEnum;
-import constant.OrderStatusEnum;
 import dao.OrderDAO;
 import dao.ProductDAO;
 import entity.Order;
+import global.GlobalConstant;
+import global.OrderPaymentTypeEnum;
+import global.OrderReceiveMethodEnum;
+import global.OrderStatusEnum;
 import model.OrderItemDTO;
 import model.UserSession;
 import service.PaymentServices;
@@ -95,8 +95,7 @@ public class CheckOutServlet extends HttpServlet {
 			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session
 					.getAttribute(GlobalConstant.CART_ITEM);
 
-			ProductDAO cartDAO = ProductDAO.getProductDAO();
-			List<OrderItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
+			List<OrderItemDTO> cartItemDetails = ProductDAO.getProductDAO().getAllProductInCartByID(cartItems);
 
 			request.setAttribute(GlobalConstant.ORDER_ITEM_DTO, cartItemDetails);
 			RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CHECKOUT_JSP);
@@ -114,14 +113,13 @@ public class CheckOutServlet extends HttpServlet {
 			HashMap<String, Integer> cartItems = (HashMap<String, Integer>) session
 					.getAttribute(GlobalConstant.CART_ITEM);
 
-			ProductDAO productDAO = ProductDAO.getProductDAO();
-			List<OrderItemDTO> items = productDAO.getAllProductInCartByID(cartItems);
+			List<OrderItemDTO> items = ProductDAO.getProductDAO().getAllProductInCartByID(cartItems);
 
 			PaymentServices paymentServices = PaymentServices.getPaymentServices();
 			String approvalLink = paymentServices.authorizePayment(items);
 
 			if (approvalLink.isEmpty()) {
-				Utility.handleError(response, HttpServletResponse.SC_NOT_FOUND);
+				Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				return;
 			}
 
@@ -144,8 +142,7 @@ public class CheckOutServlet extends HttpServlet {
 				return;
 			}
 
-			ProductDAO productDAO = ProductDAO.getProductDAO();
-			List<OrderItemDTO> items = productDAO.getAllProductInCartByID(cartItems);
+			List<OrderItemDTO> items = ProductDAO.getProductDAO().getAllProductInCartByID(cartItems);
 
 			String paymentID = request.getParameter("paymentId");
 			PaymentServices paymentServices = PaymentServices.getPaymentServices();
@@ -208,7 +205,6 @@ public class CheckOutServlet extends HttpServlet {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error(e.getMessage());
 			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
@@ -225,8 +221,6 @@ public class CheckOutServlet extends HttpServlet {
 				return;
 			}
 
-			OrderDAO orderDAO = OrderDAO.getOrderDAO();
-
 			String paymentID = request.getParameter("paymentId");
 			String PayerID = request.getParameter("PayerID");
 			PaymentServices paymentServices = PaymentServices.getPaymentServices();
@@ -238,7 +232,7 @@ public class CheckOutServlet extends HttpServlet {
 				order.setPaymentDate(payment.getUpdateTime());
 				order.setOrderStatus(OrderStatusEnum.RECEIVED);
 
-				boolean succesful = orderDAO.insertOrder(order, items);
+				boolean succesful = OrderDAO.getOrderDAO().insertOrder(order, items);
 
 				session.setAttribute(GlobalConstant.ORDER, null);
 				session.setAttribute(GlobalConstant.CART_ITEM, null);
@@ -260,7 +254,6 @@ public class CheckOutServlet extends HttpServlet {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error(e.getMessage());
 			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}

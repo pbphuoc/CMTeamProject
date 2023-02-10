@@ -3,6 +3,7 @@ package model;
 import entity.Product;
 
 public class OrderItemDTO {
+	
 	private Product product;
 	private int quantity;
 

@@ -5,28 +5,64 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-import constant.OrderPaymentTypeEnum;
-import constant.OrderReceiveMethodEnum;
-import constant.OrderStatusEnum;
+import annotation.DBField;
+import annotation.Table;
+import global.OrderPaymentTypeEnum;
+import global.OrderReceiveMethodEnum;
+import global.OrderStatusEnum;
 import util.Utility;
 
+@Table(name = "orders")
 public class Order {
+
 	private String id;
-	private String userID;
+
+	@DBField(name = "order_number", type = String.class)
 	private String orderNumber = "";
+
+	@DBField(name = "order_date", type = String.class)
 	private String orderDate = "";
+
+	@DBField(name = "user_id", type = String.class)
+	private String userID = "";
+
+	@DBField(name = "checkout_email", type = String.class)
 	private String checkOutEmail = "";
+
+	@DBField(name = "checkout_fullname", type = String.class)
 	private String checkOutFullname = "";
+
+	@DBField(name = "checkout_phone", type = String.class)
 	private String checkOutPhone = "";
+
+	@DBField(name = "receiver_fullname", type = String.class)
 	private String receiverFullname = "";
+
+	@DBField(name = "receiver_phone", type = String.class)
 	private String receiverPhone = "";
+
+	@DBField(name = "receiver_address", type = String.class)
 	private String receiverAddress = "";
+
+	@DBField(name = "receive_method", type = Enum.class)
 	private OrderReceiveMethodEnum receiveMethod;
-	private OrderPaymentTypeEnum paymentType;
-	private String paymentDate = "";
+
+	@DBField(name = "order_status", type = Enum.class)
 	private OrderStatusEnum orderStatus;
+
+	@DBField(name = "shipping", type = Double.class)
 	private double shippingCost;
+
+	@DBField(name = "total", type = Double.class)
 	private double totalCost;
+
+	@DBField(name = "payment_type", type = Enum.class)
+	private OrderPaymentTypeEnum paymentType;
+
+	@DBField(name = "payment_date", type = String.class)
+	private String paymentDate = "";
+
+	@DBField(name = "payment_id", type = String.class)
 	private String paymentID = "";
 
 	public Order(String id, String orderNumber, String orderDate, String checkOutEmail, String checkOutFullname,
@@ -51,15 +87,15 @@ public class Order {
 		this.paymentID = paymentID;
 	}
 
-	public Order(String userID, String checkOutEmail, String checkOutFullname, String checkOutPhone, String receiverFullname,
-			String receiverPhone, String receiverAddress, OrderReceiveMethodEnum receiveMethod,
+	public Order(String userID, String checkOutEmail, String checkOutFullname, String checkOutPhone,
+			String receiverFullname, String receiverPhone, String receiverAddress, OrderReceiveMethodEnum receiveMethod,
 			OrderStatusEnum orderStatus, double shippingCost, double totalCost, OrderPaymentTypeEnum paymentType) {
 		this.userID = userID;
 		this.checkOutEmail = checkOutEmail;
 		this.checkOutFullname = checkOutFullname;
-		this.checkOutPhone = checkOutPhone;
+		this.checkOutPhone = checkOutPhone != null ? checkOutPhone : "";
 		this.receiverFullname = receiverFullname;
-		this.receiverPhone = receiverPhone;
+		this.receiverPhone = receiverPhone != null ? receiverPhone : "";
 		this.receiverAddress = receiverAddress;
 		this.receiveMethod = receiveMethod;
 		this.orderStatus = orderStatus;
@@ -142,7 +178,7 @@ public class Order {
 
 	public String getPaymentID() {
 		return paymentID;
-	}	
+	}
 
 	public void setPaymentID(String paymentID) {
 		this.paymentID = paymentID;
@@ -151,16 +187,16 @@ public class Order {
 	public String getUserID() {
 		return userID;
 	}
-	
+
 	public void setPaymentDate(String paymentDate) {
 		String formattedPaymentDate = paymentDate;
-		
+
 		if (!formattedPaymentDate.equalsIgnoreCase("")) {
 			Instant instant = Instant.parse(formattedPaymentDate);
 			ZoneId zone = ZoneId.of("Australia/Sydney");
 			formattedPaymentDate = LocalDate.ofInstant(instant, zone).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		}		
-		
+		}
+
 		this.paymentDate = formattedPaymentDate;
 	}
 

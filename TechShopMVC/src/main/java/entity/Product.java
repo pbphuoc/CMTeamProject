@@ -1,16 +1,36 @@
 package entity;
 
-import constant.StockStatusEnum;
+import annotation.DBField;
+import annotation.Table;
+import global.StockStatusEnum;
 
+@Table(name = "product")
 public class Product {
+	
 	private String id;
+	
+	@DBField(name = "name", type = String.class)
 	private String name;
+	
+	@DBField(name = "description", type = String.class)
 	private String description;
+	
+	@DBField(name = "old_price", type = Double.class)
 	private double oldPrice;
+	
+	@DBField(name = "new_price", type = Double.class)
 	private double newPrice;
+	
+	@DBField(name = "brand_id", type = String.class)
 	private String brandID;
+	
+	@DBField(name = "category_id", type = String.class)
 	private String categoryID;
+	
+	@DBField(name = "img_src", type = String.class)
 	private String imgSrc;
+	
+	@DBField(name = "stock", type = Integer.class)
 	private int stock;
 
 	public Product(String id, String name, String description, double oldPrice, double newPrice, String brandID,
@@ -90,8 +110,8 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", oldPrice=" + oldPrice
-				+ ", newPrice=" + newPrice + ", brandID=" + brandID + ", categoryID=" + categoryID + ", imgSrc="
-				+ imgSrc + ", stock=" + stock + "]";
+		return "Product [id=" + id + ", name=" + name + ", oldPrice=" + oldPrice + ", newPrice=" + newPrice
+				+ ", brandID=" + brandID + ", categoryID=" + categoryID + ", imgSrc=" + imgSrc + ", stock=" + stock
+				+ "]";
 	}
 }

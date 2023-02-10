@@ -1,4 +1,4 @@
-package constant;
+package global;
 
 public enum OrderStatusEnum {
 	REVIEWING, RECEIVED, PROCESSING, READY, FINISHED, RETURNED, CANCELLED, ERROR

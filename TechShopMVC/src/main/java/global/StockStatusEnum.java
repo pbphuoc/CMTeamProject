@@ -1,4 +1,4 @@
-package constant;
+package global;
 
 public enum StockStatusEnum {
 	INSTOCK("In Stock"), OUTOFSTOCK("Out Of Stock");

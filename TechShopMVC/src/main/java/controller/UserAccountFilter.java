@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import constant.GlobalConstant;
+import global.GlobalConstant;
 import util.Utility;
 
 /**

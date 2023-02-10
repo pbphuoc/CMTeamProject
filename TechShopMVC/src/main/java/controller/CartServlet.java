@@ -12,8 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import constant.GlobalConstant;
 import dao.ProductDAO;
+import global.GlobalConstant;
 import model.OrderItemDTO;
 import util.Utility;
 
@@ -87,8 +87,7 @@ public class CartServlet extends HttpServlet {
 			if (cartItems == null || cartItems.size() == 0) {
 				response.sendRedirect(GlobalConstant.CART_JSP);
 			} else {
-				ProductDAO cartDAO = ProductDAO.getProductDAO();
-				List<OrderItemDTO> cartItemDetails = cartDAO.getAllProductInCartByID(cartItems);
+				List<OrderItemDTO> cartItemDetails = ProductDAO.getProductDAO().getAllProductInCartByID(cartItems);
 
 				request.setAttribute(GlobalConstant.ORDER_ITEM_DTO, cartItemDetails);
 				RequestDispatcher dispatcher = request.getRequestDispatcher(GlobalConstant.CART_JSP);
@@ -157,7 +156,7 @@ public class CartServlet extends HttpServlet {
 
 			session.setAttribute(GlobalConstant.CART_ITEM, cartItems);
 			response.getWriter().append(cartItems.size() + "");
-			
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			Utility.handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

@@ -14,25 +14,17 @@ import java.util.Map.Entry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import constant.GlobalConstant;
-import constant.SortByEnum;
-import constant.StockStatusEnum;
-import entity.Brand;
-import entity.Category;
 import entity.Product;
+import global.GlobalConstant;
+import global.SortByEnum;
+import global.StockStatusEnum;
+import mapper.ProductMapper;
 import model.SearchFilter;
-import util.Utility;
 import model.OrderItemDTO;
 
-public class ProductDAO {
+public class ProductDAO extends BaseDAO<ProductMapper, Product, ProductDAO> {
 
-	private static final String SELECT_LATEST16_PRODUCT_SQL = "SELECT * FROM product order by 1 desc limit 16;";
-	private static final String SELECT_PRODUCT_BY_ID_SQL = "SELECT * FROM product where id=? ;";
-	private static final String SELECT_PRICE_BY_ID_SQL = "SELECT new_price FROM product where id =? ;";
 	private static final String SEARCH_PRODUCT_BY_NAME_SQL = "SELECT * FROM product where name like ? ";
-	private static final String SELECT_ALL_BRAND_SQL = "SELECT * FROM brand;";
-	private static final String SELECT_ALL_CATEGORY_SQL = "SELECT * FROM category;";
-	private static final String SELECT_MEDIA_BY_PRODUCTID_SQL = "SELECT * FROM media where product_id = ?; ";
 
 	private static ProductDAO productDAO;
 	private static final Logger logger = LogManager.getLogger(ProductDAO.class);
@@ -40,58 +32,33 @@ public class ProductDAO {
 	private static final int MAX_LIMIT_SQL = 999999;
 
 	private ProductDAO() {
+		super(new ProductMapper());
 	}
 
 	public static ProductDAO getProductDAO() {
-		if (productDAO == null)
-			productDAO = new ProductDAO();
-		return productDAO;
+		return productDAO != null ? productDAO : new ProductDAO();
 	}
 
-	public List<Product> getPopularProducts() {
-		List<Product> products = new ArrayList<Product>();
-		Connection connection = Utility.getConnection();
-		PreparedStatement selectStm = null;
-		ResultSet result = null;
-		
-		try {
-			selectStm = connection.prepareStatement(SELECT_LATEST16_PRODUCT_SQL);
-			result = selectStm.executeQuery();
-			
-			while (result.next()) {
-				String id = result.getInt("id") + "";
-				String name = result.getString("name");
-				String description = result.getString("description");
-				double oldPrice = result.getDouble("old_price");
-				double newPrice = result.getDouble("new_price");
-				String brandID = result.getString("brand_id");
-				String categoryID = result.getString("category_id");
-				String imgSrc = result.getString("img_src");
-				int stock = result.getInt("stock");
-				products.add(
-						new Product(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc, stock));
-			}
+	public List<Product> getFirst16Products() {
+		List<Product> products = getAll();
 
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		} catch (NullPointerException e) {
-			logger.error(e.getMessage());
-		} finally {
-			Utility.close(connection, selectStm, result);
-		}
-		
-		return products;
+		if (products == null)
+			return new ArrayList<Product>();
+
+		int lastSubListIndex = (products.size() >= 16) ? 16 : products.size();
+
+		return products.subList(0, lastSubListIndex);
 	}
 
 	public Map<String, String> getPagingMap(int totalPage) {
 		Map<String, String> pagingMap = new LinkedHashMap<String, String>();
 		int currentPage = 1;
-		
+
 		while (currentPage <= totalPage) {
 			pagingMap.put("" + currentPage, "");
 			++currentPage;
 		}
-		
+
 		return pagingMap;
 	}
 
@@ -130,37 +97,10 @@ public class ProductDAO {
 		};
 	}
 
-	public Map<String, SearchFilter> loadSearchFilterFromDB(String query) {
-		Map<String, SearchFilter> filters = new LinkedHashMap<String, SearchFilter>();
-		Connection connection = Utility.getConnection();
-		PreparedStatement selectStm = null;
-		ResultSet result = null;
-
-		try {
-			selectStm = connection.prepareStatement(query);
-			result = selectStm.executeQuery();
-
-			while (result.next()) {
-				String id = result.getInt("id") + "";
-				String name = result.getString("name");
-				SearchFilter filter = new SearchFilter(id, name);
-				filters.put(id, filter);
-			}
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		} catch (NullPointerException e) {
-			logger.error(e.getMessage());
-		} finally {
-			Utility.close(connection, selectStm, result);
-		}
-
-		return filters;
-	}
-
 	public String getWhereClause(String[] statements) {
 		String whereClause = "";
 		boolean inWhereClause = false;
-		
+
 		for (String statement : statements) {
 			if (!statement.isEmpty()) {
 				if (!inWhereClause) {
@@ -171,13 +111,13 @@ public class ProductDAO {
 				}
 			}
 		}
-		
+
 		return whereClause;
 	}
 
 	public String getNameCondition(String[] keywords) {
 		String nameStm = "(";
-		
+
 		if (keywords.length == 1)
 			nameStm += SEARCH_PRODUCT_BY_NAME_SQL;
 		else if (keywords.length > 1) {
@@ -187,15 +127,15 @@ public class ProductDAO {
 					nameStm += " union ";
 			}
 		}
-		
+
 		nameStm += ") as resultByKeyWords";
-		
+
 		return nameStm;
 	}
 
 	public String getColumnCondition(String[] conditions, String columnName) {
 		String conditionStm = "";
-		
+
 		if (conditions.length == 1)
 			conditionStm = columnName + " = ?";
 		else if (conditions.length > 1) {
@@ -207,7 +147,7 @@ public class ProductDAO {
 			}
 			conditionStm += ")";
 		}
-		
+
 		return conditionStm;
 	}
 
@@ -224,38 +164,38 @@ public class ProductDAO {
 
 	public String getSortCondition(String sorter) {
 		SortByEnum sortBy = SortByEnum.valueOf(sorter);
-		
+
 		switch (sortBy) {
 		case RELEVANCY:
 			return "";
-			
+
 		case PRICELOWTOHIGH:
 			return " order by ?";
-			
+
 		case NAMEATOZ:
 			return " order by ?";
-			
+
 		case OLDTONEW:
 			return " order by ?";
-			
+
 		case PRICEHIGHTOLOW:
 			return " order by ? desc";
-			
+
 		case NAMEZTOA:
 			return " order by ? desc";
-			
+
 		case NEWTOOLD:
 			return " order by ? desc";
-			
+
 		default:
 			return "";
 		}
 	}
 
 	public Object[] searchProductByName(String[] keywords) {
-		Map<String, SearchFilter> allBrandFilters = loadSearchFilterFromDB(SELECT_ALL_BRAND_SQL);
+		Map<String, SearchFilter> allBrandFilters = BrandDAO.getBrandDAO().loadAllBrandToSearchFilter();
 		Map<String, SearchFilter> brandFilters = new HashMap<String, SearchFilter>();
-		Map<String, SearchFilter> allCategoryFilters = loadSearchFilterFromDB(SELECT_ALL_CATEGORY_SQL);
+		Map<String, SearchFilter> allCategoryFilters = CategoryDAO.getCategoryDAO().loadAllCategoryToSearchFilter();
 		Map<String, SearchFilter> categoryFilters = new HashMap<String, SearchFilter>();
 		Map<String, SearchFilter> allStockStatusFilters = loadStockStatusFilter();
 		Map<String, SearchFilter> stockStatusFilters = new HashMap<String, SearchFilter>();
@@ -263,7 +203,7 @@ public class ProductDAO {
 
 		int currentParam = 0;
 		String searchProductSQL = GlobalConstant.SELECT_FROM_SUB_QUERY + getNameCondition(newKeywords);
-		Connection connection = Utility.getConnection();
+		Connection connection = getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
 
@@ -272,37 +212,27 @@ public class ProductDAO {
 			for (String keyword : newKeywords) {
 				selectStm.setString(++currentParam, "%" + keyword + "%");
 			}
-			
+
 			logger.info("Query: " + selectStm.toString());
 			result = selectStm.executeQuery();
-			
+
 			while (result.next()) {
-				String id = result.getInt("id") + "";
-				String name = result.getString("name");
-				String description = result.getString("description");
-				double oldPrice = result.getDouble("old_price");
-				double newPrice = result.getDouble("new_price");
-				String brandID = result.getString("brand_id");
-				String categoryID = result.getString("category_id");
-				String imgSrc = result.getString("img_src");
-				int stock = result.getInt("stock");
-				
-				Product product = new Product(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc,
-						stock);
-				
-				updateCountInEachFilter(brandFilters, allBrandFilters, brandID);
-				updateCountInEachFilter(categoryFilters, allCategoryFilters, categoryID);
+
+				Product product = mapper.map(result);
+
+				updateCountInEachFilter(brandFilters, allBrandFilters, product.getBrandID());
+				updateCountInEachFilter(categoryFilters, allCategoryFilters, product.getCategoryID());
 				updateCountInEachFilter(stockStatusFilters, allStockStatusFilters, product.getStockStatus());
 			}
-			
+
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
 			logger.error(e.getMessage());
 		} finally {
-			Utility.close(connection, selectStm, result);
+			close(connection, selectStm, result);
 		}
-		
+
 		return new Object[] { brandFilters, categoryFilters, stockStatusFilters };
 	}
 
@@ -341,7 +271,7 @@ public class ProductDAO {
 		searchProductSQL += perPage.isEmpty() ? "" : " limit ? ";
 		searchProductSQL += page.isEmpty() ? "" : " offset ? ";
 
-		Connection connection = Utility.getConnection();
+		Connection connection = getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
 		int rowCountBeforeLimit = 0;
@@ -395,17 +325,7 @@ public class ProductDAO {
 			result = selectStm.executeQuery();
 
 			while (result.next()) {
-				String id = result.getInt("id") + "";
-				String name = result.getString("name");
-				String description = result.getString("description");
-				double oldPrice = result.getDouble("old_price");
-				double newPrice = result.getDouble("new_price");
-				String brandID = result.getString("brand_id");
-				String categoryID = result.getString("category_id");
-				String imgSrc = result.getString("img_src");
-				int stock = result.getInt("stock");
-				Product product = new Product(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc,
-						stock);
+				Product product = mapper.map(result);
 				filteredProducts.add(product);
 			}
 
@@ -414,7 +334,7 @@ public class ProductDAO {
 		} catch (NullPointerException e) {
 			logger.error(e.getMessage());
 		} finally {
-			Utility.close(connection, selectStm, result);
+			close(connection, selectStm, result);
 		}
 
 		return new Object[] { filteredProducts, allBrandFilters, allCategoryFilters, allStockStatusFilters, allSortBy,
@@ -422,133 +342,9 @@ public class ProductDAO {
 	}
 
 	public Product getProductByID(String id) {
-		Connection connection = Utility.getConnection();
-		Product product = null;
-		PreparedStatement selectStm = null;
-		
-		try {
-			selectStm = connection.prepareStatement(SELECT_PRODUCT_BY_ID_SQL);
-			selectStm.setString(1, id);
-			ResultSet result = selectStm.executeQuery();
-			if (!result.next())
-				return product;
-			
-			String name = result.getString("name");
-			String description = result.getString("description");
-			double oldPrice = result.getDouble("old_price");
-			double newPrice = result.getDouble("new_price");
-			String brandID = result.getString("brand_id");
-			String categoryID = result.getString("category_id");
-			String imgSrc = result.getString("img_src");
-			int stock = result.getInt("stock");
-			
-			product = new Product(id, name, description, oldPrice, newPrice, brandID, categoryID, imgSrc, stock);
-			
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		} catch (NullPointerException e) {
-			logger.error(e.getMessage());
-		} finally {
-			Utility.close(connection, selectStm, null);
-		}
-		return product;
-	}
+		List<Product> products = getBy(new String[] { "id" }, new Object[] { Integer.parseInt(id) });
 
-	public List<String> getAllMediaByProductID(String id) {
-		List<String> medias = new ArrayList<String>();
-		Connection connection = Utility.getConnection();
-		PreparedStatement selectStm = null;
-		ResultSet result = null;
-		
-		try {
-			selectStm = connection.prepareStatement(SELECT_MEDIA_BY_PRODUCTID_SQL);
-			selectStm.setString(1, id);
-			result = selectStm.executeQuery();
-			
-			while (result.next()) {
-				medias.add(result.getString("src"));
-			}
-			
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		} catch (NullPointerException e) {
-			logger.error(e.getMessage());
-		} finally {
-			Utility.close(connection, selectStm, result);
-		}
-		
-		return medias;
-	}
-
-	public double getPriceByProductID(String id) {
-		double price = 0;
-		Connection connection = Utility.getConnection();
-		PreparedStatement selectStm = null;
-		ResultSet result = null;
-		try {
-			selectStm = connection.prepareStatement(SELECT_PRICE_BY_ID_SQL);
-			selectStm.setString(1, id);
-			result = selectStm.executeQuery();
-			if (!result.next())
-				return price;
-			price = result.getDouble("new_price");
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		} catch (NullPointerException e) {
-			logger.error(e.getMessage());
-		} finally {
-			Utility.close(connection, selectStm, result);
-		}
-		return price;
-	}
-
-	public List<Brand> getAllBrands() {
-		List<Brand> brands = new ArrayList<Brand>();
-		Connection connection = Utility.getConnection();
-		PreparedStatement selectStm = null;
-		ResultSet rs = null;
-		try {
-			selectStm = connection.prepareStatement(SELECT_ALL_BRAND_SQL);
-			rs = selectStm.executeQuery();
-			while (rs.next()) {
-				String id = rs.getInt("id") + "";
-				String name = rs.getString("name");
-				String imgSrc = rs.getString("img_src");
-				brands.add(new Brand(id, name, imgSrc));
-			}
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		} catch (NullPointerException e) {
-			logger.error(e.getMessage());
-		} finally {
-			Utility.close(connection, selectStm, rs);
-		}
-		return brands;
-	}
-
-	public List<Category> getAllCategory() {
-		List<Category> categories = new ArrayList<Category>();
-		Connection connection = Utility.getConnection();
-		PreparedStatement selectStm = null;
-		ResultSet rs = null;
-		try {
-			selectStm = connection.prepareStatement(SELECT_ALL_CATEGORY_SQL);
-			rs = selectStm.executeQuery();
-			while (rs.next()) {
-				String id = rs.getInt("id") + "";
-				String name = rs.getString("name");
-				String imgSrc = rs.getString("img_src");
-				categories.add(new Category(id, name, imgSrc));
-			}
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		} catch (NullPointerException e) {
-			logger.error(e.getMessage());
-		} finally {
-			Utility.close(connection, selectStm, rs);
-			;
-		}
-		return categories;
+		return (products.isEmpty() || products == null) ? null : products.get(0);
 	}
 
 	private void updateCountInEachFilter(Map<String, SearchFilter> filtersToBeUpdated,

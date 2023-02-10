@@ -1,4 +1,4 @@
-package constant;
+package global;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +19,8 @@ public class GlobalConstant {
 			+ "&currency=AUD&intent=capture";
 	public static final String SANDBOX = "sandbox";
 	public static final String LIVE = "live";
-	public static final String PAYPAL_MODE = SANDBOX;	
-	public static final String SANDBOX_BASE_URI = "https://api-m.sandbox.paypal.com";	
+	public static final String PAYPAL_MODE = SANDBOX;
+	public static final String SANDBOX_BASE_URI = "https://api-m.sandbox.paypal.com";
 	public static final String LIVE_BASE_URI = "https://api.paypal.com";
 	public static final String PAYPAL_BASE_URI = SANDBOX_BASE_URI;
 	public static final String PATCH_URI = PAYPAL_BASE_URI + "/v1/payments/payment/";
@@ -45,6 +45,7 @@ public class GlobalConstant {
 	public static final String LOGIN_BUTTON_JSP = "loginButton.jsp";
 	public static final String IS_INVALID = "is-invalid";
 	public static final String EMAIL_PATTERN = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+	public static final String AUS_MOBILE_PATTERN = "^\\({0,1}((0|\\+61)(2|4|3|7|8)){0,1}\\){0,1}( |-){0,1}[0-9]{2}( |-){0,1}[0-9]{2}( |-){0,1}[0-9]{1}( |-){0,1}[0-9]{3}$";
 
 	// shared
 	public static final String BLANK = "";
@@ -114,17 +115,17 @@ public class GlobalConstant {
 	public static final String ACCOUNT_URL = "/Account";
 	public static final String VIEW_ORDER = "viewOrders";
 	public static final String ORDER_LIST = "orderList";
-	
-	//Error Handler Servlet
-	public static final String ERROR_MESSAGE = "errorMessage";		
-	public static final String ERROR_CODE = "errorCode";		
-	public static final String ERROR_NAME = "errorName";	
+
+	// Error Handler Servlet
+	public static final String ERROR_MESSAGE = "errorMessage";
+	public static final String ERROR_CODE = "errorCode";
+	public static final String ERROR_NAME = "errorName";
 	public static final int ERROR_403 = 403;
 	public static final int ERROR_404 = 404;
 	public static final int ERROR_500 = 500;
 	public static final String ERROR_403_NAME = "Forbidden Error";
 	public static final String ERROR_404_NAME = "Not Found Error";
-	public static final String ERROR_500_NAME = "Internal Server Error";	
+	public static final String ERROR_500_NAME = "Internal Server Error";
 	public static final String ERROR_403_MESSAGE = "You do not have permission to access this page";
 	public static final String ERROR_404_MESSAGE = "Your requested resources are not found";
 	public static final String ERROR_500_MESSAGE = "Unexpected issues from us. Please contact admin@techila.com.au for support";

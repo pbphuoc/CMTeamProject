@@ -11,9 +11,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import constant.GlobalConstant;
 import dao.OrderDAO;
 import entity.Order;
+import global.GlobalConstant;
 import model.UserSession;
 import util.Utility;
 
@@ -56,8 +56,7 @@ public class UserAccountServlet extends HttpServlet {
 		try {
 			HttpSession session = request.getSession();
 			UserSession user = (UserSession) session.getAttribute(GlobalConstant.USER);
-			OrderDAO orderDAO = OrderDAO.getOrderDAO();
-			List<Order> orderList = orderDAO.getOrderByUserOrEmailAndOrderNumber(user.getId(), GlobalConstant.BLANK,
+			List<Order> orderList = OrderDAO.getOrderDAO().findOrder(user.getId(), GlobalConstant.BLANK,
 					GlobalConstant.BLANK);
 
 			request.setAttribute(GlobalConstant.ORDER_LIST, orderList);

@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@page import="constant.OrderReceiveMethodEnum"%>
-<%@page import="constant.OrderPaymentTypeEnum"%>
-<%@page import="constant.GlobalConstant"%>
+<%@page import="global.OrderReceiveMethodEnum"%>
+<%@page import="global.OrderPaymentTypeEnum"%>
+<%@page import="global.GlobalConstant"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>

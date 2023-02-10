@@ -1,4 +1,4 @@
-package constant;
+package global;
 
 public enum SortByEnum {
 	RELEVANCY("Relevancy", 0), PRICELOWTOHIGH("Price Low To High", 5), PRICEHIGHTOLOW("Price High To Low", 5),

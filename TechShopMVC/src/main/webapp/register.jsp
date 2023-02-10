@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@page import="constant.GlobalConstant"%>
+<%@page import="global.GlobalConstant"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +33,7 @@
 				<div class="col-md-8 m-auto">
 					<div class="form_container">
 						<form action="${GlobalConstant.AUTH_URL}" method="Post"
-							class="needs-validation" novalidate>
+							class="needs-validation" novalidate autocomplete="off">
 							<input type="hidden" name="${GlobalConstant.COMMAND}"
 								value="${GlobalConstant.REGISTER}"> <input type="hidden"
 								name="${GlobalConstant.PREV_URL}"
@@ -95,6 +95,7 @@
 									Number</label> <input type="tel" class="form-control"
 									name="${GlobalConstant.MOBILE_REGISTER}"
 									id="${GlobalConstant.MOBILE_REGISTER}"
+									pattern="${GlobalConstant.AUS_MOBILE_PATTERN }"
 									placeholder="Please enter your mobile number" required>
 								<div id="mobileRegisterFeedback" class="invalid-feedback">
 								</div>

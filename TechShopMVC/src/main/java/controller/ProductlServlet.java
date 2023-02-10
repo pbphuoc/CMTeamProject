@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import constant.GlobalConstant;
+import dao.MediaDAO;
 import dao.ProductDAO;
 import entity.Product;
+import global.GlobalConstant;
 import model.SearchFilter;
 import util.Utility;
 
@@ -60,9 +61,11 @@ public class ProductlServlet extends HttpServlet {
 		try {
 			String id = request.getParameter("productID");
 
-			ProductDAO productDAO = ProductDAO.getProductDAO();
-			Product product = productDAO.getProductByID(id);
-			List<String> medias = productDAO.getAllMediaByProductID(id);
+			Product product = ProductDAO.getProductDAO().getProductByID(id);
+			List<String> medias = MediaDAO.getMediaDAO().getAllImgSrcByProductID(id);
+
+			if (product == null)
+				Utility.handleError(response, HttpServletResponse.SC_NOT_FOUND);
 
 			request.setAttribute("product", product);
 			request.setAttribute("medias", medias);

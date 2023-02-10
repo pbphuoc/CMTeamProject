@@ -27,7 +27,7 @@ import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 
-import constant.GlobalConstant;
+import global.GlobalConstant;
 import model.OrderItemDTO;
 import util.Utility;
 

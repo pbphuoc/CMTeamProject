@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import constant.GlobalConstant;
+import global.GlobalConstant;
 import model.OrderItemDTO;
 
 public class Utility {
@@ -62,52 +62,26 @@ public class Utility {
 	}
 
 	public static double calculateShippingCost(String addressLine1, String addressLine2, String city, String state, String postCode, String countryCode) {
-		return 0.5;
-	}
-
-	public static Connection getConnection() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			return DriverManager.getConnection(GlobalConstant.DO_DB_URL, GlobalConstant.DO_DB_USERNAME,
-					GlobalConstant.DO_DB_PASSWORD);
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		} catch (ClassNotFoundException e) {
-			logger.error(e.getMessage());
-		} catch (NullPointerException e) {
-			logger.error(e.getMessage());
-		}
-		return null;
-	}
-	
-	public static void rollBack(Connection connection) {
-		try {
-			if (connection != null)
-				connection.rollback();;
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		}
-	}
-	
-	public static void close(Statement stm) {
-		try {
-			if (stm != null)
-				stm.close();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		}
-	}	
-
-	public static void close(Connection connection, PreparedStatement stm, ResultSet rs) {
-		try {
-			if (rs != null)
-				rs.close();
-			if (stm != null)
-				stm.close();
-			if (connection != null)
-				connection.close();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
+		double baseShippingCost = 20;
+		switch(state) {
+			case "QLD":
+				return baseShippingCost;
+			case "NSW":
+				return baseShippingCost + 5;
+			case "ACT":
+				return baseShippingCost + 10;				
+			case "VIC":
+				return baseShippingCost + 15;
+			case "SA":
+				return baseShippingCost + 20;					
+			case "TAS":
+				return baseShippingCost + 25;	
+			case "NT":
+				return baseShippingCost + 30;					
+			case "WA":
+				return baseShippingCost + 35;
+			default:
+				return baseShippingCost;
 		}
 	}
 	
