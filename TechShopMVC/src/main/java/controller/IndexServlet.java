@@ -44,7 +44,7 @@ public class IndexServlet extends HttpServlet {
 
 	private void getIndexPage(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			List<Product> products = ProductDAO.getProductDAO().getFirst16Products();
+			List<Product> products = ProductDAO.getProductDAO().getFirst15Products();
 			List<Brand> brands = BrandDAO.getBrandDAO().getAllBrands();
 			List<Category> categories = CategoryDAO.getCategoryDAO().getAllCategory();
 

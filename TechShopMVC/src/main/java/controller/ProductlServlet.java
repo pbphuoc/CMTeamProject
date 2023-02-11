@@ -80,7 +80,7 @@ public class ProductlServlet extends HttpServlet {
 
 	private void searchProductWithFilter(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String[] searchKeywords = request.getParameter("keywords").split(" ");
+			String searchKeywords = request.getParameter("keywords");
 			String[] brands = (request.getParameterValues("brand") != null) ? request.getParameterValues("brand")
 					: new String[0];
 			String[] categories = (request.getParameterValues("category") != null)

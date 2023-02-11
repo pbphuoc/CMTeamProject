@@ -24,7 +24,8 @@ import model.OrderItemDTO;
 
 public class ProductDAO extends BaseDAO<ProductMapper, Product, ProductDAO> {
 
-	private static final String SEARCH_PRODUCT_BY_NAME_SQL = "SELECT * FROM product where name like ? ";
+	private static final String SEARCH_ALL_SQL = "SELECT * FROM product";
+	private static final String SEARCH_FULLTEXT_SQL = "SELECT * FROM product WHERE MATCH (name, description) against (?)";
 
 	private static ProductDAO productDAO;
 	private static final Logger logger = LogManager.getLogger(ProductDAO.class);
@@ -39,13 +40,13 @@ public class ProductDAO extends BaseDAO<ProductMapper, Product, ProductDAO> {
 		return productDAO != null ? productDAO : new ProductDAO();
 	}
 
-	public List<Product> getFirst16Products() {
+	public List<Product> getFirst15Products() {
 		List<Product> products = getAll();
 
 		if (products == null)
 			return new ArrayList<Product>();
 
-		int lastSubListIndex = (products.size() >= 16) ? 16 : products.size();
+		int lastSubListIndex = (products.size() >= 15) ? 15 : products.size();
 
 		return products.subList(0, lastSubListIndex);
 	}
@@ -97,40 +98,22 @@ public class ProductDAO extends BaseDAO<ProductMapper, Product, ProductDAO> {
 		};
 	}
 
-	public String getWhereClause(String[] statements) {
-		String whereClause = "";
-		boolean inWhereClause = false;
+	public String getHavingClause(String[] statements) {
+		String havingClause = "";
+		boolean inHavingClause = false;
 
 		for (String statement : statements) {
 			if (!statement.isEmpty()) {
-				if (!inWhereClause) {
-					inWhereClause = true;
-					whereClause += GlobalConstant.WHERE_QUERY + statement;
+				if (!inHavingClause) {
+					inHavingClause = true;
+					havingClause = GlobalConstant.HAVING_QUERY + statement;
 				} else {
-					whereClause += GlobalConstant.AND_QUERY + statement;
+					havingClause += GlobalConstant.AND_QUERY + statement;
 				}
 			}
 		}
 
-		return whereClause;
-	}
-
-	public String getNameCondition(String[] keywords) {
-		String nameStm = "(";
-
-		if (keywords.length == 1)
-			nameStm += SEARCH_PRODUCT_BY_NAME_SQL;
-		else if (keywords.length > 1) {
-			for (int i = 0; i < keywords.length; i++) {
-				nameStm += SEARCH_PRODUCT_BY_NAME_SQL;
-				if (i != keywords.length - 1)
-					nameStm += " union ";
-			}
-		}
-
-		nameStm += ") as resultByKeyWords";
-
-		return nameStm;
+		return havingClause;
 	}
 
 	public String getColumnCondition(String[] conditions, String columnName) {
@@ -192,39 +175,36 @@ public class ProductDAO extends BaseDAO<ProductMapper, Product, ProductDAO> {
 		}
 	}
 
-	public Object[] searchProductByName(String[] keywords) {
+	public Object[] searchProductByName(String keyword) {
 		Map<String, SearchFilter> allBrandFilters = BrandDAO.getBrandDAO().loadAllBrandToSearchFilter();
 		Map<String, SearchFilter> brandFilters = new HashMap<String, SearchFilter>();
 		Map<String, SearchFilter> allCategoryFilters = CategoryDAO.getCategoryDAO().loadAllCategoryToSearchFilter();
 		Map<String, SearchFilter> categoryFilters = new HashMap<String, SearchFilter>();
 		Map<String, SearchFilter> allStockStatusFilters = loadStockStatusFilter();
 		Map<String, SearchFilter> stockStatusFilters = new HashMap<String, SearchFilter>();
-		String[] newKeywords = getAllPossibleMatchedKeywords(keywords);
 
-		int currentParam = 0;
-		String searchProductSQL = GlobalConstant.SELECT_FROM_SUB_QUERY + getNameCondition(newKeywords);
 		Connection connection = getConnection();
 		PreparedStatement selectStm = null;
 		ResultSet result = null;
 
 		try {
-			selectStm = connection.prepareStatement(searchProductSQL);
-			for (String keyword : newKeywords) {
-				selectStm.setString(++currentParam, "%" + keyword + "%");
+			if (keyword.isEmpty()) {
+				selectStm = connection.prepareStatement(SEARCH_ALL_SQL);
+			} else {
+				selectStm = connection.prepareStatement(SEARCH_FULLTEXT_SQL);
+				selectStm.setString(1, keyword);
 			}
 
-			logger.info("Query: " + selectStm.toString());
+			logger.debug("Query: " + selectStm.toString());
 			result = selectStm.executeQuery();
 
 			while (result.next()) {
-
 				Product product = mapper.map(result);
 
 				updateCountInEachFilter(brandFilters, allBrandFilters, product.getBrandID());
 				updateCountInEachFilter(categoryFilters, allCategoryFilters, product.getCategoryID());
 				updateCountInEachFilter(stockStatusFilters, allStockStatusFilters, product.getStockStatus());
 			}
-
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		} catch (NullPointerException e) {
@@ -236,10 +216,10 @@ public class ProductDAO extends BaseDAO<ProductMapper, Product, ProductDAO> {
 		return new Object[] { brandFilters, categoryFilters, stockStatusFilters };
 	}
 
-	public Object[] searchProductByNameWithFilters(String[] keywords, String[] selectedBrands,
-			String[] selectedCategories, String priceMin, String priceMax, String[] selectedAvailabilities,
-			String selectedSorter, String perPage, String page) {
-		Object[] originalSearchResultAndFilter = searchProductByName(keywords);
+	public Object[] searchProductByNameWithFilters(String keyword, String[] selectedBrands, String[] selectedCategories,
+			String priceMin, String priceMax, String[] selectedAvailabilities, String selectedSorter, String perPage,
+			String page) {
+		Object[] originalSearchResultAndFilter = searchProductByName(keyword);
 		Map<String, SearchFilter> allBrandFilters = (Map<String, SearchFilter>) originalSearchResultAndFilter[0];
 		Map<String, SearchFilter> allCategoryFilters = (Map<String, SearchFilter>) originalSearchResultAndFilter[1];
 		Map<String, SearchFilter> allStockStatusFilters = (Map<String, SearchFilter>) originalSearchResultAndFilter[2];
@@ -249,7 +229,7 @@ public class ProductDAO extends BaseDAO<ProductMapper, Product, ProductDAO> {
 		Map<String, String> pagingMap = null;
 
 		List<Product> filteredProducts = new ArrayList<Product>();
-		String[] newKeywords = getAllPossibleMatchedKeywords(keywords);
+
 		int currentParam = 0;
 
 		setSelectedSearchFilter(allBrandFilters, selectedBrands);
@@ -262,8 +242,8 @@ public class ProductDAO extends BaseDAO<ProductMapper, Product, ProductDAO> {
 		String priceMinCondition = priceMin.isEmpty() ? "" : "new_price >= ?";
 		String priceMaxCondition = priceMax.isEmpty() ? "" : "new_price <= ?";
 
-		String searchProductSQL = GlobalConstant.SELECT_FROM_SUB_QUERY + getNameCondition(newKeywords)
-				+ getWhereClause(new String[] { getColumnCondition(selectedBrands, "brand_id"),
+		String searchProductSQL = (keyword.isEmpty() ? SEARCH_ALL_SQL : SEARCH_FULLTEXT_SQL)
+				+ getHavingClause(new String[] { getColumnCondition(selectedBrands, "brand_id"),
 						getColumnCondition(selectedCategories, "category_id"),
 						getAvailabilityCondition(selectedAvailabilities), priceMinCondition, priceMaxCondition });
 
@@ -278,10 +258,10 @@ public class ProductDAO extends BaseDAO<ProductMapper, Product, ProductDAO> {
 
 		try {
 			selectStm = connection.prepareStatement(searchProductSQL);
+			
+			if(!keyword.isEmpty())
+				selectStm.setString(++currentParam, keyword);
 
-			for (String keyword : newKeywords) {
-				selectStm.setString(++currentParam, "%" + keyword + "%");
-			}
 			for (String brand : selectedBrands) {
 				selectStm.setString(++currentParam, brand);
 			}
@@ -369,40 +349,6 @@ public class ProductDAO extends BaseDAO<ProductMapper, Product, ProductDAO> {
 			else
 				settingMaps.put((String) entry.getKey(), "");
 		}
-	}
-
-	private String[] getAllPossibleMatchedKeywords(String[] keywords) {
-		List<String> newKeywords = new ArrayList<String>();
-		String combinedKeyword = "";
-		int currentCombinedWordLength = keywords.length;
-		int startIndex = 0;
-		int currentIndex = startIndex;
-		while (currentCombinedWordLength > 1) {
-			while (startIndex + currentCombinedWordLength <= keywords.length) {
-				while (currentIndex < startIndex + currentCombinedWordLength) {
-					combinedKeyword += keywords[currentIndex] + " ";
-					++currentIndex;
-				}
-				newKeywords.add(combinedKeyword.substring(0, combinedKeyword.length() - 1));
-				combinedKeyword = "";
-				++startIndex;
-				currentIndex = startIndex;
-			}
-			combinedKeyword = "";
-			startIndex = 0;
-			currentIndex = startIndex;
-			--currentCombinedWordLength;
-		}
-
-		for (String keyword : keywords) {
-			newKeywords.add(keyword);
-		}
-
-		for (String keyword : newKeywords) {
-			System.out.println(keyword);
-		}
-
-		return (String[]) newKeywords.toArray(new String[0]);
 	}
 
 	public List<OrderItemDTO> getAllProductInCartByID(HashMap<String, Integer> cartItems) {

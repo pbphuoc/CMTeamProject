@@ -60,7 +60,7 @@ public class GlobalConstant {
 	public static final String GUEST_ID = "-1";
 	public static final String DEFAULT_SHIPPING = "0";
 	public static final String DEFAULT_SORTBY = SortByEnum.RELEVANCY.toString();
-	public static final String DEFAULT_RESULTPERPAGE = "16";
+	public static final String DEFAULT_RESULTPERPAGE = "15";
 	public static final String DEFAULT_PAGE = "1";
 
 	// error
@@ -133,14 +133,14 @@ public class GlobalConstant {
 	public static final String SELECT_FROM_SUB_QUERY = "SELECT * FROM";
 	public static final String AND_QUERY = " AND ";
 	public static final String OR_QUERY = " OR ";
-	public static final String WHERE_QUERY = " WHERE ";
+	public static final String HAVING_QUERY = " HAVING ";
 
 	public static final List<Integer> RESULT_PER_PAGE_LIST = new ArrayList<Integer>() {
 		{
-			add(16);
-			add(32);
-			add(64);
-			add(128);
+			add(15);
+			add(30);
+			add(60);
+			add(120);
 		}
 	};
 }
